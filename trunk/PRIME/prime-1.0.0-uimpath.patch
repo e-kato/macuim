@@ -1,0 +1,11 @@
+--- prime-1.0.0-rc2/configure.org	Wed Mar 23 10:12:33 2005
++++ prime-1.0.0-rc2/configure	Wed Mar 23 10:16:23 2005
+@@ -1700,7 +1700,7 @@
+ 
+ 
+ 
+-    uim_scheme_dir=`pkg-config uim --variable=prefix`"/share/uim"
++    uim_scheme_dir="../Package/dest/Library/Frameworks/UIM.framework/Versions/Current/share/uim"
+ 
+ 
+ 

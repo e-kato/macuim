@@ -1,0 +1,19 @@
+#!/bin/sh
+
+prefix="/opt/macuim"
+top=`pwd`
+dest="${top}/../../Package/dest"
+
+export PATH=/opt/macuim/bin:/Library/PRIME/bin:/bin:/usr/bin
+
+export MACOSX_DEPLOYMENT_TARGET="10.3"
+
+PKG_CONFIG="/opt/macuim/bin/pkg-config" \
+PKG_CONFIG_PATH="/Library/PRIME/lib/pkgconfig:${prefix}/lib/pkgconfig" \
+CFLAGS="-I/Library/PRIME/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc -mmacosx-version-min=10.4" \
+LDFLAGS="-L/Library/PRIME/lib" \
+LIBS="-Wl,-framework -Wl,CoreFoundation -arch i386 -arch ppc" \
+./configure --prefix=${prefix} --disable-shared \
+  --disable-dependency-tracking || exit 1
+
+make -w -j2 || exit 1

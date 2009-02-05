@@ -1,0 +1,30 @@
+#!/bin/sh
+
+prefix="/Library/M17NLib"
+top=`pwd`
+dest="${top}/../../Package/dest"
+
+export MACOSX_DEPLOYMENT_TARGET="10.3"
+
+#libtoolize -c -f
+#aclocal-1.9
+#autoheader
+#automake-1.9 -c -a -i
+#autoconf
+
+PATH="$prefix/bin:/opt/macuim/bin:/Library/Anthy/bin:/bin:/usr/bin"
+
+PKG_CONFIG_PATH="/Library/Anthy/lib/pkgconfig:/Library/M17NLib/lib/pkgconfig" \
+LDFLAGS="-L/Library/Anthy/lib -arch i386 -arch ppc" \
+CPPFLAGS="-I/Library/Anthy/include" \
+CFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc -mmacosx-version-min=10.4" \
+./configure --prefix=${prefix} --without-libotf --without-gd \
+  --disable-dependency-tracking --with-libintl-prefix=/opt/macuim --disable-nls|| exit 1
+
+make -w || exit 1
+
+#make -w install || exit 1
+make -w DESTDIR=${dest} install || exit 1
+
+#rm -fv ${prefix}/bin/{medit,mview}
+rm -fv ${dest}/${prefix}/bin/{medit,mview}

@@ -1,0 +1,25 @@
+#!/bin/sh
+
+prefix="/opt/macuim"
+top=`pwd`
+dest="${top}/../../Package/dest"
+
+if [ ! -d ${prefix}/include ]; then
+    sudo mkdir ${prefix}/include
+fi
+if [ ! -d ${prefix}/lib ]; then
+    sudo mkdir ${prefix}/lib
+fi
+
+PATH="${prefix}/bin:/bin:/bin:/usr/bin"
+
+LIBS="-L${prefix}/lib" \
+CPPFLAGS="-no-cpp-precomp -isystem ${prefix}/include" \
+CFLAGS="-Os -funroll-loops -fstrict-aliasing -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc -mmacosx-version-min=10.4" \
+LDFLAGS="-arch i386 -arch ppc" \
+LIBRARY_PATH="${prefix}/lib:/usr/lib" \
+./configure --prefix=${prefix} --disable-shared \
+  --mandir=${prefix}/share/man --disable-dependency-tracking \
+|| exit 1
+
+make -w || exit 1

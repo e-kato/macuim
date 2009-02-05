@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>NSHumanReadableCopyright</key>
+	<string>© Etsushi Kato., 2009</string>
+	<key>CFBundleName</key>
+	<string>MacUIM</string>
+	<key>CFBundleDisplayName</key>
+	<string>MacUIM</string>
+	<key>CFBundleShortVersionString</key>
+	<string>MacUIM version 0.6</string>
+	<key>CFBundleGetInfoString</key>
+	<string>MacUIM version 0.6, Copyright 2009, Etsushi Kato</string>
+</dict>
+</plist>

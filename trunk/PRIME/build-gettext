@@ -1,0 +1,16 @@
+#!/bin/sh
+
+prefix="/opt/macuim"
+top=`pwd`
+
+PATH=/opt/macuim/bin:/bin:/usr/bin
+export MACOSX_DEPLOYMENT_TARGET="10.3"
+
+CFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc -mmacosx-version-min=10.4" \
+LDFLAGS="-arch i386 -arch ppc" \
+./configure --prefix=${prefix} --disable-shared \
+  --infodir=${prefix}/share/info --mandir=${prefix}/share/man \
+  --with-included-gettext --disable-csharp --disable-rpath \
+  --disable-dependency-tracking || exit 1
+
+make -w || exit 1

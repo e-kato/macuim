@@ -1,0 +1,52 @@
+#!/bin/sh
+
+#if [ "$1" = "" ]; then
+#    echo "Usage: $0 <uim_version>"
+#    exit 1
+#fi
+
+#uim_version=$1
+
+#uim_prefix="/Library/Frameworks/UIM.framework/Versions/${uim_version}"
+#uim_prefix="/Library/Frameworks/UIM.framework/Versions/Current"
+prefix="/opt/macuim"
+top=`pwd`
+dest="${top}/../../Package/dest"
+
+if [ ! -d ${prefix}/include ]; then
+    sudo mkdir ${prefix}/include
+fi
+if [ ! -d ${prefix}/lib ]; then
+    sudo mkdir ${prefix}/lib
+fi
+
+#pushd ${prefix}/include
+#sudo rm -f libintl.h
+#sudo ln -s ${uim_prefix}/include/libintl.h .
+#popd
+#
+#pushd ${prefix}/lib
+#sudo rm -f libintl.dylib
+#sudo ln -s ${uim_prefix}/lib/libintl.dylib .
+#popd
+
+#PATH="${prefix}/bin:${uim_prefix}/bin:/bin:/bin:/usr/bin"
+PATH="${prefix}/bin:/bin:/bin:/usr/bin"
+#export MACOSX_DEPLOYMENT_TARGET="10.3"
+
+#LD_TWOLEVEL_NAMESPACE=1 \
+PKG_CONFIG_PATH=/usr/X11R6/lib/pkgconfig \
+LIBS="-Wl,-framework -Wl,CoreFoundation -L${prefix}/lib" \
+CPPFLAGS="-no-cpp-precomp -isystem ${prefix}/include" \
+CFLAGS="-Os -funroll-loops -fstrict-aliasing -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc -mmacosx-version-min=10.4" \
+LDFLAGS="-arch i386 -arch ppc -isysroot /Developer/SDKs/MacOSX10.4u.sdk -mmacosx-version-min=10.4" \
+LIBRARY_PATH="${prefix}/lib:/usr/lib" \
+./configure --prefix=${prefix} --disable-shared \
+  --mandir=${prefix}/share/man --disable-gtk-doc --disable-dependency-tracking \
+  --without-libtiff --without-libjpeg \
+  --disable-cups \
+  --disable-modules \
+|| exit 1
+
+#LIBS="-lintl -liconv -L${prefix}/lib" make -w || exit 1
+make -w || exit 1

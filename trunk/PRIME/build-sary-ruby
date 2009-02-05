@@ -1,0 +1,24 @@
+#!/bin/sh
+
+prefix="/Library/PRIME/lib/ruby"
+top=`pwd`
+dest="${top}/../../Package/dest"
+
+PATH=/opt/macuim/bin:/bin:/usr/bin
+
+perl -pi -e "s|/usr/local/lib/pkgconfig/|/opt/macuim/lib/pkgconfig/|" extconf.rb
+perl -pi -e "s|#!/usr/bin/env ruby|#!/usr/bin/ruby -I${prefix}|" rsary.rb
+#perl -pi -e "s|= str2cstr|= rb_str2cstr|" searcher.c
+
+#CFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc" \
+ruby extconf.rb
+
+make -w  \
+CFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -fno-common -arch ppc -arch i386 -Os -pipe -fno-common -I/opt/macuim/include -I/opt/macuim/include/glib-2.0 -I/opt/macuim/lib/glib-2.0/include" \
+DLDFLAGS="-L. -arch ppc -arch i386 -framework Carbon -L/opt/macuim/lib -lsary -lgthread-2.0 -lglib-2.0 -lintl -liconv" \
+LDSHARED="cc -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch ppc -arch i386 -pipe -bundle -undefined dynamic_lookup"
+
+#rm -rf ${dest}${prefix}
+mkdir -p ${dest}${prefix}
+
+install -Cv -m 644 sary.bundle ${dest}${prefix}

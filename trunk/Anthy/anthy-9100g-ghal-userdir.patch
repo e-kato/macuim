@@ -1,0 +1,18 @@
+--- src-worddic/settings.c.orig	2009-02-04 15:53:01.000000000 +0900
++++ src-worddic/settings.c	2009-02-05 10:01:04.000000000 +0900
+@@ -36,13 +36,13 @@
+ 
+ 	.filename = {
+ 		/* ユーザ毎環境設定ファイル */
+-		.user_conffile = "~/.anthy/conf",
++		.user_conffile = "~/.anthy_ghal/conf",
+ 
+ 		/* ディレクトリの区切り文字。 */
+ 		.PathSeparator = "/",
+ 
+ 		/* 以下のファイル群を置くディレクトリ。前に ${HOME} が付く。 */
+-		.user_dir = ".anthy",
++		.user_dir = ".anthy_ghal",
+ 
+ 		/* ロックファイル名。後ろに現在の変換セッションの id名が付く。 */
+ 		.lock_file = "lock-file_",

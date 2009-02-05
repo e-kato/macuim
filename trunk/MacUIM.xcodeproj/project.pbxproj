@@ -1,0 +1,943 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4140F4970F3852DF00F51127 /* RSVerticallyCenteredTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4140F4960F3852DF00F51127 /* RSVerticallyCenteredTextFieldCell.m */; };
+		415F09350F355781007AA30B /* UimHelperController.m in Sources */ = {isa = PBXBuildFile; fileRef = 415F09340F355781007AA30B /* UimHelperController.m */; };
+		41A03AB50F388B9B00AE2344 /* PreferencePanes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41A03AB40F388B9B00AE2344 /* PreferencePanes.framework */; };
+		41A03AB70F388BA600AE2344 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41A03AB60F388BA600AE2344 /* SystemConfiguration.framework */; };
+		41A03AB80F388BAE00AE2344 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		41A03ABB0F388BB600AE2344 /* UIM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41BAAD140F304A9900A56D3E /* UIM.framework */; };
+		41A03ABD0F388BC300AE2344 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 41A03ABC0F388BC300AE2344 /* libiconv.dylib */; };
+		41A03AC00F388BEA00AE2344 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41A03ABF0F388BEA00AE2344 /* ApplicationServices.framework */; };
+		41A03ACC0F388C9B00AE2344 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		41A03ACE0F388C9F00AE2344 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41A03ACD0F388C9F00AE2344 /* Carbon.framework */; };
+		41A03AD00F388CAB00AE2344 /* SystemUIPlugin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41A03ACF0F388CAB00AE2344 /* SystemUIPlugin.framework */; };
+		41A03AD10F388CB000AE2344 /* UIM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41BAAD140F304A9900A56D3E /* UIM.framework */; };
+		41A03AD20F388CB600AE2344 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 41A03ABC0F388BC300AE2344 /* libiconv.dylib */; };
+		41A03B0A0F388EBB00AE2344 /* MacUIMPrefPane.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A03AF40F388EBA00AE2344 /* MacUIMPrefPane.m */; };
+		41A03B0B0F388EBB00AE2344 /* TabView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A03AF50F388EBB00AE2344 /* TabView.m */; };
+		41A03B0C0F388EBB00AE2344 /* UimCustom.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A03AF60F388EBB00AE2344 /* UimCustom.m */; };
+		41A03B0D0F388EBB00AE2344 /* UimCustomBoolean.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A03AF70F388EBB00AE2344 /* UimCustomBoolean.m */; };
+		41A03B0E0F388EBB00AE2344 /* UimCustomInteger.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A03AF80F388EBB00AE2344 /* UimCustomInteger.m */; };
+		41A03B0F0F388EBB00AE2344 /* UimCustomString.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A03AF90F388EBB00AE2344 /* UimCustomString.m */; };
+		41A03B100F388EBB00AE2344 /* UimCustomPathname.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A03AFA0F388EBB00AE2344 /* UimCustomPathname.m */; };
+		41A03B110F388EBB00AE2344 /* UimCustomChoice.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A03AFB0F388EBB00AE2344 /* UimCustomChoice.m */; };
+		41A03B120F388EBB00AE2344 /* UimCustomOrderedList.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A03AFC0F388EBB00AE2344 /* UimCustomOrderedList.m */; };
+		41A03B130F388EBB00AE2344 /* UimCustomKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A03AFD0F388EBB00AE2344 /* UimCustomKey.m */; };
+		41A03B140F388EBB00AE2344 /* UimPrefController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A03AFE0F388EBB00AE2344 /* UimPrefController.m */; };
+		41A03B150F388EBB00AE2344 /* UimCustomController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A03AFF0F388EBB00AE2344 /* UimCustomController.m */; };
+		41A03B160F388EBB00AE2344 /* UimCustomBooleanController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A03B000F388EBB00AE2344 /* UimCustomBooleanController.m */; };
+		41A03B170F388EBB00AE2344 /* UimCustomIntegerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A03B010F388EBB00AE2344 /* UimCustomIntegerController.m */; };
+		41A03B180F388EBB00AE2344 /* UimCustomStringController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A03B020F388EBB00AE2344 /* UimCustomStringController.m */; };
+		41A03B190F388EBB00AE2344 /* UimCustomPathnameController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A03B030F388EBB00AE2344 /* UimCustomPathnameController.m */; };
+		41A03B1A0F388EBB00AE2344 /* UimCustomChoiceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A03B040F388EBB00AE2344 /* UimCustomChoiceController.m */; };
+		41A03B1B0F388EBB00AE2344 /* UimCustomOrderedListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A03B050F388EBB00AE2344 /* UimCustomOrderedListController.m */; };
+		41A03B1C0F388EBB00AE2344 /* UimCustomKeyController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A03B060F388EBB00AE2344 /* UimCustomKeyController.m */; };
+		41A03B1D0F388EBB00AE2344 /* CustomViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A03B070F388EBB00AE2344 /* CustomViewCell.m */; };
+		41A03B1E0F388EBB00AE2344 /* CustomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A03B080F388EBB00AE2344 /* CustomViewController.m */; };
+		41A03B1F0F388EBB00AE2344 /* MacUIMPref.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 41A03B090F388EBB00AE2344 /* MacUIMPref.tiff */; };
+		41A03B280F388EDC00AE2344 /* MacUIMHelperExtra.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A03B260F388EDC00AE2344 /* MacUIMHelperExtra.m */; };
+		41A03B290F388EDC00AE2344 /* MacUIMHelperView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A03B270F388EDC00AE2344 /* MacUIMHelperView.m */; };
+		41A03B7D0F38930D00AE2344 /* BooleanView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 41A03B7B0F38930D00AE2344 /* BooleanView.nib */; };
+		41A03B800F38931C00AE2344 /* ChoiceView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 41A03B7E0F38931C00AE2344 /* ChoiceView.nib */; };
+		41A03B830F38933200AE2344 /* IntegerView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 41A03B810F38933200AE2344 /* IntegerView.nib */; };
+		41A03B860F38934400AE2344 /* KeyView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 41A03B840F38934400AE2344 /* KeyView.nib */; };
+		41A03B890F38935600AE2344 /* OrderedListView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 41A03B870F38935600AE2344 /* OrderedListView.nib */; };
+		41A03B8C0F38940D00AE2344 /* PathnameView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 41A03B8A0F38940D00AE2344 /* PathnameView.nib */; };
+		41A03B8F0F38942700AE2344 /* PrefPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = 41A03B8D0F38942700AE2344 /* PrefPane.nib */; };
+		41A03B920F38943300AE2344 /* StringView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 41A03B900F38943300AE2344 /* StringView.nib */; };
+		41A03B950F38944F00AE2344 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 41A03B930F38944F00AE2344 /* Localizable.strings */; };
+		41A03E2B0F38AD9100AE2344 /* MenuCracker.menu in CopyFiles */ = {isa = PBXBuildFile; fileRef = 41A03E270F38AD9100AE2344 /* MenuCracker.menu */; };
+		41A03EB10F38B50D00AE2344 /* MacUIMHelper.menu in CopyFiles */ = {isa = PBXBuildFile; fileRef = 41A03AC50F388C8D00AE2344 /* MacUIMHelper.menu */; };
+		41BAAD150F304A9900A56D3E /* UIM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41BAAD140F304A9900A56D3E /* UIM.framework */; };
+		41F42DF80F31B3D100B8A4AB /* CocoaWinController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F42DF40F31B3D100B8A4AB /* CocoaWinController.m */; };
+		41F42DF90F31B3D100B8A4AB /* ModeTipsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F42DF50F31B3D100B8A4AB /* ModeTipsController.m */; };
+		41F42DFA0F31B3D100B8A4AB /* ModeTipsPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F42DF60F31B3D100B8A4AB /* ModeTipsPanel.m */; };
+		41F42DFB0F31B3D100B8A4AB /* ModeTipsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F42DF70F31B3D100B8A4AB /* ModeTipsView.m */; };
+		41F42DFE0F31B48B00B8A4AB /* CocoaWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 41F42DFC0F31B48B00B8A4AB /* CocoaWindow.nib */; };
+		41F885FA0F3735EC00E7003C /* PreferenceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F885F90F3735EC00E7003C /* PreferenceController.m */; };
+		8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
+		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
+		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
+		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		E93074B70A5C264700470842 /* InputMethodKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E93074B60A5C264700470842 /* InputMethodKit.framework */; };
+		E93074E20A5C2F1200470842 /* MacUIMController.m in Sources */ = {isa = PBXBuildFile; fileRef = E93074E10A5C2F1200470842 /* MacUIMController.m */; };
+		E93396E90A9A0AD60073E6C4 /* MacUIM.tiff in Resources */ = {isa = PBXBuildFile; fileRef = E93396E50A9A0AD50073E6C4 /* MacUIM.tiff */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		41A03B2F0F388F6A00AE2344 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 41A03AC40F388C8D00AE2344;
+			remoteInfo = HelperApplet;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		41A03E0E0F38AAF100AE2344 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+				41A03EB10F38B50D00AE2344 /* MacUIMHelper.menu in CopyFiles */,
+				41A03E2B0F38AD9100AE2344 /* MenuCracker.menu in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		089C165DFE840E0CC02AAC07 /* InfoPlist.strings */ = {isa = PBXFileReference; explicitFileType = text.plist; fileEncoding = 10; name = InfoPlist.strings; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Sources/main.m; sourceTree = "<group>"; };
+		29B97319FDCFA39411CA2CEA /* MainMenu.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = MainMenu.nib; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		32CA4F630368D1EE00C91783 /* MacUIM_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MacUIM_Prefix.pch; path = Sources/MacUIM_Prefix.pch; sourceTree = "<group>"; };
+		41076C390F3852C000F32AFF /* RSVerticallyCenteredTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RSVerticallyCenteredTextFieldCell.h; path = Sources/RSVerticallyCenteredTextFieldCell.h; sourceTree = "<group>"; };
+		4140F4960F3852DF00F51127 /* RSVerticallyCenteredTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RSVerticallyCenteredTextFieldCell.m; path = Sources/RSVerticallyCenteredTextFieldCell.m; sourceTree = "<group>"; };
+		415F09330F355781007AA30B /* UimHelperController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UimHelperController.h; path = Sources/UimHelperController.h; sourceTree = "<group>"; };
+		415F09340F355781007AA30B /* UimHelperController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UimHelperController.m; path = Sources/UimHelperController.m; sourceTree = "<group>"; };
+		419A639A0F38B818008DE9B1 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/KeyView.nib; sourceTree = "<group>"; };
+		419A639C0F38B83E008DE9B1 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/OrderedListView.nib; sourceTree = "<group>"; };
+		419A639D0F38B84C008DE9B1 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/PathnameView.nib; sourceTree = "<group>"; };
+		419A639E0F38B859008DE9B1 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/PrefPane.nib; sourceTree = "<group>"; };
+		419A63F70F38B8CF008DE9B1 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/Localizable.strings; sourceTree = "<group>"; };
+		419A63F80F38B930008DE9B1 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
+		41A03A960F388B2D00AE2344 /* MacUIM.prefPane */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MacUIM.prefPane; sourceTree = BUILT_PRODUCTS_DIR; };
+		41A03A970F388B2D00AE2344 /* Info-PrefPane.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-PrefPane.plist"; sourceTree = "<group>"; };
+		41A03AB40F388B9B00AE2344 /* PreferencePanes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PreferencePanes.framework; path = /System/Library/Frameworks/PreferencePanes.framework; sourceTree = "<absolute>"; };
+		41A03AB60F388BA600AE2344 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
+		41A03ABC0F388BC300AE2344 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = /usr/lib/libiconv.dylib; sourceTree = "<absolute>"; };
+		41A03ABF0F388BEA00AE2344 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = /System/Library/Frameworks/ApplicationServices.framework; sourceTree = "<absolute>"; };
+		41A03AC50F388C8D00AE2344 /* MacUIMHelper.menu */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MacUIMHelper.menu; sourceTree = BUILT_PRODUCTS_DIR; };
+		41A03ACD0F388C9F00AE2344 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
+		41A03ACF0F388CAB00AE2344 /* SystemUIPlugin.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemUIPlugin.framework; path = /System/Library/PrivateFrameworks/SystemUIPlugin.framework; sourceTree = "<absolute>"; };
+		41A03AD50F388DC000AE2344 /* Info-Helper.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-Helper.plist"; sourceTree = "<group>"; };
+		41A03ADD0F388E8200AE2344 /* Debug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Debug.h; path = Sources/Debug.h; sourceTree = "<group>"; };
+		41A03ADF0F388EBA00AE2344 /* MacUIMPrefPane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MacUIMPrefPane.h; path = Sources/MacUIMPrefPane.h; sourceTree = "<group>"; };
+		41A03AE00F388EBA00AE2344 /* TabView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TabView.h; path = Sources/TabView.h; sourceTree = "<group>"; };
+		41A03AE10F388EBA00AE2344 /* UimCustom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UimCustom.h; path = Sources/UimCustom.h; sourceTree = "<group>"; };
+		41A03AE20F388EBA00AE2344 /* UimCustomBoolean.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UimCustomBoolean.h; path = Sources/UimCustomBoolean.h; sourceTree = "<group>"; };
+		41A03AE30F388EBA00AE2344 /* UimCustomInteger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UimCustomInteger.h; path = Sources/UimCustomInteger.h; sourceTree = "<group>"; };
+		41A03AE40F388EBA00AE2344 /* UimCustomString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UimCustomString.h; path = Sources/UimCustomString.h; sourceTree = "<group>"; };
+		41A03AE50F388EBA00AE2344 /* UimCustomPathname.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UimCustomPathname.h; path = Sources/UimCustomPathname.h; sourceTree = "<group>"; };
+		41A03AE60F388EBA00AE2344 /* UimCustomChoice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UimCustomChoice.h; path = Sources/UimCustomChoice.h; sourceTree = "<group>"; };
+		41A03AE70F388EBA00AE2344 /* UimCustomOrderedList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UimCustomOrderedList.h; path = Sources/UimCustomOrderedList.h; sourceTree = "<group>"; };
+		41A03AE80F388EBA00AE2344 /* UimCustomKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UimCustomKey.h; path = Sources/UimCustomKey.h; sourceTree = "<group>"; };
+		41A03AE90F388EBA00AE2344 /* UimPrefController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UimPrefController.h; path = Sources/UimPrefController.h; sourceTree = "<group>"; };
+		41A03AEA0F388EBA00AE2344 /* UimCustomController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UimCustomController.h; path = Sources/UimCustomController.h; sourceTree = "<group>"; };
+		41A03AEB0F388EBA00AE2344 /* UimCustomBooleanController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UimCustomBooleanController.h; path = Sources/UimCustomBooleanController.h; sourceTree = "<group>"; };
+		41A03AEC0F388EBA00AE2344 /* UimCustomIntegerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UimCustomIntegerController.h; path = Sources/UimCustomIntegerController.h; sourceTree = "<group>"; };
+		41A03AED0F388EBA00AE2344 /* UimCustomStringController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UimCustomStringController.h; path = Sources/UimCustomStringController.h; sourceTree = "<group>"; };
+		41A03AEE0F388EBA00AE2344 /* UimCustomPathnameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UimCustomPathnameController.h; path = Sources/UimCustomPathnameController.h; sourceTree = "<group>"; };
+		41A03AEF0F388EBA00AE2344 /* UimCustomChoiceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UimCustomChoiceController.h; path = Sources/UimCustomChoiceController.h; sourceTree = "<group>"; };
+		41A03AF00F388EBA00AE2344 /* UimCustomOrderedListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UimCustomOrderedListController.h; path = Sources/UimCustomOrderedListController.h; sourceTree = "<group>"; };
+		41A03AF10F388EBA00AE2344 /* UimCustomKeyController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UimCustomKeyController.h; path = Sources/UimCustomKeyController.h; sourceTree = "<group>"; };
+		41A03AF20F388EBA00AE2344 /* CustomViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomViewCell.h; path = Sources/CustomViewCell.h; sourceTree = "<group>"; };
+		41A03AF30F388EBA00AE2344 /* CustomViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomViewController.h; path = Sources/CustomViewController.h; sourceTree = "<group>"; };
+		41A03AF40F388EBA00AE2344 /* MacUIMPrefPane.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MacUIMPrefPane.m; path = Sources/MacUIMPrefPane.m; sourceTree = "<group>"; };
+		41A03AF50F388EBB00AE2344 /* TabView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TabView.m; path = Sources/TabView.m; sourceTree = "<group>"; };
+		41A03AF60F388EBB00AE2344 /* UimCustom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UimCustom.m; path = Sources/UimCustom.m; sourceTree = "<group>"; };
+		41A03AF70F388EBB00AE2344 /* UimCustomBoolean.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UimCustomBoolean.m; path = Sources/UimCustomBoolean.m; sourceTree = "<group>"; };
+		41A03AF80F388EBB00AE2344 /* UimCustomInteger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UimCustomInteger.m; path = Sources/UimCustomInteger.m; sourceTree = "<group>"; };
+		41A03AF90F388EBB00AE2344 /* UimCustomString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UimCustomString.m; path = Sources/UimCustomString.m; sourceTree = "<group>"; };
+		41A03AFA0F388EBB00AE2344 /* UimCustomPathname.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UimCustomPathname.m; path = Sources/UimCustomPathname.m; sourceTree = "<group>"; };
+		41A03AFB0F388EBB00AE2344 /* UimCustomChoice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UimCustomChoice.m; path = Sources/UimCustomChoice.m; sourceTree = "<group>"; };
+		41A03AFC0F388EBB00AE2344 /* UimCustomOrderedList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UimCustomOrderedList.m; path = Sources/UimCustomOrderedList.m; sourceTree = "<group>"; };
+		41A03AFD0F388EBB00AE2344 /* UimCustomKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UimCustomKey.m; path = Sources/UimCustomKey.m; sourceTree = "<group>"; };
+		41A03AFE0F388EBB00AE2344 /* UimPrefController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UimPrefController.m; path = Sources/UimPrefController.m; sourceTree = "<group>"; };
+		41A03AFF0F388EBB00AE2344 /* UimCustomController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UimCustomController.m; path = Sources/UimCustomController.m; sourceTree = "<group>"; };
+		41A03B000F388EBB00AE2344 /* UimCustomBooleanController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UimCustomBooleanController.m; path = Sources/UimCustomBooleanController.m; sourceTree = "<group>"; };
+		41A03B010F388EBB00AE2344 /* UimCustomIntegerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UimCustomIntegerController.m; path = Sources/UimCustomIntegerController.m; sourceTree = "<group>"; };
+		41A03B020F388EBB00AE2344 /* UimCustomStringController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UimCustomStringController.m; path = Sources/UimCustomStringController.m; sourceTree = "<group>"; };
+		41A03B030F388EBB00AE2344 /* UimCustomPathnameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UimCustomPathnameController.m; path = Sources/UimCustomPathnameController.m; sourceTree = "<group>"; };
+		41A03B040F388EBB00AE2344 /* UimCustomChoiceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UimCustomChoiceController.m; path = Sources/UimCustomChoiceController.m; sourceTree = "<group>"; };
+		41A03B050F388EBB00AE2344 /* UimCustomOrderedListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UimCustomOrderedListController.m; path = Sources/UimCustomOrderedListController.m; sourceTree = "<group>"; };
+		41A03B060F388EBB00AE2344 /* UimCustomKeyController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UimCustomKeyController.m; path = Sources/UimCustomKeyController.m; sourceTree = "<group>"; };
+		41A03B070F388EBB00AE2344 /* CustomViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CustomViewCell.m; path = Sources/CustomViewCell.m; sourceTree = "<group>"; };
+		41A03B080F388EBB00AE2344 /* CustomViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CustomViewController.m; path = Sources/CustomViewController.m; sourceTree = "<group>"; };
+		41A03B090F388EBB00AE2344 /* MacUIMPref.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = MacUIMPref.tiff; path = Icons/MacUIMPref.tiff; sourceTree = "<group>"; };
+		41A03B230F388EDC00AE2344 /* MacUIMHelperExtra.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MacUIMHelperExtra.h; path = Sources/MacUIMHelperExtra.h; sourceTree = "<group>"; };
+		41A03B240F388EDC00AE2344 /* MacUIMHelperView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MacUIMHelperView.h; path = Sources/MacUIMHelperView.h; sourceTree = "<group>"; };
+		41A03B250F388EDC00AE2344 /* SystemUIPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SystemUIPlugin.h; path = Sources/SystemUIPlugin.h; sourceTree = "<group>"; };
+		41A03B260F388EDC00AE2344 /* MacUIMHelperExtra.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MacUIMHelperExtra.m; path = Sources/MacUIMHelperExtra.m; sourceTree = "<group>"; };
+		41A03B270F388EDC00AE2344 /* MacUIMHelperView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MacUIMHelperView.m; path = Sources/MacUIMHelperView.m; sourceTree = "<group>"; };
+		41A03B7C0F38930D00AE2344 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/BooleanView.nib; sourceTree = "<group>"; };
+		41A03B7F0F38931C00AE2344 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/ChoiceView.nib; sourceTree = "<group>"; };
+		41A03B820F38933200AE2344 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/IntegerView.nib; sourceTree = "<group>"; };
+		41A03B850F38934400AE2344 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/KeyView.nib; sourceTree = "<group>"; };
+		41A03B880F38935600AE2344 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/OrderedListView.nib; sourceTree = "<group>"; };
+		41A03B8B0F38940D00AE2344 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PathnameView.nib; sourceTree = "<group>"; };
+		41A03B8E0F38942700AE2344 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PrefPane.nib; sourceTree = "<group>"; };
+		41A03B910F38943300AE2344 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/StringView.nib; sourceTree = "<group>"; };
+		41A03E270F38AD9100AE2344 /* MenuCracker.menu */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; name = MenuCracker.menu; path = Sources/MenuCracker/MenuCracker.menu; sourceTree = "<group>"; };
+		41B111B80F3017AE0060BD3D /* MacUIM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacUIM.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		41BAAD140F304A9900A56D3E /* UIM.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIM.framework; path = /Library/Frameworks/UIM.framework; sourceTree = "<absolute>"; };
+		41F42DA60F31B15300B8A4AB /* KeycodeToUKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KeycodeToUKey.h; path = Sources/KeycodeToUKey.h; sourceTree = "<group>"; };
+		41F42DF00F31B3D100B8A4AB /* CocoaWinController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CocoaWinController.h; path = Sources/CocoaWinController.h; sourceTree = "<group>"; };
+		41F42DF10F31B3D100B8A4AB /* ModeTipsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModeTipsController.h; path = Sources/ModeTipsController.h; sourceTree = "<group>"; };
+		41F42DF20F31B3D100B8A4AB /* ModeTipsPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModeTipsPanel.h; path = Sources/ModeTipsPanel.h; sourceTree = "<group>"; };
+		41F42DF30F31B3D100B8A4AB /* ModeTipsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModeTipsView.h; path = Sources/ModeTipsView.h; sourceTree = "<group>"; };
+		41F42DF40F31B3D100B8A4AB /* CocoaWinController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CocoaWinController.m; path = Sources/CocoaWinController.m; sourceTree = "<group>"; };
+		41F42DF50F31B3D100B8A4AB /* ModeTipsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ModeTipsController.m; path = Sources/ModeTipsController.m; sourceTree = "<group>"; };
+		41F42DF60F31B3D100B8A4AB /* ModeTipsPanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ModeTipsPanel.m; path = Sources/ModeTipsPanel.m; sourceTree = "<group>"; };
+		41F42DF70F31B3D100B8A4AB /* ModeTipsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ModeTipsView.m; path = Sources/ModeTipsView.m; sourceTree = "<group>"; };
+		41F42DFD0F31B48B00B8A4AB /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/CocoaWindow.nib; sourceTree = "<group>"; };
+		41F885F90F3735EC00E7003C /* PreferenceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreferenceController.m; path = Sources/PreferenceController.m; sourceTree = "<group>"; };
+		41F885FB0F37360B00E7003C /* PreferenceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreferenceController.h; path = Sources/PreferenceController.h; sourceTree = "<group>"; };
+		41F885FC0F37361F00E7003C /* Preference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Preference.h; path = Sources/Preference.h; sourceTree = "<group>"; };
+		8D1107310486CEB800E47090 /* Info-MacUIM.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-MacUIM.plist"; sourceTree = "<group>"; };
+		E93074B60A5C264700470842 /* InputMethodKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = InputMethodKit.framework; path = /System/Library/Frameworks/InputMethodKit.framework; sourceTree = "<absolute>"; };
+		E93074E00A5C2F1200470842 /* MacUIMController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MacUIMController.h; path = Sources/MacUIMController.h; sourceTree = "<group>"; };
+		E93074E10A5C2F1200470842 /* MacUIMController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MacUIMController.m; path = Sources/MacUIMController.m; sourceTree = "<group>"; };
+		E93396E50A9A0AD50073E6C4 /* MacUIM.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = MacUIM.tiff; path = Icons/MacUIM.tiff; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		41A03A940F388B2D00AE2344 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				41A03AB50F388B9B00AE2344 /* PreferencePanes.framework in Frameworks */,
+				41A03AB70F388BA600AE2344 /* SystemConfiguration.framework in Frameworks */,
+				41A03AB80F388BAE00AE2344 /* Cocoa.framework in Frameworks */,
+				41A03ABB0F388BB600AE2344 /* UIM.framework in Frameworks */,
+				41A03ABD0F388BC300AE2344 /* libiconv.dylib in Frameworks */,
+				41A03AC00F388BEA00AE2344 /* ApplicationServices.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		41A03AC30F388C8D00AE2344 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				41A03ACC0F388C9B00AE2344 /* Cocoa.framework in Frameworks */,
+				41A03ACE0F388C9F00AE2344 /* Carbon.framework in Frameworks */,
+				41A03AD00F388CAB00AE2344 /* SystemUIPlugin.framework in Frameworks */,
+				41A03AD10F388CB000AE2344 /* UIM.framework in Frameworks */,
+				41A03AD20F388CB600AE2344 /* libiconv.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8D11072E0486CEB800E47090 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
+				E93074B70A5C264700470842 /* InputMethodKit.framework in Frameworks */,
+				41BAAD150F304A9900A56D3E /* UIM.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		080E96DDFE201D6D7F000001 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				41F885FB0F37360B00E7003C /* PreferenceController.h */,
+				41F885F90F3735EC00E7003C /* PreferenceController.m */,
+				E93074E00A5C2F1200470842 /* MacUIMController.h */,
+				E93074E10A5C2F1200470842 /* MacUIMController.m */,
+				415F09330F355781007AA30B /* UimHelperController.h */,
+				415F09340F355781007AA30B /* UimHelperController.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				41BAAD140F304A9900A56D3E /* UIM.framework */,
+				E93074B60A5C264700470842 /* InputMethodKit.framework */,
+				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
+				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				41B111B80F3017AE0060BD3D /* MacUIM.app */,
+				41A03A960F388B2D00AE2344 /* MacUIM.prefPane */,
+				41A03AC50F388C8D00AE2344 /* MacUIMHelper.menu */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* MacUIM */ = {
+			isa = PBXGroup;
+			children = (
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				080E96DDFE201D6D7F000001 /* Classes */,
+				41F42DEF0F31B3D100B8A4AB /* CocoaWinController */,
+				41A03ADE0F388EBA00AE2344 /* PrefPane */,
+				41A03B220F388EDC00AE2344 /* HelperApplet */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				41A03B310F388F9B00AE2344 /* Other Products */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+				41A03AB40F388B9B00AE2344 /* PreferencePanes.framework */,
+				41A03AB60F388BA600AE2344 /* SystemConfiguration.framework */,
+				41A03ABC0F388BC300AE2344 /* libiconv.dylib */,
+				41A03ABF0F388BEA00AE2344 /* ApplicationServices.framework */,
+				41A03ACD0F388C9F00AE2344 /* Carbon.framework */,
+				41A03ACF0F388CAB00AE2344 /* SystemUIPlugin.framework */,
+			);
+			name = MacUIM;
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				41F885FC0F37361F00E7003C /* Preference.h */,
+				41F42DA60F31B15300B8A4AB /* KeycodeToUKey.h */,
+				41A03ADD0F388E8200AE2344 /* Debug.h */,
+				32CA4F630368D1EE00C91783 /* MacUIM_Prefix.pch */,
+				29B97316FDCFA39411CA2CEA /* main.m */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				41A03A970F388B2D00AE2344 /* Info-PrefPane.plist */,
+				41A03AD50F388DC000AE2344 /* Info-Helper.plist */,
+				8D1107310486CEB800E47090 /* Info-MacUIM.plist */,
+				E93396E20A9A0AAD0073E6C4 /* images */,
+				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
+				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
+				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		41A03ADE0F388EBA00AE2344 /* PrefPane */ = {
+			isa = PBXGroup;
+			children = (
+				41A03B930F38944F00AE2344 /* Localizable.strings */,
+				41A03B900F38943300AE2344 /* StringView.nib */,
+				41A03B8D0F38942700AE2344 /* PrefPane.nib */,
+				41A03B8A0F38940D00AE2344 /* PathnameView.nib */,
+				41A03B870F38935600AE2344 /* OrderedListView.nib */,
+				41A03B840F38934400AE2344 /* KeyView.nib */,
+				41A03B810F38933200AE2344 /* IntegerView.nib */,
+				41A03B7E0F38931C00AE2344 /* ChoiceView.nib */,
+				41A03B7B0F38930D00AE2344 /* BooleanView.nib */,
+				41A03ADF0F388EBA00AE2344 /* MacUIMPrefPane.h */,
+				41A03AE00F388EBA00AE2344 /* TabView.h */,
+				41A03AE10F388EBA00AE2344 /* UimCustom.h */,
+				41A03AE20F388EBA00AE2344 /* UimCustomBoolean.h */,
+				41A03AE30F388EBA00AE2344 /* UimCustomInteger.h */,
+				41A03AE40F388EBA00AE2344 /* UimCustomString.h */,
+				41A03AE50F388EBA00AE2344 /* UimCustomPathname.h */,
+				41A03AE60F388EBA00AE2344 /* UimCustomChoice.h */,
+				41A03AE70F388EBA00AE2344 /* UimCustomOrderedList.h */,
+				41A03AE80F388EBA00AE2344 /* UimCustomKey.h */,
+				41A03AE90F388EBA00AE2344 /* UimPrefController.h */,
+				41A03AEA0F388EBA00AE2344 /* UimCustomController.h */,
+				41A03AEB0F388EBA00AE2344 /* UimCustomBooleanController.h */,
+				41A03AEC0F388EBA00AE2344 /* UimCustomIntegerController.h */,
+				41A03AED0F388EBA00AE2344 /* UimCustomStringController.h */,
+				41A03AEE0F388EBA00AE2344 /* UimCustomPathnameController.h */,
+				41A03AEF0F388EBA00AE2344 /* UimCustomChoiceController.h */,
+				41A03AF00F388EBA00AE2344 /* UimCustomOrderedListController.h */,
+				41A03AF10F388EBA00AE2344 /* UimCustomKeyController.h */,
+				41A03AF20F388EBA00AE2344 /* CustomViewCell.h */,
+				41A03AF30F388EBA00AE2344 /* CustomViewController.h */,
+				41A03AF40F388EBA00AE2344 /* MacUIMPrefPane.m */,
+				41A03AF50F388EBB00AE2344 /* TabView.m */,
+				41A03AF60F388EBB00AE2344 /* UimCustom.m */,
+				41A03AF70F388EBB00AE2344 /* UimCustomBoolean.m */,
+				41A03AF80F388EBB00AE2344 /* UimCustomInteger.m */,
+				41A03AF90F388EBB00AE2344 /* UimCustomString.m */,
+				41A03AFA0F388EBB00AE2344 /* UimCustomPathname.m */,
+				41A03AFB0F388EBB00AE2344 /* UimCustomChoice.m */,
+				41A03AFC0F388EBB00AE2344 /* UimCustomOrderedList.m */,
+				41A03AFD0F388EBB00AE2344 /* UimCustomKey.m */,
+				41A03AFE0F388EBB00AE2344 /* UimPrefController.m */,
+				41A03AFF0F388EBB00AE2344 /* UimCustomController.m */,
+				41A03B000F388EBB00AE2344 /* UimCustomBooleanController.m */,
+				41A03B010F388EBB00AE2344 /* UimCustomIntegerController.m */,
+				41A03B020F388EBB00AE2344 /* UimCustomStringController.m */,
+				41A03B030F388EBB00AE2344 /* UimCustomPathnameController.m */,
+				41A03B040F388EBB00AE2344 /* UimCustomChoiceController.m */,
+				41A03B050F388EBB00AE2344 /* UimCustomOrderedListController.m */,
+				41A03B060F388EBB00AE2344 /* UimCustomKeyController.m */,
+				41A03B070F388EBB00AE2344 /* CustomViewCell.m */,
+				41A03B080F388EBB00AE2344 /* CustomViewController.m */,
+				41A03B090F388EBB00AE2344 /* MacUIMPref.tiff */,
+			);
+			name = PrefPane;
+			sourceTree = "<group>";
+		};
+		41A03B220F388EDC00AE2344 /* HelperApplet */ = {
+			isa = PBXGroup;
+			children = (
+				41A03B230F388EDC00AE2344 /* MacUIMHelperExtra.h */,
+				41A03B240F388EDC00AE2344 /* MacUIMHelperView.h */,
+				41A03B250F388EDC00AE2344 /* SystemUIPlugin.h */,
+				41A03B260F388EDC00AE2344 /* MacUIMHelperExtra.m */,
+				41A03B270F388EDC00AE2344 /* MacUIMHelperView.m */,
+			);
+			name = HelperApplet;
+			sourceTree = "<group>";
+		};
+		41A03B310F388F9B00AE2344 /* Other Products */ = {
+			isa = PBXGroup;
+			children = (
+				41A03E270F38AD9100AE2344 /* MenuCracker.menu */,
+			);
+			name = "Other Products";
+			sourceTree = "<group>";
+		};
+		41F42DEF0F31B3D100B8A4AB /* CocoaWinController */ = {
+			isa = PBXGroup;
+			children = (
+				4140F4960F3852DF00F51127 /* RSVerticallyCenteredTextFieldCell.m */,
+				41076C390F3852C000F32AFF /* RSVerticallyCenteredTextFieldCell.h */,
+				41F42DFC0F31B48B00B8A4AB /* CocoaWindow.nib */,
+				41F42DF00F31B3D100B8A4AB /* CocoaWinController.h */,
+				41F42DF40F31B3D100B8A4AB /* CocoaWinController.m */,
+				41F42DF10F31B3D100B8A4AB /* ModeTipsController.h */,
+				41F42DF50F31B3D100B8A4AB /* ModeTipsController.m */,
+				41F42DF20F31B3D100B8A4AB /* ModeTipsPanel.h */,
+				41F42DF60F31B3D100B8A4AB /* ModeTipsPanel.m */,
+				41F42DF30F31B3D100B8A4AB /* ModeTipsView.h */,
+				41F42DF70F31B3D100B8A4AB /* ModeTipsView.m */,
+			);
+			name = CocoaWinController;
+			sourceTree = "<group>";
+		};
+		E93396E20A9A0AAD0073E6C4 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				E93396E50A9A0AD50073E6C4 /* MacUIM.tiff */,
+			);
+			name = images;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		41A03A950F388B2D00AE2344 /* PrefPane */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 41A03A9B0F388B2E00AE2344 /* Build configuration list for PBXNativeTarget "PrefPane" */;
+			buildPhases = (
+				41A03A920F388B2D00AE2344 /* Resources */,
+				41A03A930F388B2D00AE2344 /* Sources */,
+				41A03A940F388B2D00AE2344 /* Frameworks */,
+				41A03E0E0F38AAF100AE2344 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				41A03B300F388F6A00AE2344 /* PBXTargetDependency */,
+			);
+			name = PrefPane;
+			productName = PrefPane;
+			productReference = 41A03A960F388B2D00AE2344 /* MacUIM.prefPane */;
+			productType = "com.apple.product-type.bundle";
+		};
+		41A03AC40F388C8D00AE2344 /* HelperApplet */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 41A03ACB0F388C8E00AE2344 /* Build configuration list for PBXNativeTarget "HelperApplet" */;
+			buildPhases = (
+				41A03AC10F388C8D00AE2344 /* Resources */,
+				41A03AC20F388C8D00AE2344 /* Sources */,
+				41A03AC30F388C8D00AE2344 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HelperApplet;
+			productName = HelperApplet;
+			productReference = 41A03AC50F388C8D00AE2344 /* MacUIMHelper.menu */;
+			productType = "com.apple.product-type.bundle";
+		};
+		8D1107260486CEB800E47090 /* MacUIM */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "MacUIM" */;
+			buildPhases = (
+				8D1107290486CEB800E47090 /* Resources */,
+				8D11072C0486CEB800E47090 /* Sources */,
+				8D11072E0486CEB800E47090 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MacUIM;
+			productInstallPath = "$(HOME)/Applications";
+			productName = MacUIM;
+			productReference = 41B111B80F3017AE0060BD3D /* MacUIM.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "MacUIM" */;
+			compatibilityVersion = "Xcode 2.4";
+			hasScannedForEncodings = 1;
+			mainGroup = 29B97314FDCFA39411CA2CEA /* MacUIM */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D1107260486CEB800E47090 /* MacUIM */,
+				41A03A950F388B2D00AE2344 /* PrefPane */,
+				41A03AC40F388C8D00AE2344 /* HelperApplet */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		41A03A920F388B2D00AE2344 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				41A03B950F38944F00AE2344 /* Localizable.strings in Resources */,
+				41A03B1F0F388EBB00AE2344 /* MacUIMPref.tiff in Resources */,
+				41A03B7D0F38930D00AE2344 /* BooleanView.nib in Resources */,
+				41A03B800F38931C00AE2344 /* ChoiceView.nib in Resources */,
+				41A03B830F38933200AE2344 /* IntegerView.nib in Resources */,
+				41A03B860F38934400AE2344 /* KeyView.nib in Resources */,
+				41A03B890F38935600AE2344 /* OrderedListView.nib in Resources */,
+				41A03B8C0F38940D00AE2344 /* PathnameView.nib in Resources */,
+				41A03B8F0F38942700AE2344 /* PrefPane.nib in Resources */,
+				41A03B920F38943300AE2344 /* StringView.nib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		41A03AC10F388C8D00AE2344 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8D1107290486CEB800E47090 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */,
+				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
+				E93396E90A9A0AD60073E6C4 /* MacUIM.tiff in Resources */,
+				41F42DFE0F31B48B00B8A4AB /* CocoaWindow.nib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		41A03A930F388B2D00AE2344 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				41A03B0A0F388EBB00AE2344 /* MacUIMPrefPane.m in Sources */,
+				41A03B0B0F388EBB00AE2344 /* TabView.m in Sources */,
+				41A03B0C0F388EBB00AE2344 /* UimCustom.m in Sources */,
+				41A03B0D0F388EBB00AE2344 /* UimCustomBoolean.m in Sources */,
+				41A03B0E0F388EBB00AE2344 /* UimCustomInteger.m in Sources */,
+				41A03B0F0F388EBB00AE2344 /* UimCustomString.m in Sources */,
+				41A03B100F388EBB00AE2344 /* UimCustomPathname.m in Sources */,
+				41A03B110F388EBB00AE2344 /* UimCustomChoice.m in Sources */,
+				41A03B120F388EBB00AE2344 /* UimCustomOrderedList.m in Sources */,
+				41A03B130F388EBB00AE2344 /* UimCustomKey.m in Sources */,
+				41A03B140F388EBB00AE2344 /* UimPrefController.m in Sources */,
+				41A03B150F388EBB00AE2344 /* UimCustomController.m in Sources */,
+				41A03B160F388EBB00AE2344 /* UimCustomBooleanController.m in Sources */,
+				41A03B170F388EBB00AE2344 /* UimCustomIntegerController.m in Sources */,
+				41A03B180F388EBB00AE2344 /* UimCustomStringController.m in Sources */,
+				41A03B190F388EBB00AE2344 /* UimCustomPathnameController.m in Sources */,
+				41A03B1A0F388EBB00AE2344 /* UimCustomChoiceController.m in Sources */,
+				41A03B1B0F388EBB00AE2344 /* UimCustomOrderedListController.m in Sources */,
+				41A03B1C0F388EBB00AE2344 /* UimCustomKeyController.m in Sources */,
+				41A03B1D0F388EBB00AE2344 /* CustomViewCell.m in Sources */,
+				41A03B1E0F388EBB00AE2344 /* CustomViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		41A03AC20F388C8D00AE2344 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				41A03B280F388EDC00AE2344 /* MacUIMHelperExtra.m in Sources */,
+				41A03B290F388EDC00AE2344 /* MacUIMHelperView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8D11072C0486CEB800E47090 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072D0486CEB800E47090 /* main.m in Sources */,
+				E93074E20A5C2F1200470842 /* MacUIMController.m in Sources */,
+				41F42DF80F31B3D100B8A4AB /* CocoaWinController.m in Sources */,
+				41F42DF90F31B3D100B8A4AB /* ModeTipsController.m in Sources */,
+				41F42DFA0F31B3D100B8A4AB /* ModeTipsPanel.m in Sources */,
+				41F42DFB0F31B3D100B8A4AB /* ModeTipsView.m in Sources */,
+				415F09350F355781007AA30B /* UimHelperController.m in Sources */,
+				41F885FA0F3735EC00E7003C /* PreferenceController.m in Sources */,
+				4140F4970F3852DF00F51127 /* RSVerticallyCenteredTextFieldCell.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		41A03B300F388F6A00AE2344 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 41A03AC40F388C8D00AE2344 /* HelperApplet */;
+			targetProxy = 41A03B2F0F388F6A00AE2344 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C165DFE840E0CC02AAC07 /* InfoPlist.strings */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		29B97318FDCFA39411CA2CEA /* MainMenu.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				29B97319FDCFA39411CA2CEA /* MainMenu.nib */,
+			);
+			name = MainMenu.nib;
+			sourceTree = "<group>";
+		};
+		41A03B7B0F38930D00AE2344 /* BooleanView.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				41A03B7C0F38930D00AE2344 /* English */,
+			);
+			name = BooleanView.nib;
+			sourceTree = "<group>";
+		};
+		41A03B7E0F38931C00AE2344 /* ChoiceView.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				41A03B7F0F38931C00AE2344 /* English */,
+			);
+			name = ChoiceView.nib;
+			sourceTree = "<group>";
+		};
+		41A03B810F38933200AE2344 /* IntegerView.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				41A03B820F38933200AE2344 /* English */,
+			);
+			name = IntegerView.nib;
+			sourceTree = "<group>";
+		};
+		41A03B840F38934400AE2344 /* KeyView.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				41A03B850F38934400AE2344 /* English */,
+				419A639A0F38B818008DE9B1 /* Japanese */,
+			);
+			name = KeyView.nib;
+			sourceTree = "<group>";
+		};
+		41A03B870F38935600AE2344 /* OrderedListView.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				41A03B880F38935600AE2344 /* English */,
+				419A639C0F38B83E008DE9B1 /* Japanese */,
+			);
+			name = OrderedListView.nib;
+			sourceTree = "<group>";
+		};
+		41A03B8A0F38940D00AE2344 /* PathnameView.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				41A03B8B0F38940D00AE2344 /* English */,
+				419A639D0F38B84C008DE9B1 /* Japanese */,
+			);
+			name = PathnameView.nib;
+			sourceTree = "<group>";
+		};
+		41A03B8D0F38942700AE2344 /* PrefPane.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				41A03B8E0F38942700AE2344 /* English */,
+				419A639E0F38B859008DE9B1 /* Japanese */,
+			);
+			name = PrefPane.nib;
+			sourceTree = "<group>";
+		};
+		41A03B900F38943300AE2344 /* StringView.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				41A03B910F38943300AE2344 /* English */,
+			);
+			name = StringView.nib;
+			sourceTree = "<group>";
+		};
+		41A03B930F38944F00AE2344 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				419A63F70F38B8CF008DE9B1 /* Japanese */,
+				419A63F80F38B930008DE9B1 /* English */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		41F42DFC0F31B48B00B8A4AB /* CocoaWindow.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				41F42DFD0F31B48B00B8A4AB /* English */,
+			);
+			name = CocoaWindow.nib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		41A03A980F388B2E00AE2344 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "Info-PrefPane.plist";
+				INSTALL_PATH = "$(HOME)/Library/PreferencePanes";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = MacUIM;
+				WRAPPER_EXTENSION = prefPane;
+			};
+			name = Debug;
+		};
+		41A03A990F388B2E00AE2344 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "Info-PrefPane.plist";
+				INSTALL_PATH = "$(HOME)/Library/PreferencePanes";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = MacUIM;
+				WRAPPER_EXTENSION = prefPane;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		41A03AC90F388C8E00AE2344 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "Info-Helper.plist";
+				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = MacUIMHelper;
+				WRAPPER_EXTENSION = menu;
+			};
+			name = Debug;
+		};
+		41A03ACA0F388C8E00AE2344 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "Info-Helper.plist";
+				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = MacUIMHelper;
+				WRAPPER_EXTENSION = menu;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		C01FCF4B08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INFOPLIST_FILE = "Info-MacUIM.plist";
+				INSTALL_PATH = "\"$(LOCAL_LIBRARY_DIR)/Input Methods/\"";
+				PRODUCT_NAME = MacUIM;
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		C01FCF4C08A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				INFOPLIST_FILE = "Info-MacUIM.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_NAME = MacUIM;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		C01FCF4F08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /Library/Frameworks/UIM.framework/Versions/Current/Headers;
+				PREBINDING = NO;
+			};
+			name = Debug;
+		};
+		C01FCF5008A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /Library/Frameworks/UIM.framework/Versions/Current/Headers;
+				PREBINDING = NO;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		41A03A9B0F388B2E00AE2344 /* Build configuration list for PBXNativeTarget "PrefPane" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				41A03A980F388B2E00AE2344 /* Debug */,
+				41A03A990F388B2E00AE2344 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		41A03ACB0F388C8E00AE2344 /* Build configuration list for PBXNativeTarget "HelperApplet" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				41A03AC90F388C8E00AE2344 /* Debug */,
+				41A03ACA0F388C8E00AE2344 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "MacUIM" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4B08A954540054247B /* Debug */,
+				C01FCF4C08A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "MacUIM" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4F08A954540054247B /* Debug */,
+				C01FCF5008A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}

@@ -1,0 +1,22 @@
+#!/bin/sh
+
+dest="Package/dest"
+app="Package/Package_contents/Input Methods"
+pref="Package/Package_contents/PreferencePanes"
+
+xcodebuild -target HelperApplet clean
+xcodebuild -target PrefPane clean
+xcodebuild -target MacUIM clean
+
+xcodebuild -buildstyle Release -target PrefPane || exit 1
+xcodebuild -buildstyle Release -target MacUIM || exit 1
+
+rm -rf ${pref}
+mkdir -p ${pref}
+
+mv -v build/Release/MacUIM.prefPane ${pref}
+
+rm -rf "${app}"
+mkdir -p "${app}"
+
+mv -v build/Release/MacUIM.app "${app}"

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleName</key>
+	<string>MacUIM</string>
+	<key>CFBundleShortVersionString</key>
+	<string>0.6.0</string>
+	<key>NSPrefPaneIconFile</key>
+	<string>MacUIMPref.tiff</string>
+	<key>CFBundleIconFile</key>
+	<string></string>
+	<key>CFBundleGetInfoString</key>
+	<string>MacUIM</string>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>MacUIM</string>
+	<key>CFBundleIdentifier</key>
+	<string>info.yatsu.MacUIM.PrefPane</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>BNDL</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>0.6.0</string>
+	<key>NSMainNibFile</key>
+	<string>PrefPane</string>
+	<key>NSPrincipalClass</key>
+	<string>MacUIMPrefPane</string>
+</dict>
+</plist>
