@@ -1,0 +1,36 @@
+#!/bin/sh
+
+prefix="/Library/Anthy"
+top=`pwd`
+#dest="${top}/../../Package/Package_contents"
+dest="${top}/../../Package/dest"
+
+export MACOSX_DEPLOYMENT_TARGET=10.3
+
+rm -rf ${dest}${prefix}
+
+libtoolize -c -f
+aclocal
+autoheader
+automake -c -a -i
+autoconf
+
+PATH=/bin:/usr/bin
+
+# G-HAL anthy
+#patch -p1 < ../anthy-9100g-ghal-userdir.patch
+
+perl -pi -e "s|-flat_namespace -undefined suppress|-undefined dynamic_lookup|" configure
+
+CFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc -mmacosx-version-min=10.4" \
+LDFLAGS="-arch i386 -arch ppc" \
+./configure --prefix=${prefix} --disable-dependency-tracking || exit 1
+
+make -w || make -w || exit 1
+
+mkdir -p ${dest}${prefix}
+make -w DESTDIR=${dest} install || exit 1
+rm -rf ${dest}/${prefix}/share/emacs
+
+# G-HAL anthy
+#cat sample/conf >> ${dest}/${prefix}/etc/anthy-conf

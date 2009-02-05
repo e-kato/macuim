@@ -1,0 +1,140 @@
+diff -uNr freetype-2.1.9/builds/unix/detect.mk freetype-2.1.9-new/builds/unix/detect.mk
+--- freetype-2.1.9/builds/unix/detect.mk	2004-04-13 04:35:05.000000000 -0400
++++ freetype-2.1.9-new/builds/unix/detect.mk	2006-04-28 22:48:53.000000000 -0400
+@@ -20,7 +20,8 @@
+   #
+   is_unix := $(strip $(wildcard /sbin/init) \
+                      $(wildcard /usr/sbin/init) \
+-                     $(wildcard /hurd/auth))
++                     $(wildcard /hurd/auth) \
++                     $(wildcard /sbin/launchd))
+   ifneq ($(is_unix),)
+ 
+     PLATFORM := unix
+diff -uNr freetype-2.1.9/include/freetype/freetype.h freetype-2.1.9-new/include/freetype/freetype.h
+--- freetype-2.1.9/include/freetype/freetype.h	2004-06-19 16:50:08.000000000 -0400
++++ freetype-2.1.9-new/include/freetype/freetype.h	2006-04-28 22:48:54.000000000 -0400
+@@ -17,11 +17,7 @@
+ 
+ 
+ #ifndef FT_FREETYPE_H
+-#error "`ft2build.h' hasn't been included yet!"
+-#error "Please always use macros to include FreeType header files."
+-#error "Example:"
+-#error "  #include <ft2build.h>"
+-#error "  #include FT_FREETYPE_H"
++#include <ft2build.h>
+ #endif
+ 
+ 
+diff -uNr freetype-2.1.9/src/base/ftapi.c freetype-2.1.9-new/src/base/ftapi.c
+--- freetype-2.1.9/src/base/ftapi.c	2002-03-30 08:16:33.000000000 -0500
++++ freetype-2.1.9-new/src/base/ftapi.c	2006-04-28 22:48:53.000000000 -0400
+@@ -118,4 +118,18 @@
+   }
+                    
+ 
++  FT_BASE_DEF( FT_Short )
++  FT_Get_Short( FT_Stream stream )
++  {
++    return FT_GET_SHORT();
++  }
++
++
++  FT_BASE_DEF( FT_Long )
++  FT_Get_Long( FT_Stream stream )
++  {
++    return FT_GET_LONG();
++  }
++
++
+ /* END */
+diff -uNr freetype-2.1.9/src/base/ftbase.c freetype-2.1.9-new/src/base/ftbase.c
+--- freetype-2.1.9/src/base/ftbase.c	2004-02-25 07:58:54.000000000 -0500
++++ freetype-2.1.9-new/src/base/ftbase.c	2006-04-28 22:48:53.000000000 -0400
+@@ -29,6 +29,7 @@
+ #include "ftgloadr.c"
+ #include "ftobjs.c"
+ #include "ftnames.c"
++#include "ftapi.c"
+ #include "ftrfork.c"
+ 
+ #if defined( __APPLE__ ) && !defined ( DARWIN_NO_CARBON )
+diff -uNr freetype-2.1.9/src/base/ftmac.c freetype-2.1.9-new/src/base/ftmac.c
+--- freetype-2.1.9/src/base/ftmac.c	2004-04-14 04:49:11.000000000 -0400
++++ freetype-2.1.9-new/src/base/ftmac.c	2006-04-28 22:49:30.000000000 -0400
+@@ -62,7 +62,7 @@
+ #include <ft2build.h>
+ #include FT_FREETYPE_H
+ #include FT_INTERNAL_STREAM_H
+-
++#include <machine/endian.h>
+ #ifdef __GNUC__
+ #include "../truetype/ttobjs.h"
+ #include "../type1/t1objs.h"
+@@ -319,12 +319,12 @@
+       if ( assoc->fontSize == 0 )
+       {
+         *have_sfnt = 1;
+-        *sfnt_id   = assoc->fontID;
++        *sfnt_id   = OSSwapBigToHostInt16(assoc->fontID);
+       }
+       else if ( base_assoc->fontSize == 0 )
+       {
+         *have_sfnt = 1;
+-        *sfnt_id   = base_assoc->fontID;
++        *sfnt_id   = OSSwapBigToHostInt16(base_assoc->fontID);
+       }
+     }
+ 
+diff -uNr freetype-2.1.9/src/base/ftobjs.c freetype-2.1.9-new/src/base/ftobjs.c
+--- freetype-2.1.9/src/base/ftobjs.c	2004-06-21 17:16:56.000000000 -0400
++++ freetype-2.1.9-new/src/base/ftobjs.c	2006-04-28 22:48:53.000000000 -0400
+@@ -947,7 +947,7 @@
+   /* there's a Mac-specific extended implementation of FT_New_Face() */
+   /* in src/base/ftmac.c                                             */
+ 
+-#ifndef FT_MACINTOSH
++/* #ifndef FT_MACINTOSH */
+ 
+   /* documentation is in freetype.h */
+ 
+@@ -970,7 +970,7 @@
+     return FT_Open_Face( library, &args, face_index, aface );
+   }
+ 
+-#endif  /* !FT_MACINTOSH */
++/* #endif */ /* !FT_MACINTOSH */
+ 
+ 
+   /* documentation is in freetype.h */
+diff -uNr freetype-2.1.9/src/truetype/ttinterp.c freetype-2.1.9-new/src/truetype/ttinterp.c
+--- freetype-2.1.9/src/truetype/ttinterp.c	2004-03-05 04:26:22.000000000 -0500
++++ freetype-2.1.9-new/src/truetype/ttinterp.c	2006-04-28 22:48:54.000000000 -0400
+@@ -2474,7 +2474,7 @@
+     W = Vx * Vx + Vy * Vy;
+ 
+     /* Now, we want that Sqrt( W ) = 0x4000 */
+-    /* Or 0x1000000 <= W < 0x1004000        */
++    /* Or 0x10000000 <= W < 0x10004000        */
+ 
+     if ( Vx < 0 )
+     {
+@@ -2492,7 +2492,7 @@
+     else
+       S2 = FALSE;
+ 
+-    while ( W < 0x1000000L )
++    while ( W < 0x10000000L )
+     {
+       /* We need to increase W by a minimal amount */
+       if ( Vx < Vy )
+@@ -2503,7 +2503,7 @@
+       W = Vx * Vx + Vy * Vy;
+     }
+ 
+-    while ( W >= 0x1004000L )
++    while ( W >= 0x10004000L )
+     {
+       /* We need to decrease W by a minimal amount */
+       if ( Vx < Vy )

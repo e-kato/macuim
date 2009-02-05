@@ -1,0 +1,13 @@
+#!/bin/sh
+
+if [ ! -d Package/dest/Library/Dictionaries/SKK ]; then
+    mkdir -p Package/dest/Library/Dictionaries/SKK
+fi
+
+cd Package/dest/Library/Dictionaries/SKK
+
+rm -f SKK-JISYO.[LMS]
+
+curl -O http://openlab.ring.gr.jp/skk/skk/dic/SKK-JISYO.L
+curl -O http://openlab.ring.gr.jp/skk/skk/dic/SKK-JISYO.M
+curl -O http://openlab.ring.gr.jp/skk/skk/dic/SKK-JISYO.S

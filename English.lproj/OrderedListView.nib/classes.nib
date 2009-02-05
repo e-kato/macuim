@@ -1,0 +1,40 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {pathChanged = id; refClicked = id; }; 
+            CLASS = PathnameController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = UimCustomAvailableController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = UimCustomController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {view = NSView; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {availableCancel = id; availableOK = id; listCancel = id; listOK = id; }; 
+            CLASS = UimCustomOrderedListController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                availablePanel = NSPanel; 
+                availableTable = NSTableView; 
+                button = NSButton; 
+                field = NSTextField; 
+                listAddButton = NSButton; 
+                listDownButton = NSButton; 
+                listPanel = NSPanel; 
+                listTable = NSTableView; 
+                listUpButton = NSButton; 
+            }; 
+            SUPERCLASS = UimCustomController; 
+        }
+    ); 
+    IBVersion = 1; 
+}

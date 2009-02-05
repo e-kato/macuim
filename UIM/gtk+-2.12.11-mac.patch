@@ -1,0 +1,56 @@
+--- gtk+-2.12.11/gtk/Makefile.in.orig	2008-07-02 13:17:54.000000000 +0900
++++ gtk+-2.12.11/gtk/Makefile.in	2008-07-02 13:32:22.000000000 +0900
+@@ -2237,10 +2237,10 @@
+ 	done
+ gtk-query-immodules-2.0$(EXEEXT): $(gtk_query_immodules_2_0_OBJECTS) $(gtk_query_immodules_2_0_DEPENDENCIES) 
+ 	@rm -f gtk-query-immodules-2.0$(EXEEXT)
+-	$(LINK) $(gtk_query_immodules_2_0_LDFLAGS) $(gtk_query_immodules_2_0_OBJECTS) $(gtk_query_immodules_2_0_LDADD) $(LIBS)
+-gtk-update-icon-cache$(EXEEXT): $(gtk_update_icon_cache_OBJECTS) $(gtk_update_icon_cache_DEPENDENCIES) 
++	$(LINK) $(gtk_query_immodules_2_0_LDFLAGS) $(gtk_query_immodules_2_0_OBJECTS) $(gtk_query_immodules_2_0_LDADD) $(LIBS) $(GTK_DEP_LIBS)
++gtk-update-icon-cache$(EXEEXT): $(gtk_update_icon_cache_OBJECTS) $(gtk_update_icon_cache_DEPENDENCIES)
+ 	@rm -f gtk-update-icon-cache$(EXEEXT)
+-	$(LINK) $(gtk_update_icon_cache_LDFLAGS) $(gtk_update_icon_cache_OBJECTS) $(gtk_update_icon_cache_LDADD) $(LIBS)
++	$(LINK) $(gtk_update_icon_cache_LDFLAGS) $(gtk_update_icon_cache_OBJECTS) $(gtk_update_icon_cache_LDADD) $(LIBS) $(GTK_DEP_LIBS)
+ binSCRIPT_INSTALL = $(INSTALL_SCRIPT)
+ install-binSCRIPTS: $(bin_SCRIPTS)
+ 	@$(NORMAL_INSTALL)
+--- gtk+-2.12.11/gtk/theme-bits/Makefile.in.orig	2008-07-02 13:27:20.000000000 +0900
++++ gtk+-2.12.11/gtk/theme-bits/Makefile.in	2008-07-02 13:27:00.000000000 +0900
+@@ -388,7 +388,7 @@
+ 	done
+ decompose-bits$(EXEEXT): $(decompose_bits_OBJECTS) $(decompose_bits_DEPENDENCIES) 
+ 	@rm -f decompose-bits$(EXEEXT)
+-	$(LINK) $(decompose_bits_LDFLAGS) $(decompose_bits_OBJECTS) $(decompose_bits_LDADD) $(LIBS)
++	$(LINK) $(decompose_bits_LDFLAGS) $(decompose_bits_OBJECTS) $(decompose_bits_LDADD) $(LIBS) $(GTK_DEP_LIBS)
+ 
+ mostlyclean-compile:
+ 	-rm -f *.$(OBJEXT) core *.core
+--- gtk+-2.12.11/Makefile.in.orig	2008-07-01 22:44:00.000000000 +0900
++++ gtk+-2.12.11/Makefile.in	2008-07-02 13:49:35.000000000 +0900
+@@ -332,7 +332,7 @@
+ sysconfdir = @sysconfdir@
+ target_alias = @target_alias@
+ 
+-SRC_SUBDIRS = gdk-pixbuf gdk gtk modules demos tests perf contrib
++SRC_SUBDIRS = gdk-pixbuf gdk gtk modules contrib
+ SUBDIRS = po po-properties $(SRC_SUBDIRS) docs m4macros
+ 
+ # require automake 1.4
+--- gtk+-2.12.11/modules/input/Makefile.in.orig	2008-07-01 22:44:05.000000000 +0900
++++ gtk+-2.12.11/modules/input/Makefile.in	2008-07-02 14:59:34.000000000 +0900
+@@ -974,7 +974,6 @@
+ 	  echo $(mkinstalldirs) $(DESTDIR)$(sysconfdir)/gtk-2.0 ; \
+ 	  $(mkinstalldirs) $(DESTDIR)$(sysconfdir)/gtk-2.0 ; \
+ 	  echo "$(top_builddir)/gtk/gtk-query-immodules-2.0 > $(DESTDIR)$(sysconfdir)/gtk-2.0/gtk.immodules" ; \
+-	  $(top_builddir)/gtk/gtk-query-immodules-2.0 > $(DESTDIR)$(sysconfdir)/gtk-2.0/gtk.immodules ; \
+ 	else \
+ 	  echo "***" ; \
+ 	  echo "*** Warning: gtk.immodules not built" ; \
+@@ -988,7 +987,6 @@
+ 	rm -f $(DESTDIR)$(sysconfdir)/gtk-2.0/gtk.immodules
+ 
+ gtk.immodules: Makefile.am $(module_LTLIBRARIES)
+-	$(top_builddir)/gtk/gtk-query-immodules-2.0 $(module_LTLIBRARIES) > gtk.immodules
+ 
+ @CROSS_COMPILING_FALSE@all-local: gtk.immodules
+ # Tell versions [3.59,3.63) of GNU make to not export all variables.

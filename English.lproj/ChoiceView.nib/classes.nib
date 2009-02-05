@@ -1,0 +1,24 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {pathChanged = id; refClicked = id; }; 
+            CLASS = PathnameController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = UimCustomChoiceController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {button = NSPopUpButton; }; 
+            SUPERCLASS = UimCustomController; 
+        }, 
+        {
+            CLASS = UimCustomController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {view = NSView; }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

@@ -1,0 +1,61 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {
+                appletChange = id; 
+                chooseFont = id; 
+                imChange = id; 
+                imSwitchChange = id; 
+                listDirectionChange = id; 
+                modeTipsChange = id; 
+                opacityChange = id; 
+            }; 
+            CLASS = MacUIMPrefPane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                appletButton = NSButton; 
+                fontSample = NSTextField; 
+                imButton = NSPopUpButton; 
+                listDirection = NSMatrix; 
+                modeTipsButton = NSButton; 
+                opacitySlider = NSSlider; 
+                tab = NSTabView; 
+            }; 
+            SUPERCLASS = NSPreferencePane; 
+        }, 
+        {
+            CLASS = NSPreferencePane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "_firstKeyView" = NSView; 
+                "_initialKeyView" = NSView; 
+                "_lastKeyView" = NSView; 
+                "_window" = NSWindow; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = TabView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {fontDelegate = id; }; 
+            SUPERCLASS = NSTabView; 
+        }, 
+        {CLASS = UimPrefCell; LANGUAGE = ObjC; SUPERCLASS = NSTextFieldCell; }, 
+        {
+            ACTIONS = {applyAction = id; defaultAction = id; }; 
+            CLASS = UimPrefController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                applyButton = NSButton; 
+                defaultButton = NSButton; 
+                labelColumn = NSTableColumn; 
+                outlineView = NSOutlineView; 
+                valueColumn = NSTableColumn; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = UimPrefView; LANGUAGE = ObjC; SUPERCLASS = NSControl; }
+    ); 
+    IBVersion = 1; 
+}

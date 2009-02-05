@@ -1,0 +1,184 @@
+#!/bin/sh
+
+if [ "$1" = "" ] || [ "$2" = "" ]; then
+    echo "Usage: $0 <version> <build>"
+    exit 1
+fi
+
+version=$1
+build=$2
+
+fwdir="/Library/Frameworks/UIM.framework"
+prefix="/Library/Frameworks/UIM.framework/Versions/${version}"
+top=`pwd`
+dest="${top}/../../Package/dest"
+
+rm -rf ${dest}${fwdir}
+
+cp -fv ../Info.plist.in Info.plist
+cp -fv ../version.plist.in version.plist
+
+export MACOSX_DEPLOYMENT_TARGET="10.3"
+PATH="${prefix}/bin:/opt/macuim/bin:/Library/Anthy/bin:/Library/PRIME/bin:/Library/M17NLib/bin:/bin:/usr/bin:"
+
+##PATH="/opt/macuim/bin:$PATH" ./autogen.sh || exit 1
+#PATH="/sw/bin:/opt/macuim/bin:$PATH" ./autogen.sh || exit 1
+
+perl -pi -e "s|\@VERSION\@|${version}|" *.plist
+perl -pi -e "s|\@BUILD\@|${build}|" *.plist
+
+perl -pi -e 's|^SUBDIRS =.*|SUBDIRS = sigscheme scm uim \\|' Makefile.in || exit 1
+perl -pi -e 's|^\s+po pixmaps examples||' Makefile.in
+
+LDFLAGS="-L/opt/macuim/lib -L/Library/M17NLib/lib -L/Library/Anthy/lib -L/usr/X11R6/lib -arch i386 -arch ppc -liconv" \
+CPPFLAGS="-I/opt/macuim/include -I/Library/M17NLib/include -I/Library/Anthy/include" \
+CFLAGS="-I/opt/macuim/include -I/Library/M17NLib/include -I/Library/Anthy/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc -mmacosx-version-min=10.4" \
+CXXFLAGS="-I/opt/macuim/include -I/Library/M17NLib/include -I/Library/Anthy/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc -mmacosx-version-min=10.4" \
+PKG_CONFIG="/opt/macuim/bin/pkg-config" \
+PKG_CONFIG_PATH="/Library/PRIME/lib/pkgconfig:/Library/Anthy/lib/pkgconfig:/Library/M17NLib/lib/pkgconfig:/usr/X11R6/lib/pkgconfig" \
+./configure --prefix=${prefix} --exec-prefix=${prefix} \
+  --enable-fep --disable-applet \
+  --disable-dependency-tracking \
+  --enable-maintainer-mode \
+  --disable-strict-argcheck \
+  --with-anthy-utf8 \
+  --with-curl \
+  --with-expat=/usr \
+  || exit 1
+#  --without-gtk2  \
+#  --without-x  \
+#  --enable-backtrace \
+
+perl -pi -e 's|-Werror||' uim/Makefile
+
+mkdir -p ${dest}${prefix}/lib
+
+cd sigscheme
+ln -s src/config.h .
+make -w || exit 1
+cd ../
+
+cd replace
+make -w || exit 1
+cd ../
+
+cd uim
+make -w pkglibdir=${prefix}/pkglib || exit 1
+cd ../
+
+gcc -dynamiclib -undefined dynamic_lookup \
+-o uim/.libs/UIM \
+uim/.libs/libuim_la*.o uim/.libs/libuim_custom_la*.o replace/.libs/libreplace.a \
+uim/.libs/libuim_scm_la*.o \
+uim/.libs/libuim_bsdlook_la*.o \
+sigscheme/libgcroots/.libs/*.o \
+-L/opt/macuim/lib -liconv -ldl -lintl \
+-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc \
+-mmacosx-version-min=10.4 \
+-install_name /Library/Frameworks/UIM.framework/Versions/${version}/UIM \
+-compatibility_version ${version} -current_version ${version} || exit 1
+
+cd uim
+
+perl -pi -e "s|^library_names=.*$|library_names='UIM'|" libuim.la
+perl -pi -e "s|^library_names=.*$|library_names='UIM'|" libuim-custom.la
+perl -pi -e "s|^library_names=.*$|library_names='UIM'|" libuim-scm.la
+perl -pi -e "s|^library_names=.*$|library_names='UIM'|" libuim-bsdlook.la
+
+make -w pkglibdir=${prefix}/pkglib || exit 1
+
+cd ..
+
+make -w DESTDIR=${dest} pkglibdir=${prefix}/pkglib \
+  install || exit 1
+
+cd helper
+  make LIBS="-framework CoreFoundation -framework Carbon"
+
+gcc -I/usr/X11R6/include -I/usr/X11R6/include/freetype2 \
+-I/opt/macuim/include/libpng12 -I/opt/macuim/include/gtk-2.0 \
+-I/opt/macuim/lib/gtk-2.0/include -I/opt/macuim/include/atk-1.0 \
+-I/opt/macuim/include/cairo -I/opt/macuim/include/pango-1.0 \
+-I/opt/macuim/include/glib-2.0 -I/opt/macuim/lib/glib-2.0/include \
+-I/opt/macuim/include/freetype2 -I/opt/macuim/include -Wall \
+-I/opt/macuim/include -I/Library/M17NLib/include \
+-I/Library/Anthy/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk \
+-arch i386 -arch ppc -mmacosx-version-min=10.4 -pedantic -pipe -Wall \
+-Wchar-subscripts -Wmissing-declarations -Wredundant-decls \
+-Wmissing-prototypes -Wnested-externs -Wpointer-arith -Wcast-align \
+-Wsign-compare -Wno-long-long -no-cpp-precomp -DNDEBUG -arch i386 \
+-arch ppc -o .libs/uim-candwin-gtk uim_candwin_gtk-candwin-gtk.o \
+uim_candwin_gtk-caret-state-indicator.o -framework CoreFoundation \
+-framework Carbon  -L/opt/macuim/lib -L/Library/M17NLib/lib \
+-L/Library/Anthy/lib -L/usr/X11R6/lib -L/usr/X11R6/lib \
+/opt/macuim/lib/libgtk-x11-2.0.a /opt/macuim/lib/libgdk-x11-2.0.a \
+/opt/macuim/lib/libpng12.a /opt/macuim/lib/libatk-1.0.a \
+/opt/macuim/lib/libgdk_pixbuf-2.0.a \
+/opt/macuim/lib/libpangocairo-1.0.a \
+/opt/macuim/lib/libpixman-1.a \
+-lXinerama \
+-lXrandr -lXcursor \
+-lXext \
+/opt/macuim/lib/libcairo.a -lXrender \
+/opt/macuim/lib/libpangoft2-1.0.a /opt/macuim/lib/libpango-1.0.a \
+/opt/macuim/lib/libpng12.a /usr/X11R6/lib/libfontconfig.dylib \
+-lfreetype \
+/opt/macuim/lib/libfreetype.a -lz -lm \
+-lX11 \
+-lXau -lXdmcp \
+/opt/macuim/lib/libgobject-2.0.a /opt/macuim/lib/libgmodule-2.0.a \
+/opt/macuim/lib/libglib-2.0.a /opt/macuim/lib/libintl.a -lc \
+../uim/.libs/UIM /usr/lib/libiconv.dylib \
+/Users/kato/macsrc/MacUIM/UIM/uim/uim/.libs/UIM \
+/Users/kato/macsrc/MacUIM/UIM/uim/sigscheme/libgcroots/.libs/libgcroots.dylib \
+-ldl
+
+#-lXdamage \
+#-lXfixes \
+#-lXcomposite
+
+  make DESTDIR=${dest} LIBS="-framework CoreFoundation -framework Carbon" install
+cd ..
+
+cd xim
+make -w CXX="g++ -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc" || exit 1
+g++ -Wall -I/opt/macuim/include -I/Library/M17NLib/include \
+-I/Library/Anthy/include -isysroot /Developer/SDKs/MacOSX10.4u.sdk \
+-arch i386 -arch ppc -mmacosx-version-min=10.4 -pipe -W -Wall \
+-Wchar-subscripts -Wnon-virtual-dtor -Wno-long-long -Wcast-align \
+-Wconversion -Wpointer-arith -Wwrite-strings -Wformat-security \
+-DNDEBUG -arch i386 -arch ppc -o .libs/uim-xim uim_xim-main.o \
+uim_xim-convdisp.o uim_xim-connection.o uim_xim-ximic.o \
+uim_xim-ximtrans.o uim_xim-ximim.o uim_xim-ximserver.o \
+uim_xim-ximpacket.o uim_xim-locale.o uim_xim-canddisp.o uim_xim-util.o \
+uim_xim-helper.o uim_xim-compose.o -Wl,-bind_at_load \
+-L/opt/macuim/lib -L/Library/M17NLib/lib -L/Library/Anthy/lib \
+-L/usr/X11R6/lib -lXext -lX11 -lXau -lXdmcp -lXft ../uim/.libs/UIM \
+/usr/lib/libiconv.dylib \
+/Users/kato/macsrc/MacUIM/UIM/uim/uim/.libs/UIM \
+/Users/kato/macsrc/MacUIM/UIM/uim/sigscheme/libgcroots/.libs/libgcroots.dylib \
+../uim/.libs/libuim-x-util.a -ldl
+make -w DESTDIR=${dest} install || exit 1
+cd ..
+
+cd ${dest}/${prefix}
+mv include/uim Headers
+ln -sv lib/UIM .
+rm -rf include share/applications bin/uim-sh lib/libuim* 
+
+rm -rf bin/uim-toolbar-gtk*
+rm -rf bin/uim-pref-gtk
+rm -rf bin/uim-im-switcher-gtk
+rm -rf bin/uim-input-pad-ja
+
+mkdir Resources
+install -c -m 644 ${top}/Info.plist Resources
+install -c -m 644 ${top}/version.plist Resources
+
+cd ..
+ln -sv ${version} Current
+
+cd ..
+ln -sv Versions/Current/UIM .
+ln -sv Versions/Current/Headers .
+ln -sv Versions/Current/Resources .
