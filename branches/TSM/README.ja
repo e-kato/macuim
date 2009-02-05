@@ -1,0 +1,371 @@
+-*- mode: rd -*-
+
+= MacUIM
+
+== MacUIMビルド環境の構築
+
+かなり複雑です。健闘を祈る！
+
+MacUIM本体だけビルドしたい場合は「MenuCracker」から実行すればOK。
+
+以下を実行する前に/Library/Frameworks/UIM.framework, /opt/macuimを削除
+しておく。
+
+=== /opt/macuimの準備
+
+gettext, pkgconfig, glib, saryをビルドし、/opt/macuimにインストールする。
+これらはsary-rubyとprimeのビルド用で、ユーザーの環境にインストールする
+必要はない。
+
+ % sudo mdkir /opt/macuim
+
+==== gettext
+
+PRIMEディレクトリにgettex-0.14.5.tar.gzを展開する。
+gettext-0.14.5ディレクトリでパッチを当ててから、build-gettextを実行する。
+
+ % cd PRIME
+ % tar zxvf gettext-0.14.5.tar.gz
+ % cd gettext-0.14.5
+ % patch -p1 < ../gettext-0.14.5-mac.patch
+ % ../build-gettext
+ 
+make installで/opt/macuimにインストールする。
+
+ % sudo make install
+
+==== pkgconfig
+
+PRIMEディレクトリにpkgconfig-0.15.0.tar.gzを展開し、build-pkgconfigでビルド
+する。
+
+ % tar zxvf pkgconfig-0.15.0.tar.gz
+ % cd pkgconfig-0.15.0
+ % ../build-pkgconfig
+
+make installで/opt/macuimにインストールする。
+
+ % sudo make install
+
+==== glib
+
+PRIMEディレクトリにglib-2.12.0.tar.bz2を展開し、パッチを当ててから
+build-glibでビルドする。
+
+ % tar jxvf glib-2.12.0.tar.bz2
+ % cd glib-2.12.0
+ % patch -p1 < glib-2.12.0-mac.patch
+ % ../build-glib
+
+make installで/opt/macuimにインストールする。
+
+ % sudo make install
+
+==== sary
+
+sary-?.?.?.tar.gzをhttp://sary.sourceforge.net/からダウンロードし、展
+開して、以下のようにビルドする。
+
+ % cd sary-1.2.0
+ % ../build-sary
+
+make installで/opt/macuimにインストールする。
+
+ % sudo make install
+
+=== PRIMEのビルド
+
+==== rubyモジュールのビルド
+
+(Mac OS 10.3以前のみ)
+
+PRIME 0.9以降をRuby 1.6で使用するには、libiconv-rubyが必要である。
+PRIMEをUNIXドメインソケット・モードで実行するためには、コンパイルし直
+したsocketモジュールが必要である。
+
+===== libiconv-ruby
+
+(Mac OS 10.3以前のみ)
+
+libiconv-ruby_0.4.5.orig.tar.gzを
+http://higgs.djpig.de/ubuntu/www/hoary/source/libiconv-ruby
+からダウンロードする。
+
+libiconv-ruby_0.4.5.orig.tar.gzをPRIMEディレクトリに展開し、以下のよう
+にインストールする。
+
+ % cd iconv-0.4.5
+ % ../build-iconv
+
+これによって、Package/dest/Library/PRIME/lib/rubyにiconv.rbがコピーさ
+れる。
+
+===== socket
+
+(Mac OS 10.3以前のみ)
+
+Mac OS XのRuby 1.6.8に含まれるsocketモジュール(socket.bundle)はUNIXド
+メインソケットが無効になっているため、コンパイルし直して使用する。
+ruby-1.6.8のソースを適当な所からダウンロードし、展開してから、以下のよ
+うにビルドする。
+
+ % cd ruby-1.6.8/ext/socket
+ % ruby extconf.rb
+ % make
+
+できたsocket.bundleをPackage/dest/Library/PRIME/lib/rubyにコピーする。
+
+==== sary-ruby
+
+sary-ruby-?.?.?.tar.gzをhttp://sary.sourceforge.net/からダウンロードし、
+展開して、以下のようにビルドする。
+
+ % cd sary-ruby-1.2.0
+ % ../build-sary-ruby
+
+これによって、sary.bundleがPackage/dest/Library/PRIME/lib/rubyにコピー
+される。
+
+==== ruby-progressbar
+
+ruby-progressbar-0.8.tar.gzを
+http://namazu.org/~satoru/ruby-progressbar/からダウンロードし、展開し
+て、中に含まれるprogressbar.rbをPackage/dest/Library/PRIME/lib/rubyに
+コピーする。
+
+ % cd ruby-progressbar-0.8
+ % cp progressbar.rb ../../Package/dest/Library/PRIME/lib/ruby
+
+==== suikyo
+
+suikyo-2.0.1.2.tar.gzをhttp://prime.sourceforge.jp/src/からダウンロー
+ドし、展開して、以下のようにビルドする。
+
+ % cd suikyo-2.0.1.2
+ % ../build-suikyo
+
+これによって、suikyoがPackage/dest/Library/PRIME/lib/rubyにインストー
+ルされる。
+
+==== prime
+
+prime-x.x.x.tar.gzを展開して、以下のようにビルドする。
+
+ % cd prime-x.x.x
+ % ../build-prime
+
+これによって、primeがPackage/dest/Library/PRIMEにインストールされる。
+
+==== prime-dict
+
+prime-dict-x.x.x.tar.gzを展開して、以下のようにビルドする。
+
+ % cd prime-dict-x.x.x
+ % ../build-prime-dict
+
+これによって、prime-dictがPackage/dest/Library/PRIMEにインストールされ
+る。
+
+==== uimに必要なライブラリの準備
+
+==== インストール
+
+Package/dest/LibraryにあるPRIMEディレクトリを/Libraryにコピーする。
+
+=== anthyのビルド
+
+anthy-xxxxをダウンロードする(xxxxはバージョン番号)。
+
+Anthyディレクトリにanthy-xxxxを展開する。
+
+ MacUIM/
+   Anthy/
+     anthy-xxxx/
+
+Anthy/anthy-xxxxディレクトリで以下を実行する。
+
+ % ../build
+
+Package/dest/Library/Anthyディレクトリが作成される。
+このAnthyディレクトリを/Libraryにコピーする。
+
+=== m17nlibのビルド
+
+==== 準備
+
+m17nlibのビルドにはX11が必要である。Mac OS Xにプリインストールされてい
+ない場合、AppleからX11.appをダウンロードして入れるか、Finkを使ってイン
+ストールする。
+
+/Library/Frameworks/UIM.frameworkをゴミ箱に移動する。
+Package/dest/Library/Frameworks/UIM.frameworkが存在する場合、それもゴ
+ミ箱に移動する。
+
+ % mv /Library/Frameworks/UIM.framework ~/.Trash
+ % mv Package/dest/Library/Frameworks/UIM.framework ~/.Trash
+
+mvの代わりにrmする場合、あらかじめMacUIMでない別の入力プログラム(こと
+えりなど)に変更しておかないと、アプリが異常終了するので注意する。
+
+freetypeを/opt/macuimにインストールしておく。
+
+ % cd freetype-2.1.9
+ % patch -p1 < ../freetype-2.1.9-mac.patch
+ % ../build-freetype
+ % sudo make install
+
+これによって、freetypeが/opt/macuimにインストールされる。
+
+==== ispell
+
+M17NLibディレクトリにispell-x.x.x.tar.gzを展開し、パッチを当てる。
+
+ % cd ispell-3.2.06
+ % patch -p1 < ../ispell-3.2.06-mac.patch
+
+以下のようにビルドし、インストールする。
+
+ % ../build-ispell
+
+/Library/M17NLibディレクトリとPackage/dest/Library/M17NLibディレクトリの両方
+にインストールされる。
+
+==== m17n-db
+
+M17NLibディレクトリにm17n-db-x.x.x.tar.gzを展開する。
+
+m17n-db-x.x.xディレクトリにglibc-x.x.x.tar.gzを展開する。
+glibcは適当なFTPサイトからダウンロードする。
+
+m17n-db-x.x.xディレクトリで以下を実行する。
+
+ % ../build-db <glibc_version>
+
+例)
+ % ../build-db 2.3.3
+
+/Library/M17NLibディレクトリとPackage/dest/Library/M17NLibディレクトリの両方
+にインストールされる。
+
+==== m17n-lib
+
+M17NLibディレクトリにm17n-lib-x.x.x.tar.gzを展開する。
+
+m17n-libディレクトリでパッチを当ててビルドする。
+
+ % for i in ../*.patch; do patch -p1 < $i; done
+ % ../build-lib
+
+/Library/M17NLibディレクトリとPackage/dest/Library/M17NLibディレクトリの両方
+にインストールされる。
+
+=== uimのビルド
+
+FinkなどでperlのXML::Parseモジュールをインストールしておく。
+
+UIMディレクトリにuim-x.x.x.tar.gzを展開する。
+
+ MacUIM/
+   UIM/
+     uim-x.x.x/
+
+MacUIM用のパッチを当てる。
+uim-x.x.xディレクトリで以下を実行する。
+
+ % for i in ../uim*.patch; do patch -p1 < $i; done
+
+
+続いて、以下のようにビルドする。
+
+ % ../fwbuild <version> <build>
+
+<version>のフォーマットは<major>.<minor>.<tiny>とし、uimのバージョン番
+号に従う(例: 0.2.5)。
+ただし、uimのバージョンがtiny以下を含む場合、tinyまでとする。
+例えば、uim-0.2.5.2の場合、0.2.5とする。
+
+<build>はuimのバージョンが上がるごとに1からカウントし直す(例: 1)。
+
+これによって、Package/dest/Library/FrameworksにUIM.frameworkができる。
+これを/Library/Frameworksにコピーする。
+
+=== MenuCracker
+
+Mac OS X 10.3は通常、MenuExtraの使用を許可していない。そのため、ヘルパー
+アプレットを動作させるために、MenuCrackerを使用する必要がある。
+
+以下のURLからMenuCrackerのソースをダウンロードし、ユニバーサルバイナリとしてビルドする。
+http://menucracker.cvs.sourceforge.net/
+
+ % cvs -d:pserver:anonymous@menucracker.cvs.sourceforge.net:/cvsroot/menucracker login
+ % cvs -z3 -d:pserver:anonymous@menucracker.cvs.sourceforge.net:/cvsroot/menucracker co -P
+
+MenuCracker.menuをMacUIM/Sources/MenuCrackerに置く。
+以下のようなディレクトリ構成になる。
+
+ MacUIM/
+   Sources/
+     MenuCracker/
+       MenuCracker.menu
+
+== MacUIMのビルド
+
+配布するバージョンをビルドする場合はdeployを実行する。
+これによってMacUIMがdestディレクトリに置かれる。
+
+Components/MacUIM.component     - MacUIM本体
+PreferencePanes/MacUIM.prefPane - 環境設定
+
+Xcodeでビルドする場合は、CandidateController, MacUIMの順にビルドする。
+
+=== リリース用
+
+トップディレクトリのdeployを実行すると、Deploymentビルドスタイルでビル
+ドされ、Package/Package_contentsディレクトリにMacUIMができる。
+
+deployで作成したMacUIMはデバッグオプションが無効になっている。
+
+
+=== デバッグ用
+
+deployコマンドでなく、Xcodeで普通にビルドする。
+buildディレクトリにMacUIMができる。
+
+=== インストール
+
+MacUIM.componentを/Library/Componentsに、
+MacUIM.prefPaneを/Library/PreferencePanesにコピーする。
+
+== SKK辞書
+
+get_skkdicを実行。
+これによって Package/dest/Library/Dictionaries/SKK ディレクトリに
+SKK-JISYO.[LMS]がダウンロードされる。
+
+インストールする場合はSKKディレクトリを/Library/Dictionariesにコピーする。
+
+== パッケージ作成
+
+上記すべてを実行したら、PackageMakerでPackage/MacUIM.pmprojを開き、パッケージを
+作成する(control + b)。
+このとき、ファイル名はMacUIM-<source_version>-<release_version>.pkgとする。
+
+パッケージファイル(.pkg)から.dmgファイルを作成し、リリースする。
+
+
+== パッケージにせず、ローカルでテストする場合
+
+UIM.frameworkを /Library/Frameworks に、MacUIM.componentを
+/Library/Components にコピーし、ログインし直す。
+
+
+== ログインし直すのが面倒な場合
+
+killloginをPATHが通っている場所にインストールし、コマンドラインから
+killloginとすることで、loginwindowがkillされ、自動的に再ログインされる。
+
+Script Menuを使うこともできる。
+Script Menuは /Applications/AppleScript/Install Script Menu.app を実行
+しインストールする。
+killloginを ~/Library/Scripts にコピーすることで、メニューバーからこれ
+を実行することが可能になる。

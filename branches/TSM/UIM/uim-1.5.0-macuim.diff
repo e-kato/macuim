@@ -1,0 +1,103 @@
+Index: scm/skk-custom.scm
+===================================================================
+--- scm/skk-custom.scm	(revision 5027)
++++ scm/skk-custom.scm	(working copy)
+@@ -386,8 +386,7 @@
+ 	 (lambda ()
+ 	   skk-use-skkserv?))
+ 
+-(define-custom 'skk-dic-file-name (string-append (sys-datadir)
+-						 "/skk/SKK-JISYO.L")
++(define-custom 'skk-dic-file-name "/Library/Dictionaries/SKK/SKK-JISYO.L"
+   '(skk-dict dict-files)
+   '(pathname regular-file)
+   (N_ "System dictionary file")
+Index: scm/tutcode-key-custom.scm
+===================================================================
+--- scm/tutcode-key-custom.scm	(revision 5027)
++++ scm/tutcode-key-custom.scm	(working copy)
+@@ -53,7 +53,7 @@
+ 	       (N_ "[TUT-Code] off")
+ 	       (N_ "long description will be here"))
+ 
+-(define-custom 'tutcode-kana-toggle-key '("<IgnoreShift>'")
++(define-custom 'tutcode-kana-toggle-key '("<IgnoreShift>'" "<Shift>Private2")
+                '(tutcode-keys1 mode-transition)
+ 	       '(key)
+ 	       (N_ "[TUT-Code] toggle hiragana/katakana mode")
+Index: scm/generic-key-custom.scm
+===================================================================
+--- scm/generic-key-custom.scm	(revision 5027)
++++ scm/generic-key-custom.scm	(working copy)
+@@ -41,13 +41,13 @@
+ 		     (N_ "long description will be here."))
+ 
+ 
+-(define-custom 'generic-on-key '("zenkaku-hankaku" "<Shift> ")
++(define-custom 'generic-on-key '("zenkaku-hankaku" "<Shift> " "Private2")
+                '(global-keys1)
+ 	       '(key)
+ 	       (N_ "[Global] on")
+ 	       (N_ "long description will be here"))
+ 
+-(define-custom 'generic-off-key '("zenkaku-hankaku" "<Shift> ")
++(define-custom 'generic-off-key '("zenkaku-hankaku" "<Shift> " "Private1")
+                '(global-keys1)
+ 	       '(key)
+ 	       (N_ "[Global] off")
+Index: uim/prime.c
+===================================================================
+--- uim/prime.c	(revision 5027)
++++ uim/prime.c	(working copy)
+@@ -61,7 +61,7 @@
+ static FILE *primer, *primew;
+ static pid_t prime_pid = 0;
+ 
+-static char *prime_command = "prime";
++static char *prime_command = "/Library/PRIME/bin/prime";
+ 
+ static char *prime_ud_path;
+ static int prime_fd = -1;
+Index: uim/uim-helper.c
+===================================================================
+--- uim/uim-helper.c	(revision 5027)
++++ uim/uim-helper.c	(working copy)
+@@ -48,6 +48,8 @@
+ #include <errno.h>
+ #include <sys/stat.h>
+ 
++#include <libkern/OSByteOrder.h>
++
+ #include "uim-internal.h"
+ #include "uim-helper.h"
+ #include "uim-util.h"
+@@ -205,6 +207,9 @@
+     perror("getpeereid failed");
+     return -1;
+   }
++  if (euid > INT32_MAX)
++    euid = OSSwapInt32(euid);
++
+   if ((euid != 0) && (euid != getuid())) {
+     fprintf(stderr, "uid mismatch\n");
+     return -1;
+Index: uim.pc.in
+===================================================================
+--- uim.pc.in	(revision 5027)
++++ uim.pc.in	(working copy)
+@@ -1,6 +1,6 @@
+ prefix=@prefix@
+ exec_prefix=@exec_prefix@
+-includedir=@includedir@
++includedir=@prefix@/Headers
+ libdir=@libdir@
+ datarootdir=@datarootdir@
+ datadir=@datadir@
+@@ -10,5 +10,5 @@
+ Name: uim
+ Description: multilingual input method library
+ Version: @VERSION@
+-Cflags: -I${includedir}/uim
+-Libs: -L${libdir} -luim-scm -luim @LIBINTL@ @LIBICONV@
++Cflags: -I${includedir}
++Libs: -framework UIM

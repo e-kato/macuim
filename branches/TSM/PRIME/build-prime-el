@@ -1,0 +1,11 @@
+#!/bin/sh
+
+prefix="/Library/PRIME"
+top=`pwd`
+dest="${top}/../../Package/dest"
+
+PATH=/opt/macuim/bin:/bin:/usr/bin
+
+./configure --prefix=${prefix}
+
+make DESTDIR=${dest} install install-etc

@@ -1,0 +1,14 @@
+#!/bin/sh
+
+prefix="/Library/PRIME"
+top=`pwd`
+dest="${top}/../../Package/dest"
+
+PATH=/opt/macuim/bin:/bin:/usr/bin
+
+./configure --prefix=${prefix} --with-rubydir=${prefix}/lib/ruby || exit 1
+
+#rm -rf ${dest}${prefix}
+#mkdir -p ${dest}${prefix}
+
+make DESTDIR=${dest} install

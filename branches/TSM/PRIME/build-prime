@@ -1,0 +1,21 @@
+#!/bin/sh
+
+prefix="/Library/PRIME"
+top=`pwd`
+dest="${top}/../../Package/dest"
+
+PATH=/opt/macuim/bin:/bin:/usr/bin
+
+perl -pi -e "s|#!/usr/bin/env ruby|#!/usr/bin/ruby -I${prefix}/lib/ruby|" \
+  src/*.src
+
+./configure --prefix=${prefix} --sysconfdir=${prefix}/etc \
+  --with-rubydir=${prefix}/lib/ruby \
+  || exit 1
+
+make -w || exit 1
+
+make -w DESTDIR=${dest} install || exit 1
+make -w DESTDIR=${dest} install-etc || exit 1
+
+cp ../prime-renice ${dest}${prefix}/bin

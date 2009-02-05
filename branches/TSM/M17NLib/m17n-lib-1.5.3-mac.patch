@@ -1,0 +1,16 @@
+diff -uNr m17n-lib-1.5.3/src/input.c m17n-lib-1.5.3.e/src/input.c
+--- m17n-lib-1.5.3/src/input.c	2008-09-25 15:43:01.000000000 +0900
++++ m17n-lib-1.5.3.e/src/input.c	2009-02-04 16:43:01.000000000 +0900
+@@ -1219,9 +1219,9 @@
+     module = msymbol ((char *) MTEXT_DATA (MPLIST_MTEXT (plist)));
+   else if (MPLIST_SYMBOL_P (plist))
+     module = MPLIST_SYMBOL (plist);
+-  module_file = alloca (strlen (MSYMBOL_NAME (module))
+-			+ strlen (DLOPEN_SHLIB_EXT) + 1);
+-  sprintf (module_file, "%s%s", MSYMBOL_NAME (module), DLOPEN_SHLIB_EXT);
++  module_file = alloca (strlen("/Library/M17NLib/lib/") + strlen (MSYMBOL_NAME (module))
++			+ strlen (".so") + 1);
++  sprintf (module_file, "/Library/M17NLib/lib/%s%s", MSYMBOL_NAME (module), ".so");
+ 
+   handle = dlopen (module_file, RTLD_NOW);
+   if (MFAILP (handle))

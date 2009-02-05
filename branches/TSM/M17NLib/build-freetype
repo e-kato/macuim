@@ -1,0 +1,17 @@
+#!/bin/sh
+
+prefix="/opt/macuim"
+top=`pwd`
+
+PATH="$prefix/bin:/bin:/usr/bin"
+
+export MACOSX_DEPLOYMENT_TARGET="10.3"
+
+CFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc -mmacosx-version-min=10.4" \
+LDFLAGS="-arch i386 -arch ppc" \
+./configure --prefix=${prefix} --disable-shared \
+  --disable-dependency-tracking || exit 1
+
+make setup CFG="--prefix=${prefix}/lib/freetype" || exit 1
+perl -pi -e 's/^allow_undefined_flag.*/allow_undefined_flag=\"\"/' builds/unix/libtool
+make -w || exit 1

@@ -1,0 +1,7 @@
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+    #import <uim/uim.h>
+    #import <uim/uim-custom.h>
+    #import <uim/uim-helper.h>
+    #import <uim/uim-im-switcher.h>
+#endif

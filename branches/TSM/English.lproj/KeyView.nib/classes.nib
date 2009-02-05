@@ -1,0 +1,36 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = KeyPanel; LANGUAGE = ObjC; SUPERCLASS = NSPanel; }, 
+        {
+            ACTIONS = {pathChanged = id; refClicked = id; }; 
+            CLASS = PathnameController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = UimCustomController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {view = NSView; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {cancel = id; input = id; ok = id; }; 
+            CLASS = UimCustomKeyController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                addButton = NSButton; 
+                button = NSButton; 
+                combo = NSComboBox; 
+                deleteButton = NSButton; 
+                downButton = NSButton; 
+                field = NSTextField; 
+                panel = NSPanel; 
+                table = NSTableView; 
+                upButton = NSButton; 
+            }; 
+            SUPERCLASS = UimCustomController; 
+        }
+    ); 
+    IBVersion = 1; 
+}

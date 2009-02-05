@@ -1,0 +1,289 @@
+diff -Nurd -x'*~' glib-2.12.0.orig/configure glib-2.12.0/configure
+--- glib-2.12.0.orig/configure	2006-07-02 14:48:07.000000000 -0400
++++ glib-2.12.0/configure	2006-07-06 21:09:23.000000000 -0400
+@@ -32118,10 +32118,11 @@
+ echo "$as_me:$LINENO: result: $glib_cv___va_copy" >&5
+ echo "${ECHO_T}$glib_cv___va_copy" >&6
+ 
+-if test "x$glib_cv_va_copy" = "xyes"; then
+-  g_va_copy_func=va_copy
+-else if test "x$glib_cv___va_copy" = "xyes"; then
++# Prefer __va_copy, available on both gcc2 and gcc3.
++if test "x$glib_cv___va_copy" = "xyes"; then
+   g_va_copy_func=__va_copy
++else if test "x$glib_cv_va_copy" = "xyes"; then
++  g_va_copy_func=va_copy
+ fi
+ fi
+ 
+@@ -33544,6 +33545,9 @@
+ 			G_THREAD_CFLAGS="-D_THREAD_SAFE"
+ 		fi
+ 		;;
++	*-darwin*)
++		# Nothing needed.
++		;;
+ 	*-dg-dgux*)  # DG/UX
+ 		G_THREAD_CFLAGS="-D_REENTRANT -D_POSIX4A_DRAFT10_SOURCE"
+ 		;;
+@@ -39417,9 +39421,10 @@
+ #define GLIB_MICRO_VERSION $GLIB_MICRO_VERSION
+ "
+ 
++# Prefer __va_copy, available on both gcc2 and gcc3.
+ case xyes in
+-x$glib_cv_va_copy)	glib_vacopy='#define G_VA_COPY	va_copy' ;;
+ x$glib_cv___va_copy)	glib_vacopy='#define G_VA_COPY	__va_copy' ;;
++x$glib_cv_va_copy)	glib_vacopy='#define G_VA_COPY	va_copy' ;;
+ *)			glib_vacopy=''
+ esac
+ 
+@@ -40704,8 +40709,11 @@
+ /* gcc-2.95.x supports both gnu style and ISO varargs, but if -ansi
+  * is passed ISO vararg support is turned off, and there is no work
+  * around to turn it on, so we unconditionally turn it off.
++ *
++ * On darwin, use gcc macro to avoid incompatibility between gcc2
++ * and gcc3.
+  */
+-#if __GNUC__ == 2 && __GNUC_MINOR__ == 95
++#if (__GNUC__ == 2 && __GNUC_MINOR__ == 95) || defined (__APPLE__)
+ #  undef G_HAVE_ISO_VARARGS
+ #endif
+ 
+diff -Nurd -x'*~' glib-2.12.0.orig/glib/gmem.h glib-2.12.0/glib/gmem.h
+--- glib-2.12.0.orig/glib/gmem.h	2006-01-25 10:51:43.000000000 -0500
++++ glib-2.12.0/glib/gmem.h	2006-07-06 22:49:30.000000000 -0400
+@@ -101,7 +101,6 @@
+ 
+ 
+ /* deprecated memchunks and allocators */
+-#if !defined (G_DISABLE_DEPRECATED) || defined (GTK_COMPILATION) || defined (GDK_COMPILATION)
+ typedef struct _GAllocator GAllocator;
+ typedef struct _GMemChunk  GMemChunk;
+ #define g_mem_chunk_create(type, pre_alloc, alloc_type)	( \
+@@ -141,7 +140,6 @@
+ #define	G_ALLOCATOR_LIST       (1)
+ #define	G_ALLOCATOR_SLIST      (2)
+ #define	G_ALLOCATOR_NODE       (3)
+-#endif /* G_DISABLE_DEPRECATED */
+ 
+ G_END_DECLS
+ 
+diff -Nurd -x'*~' glib-2.12.0.orig/glib/libcharset/Makefile.in glib-2.12.0/glib/libcharset/Makefile.in
+--- glib-2.12.0.orig/glib/libcharset/Makefile.in	2006-07-02 14:48:02.000000000 -0400
++++ glib-2.12.0/glib/libcharset/Makefile.in	2006-07-06 20:56:51.000000000 -0400
+@@ -237,7 +237,7 @@
+ target_alias = @target_alias@
+ 
+ INCLUDES = \
+-	-DLIBDIR=\"$(libdir)\" -I$(top_srcdir)
++	-DLIBDIR=\"$(sysconfdir)/glib-2.0\" -I$(top_srcdir)
+ 
+ 
+ noinst_LTLIBRARIES = libcharset.la
+@@ -258,8 +258,8 @@
+ 	libcharset.h		\
+	localcharset.c
+ 
+-charset_alias = $(DESTDIR)$(libdir)/charset.alias
+-charset_tmp = $(DESTDIR)$(libdir)/charset.tmp
++charset_alias = $(DESTDIR)$(sysconfdir)/glib-2.0/charset.alias
++charset_tmp = $(DESTDIR)$(sysconfdir)/glib-2.0/charset.tmp
+ SUFFIXES = .sed .sin
+ CLEANFILES = charset.alias ref-add.sed ref-del.sed
+ 
+@@ -540,7 +540,7 @@
+ 	uninstall-am uninstall-info-am uninstall-local
+ 
+ install-exec-local: all-local
+-	$(mkinstalldirs) $(DESTDIR)$(libdir)
++	$(mkinstalldirs) $(DESTDIR)$(sysconfdir)/glib-2.0
+ 	if test -f $(charset_alias); then \
+ 	  sed -f ref-add.sed $(charset_alias) > $(charset_tmp) ; \
+ 	  $(INSTALL_DATA) $(charset_tmp) $(charset_alias) ; \
+diff -Nurd -x'*~' glib-2.12.0.orig/glib/libcharset/charset.alias glib-2.12.0/glib/libcharset/charset.alias
+--- glib-2.12.0.orig/glib/libcharset/charset.alias	1969-12-31 19:00:00.000000000 -0500
++++ glib-2.12.0/glib/libcharset/charset.alias	2006-07-06 20:20:37.000000000 -0400
+@@ -0,0 +1,111 @@
++# This file contains a table of character encoding aliases,
++# suitable for operating system 'darwin'.
++C			ASCII
++bg_BG			UTF-8
++bg_BG.CP1251		CP1251
++cs_CZ			UTF-8
++cs_CZ.ISO8859-2		ISO-8859-2
++da_DK			UTF-8
++da_DK.ISO8859-1		ISO-8859-1
++da_DK.ISO8859-15	ISO-8859-15
++de_AT			UTF-8
++de_AT.ISO8859-1		ISO-8859-1
++de_AT.ISO8859-15	ISO-8859-15
++de_CH			UTF-8
++de_CH.ISO8859-1		ISO-8859-1
++de_CH.ISO8859-15	ISO-8859-15
++de_DE			UTF-8
++de_DE.ISO8859-1		ISO-8859-1
++de_DE.ISO8859-15	ISO-8859-15
++en_AU			UTF-8
++en_AU.ISO8859-1		ISO-8859-1
++en_AU.ISO8859-15	ISO-8859-15
++en_AU.US-ASCII		ASCII
++en_CA			UTF-8
++en_CA.ISO8859-1		ISO-8859-1
++en_CA.ISO8859-15	ISO-8859-15
++en_CA.US-ASCII		ASCII
++en_GB			UTF-8
++en_GB.ISO8859-1		ISO-8859-1
++en_GB.ISO8859-15	ISO-8859-15
++en_GB.US-ASCII		ASCII
++en_US			UTF-8
++en_US.ISO8859-1		ISO-8859-1
++en_US.ISO8859-15	ISO-8859-15
++en_US.US-ASCII		ASCII
++es_ES			UTF-8
++es_ES.ISO8859-1		ISO-8859-1
++es_ES.ISO8859-15	ISO-8859-15
++fi_FI			UTF-8
++fi_FI.ISO8859-1		ISO-8859-1
++fi_FI.ISO8859-15	ISO-8859-15
++fr_BE			UTF-8
++fr_BE.ISO8859-1		ISO-8859-1
++fr_BE.ISO8859-15	ISO-8859-15
++fr_CA			UTF-8
++fr_CA.ISO8859-1		ISO-8859-1
++fr_CA.ISO8859-15	ISO-8859-15
++fr_CH			UTF-8
++fr_CH.ISO8859-1		ISO-8859-1
++fr_CH.ISO8859-15	ISO-8859-15
++fr_FR			UTF-8
++fr_FR.ISO8859-1		ISO-8859-1
++fr_FR.ISO8859-15	ISO-8859-15
++hr_HR			UTF-8
++hr_HR.ISO8859-2		ISO-8859-2
++hu_HU			UTF-8
++hu_HU.ISO8859-2		ISO-8859-2
++is_IS			UTF-8
++is_IS.ISO8859-1		ISO-8859-1
++is_IS.ISO8859-15	ISO-8859-15
++it_CH			UTF-8
++it_CH.ISO8859-1		ISO-8859-1
++it_CH.ISO8859-15	ISO-8859-15
++it_IT			UTF-8
++it_IT.ISO8859-1		ISO-8859-1
++it_IT.ISO8859-15	ISO-8859-15
++ja_JP			UTF-8
++ja_JP.EUC		EUC-JP
++ja_JP.SJIS		SHIFT_JIS
++ko_KR			UTF-8
++ko_KR.EUC		EUC-KR
++la_LN			UTF-8
++la_LN.ISO8859-1		ISO-8859-1
++la_LN.ISO8859-2		ISO-8859-2
++la_LN.ISO8859-4		ISO-8859-4
++la_LN.ISO8859-15	ISO-8859-15
++la_LN.US-ASCII		ASCII
++lt_LT			UTF-8
++lt_LT.ISO8859-4		ISO-8859-4
++nl_BE			UTF-8
++nl_BE.ISO8869-1		ISO-8859-1
++nl_BE.ISO8869-15	ISO-8859-15
++nl_NL			UTF-8
++nl_NL.ISO8869-1		ISO-8859-1
++nl_NL.ISO8869-15	ISO-8859-15
++no_NO			UTF-8
++no_NO.ISO8869-1		ISO-8859-1
++no_NO.ISO8869-15	ISO-8859-15
++pl_PL			UTF-8
++pl_PL.ISO8859-2		ISO-8859-2
++pt_PT			UTF-8
++pt_PT.ISO8859-1		ISO-8859-1
++pt_PT.ISO8859-15	ISO-8859-15
++ru_RU			UTF-8
++ru_RU.CP866		CP866
++ru_RU.ISO8859-5		ISO-8859-5
++ru_RU.KOI8-R		KOI8-R
++ru_RU.cp1251		CP1251
++ru_RU.koi8r		KOI8-R
++sl_SI			UTF-8
++sl_SI.ISO8859-2		ISO-8859-2
++sv_SE			UTF-8
++sv_SE.ISO8859-1		ISO-8859-1
++sv_SE.ISO8859-15	ISO-8859-15
++uk_UA			UTF-8
++uk_UA.KOI8-U		KOI8-U
++uk_UA.cp1251		CP1251
++zh_CN			UTF-8
++zh_CN.EUC		GB2312
++zh_TW			UTF-8
++zh_TW.Big5		BIG5
+diff -Nurd -x'*~' glib-2.12.0.orig/ltmain.sh glib-2.12.0/ltmain.sh
+--- glib-2.12.0.orig/ltmain.sh	2006-04-29 17:56:32.000000000 -0400
++++ glib-2.12.0/ltmain.sh	2006-07-06 20:19:57.000000000 -0400
+@@ -5696,10 +5696,6 @@
+ 
+ # Directory that this library needs to be installed in:
+ libdir='$install_libdir'"
+-	  if test "$installed" = no && test "$need_relink" = yes; then
+-	    $echo >> $output "\
+-relink_command=\"$relink_command\""
+-	  fi
+ 	done
+       fi
+ 
+diff -Nurd -x'*~' glib-2.12.0.orig/po/Makefile.in.in glib-2.12.0/po/Makefile.in.in
+--- glib-2.12.0.orig/po/Makefile.in.in	2005-09-06 12:33:28.000000000 -0400
++++ glib-2.12.0/po/Makefile.in.in	2006-07-06 20:17:53.000000000 -0400
+@@ -27,7 +27,7 @@
+ exec_prefix = @exec_prefix@
+ datadir = @datadir@
+ libdir = @libdir@
+-localedir = $(libdir)/locale
++localedir = $(datadir)/locale
+ gnulocaledir = $(datadir)/locale
+ gettextsrcdir = $(datadir)/glib-2.0/gettext/po
+ subdir = po
+diff -Nurd -x'*~' glib-2.12.0.orig/tests/array-test.c glib-2.12.0/tests/array-test.c
+--- glib-2.12.0.orig/tests/array-test.c	2005-03-14 01:01:51.000000000 -0500
++++ glib-2.12.0/tests/array-test.c	2006-07-06 20:15:49.000000000 -0400
+@@ -92,10 +92,14 @@
+ 
+   for (i = 0; i < 10000; i++)
+     {
+-      g_assert (gbarray->data[4*i] == 'a');
+-      g_assert (gbarray->data[4*i+1] == 'b');
+-      g_assert (gbarray->data[4*i+2] == 'c');
+-      g_assert (gbarray->data[4*i+3] == 'd');
++      int idx = 4*i;
++      g_assert (gbarray->data[idx] == 'a');
++      idx++;
++      g_assert (gbarray->data[idx] == 'b');
++      idx++;
++      g_assert (gbarray->data[idx] == 'c');
++      idx++;
++      g_assert (gbarray->data[idx] == 'd');
+     }
+ 
+   g_byte_array_free (gbarray, TRUE);
+diff -Nurd -x'*~' glib-2.12.0.orig/tests/child-test.c glib-2.12.0/tests/child-test.c
+--- glib-2.12.0.orig/tests/child-test.c	2005-07-14 01:20:14.000000000 -0400
++++ glib-2.12.0/tests/child-test.c	2006-07-06 20:14:20.000000000 -0400
+@@ -174,7 +174,7 @@
+ #ifdef G_OS_WIN32
+   system ("ipconfig /all");
+ #else
+-  system ("/bin/true");
++  system ("/usr/bin/true");
+ #endif
+ 
+   alive = 2;
+--- glib-2.16.3/glib-2.0.pc.in.orig	2008-07-02 11:43:01.000000000 +0900
++++ glib-2.16.3/glib-2.0.pc.in	2008-07-02 11:42:22.000000000 +0900
+@@ -10,6 +10,6 @@
+ Name: GLib
+ Description: C Utility Library
+ Version: @VERSION@
+-Libs: -L${libdir} -lglib-2.0 @INTLLIBS@ @ICONV_LIBS@
++Libs: -L${libdir} -lglib-2.0 @INTLLIBS@ @ICONV_LIBS@ -framework Carbon
+ Cflags: -I${includedir}/glib-2.0 -I${libdir}/glib-2.0/include 
+ 

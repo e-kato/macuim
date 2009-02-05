@@ -1,0 +1,30 @@
+#!/bin/sh
+
+if [ "$1" = "" ]; then
+    echo "Usage: $0 <glibc_version>"
+    exit 1
+fi
+
+glibc_version=$1
+
+PATH=/bin:/usr/bin:/opt/macuim/bin
+
+export MACOSX_DEPLOYMENT_TARGET="10.3"
+
+prefix="/Library/M17NLib/"
+top=`pwd`
+dest="${top}/../../Package/dest"
+
+CFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc -mmacosx-version-min=10.4" \
+LDFLAGS="-arch i386 -arch ppc" \
+./configure --prefix=${prefix} \
+  --with-charmaps=glibc-${glibc_version}/localedata/charmaps \
+  --disable-dependency-tracking || exit 1
+
+make -w -j2 || exit 1
+
+#make -w install || exit 1
+make -w DESTDIR=${dest} install || exit 1
+
+mkdir -p ${dest}${prefix}/lib/pkgconfig
+install m17n-db.pc ${dest}${prefix}/lib/pkgconfig/

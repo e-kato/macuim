@@ -1,0 +1,6 @@
+#!/bin/sh
+
+while true; do
+  /usr/bin/renice -20 `ps -ax -o pid,command | grep /Library/PRIME/bin/prime | grep -v grep | grep -v renice | awk '{ print $1 }'`
+  sleep 120
+done

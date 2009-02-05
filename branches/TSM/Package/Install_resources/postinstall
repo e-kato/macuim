@@ -1,0 +1,9 @@
+#!/bin/sh
+
+kill -INT `ps -acx -o pid,command | grep uim-helper-server | grep -v grep | awk '{ print $1 }'` || true
+sleep 1
+kill -TERM `ps -acx -o pid,command | grep uim-helper-server | grep -v grep | awk '{ print $1 }'` || true
+sleep 1
+kill -KILL `ps -acx -o pid,command | grep uim-helper-server | grep -v grep | awk '{ print $1 }'` || true
+
+#kill `ps -acx -o pid,command | grep SystemUIServer | grep -v grep | awk '{ print $1 }'` || true

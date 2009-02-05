@@ -1,0 +1,5 @@
+{
+  Description     = "PRIME renice program";
+  Provides        = ("PRIME-renice");
+  OrderPreference = "None";
+}

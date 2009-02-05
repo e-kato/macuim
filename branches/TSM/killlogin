@@ -1,0 +1,3 @@
+#!/bin/sh
+
+kill `ps -acx -o pid,command | grep loginwindow | awk '{ print $1 }'`

@@ -1,0 +1,24 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {pathChanged = id; refClicked = id; }; 
+            CLASS = PathnameController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = UimCustomController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {view = NSView; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = UimCustomIntegerController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {field = NSTextField; stepper = NSStepper; }; 
+            SUPERCLASS = UimCustomController; 
+        }
+    ); 
+    IBVersion = 1; 
+}

@@ -1,0 +1,13 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {registerWord = id; }; 
+            CLASS = RegisterPanelController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {panel = NSPanel; readingField = NSTextField; wordField = NSTextField; }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

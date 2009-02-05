@@ -1,0 +1,60 @@
+<pkmkdoc spec="1.12"><properties><title>MacUIM</title><build>/Users/kato/macsrc/MacUIM/Package/MacUIM-0.5.2-11/MacUIM-0.5.2-11.pkg</build><organization>info.yatsu.MacUIM</organization><userSees ui="easy"/><min-target os="2"/><domain anywhere="true"/></properties><distribution><versions min-spec="1.000000"/><scripts></scripts></distribution><description>MacUIM is an input method for Mac OS X implemented by uim.
+http://code.google.com/p/macuim/
+
+* Caution *
+Login again after install this software.
+
+This package contains Uim, Anthy, PRIME, SKK dictionaries, m17n-lib, sary-ruby, suikyo, Ruby/ProgressBar, MenuCracker, Ispell and MacUIM.
+GNU gettext is static linked with several programs and libraries.
+Sary and GLib are static linked with sary-ruby.
+Freetype2 is static linked with m17n-lib.
+
+Uim:
+http://uim.freedesktop.org/
+
+Uim will be installed into /Library/Frameworks/UIM.framework.
+
+m17nlib:
+http://www.m17n.org/
+
+m17nlib will be installed into /Library/M17NLib.
+
+Anthy:
+http://anthy.sourceforge.jp/
+
+Anthy will be installed into /Library/Anthy.
+
+PRIME:
+http://taiyaki.org/prime/
+
+PRIME will be installed into /Library/PRIME.
+
+SKK dictionaries:
+http://openlab.ring.gr.jp/skk/dic.html
+
+SKK Dictionaries will be installed into /Library/Dictionaries/SKK.
+
+The following softwares will be installed into /Library/PRIME.
+
+sary-ruby:
+http://namazu.org/~satoru/sary/#ruby
+
+Ruby/ProgressBar:
+http://namazu.org/~satoru/ruby-progressbar/
+
+GNU gettext:
+http://www.gnu.org/software/gettext/gettext.html
+
+Sary-ruby is linked with the following libraries.
+
+Sary:
+http://namazu.org/~satoru/sary/
+
+GLib:
+http://www.gtk.org/
+
+Ispell:
+http://ficus-www.cs.ucla.edu/geoff/ispell.html
+
+Freetype:
+http://www.freetype.org/</description><contents><choice title="Package_contents" id="choice0" starts_selected="true" starts_enabled="true" starts_hidden="false"><pkgref id="info.yatsu.MacUIM"/></choice></contents><resources bg-scale="none" bg-align="topleft"><locale lang="en"/></resources><flags/><item type="file">01package.xml</item><mod>description</mod></pkmkdoc>

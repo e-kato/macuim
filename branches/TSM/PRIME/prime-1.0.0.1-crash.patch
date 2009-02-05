@@ -1,0 +1,16 @@
+--- prime-1.0.0.1/lib/protocol.rb.orig    Tue Aug 15 03:24:48 2006
++++ prime-1.0.0.1/lib/protocol.rb Tue Aug 15 03:33:48 2006
+@@ -469,7 +469,12 @@
+
+   def conv_select (session, index)
+     selected_candidate = @prime.session_command(session, :conv_select, index.to_i)
+-    return reply_successful(selected_candidate.to_text)
++    if selected_candidate then
++      return reply_successful(selected_candidate.to_text() )
++    else
++      error_message = "can't select"
++      return reply_unsuccessful(error_message)
++    end
+   end
+
+   def conv_commit (session)
