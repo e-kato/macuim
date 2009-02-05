@@ -42,10 +42,9 @@
 
 - (void)drawRect:(NSRect)rect
 {
-  if (image) {
+  if (image)
     [image compositeToPoint:NSMakePoint(0, 0)
            operation:NSCompositeSourceOver];
-  }
 }
 
 - (void)setImage:(NSImage *)aImage

@@ -1,8 +1,6 @@
+/* -*- mode:c; coding:utf-8; tab-width:8; c-basic-offset:4; indent-tabs-mode:nil -*- */
 /*
-
-  Copyright (c) 2009 uim Project http://code.google.com/p/uim/
-
-  All rights reserved.
+  Copyright (c) 2003-2005 MacUIM contributors, All rights reserved.
 
   Redistribution and use in source and binary forms, with or without
   modification, are permitted provided that the following conditions
@@ -17,10 +15,10 @@
      may be used to endorse or promote products derived from this software
      without specific prior written permission.
 
-  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS IS'' AND
+  THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
   ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-  ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR CONTRIBUTORS BE LIABLE
+  ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
   FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
   DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
   OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
@@ -28,33 +26,60 @@
   LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
   OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
   SUCH DAMAGE.
-
 */
 
-#import <Cocoa/Cocoa.h>
+#ifndef __UIM_CALLBACK_H__
+#define __UIM_CALLBACK_H__
 
-#include <uim.h>
-#include <uim-helper.h>
+#include <uim/uim.h>
+#include <uim/uim-helper.h>
 
-static void helperDisconnect();
-static void helperRead(CFSocketRef sock, CFSocketCallBackType callbackType,
-		       CFDataRef address, const void *data, void *info);
 
-@interface UimHelperController : NSObject {
-	CFSocketRef uimSock;
-	CFRunLoopSourceRef uimRun;
-	int uimFD;
-	BOOL isMacUIMfocused;
-}
+#define kPropListUpdate   "prop_list_update\ncharset=UTF-8"
 
-- (void)checkHelperConnection;
-- (void)helperRead:(CFSocketRef)sock;
-- (void)parseHelperString:(const char *)string;
-- (void)parseIMChangeString:(const char *)string;
-- (void)helperDisconnect;
-- (void)send:(const char *)string;
-- (void)focusIn:(uim_context)uc;
-- (void)focusOut:(uim_context)uc;
+#define kPropLabelUpdate  "prop_label_update\ncharset=UTF-8"
 
-+ (id)sharedController;
-@end
+
+void
+UIMCommitString(void *ptr, const char *str);
+
+void
+UIMPreeditClear(void *ptr);
+
+void
+UIMPreeditPushback(void *ptr, int attr, const char *str);
+
+void
+UIMPreeditUpdate(void *ptr);
+
+void
+UIMCandAcivate(void *inPtr, int inNR, int inLimit);
+
+void
+UIMCandSelect(void *inPtr, int inIndex);
+
+void
+UIMCandShiftPage(void *inPtr, int inForward);
+
+void
+UIMCandDeactivate(void *inPtr);
+
+void
+UIMUpdatePropList(void *inPtr, const char *inStr);
+
+void
+UIMUpdatePropLabel(void *inPtr, const char *inStr);
+
+void
+UIMCheckHelper();
+
+void
+UIMHelperDisconnect();
+
+void
+UIMHelperClose();
+
+void
+UIMModeUpdate(void *inPtr, int inMode);
+
+#endif  /* __UIM_CALLBACK_H__ */

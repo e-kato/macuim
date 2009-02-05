@@ -31,8 +31,6 @@
 #import <Cocoa/Cocoa.h>
 #import "ModeTipsPanel.h"
 
-//void showModeTips(NSRect cursorRect, NSArray *inLines);
-//void hideModeTips();
 
 @interface ModeTipsController : NSObject
 {
@@ -51,7 +49,7 @@
   int opacity;
 }
 
-- (void)showModeTips:(NSRect)cursorRect:(NSArray *)lines;
+- (void)showModeTips:(int)qdX:(int)qdY:(int)height:(NSArray *)lines;
 - (void)hideModeTips;
 - (void)modeTipsFadeStart:(NSTimer *)timer;
 - (void)modeTipsFade:(NSTimer *)timer;

@@ -56,24 +56,20 @@ static ModeTipsController *sharedController;
   
   [realModeTipsPanel setBackgroundColor:[NSColor whiteColor]];
   [realModeTipsPanel setHasShadow:YES];
-
   [realModeTipsPanel setBecomesKeyOnlyIfNeeded:NO];
-  [realModeTipsPanel setHidesOnDeactivate:NO];
   
   modeTipsTimer = nil;
   lastLabel = nil;
-
-  [realModeTipsPanel setFloatingPanel:YES];
 }  
 
-- (void)showModeTips:(NSRect)cursorRect:(NSArray *)lines
+- (void)showModeTips:(int)qdX:(int)qdY:(int)height:(NSArray *)lines
 {
-  float x, y;
+  int x, y;
+  NSSize mainSize;
   NSRect rect;
   NSArray *labels;
-  NSPoint point = cursorRect.origin;
-
-  if (point.x== 0 && point.y == 0) {
+  
+  if (qdX == 0 && qdY == 0) {
     // cannot get window position
     return;
   }
@@ -99,10 +95,12 @@ static ModeTipsController *sharedController;
   
   [realModeTipsPanel showLabels:labels];
   
+  NSArray *screenArray = [NSScreen screens];
+  mainSize = [[screenArray objectAtIndex:0] frame].size;
   rect = [realModeTipsPanel frame];
   
-  x = point.x;
-  y = point.y - rect.size.height;
+  x = qdX;
+  y = mainSize.height - qdY - rect.size.height;
   [realModeTipsPanel setFrameOrigin:NSMakePoint(x, y)];
   
   [realModeTipsPanel orderFront:nil];
@@ -119,7 +117,7 @@ static ModeTipsController *sharedController;
                                    selector:@selector(modeTipsFadeStart:)
                                    userInfo:nil
                                     repeats:NO];
-}
+  }
 
 - (void)hideModeTips
 {
@@ -182,3 +180,29 @@ static ModeTipsController *sharedController;
 }
 
 @end
+
+OSStatus
+showModeTips(SInt16 inQDX, SInt16 inQDY, SInt16 inLineHeight,
+             CFArrayRef inLines)
+{
+  NSAutoreleasePool *localPool;
+  
+  localPool = [[NSAutoreleasePool alloc] init];        
+  [[ModeTipsController sharedController]
+    showModeTips:inQDX:inQDY:inLineHeight:(NSArray *)inLines];
+  [localPool release];
+  
+  return noErr;
+}
+
+OSStatus
+hideModeTips()
+{
+  NSAutoreleasePool *localPool;
+  
+  localPool = [[NSAutoreleasePool alloc] init];        
+  [[ModeTipsController sharedController] hideModeTips];
+  [localPool release];
+  
+  return noErr;
+}

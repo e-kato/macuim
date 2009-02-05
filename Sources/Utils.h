@@ -1,4 +1,4 @@
-/* -*- mode:objc; coding:utf-8; tab-width:8; c-basic-offset:2; indent-tabs-mode:nil -*- */
+/* -*- mode:c; coding:utf-8; tab-width:8; c-basic-offset:2; indent-tabs-mode:nil -*- */
 /*
   Copyright (c) 2003-2005 MacUIM contributors, All rights reserved.
 
@@ -28,72 +28,25 @@
   SUCH DAMAGE.
 */
 
-#import <Cocoa/Cocoa.h>
+#ifndef Utils_h
+#define Utils_h
 
-#import <uim/uim.h>
-#import <uim/uim-custom.h>
+#define ERRMSG_LEN  BUFSIZ
 
-#import "UimCustomController.h"
+enum {
+  ERROR_FATAL,
+  ERROR_NORMAL,
+  ERROR_WARNING,
+  ERROR_DEBUG
+};
 
+#define ERROR_PRINT(level, format, args...) \
+  ErrorPrint(level, __FILE__, __LINE__, format, ##args)
 
-#define LocalizedString(str) \
-  ([[NSBundle bundleForClass:[self class]] localizedStringForKey:(str) value:nil table:nil])
+#define DEBUG_PRINT(format, args...) \
+  ErrorPrint(ERROR_DEBUG, __FILE__, __LINE__, format, ##args)
 
+void ErrorPrint(UInt32 level, const char *file, UInt32 line,
+                const char *fmt, ...);
 
-@interface UimCustomBase : NSObject
-{
-  UimCustomController *controller;
-}
-
-- (UimCustomController *)controller;
-- (void)setController:(UimCustomController *)controller;
-
-@end
-
-@interface UimCustom : UimCustomBase
-{
-  struct uim_custom *custom;
-  
-  id delegate;
-}
-
-- (id)initWithCustom:(struct uim_custom *)aCustom;
-
-- (struct uim_custom *)custom;
-
-- (void)reloadCustom;
-- (void)displayCustom;
-- (void)setRange;
-- (void)setAction;
-- (void)setUimCallback;
-- (void)setDefault;
-
-- (id)delegate;
-- (void)setDelegate:(id)obj;
-- (BOOL)isValidDelegateForSelector:(SEL)command;
-
-@end
-
-
-@interface UimCustomGroup : UimCustomBase
-{
-  struct uim_custom_group *custom_group;
-  NSMutableArray *customs;
-}
-
-- (id)initWithCustomGroup:(struct uim_custom_group *)aCustomGroup;
-
-- (struct uim_custom_group *)customGroup;
-
-- (NSArray *)customs;
-
-- (void)addCustom:(UimCustom *)custom;
-
-@end
-
-
-@protocol UimCustomModifiedProtocol
-
-- (void)uimCustomModified:(UimCustom *)custom;
-
-@end
+#endif  /* Utils.h */

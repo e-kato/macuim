@@ -1,5 +1,6 @@
+/* -*- mode:objc; coding:utf-8; tab-width:8; c-basic-offset:2; indent-tabs-mode:nil -*- */
 /*
-  Copyright (c) 2003-2009 MacUIM contributors, All rights reserved.
+  Copyright (c) 2003-2005 MacUIM contributors, All rights reserved.
 
   Redistribution and use in source and binary forms, with or without
   modification, are permitted provided that the following conditions
@@ -28,46 +29,49 @@
 */
 
 #import <Cocoa/Cocoa.h>
-#import "PreferenceController.h"
+
 
 #define kMaxWidth   700
 #define kMaxHeight  50
 
 
+typedef OSStatus (*CallBackType)(int);
+
 @interface CocoaWinController : NSObject
 {
-	PreferenceController *pref;
+  // vertical candidate panel
+  IBOutlet NSPanel *panel;
 
-	// vertical candidate panel
-	IBOutlet NSPanel *panel;
-
-	// vertical candidate table
-	IBOutlet NSTableView *table;
+  // vertical candidate table
+  IBOutlet NSTableView *table;
   
-	// vertical index label
-	IBOutlet NSTextField *label;
-
-	// header string array
-	NSMutableArray *headArray;
-
-	// candidate string array
-	NSMutableArray *candArray;
-
-	// widnow size when number of candidate is 10
-	NSSize origSize;
+  // vertical index label
+  IBOutlet NSTextField *label;
   
-	// candidate index
-	int candIndex;
+  CallBackType _callBack;
 
-	// nr candidates
-	int nrCandidates;
+  // header string array
+  NSMutableArray *headArray;
   
-	// candidate font
-	NSFont *font;
-	NSFont *font_small;
+  // candidate string array
+  NSMutableArray *candArray;
+
+  // widnow size when number of candidate is 10
+  NSSize origSize;
+  
+  // line height
+  int lineHeight;
+  
+  // candidate index
+  int candIndex;
+  
+  // candidate font
+  NSFont *font;
 }
 
-- (void)showWindow:(NSRect)cursorRect;
+- (void)setCallBack:(CallBackType)callBack;
+
+- (void)showWindow:(int)qdX:(int)qdY:(int)height alpha:(int)alpha;
 
 - (void)hideWindow;
 
@@ -75,19 +79,20 @@
 
 - (void)reloadData;
 
-- (void)addCandidate:(const char *)head:(const char *)cand;
+- (UniCharPtr)getCandidate:(int)index;
+
+- (void)addCandidate:(UniCharPtr)head:(int)headLen
+                    :(UniCharPtr)cand:(int)candLen;
 
 - (void)clearCandidate;
 
-- (void)selectCandidate:(int)index:(int)indexInPage;
+- (void)selectCandidate:(int)index;
 
 - (void)deselectCandidate;
 
-- (void)setIndex:(int)index:(int)nr;
+- (void)setPage:(int)index:(int)max;
 
-- (void)setLabel;
-
-- (void)replaceWindow:(NSRect)cursorRect;
+- (void)replaceWindow:(int)replyX:(int)replyY;
 
 - (void)setFont:(NSString *)name size:(float)size;
 

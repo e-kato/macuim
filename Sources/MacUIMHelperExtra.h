@@ -29,8 +29,8 @@
 */
 
 #import <Foundation/Foundation.h>
-#import <uim.h>
-#import <uim-helper.h>
+#import <uim/uim.h>
+#import <uim/uim-helper.h>
 #import "SystemUIPlugin.h"
 #import "MacUIMHelperView.h"
 

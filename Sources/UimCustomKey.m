@@ -28,7 +28,7 @@
   SUCH DAMAGE.
 */
 
-#import <uim.h>
+#import <uim/uim.h>
 
 #import "Debug.h"
 #import "KeycodeToUKey.h"

@@ -1,42 +1,157 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
+	<string>Japanese</string>
 	<key>CFBundleExecutable</key>
 	<string>MacUIM</string>
-	<key>CFBundleIconFile</key>
-	<string></string>
+	<key>CFBundleGetInfoString</key>
+	<string>MacUIM (c) 2003-2005 MacUIM contributors, All rights reserved.</string>
 	<key>CFBundleIdentifier</key>
-	<string>info.yatsu.inputmethod.MacUIM</string>
+	<string>info.yatsu.MacUIM</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
 	<string>MacUIM</string>
 	<key>CFBundlePackageType</key>
-	<string>APPL</string>
+	<string>thng</string>
+	<key>CFBundleShortVersionString</key>
+	<string>0.5.1</string>
 	<key>CFBundleSignature</key>
-	<string>????</string>
+	<string>muim</string>
 	<key>CFBundleVersion</key>
-	<string>0.6</string>
-	<key>NSMainNibFile</key>
-	<string>MainMenu</string>
-	<key>NSPrincipalClass</key>
-	<string>NSApplication</string>
-	<key>LSBackgroundOnly</key>
-	<string>1</string>
-	<key>InputMethodConnectionName</key>
-	<string>MacUIM_1_Connection</string>
-	<key>InputMethodServerControllerClass</key>
-	<string>MacUIMController</string>
-	<key>InputMethodServerDelegateClass</key>
-	<string>MacUIMController</string>
-	<key>tsInputMethodIconFileKey</key>
-	<string>MacUIM.tiff</string>
-	<key>tsInputMethodCharacterRepertoireKey</key>
-	<array>
-		<string>Zzzz</string>
-	</array>
+	<string>0.5.1</string>
+	<key>CSResourcesFileMapped</key>
+	<true/>
+	<key>ComponentInputModeDict</key>
+	<dict>
+		<key>tsInputModeListKey</key>
+		<dict>
+			<key>com.apple.inputmethod.Japanese</key>
+			<dict>
+				<key>tsInputModeAlternateMenuIconFileKey</key>
+				<string>MacUIM.tif</string>
+				<key>tsInputModeDefaultStateKey</key>
+				<true/>
+				<key>tsInputModeIsVisibleKey</key>
+				<true/>
+				<key>tsInputModeJISKeyboardShortcutKey</key>
+				<integer>1</integer>
+				<key>tsInputModeKeyEquivalentKey</key>
+				<string>J</string>
+				<key>tsInputModeKeyEquivalentModifiersKey</key>
+				<integer>4608</integer>
+				<key>tsInputModeMenuIconFileKey</key>
+				<string>MacUIM.tif</string>
+				<key>tsInputModePaletteIconFileKey</key>
+				<string>MacUIM.tif</string>
+				<key>tsInputModePrimaryInScriptKey</key>
+				<true/>
+				<key>tsInputModeScriptKey</key>
+				<string>smJapanese</string>
+			</dict>
+			<key>com.apple.inputmethod.Korean</key>
+			<dict>
+				<key>tsInputModeAlternateMenuIconFileKey</key>
+				<string>MacUIM.tif</string>
+				<key>tsInputModeDefaultStateKey</key>
+				<true/>
+				<key>tsInputModeIsVisibleKey</key>
+				<true/>
+				<key>tsInputModeJISKeyboardShortcutKey</key>
+				<integer>4</integer>
+				<key>tsInputModeKeyEquivalentKey</key>
+				<string>K</string>
+				<key>tsInputModeKeyEquivalentModifiersKey</key>
+				<integer>4608</integer>
+				<key>tsInputModeMenuIconFileKey</key>
+				<string>MacUIM.tif</string>
+				<key>tsInputModePaletteIconFileKey</key>
+				<string>MacUIM.tif</string>
+				<key>tsInputModePrimaryInScriptKey</key>
+				<true/>
+				<key>tsInputModeScriptKey</key>
+				<string>smKorean</string>
+			</dict>
+			<key>com.apple.inputmethod.Roman</key>
+			<dict>
+				<key>tsInputModeAlternateMenuIconFileKey</key>
+				<string>MacUIM.tif</string>
+				<key>tsInputModeDefaultStateKey</key>
+				<true/>
+				<key>tsInputModeIsVisibleKey</key>
+				<true/>
+				<key>tsInputModeJISKeyboardShortcutKey</key>
+				<integer>0</integer>
+				<key>tsInputModeKeyEquivalentKey</key>
+				<string>;</string>
+				<key>tsInputModeKeyEquivalentModifiersKey</key>
+				<integer>4608</integer>
+				<key>tsInputModeMenuIconFileKey</key>
+				<string>MacUIM.tif</string>
+				<key>tsInputModePaletteIconFileKey</key>
+				<string>MacUIM.tif</string>
+				<key>tsInputModePrimaryInScriptKey</key>
+				<true/>
+				<key>tsInputModeScriptKey</key>
+				<string>smRoman</string>
+			</dict>
+			<key>com.apple.inputmethod.SimpChinese</key>
+			<dict>
+				<key>tsInputModeAlternateMenuIconFileKey</key>
+				<string>MacUIM.tif</string>
+				<key>tsInputModeDefaultStateKey</key>
+				<true/>
+				<key>tsInputModeIsVisibleKey</key>
+				<true/>
+				<key>tsInputModeJISKeyboardShortcutKey</key>
+				<integer>3</integer>
+				<key>tsInputModeKeyEquivalentKey</key>
+				<string>S</string>
+				<key>tsInputModeKeyEquivalentModifiersKey</key>
+				<integer>4608</integer>
+				<key>tsInputModeMenuIconFileKey</key>
+				<string>MacUIM.tif</string>
+				<key>tsInputModePaletteIconFileKey</key>
+				<string>MacUIM.tif</string>
+				<key>tsInputModePrimaryInScriptKey</key>
+				<true/>
+				<key>tsInputModeScriptKey</key>
+				<string>smSimpChinese</string>
+			</dict>
+			<key>com.apple.inputmethod.TradChinese</key>
+			<dict>
+				<key>tsInputModeAlternateMenuIconFileKey</key>
+				<string>MacUIM.tif</string>
+				<key>tsInputModeDefaultStateKey</key>
+				<true/>
+				<key>tsInputModeIsVisibleKey</key>
+				<true/>
+				<key>tsInputModeJISKeyboardShortcutKey</key>
+				<integer>2</integer>
+				<key>tsInputModeKeyEquivalentKey</key>
+				<string>T</string>
+				<key>tsInputModeKeyEquivalentModifiersKey</key>
+				<integer>4608</integer>
+				<key>tsInputModeMenuIconFileKey</key>
+				<string>MacUIM.tif</string>
+				<key>tsInputModePaletteIconFileKey</key>
+				<string>MacUIM.tif</string>
+				<key>tsInputModePrimaryInScriptKey</key>
+				<true/>
+				<key>tsInputModeScriptKey</key>
+				<string>smTradChinese</string>
+			</dict>
+		</dict>
+		<key>tsVisibleInputModeOrderedArrayKey</key>
+		<array>
+			<string>com.apple.inputmethod.Japanese</string>
+			<string>com.apple.inputmethod.TradChinese</string>
+			<string>com.apple.inputmethod.SimpChinese</string>
+			<string>com.apple.inputmethod.Korean</string>
+			<string>com.apple.inputmethod.Roman</string>
+		</array>
+	</dict>
 </dict>
 </plist>

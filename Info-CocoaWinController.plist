@@ -5,30 +5,22 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
-	<string>MacUIM</string>
+	<string>CocoaWinController</string>
 	<key>CFBundleGetInfoString</key>
-	<string>MacUIM</string>
+	<string></string>
 	<key>CFBundleIconFile</key>
 	<string></string>
 	<key>CFBundleIdentifier</key>
-	<string>info.yatsu.MacUIM.PrefPane</string>
+	<string>info.yatsu.CocoaWinController</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
-	<key>CFBundleName</key>
-	<string>MacUIM</string>
 	<key>CFBundlePackageType</key>
-	<string>BNDL</string>
+	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
 	<string>0.5.1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>0.5.1</string>
-	<key>NSMainNibFile</key>
-	<string>PrefPane</string>
-	<key>NSPrefPaneIconFile</key>
-	<string>MacUIMPref.tiff</string>
-	<key>NSPrincipalClass</key>
-	<string>MacUIMPrefPane</string>
 </dict>
 </plist>

@@ -1,6 +1,6 @@
 /* -*- mode:c; coding:utf-8; tab-width:8; c-basic-offset:2; indent-tabs-mode:nil -*- */
 /*
-  Copyright (c) 2003-2009 MacUIM contributors, All rights reserved.
+  Copyright (c) 2003-2005 MacUIM contributors, All rights reserved.
 
   Redistribution and use in source and binary forms, with or without
   modification, are permitted provided that the following conditions
@@ -65,7 +65,7 @@ static struct {
   { 0x7c, UKey_Right, "right" },
   { 0x7d, UKey_Down, "down" },
   { 0x7e, UKey_Up, "up" },
-  { 0, 0, 0 }
+  { NULL, NULL }
 };
 
 // convert control sequence to keycode
@@ -79,5 +79,5 @@ static struct {
   { 0x32, '@' },
   { 0x1b, '[' },
   { 0x1d, ']' },
-  { 0, 0 }
+  { NULL, NULL }
 };

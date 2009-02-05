@@ -313,12 +313,14 @@ MenuCracker.menuをMacUIM/Sources/MenuCrackerに置く。
 配布するバージョンをビルドする場合はdeployを実行する。
 これによってMacUIMがdestディレクトリに置かれる。
 
-Input Methods/MacUIM.app     - MacUIM本体
+Components/MacUIM.component     - MacUIM本体
 PreferencePanes/MacUIM.prefPane - 環境設定
+
+Xcodeでビルドする場合は、CandidateController, MacUIMの順にビルドする。
 
 === リリース用
 
-トップディレクトリのdeployを実行すると、Releaseビルドスタイルでビル
+トップディレクトリのdeployを実行すると、Deploymentビルドスタイルでビル
 ドされ、Package/Package_contentsディレクトリにMacUIMができる。
 
 deployで作成したMacUIMはデバッグオプションが無効になっている。
@@ -331,7 +333,7 @@ buildディレクトリにMacUIMができる。
 
 === インストール
 
-MacUIM.appを/Library/Input Methodsに、
+MacUIM.componentを/Library/Componentsに、
 MacUIM.prefPaneを/Library/PreferencePanesにコピーする。
 
 == SKK辞書
@@ -353,8 +355,8 @@ SKK-JISYO.[LMS]がダウンロードされる。
 
 == パッケージにせず、ローカルでテストする場合
 
-UIM.frameworkを /Library/Frameworks に、MacUIM.appを
-/Library/Input Methods にコピーし、ログインし直す。
+UIM.frameworkを /Library/Frameworks に、MacUIM.componentを
+/Library/Components にコピーし、ログインし直す。
 
 
 == ログインし直すのが面倒な場合

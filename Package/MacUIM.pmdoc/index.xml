@@ -1,4 +1,4 @@
-<pkmkdoc spec="1.12"><properties><title>MacUIM</title><build>/Users/kato/macsrc/MacUIM-IMK/Package/MacUIM-0.6.0-1/MacUIM-0.6.0-1.pkg</build><organization>info.yatsu.MacUIM</organization><userSees ui="easy"/><min-target os="3"/><domain anywhere="true"/></properties><distribution><versions min-spec="1.000000"/><scripts></scripts></distribution><description>MacUIM is an input method for Mac OS X implemented by uim.
+<pkmkdoc spec="1.12"><properties><title>MacUIM</title><build>/Users/kato/macsrc/MacUIM/Package/MacUIM-0.5.2-11/MacUIM-0.5.2-11.pkg</build><organization>info.yatsu.MacUIM</organization><userSees ui="easy"/><min-target os="2"/><domain anywhere="true"/></properties><distribution><versions min-spec="1.000000"/><scripts></scripts></distribution><description>MacUIM is an input method for Mac OS X implemented by uim.
 http://code.google.com/p/macuim/
 
 * Caution *
@@ -10,9 +10,9 @@ Sary and GLib are static linked with sary-ruby.
 Freetype2 is static linked with m17n-lib.
 
 Uim:
-http://code.google.com/p/uim/
+http://uim.freedesktop.org/
 
-Uim will be installed into /Library/Frameworks/UIM.framework/.
+Uim will be installed into /Library/Frameworks/UIM.framework.
 
 m17nlib:
 http://www.m17n.org/
@@ -57,4 +57,4 @@ Ispell:
 http://ficus-www.cs.ucla.edu/geoff/ispell.html
 
 Freetype:
-http://www.freetype.org/</description><contents><choice title="Package_contents" id="choice8" starts_selected="true" starts_enabled="true" starts_hidden="false"><pkgref id="info.yatsu.MacUIM"/></choice></contents><resources bg-scale="none" bg-align="topleft"><locale lang="en"/></resources><flags/><item type="file">01package.xml</item><mod>description</mod></pkmkdoc>
+http://www.freetype.org/</description><contents><choice title="Package_contents" id="choice0" starts_selected="true" starts_enabled="true" starts_hidden="false"><pkgref id="info.yatsu.MacUIM"/></choice></contents><resources bg-scale="none" bg-align="topleft"><locale lang="en"/></resources><flags/><item type="file">01package.xml</item><mod>description</mod></pkmkdoc>

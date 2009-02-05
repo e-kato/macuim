@@ -1,0 +1,25 @@
+#!/bin/sh
+
+. /etc/rc.common
+
+StartService ()
+{
+  ConsoleMessage "Starting PRIME renice program"
+  /Library/PRIME/bin/prime-renice > /dev/null 2>&1 &
+  ConsoleMessage -S
+}
+
+StopService ()
+{
+  ConsoleMessage "Stopping PRIME renice program"
+  /usr/bin/killall prime-renice > /dev/null 2>&1
+  ConsoleMessage -S
+}
+
+RestartService ()
+{
+  StopService
+  StartService
+}
+
+RunService "$1"

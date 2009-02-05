@@ -29,7 +29,7 @@
 */
 
 #import <unistd.h>
-#import <uim.h>
+#import <uim/uim.h>
 
 #import "Debug.h"
 #import "Preference.h"
