@@ -38,5 +38,44 @@
 	<array>
 		<string>Zzzz</string>
 	</array>
+	<key>ComponentInputModeDict</key>
+	<dict>
+		<key>tsInputModeListKey</key>
+		<dict>
+			<key>com.apple.inputmethod.Japanese</key>
+			<dict>
+				<key>tsInputModeScriptKey</key>
+				<string>smJapanese</string>
+			</dict>
+			<key>com.apple.inputmethod.Korean</key>
+			<dict>
+				<key>tsInputModeScriptKey</key>
+				<string>smKorean</string>
+			</dict>
+			<key>com.apple.inputmethod.Roman</key>
+			<dict>
+				<key>tsInputModeScriptKey</key>
+				<string>smRoman</string>
+			</dict>
+			<key>com.apple.inputmethod.SimpChinese</key>
+			<dict>
+				<key>tsInputModeScriptKey</key>
+				<string>smSimpChinese</string>
+			</dict>
+			<key>com.apple.inputmethod.TradChinese</key>
+			<dict>
+				<key>tsInputModeScriptKey</key>
+				<string>smTradChinese</string>
+			</dict>
+		</dict>
+		<key>tsVisibleInputModeOrderedArrayKey</key>
+		<array>
+			<string>com.apple.inputmethod.Japanese</string>
+			<string>com.apple.inputmethod.TradChinese</string>
+			<string>com.apple.inputmethod.SimpChinese</string>
+			<string>com.apple.inputmethod.Korean</string>
+			<string>com.apple.inputmethod.Roman</string>
+		</array>
+	</dict>
 </dict>
 </plist>
