@@ -57,4 +57,4 @@ Ispell:
 http://ficus-www.cs.ucla.edu/geoff/ispell.html
 
 Freetype:
-http://www.freetype.org/</description><contents><choice title="Package_contents" id="choice8" starts_selected="true" starts_enabled="true" starts_hidden="false"><pkgref id="info.yatsu.MacUIM"/></choice></contents><resources bg-scale="none" bg-align="topleft"><locale lang="en"/></resources><flags/><item type="file">01package.xml</item><mod>description</mod></pkmkdoc>
+http://www.freetype.org/</description><contents><choice title="Package_contents" id="choice8" starts_selected="true" starts_enabled="true" starts_hidden="false"><pkgref id="info.yatsu.MacUIM-IMK"/></choice></contents><resources bg-scale="none" bg-align="topleft"><locale lang="en"/></resources><flags/><item type="file">01package.xml</item><mod>description</mod></pkmkdoc>
