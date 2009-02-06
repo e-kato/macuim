@@ -459,6 +459,9 @@ static NSMutableArray *contextList;
 		rv = uim_press_key(uc, key, mod);
 		uim_release_key(uc, key, mod);
 
+		if (key == UKey_Private1 || key == UKey_Private2)
+			rv = 0;
+
 		break;
 	case NSKeyUp:
 		NSLog(@"keyUp");
