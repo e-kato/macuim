@@ -13,13 +13,13 @@
 	<key>CFBundleGetInfoString</key>
 	<string>MacUIM version 0.6, Copyright 2009, MacUIM contributers</string>
 	<key>com.apple.inputmethod.Japanese</key>
-	<string>MacUIM (Japanese)</string>
+	<string>MacUIM (日本語)</string>
 	<key>com.apple.inputmethod.TradChinese</key>
-	<string>MacUIM (Traditional Chinese)</string>
+	<string>MacUIM (繁体字中国語)</string>
 	<key>com.apple.inputmethod.SimpChinese</key>
-	<string>MacUIM (Simplified Chinese)</string>
+	<string>MacUIM (簡体字中国語)</string>
 	<key>com.apple.inputmethod.Korean</key>
-	<string>MacUIM (Korean)</string>
+	<string>MacUIM (韓国語)</string>
 	<key>com.apple.inputmethod.Roman</key>
 	<string>MacUIM (Roman)</string>
 </dict>
