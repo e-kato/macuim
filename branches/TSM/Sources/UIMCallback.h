@@ -31,8 +31,8 @@
 #ifndef __UIM_CALLBACK_H__
 #define __UIM_CALLBACK_H__
 
-#include <uim/uim.h>
-#include <uim/uim-helper.h>
+#include <uim.h>
+#include <uim-helper.h>
 
 
 #define kPropListUpdate   "prop_list_update\ncharset=UTF-8"

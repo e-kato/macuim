@@ -30,8 +30,8 @@
 
 #import <Cocoa/Cocoa.h>
 
-#import <uim/uim.h>
-#import <uim/uim-custom.h>
+#import <uim.h>
+#import <uim-custom.h>
 
 #import "UimCustom.h"
 #import "CustomViewController.h"

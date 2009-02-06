@@ -28,9 +28,9 @@
   SUCH DAMAGE.
 */
 
-#include <uim/uim.h>
-#include <uim/uim-helper.h>
-#include <uim/uim-im-switcher.h>
+#include <uim.h>
+#include <uim-helper.h>
+#include <uim-im-switcher.h>
 
 #include "MUIM.h"
 #include "MUIMInputEvents.h"

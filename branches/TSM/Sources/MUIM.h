@@ -33,8 +33,8 @@
 
 #include <Carbon/Carbon.h>
 
-#include <uim/uim.h>
-#include <uim/uim-helper.h>
+#include <uim.h>
+#include <uim-helper.h>
 
 #include "Utils.h"
 #include "Debug.h"
