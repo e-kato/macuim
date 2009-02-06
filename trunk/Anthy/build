@@ -11,6 +11,8 @@ rm -rf ${dest}${prefix}
 
 libtoolize -c -f
 aclocal
+# G-HAL anthy
+#aclocal -I m4
 autoheader
 automake -c -a -i
 autoconf
@@ -22,7 +24,8 @@ PATH=/bin:/usr/bin
 
 perl -pi -e "s|-flat_namespace -undefined suppress|-undefined dynamic_lookup|" configure
 
-CFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc -mmacosx-version-min=10.4" \
+CFLAGS="-O2 -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc -mmacosx-version-min=10.4" \
+CXXFLAGS="-O2 -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc -mmacosx-version-min=10.4" \
 LDFLAGS="-arch i386 -arch ppc" \
 ./configure --prefix=${prefix} --disable-dependency-tracking || exit 1
 
