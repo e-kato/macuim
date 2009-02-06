@@ -387,6 +387,26 @@ static CocoaWinController *sharedController;
 
 	point.y -= rect.size.height;
 
+	// Search a screen of the cursor
+	NSArray *screenArray = [NSScreen screens];
+	int nScreen = [screenArray count];
+	NSRect f;
+	BOOL found = NO;
+	for (i = 0; i < nScreen; i++) {
+		f = [[screenArray objectAtIndex:i] frame];
+		if (NSPointInRect(cursorRect.origin, f)) {
+			found = YES;
+			break;
+		}
+	}
+
+	if (found) {
+		if (point.x > f.origin.x + f.size.width - rect.size.width)
+			point.x = f.origin.x + f.size.width - rect.size.width;
+		if (point.y < f.origin.y)
+			point.y = cursorRect.origin.y +
+				  cursorRect.size.height * 1.4 + 5;
+	}
 #if DEBUG_CANDIDATE_WINDOW
 	NSLog(@"CocoaWinController replaceWindow: x=%f y=%f width=%f, height %f\n",
 	      point.x, point.y, rect.size.width, rect.size.height);
