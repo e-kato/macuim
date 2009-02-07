@@ -36,7 +36,6 @@
 #import "MacUIMController.h"
 
 
-static CFStringRef gIMName;
 static CFStringRef gCandFont;
 static float gCandFontSize;
 static CFIndex gCandTransparency;
@@ -103,13 +102,15 @@ static PreferenceController *sharedController;
 
 	propVal = CFPreferencesCopyAppValue(CFSTR(kPrefIM), CFSTR(kAppID));
 	if (propVal && CFGetTypeID(propVal) == CFStringGetTypeID()) {
-		gIMName = (CFStringRef)propVal;
-		CFRetain(gIMName);
-
 		CFStringGetCString((CFStringRef)propVal, imName, BUFSIZ,
 				   kCFStringEncodingMacRoman);
 	} else
-		strlcpy(imName, kDefaultIM, BUFSIZ);
+		[self setIMName:kDefaultIM];
+}
+
+- (void)setIMName:(const char *)str
+{
+	strlcpy(imName, str, BUFSIZ);
 }
 
 - (const char *)imName
@@ -136,7 +137,6 @@ static PreferenceController *sharedController;
 {
 	return gEnableModeTips ? YES : NO;
 }
-
 @end
 
 void NotificationCallback(CFNotificationCenterRef inCenter,
@@ -153,10 +153,9 @@ void NotificationCallback(CFNotificationCenterRef inCenter,
   CFNumberRef trans;
   
   im = CFDictionaryGetValue(inUserInfo, CFSTR(kPrefIM));
-  CFStringGetCString(im, imName, BUFSIZ, kCFStringEncodingMacRoman);
 
 #if DEBUG_NOTIFY
-  DEGUG_PRINT("NotificationCallback() im='%s'\n", imName);
+  NSLog(@"NotificationCallback() im='%@'", (NSString *)im);
 #endif
   
   if ((on = CFDictionaryGetValue(inUserInfo, CFSTR(kPrefCandVertical))))
@@ -188,11 +187,8 @@ void NotificationCallback(CFNotificationCenterRef inCenter,
 #endif
 
   if (im) {
-    if (gIMName)
-      CFRelease(gIMName);
-    gIMName = im;
-    CFRetain(im);
-  
+    CFStringGetCString(im, imName, BUFSIZ, kCFStringEncodingMacRoman);
     [MacUIMController switchIM:imName];
+    [[PreferenceController sharedController] setIMName:imName];
   }
 }

@@ -45,6 +45,7 @@
 #endif
 }
 - (void)loadSetting;
+- (void)setIMName:(const char *)str;
 
 - (const char *)imName;
 - (CFStringRef)candFont;
