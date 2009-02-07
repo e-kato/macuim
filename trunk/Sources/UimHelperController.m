@@ -150,10 +150,19 @@ static void helperDisconnect()
 			CFStringRef second = CFArrayGetValueAtIndex(array, 1);
 			CFStringRef third = CFArrayGetValueAtIndex(array, 2);
 			if (second && third) {
-				char custom[128], val[128];
-				CFStringGetCString(second, custom, 128,
+				int custom_len_max, val_len_max;
+				custom_len_max =
+					CFStringGetLength(second) * MB_CUR_MAX;
+				val_len_max =
+					CFStringGetLength(third) * MB_CUR_MAX;
+				char custom[custom_len_max];
+				char val[val_len_max];
+
+				CFStringGetCString(second, custom,
+						   custom_len_max,
 						   kCFStringEncodingUTF8);
-				CFStringGetCString(third, val, 128,
+				CFStringGetCString(third, val,
+						   val_len_max,
 						   kCFStringEncodingUTF8);
 				[MacUIMController updateCustom:custom:val];
 			}
@@ -179,8 +188,10 @@ static void helperDisconnect()
 				CFStringRef second;
 				second = CFArrayGetValueAtIndex(array, 1);     
 				if (second) {
-					char how[128];
-					CFStringGetCString(second, how, 128,
+					int max = CFStringGetLength(second) *
+						  MB_CUR_MAX;
+					char how[max];
+					CFStringGetCString(second, how, max,
 							   kCFStringEncodingUTF8);
 				        //BlockUpdatePreedit();
 					//NSLog(@"call uim_prop_activate %@", (NSString *)second);

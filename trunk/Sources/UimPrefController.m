@@ -191,7 +191,10 @@ static UimPrefController *sharedController;
   }
   
   uim_custom_save();
-  uim_custom_broadcast();
+  // old way
+  //uim_custom_broadcast();
+  // new way
+  uim_custom_broadcast_reload_request();
 
   [applyButton setEnabled:NO];
 }
