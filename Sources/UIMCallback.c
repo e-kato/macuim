@@ -596,8 +596,9 @@ ParseHelperString(const char *str)
         (first = CFArrayGetValueAtIndex(array, 0))) {
       CFStringRef second = CFArrayGetValueAtIndex(array, 1);     
       if (second) {
-        char how[64];
-        CFStringGetCString(second, how, 64, kCFStringEncodingUTF8);
+        int max = CFStringGetMaximumSizeForEncoding(CFStringGetLength(second), kCFStringEncodingUTF8);
+        char how[max];
+        CFStringGetCString(second, how, max, kCFStringEncodingUTF8);
         BlockUpdatePreedit();
         for (i = 0; i < gNumSession; i++)
           uim_prop_activate((*gSessionList[i])->fUC, how);
@@ -607,9 +608,35 @@ ParseHelperString(const char *str)
     CFRelease(array);
     CFRelease(cfstr);
   }
-  else if (strncmp("prop_list_update", str, 16) == 0) {
+  else if (strncmp("prop_update_custom", str, 18) == 0) {
+    CFMutableStringRef cfstr;
+    CFArrayRef array;
+    CFIndex count;
+
+    cfstr = CFStringCreateMutable(NULL, 0);
+    CFStringAppendCString(cfstr, str, kCFStringEncodingUTF8);
+
+    array = CFStringCreateArrayBySeparatingStrings(kCFAllocatorDefault, cfstr, CFSTR("\n"));
+    if (array && (count = CFArrayGetCount(array)) >= 3) {
+      CFStringRef second = CFArrayGetValueAtIndex(array, 1);
+      CFStringRef third = CFArrayGetValueAtIndex(array, 2);
+      if (second && third) {
+	int custom_len_max = CFStringGetMaximumSizeForEncoding(CFStringGetLength(second), kCFStringEncodingUTF8);
+	int val_len_max = CFStringGetMaximumSizeForEncoding(CFStringGetLength(third), kCFStringEncodingUTF8);
+	char custom[custom_len_max];
+	char val[val_len_max];
+
+	CFStringGetCString(second, custom, custom_len_max,
+			   kCFStringEncodingUTF8);
+	CFStringGetCString(third, val, val_len_max, kCFStringEncodingUTF8);
+        uim_prop_update_custom((*gActiveSession)->fUC, custom, val);
+      }
+    }
+    CFRelease(array);
+    CFRelease(cfstr);
   }
-  else if (strncmp("prop_label_update", str, 17) == 0) {
+  else if (strncmp("custom_reload_notify", str, 20) == 0) {
+	  uim_prop_reload_configs();
   }
   else if (strncmp("focus_in", str, 8) == 0) {
     gActiveProp = false;
