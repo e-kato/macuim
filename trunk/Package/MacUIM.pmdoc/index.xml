@@ -1,5 +1,6 @@
-<pkmkdoc spec="1.12"><properties><title>MacUIM</title><build>/Users/kato/macsrc/MacUIM-IMK/Package/MacUIM-0.6.0-1/MacUIM-0.6.0-1.pkg</build><organization>info.yatsu.MacUIM</organization><userSees ui="easy"/><min-target os="3"/><domain anywhere="true"/></properties><distribution><versions min-spec="1.000000"/><scripts></scripts></distribution><description>MacUIM is an input method for Mac OS X implemented by uim.
-http://code.google.com/p/macuim/
+<pkmkdoc spec="1.12"><properties><title>MacUIM</title><build>/Users/kato/macsrc/MacUIM-google/trunk/Package/MacUIM-0.6.0-10/MacUIM-0.6.0-10.pkg</build><organization>info.yatsu.MacUIM</organization><userSees ui="easy"/><min-target os="3"/><domain anywhere="true"/></properties><distribution><versions min-spec="1.000000"/><scripts></scripts></distribution><description>MacUIM is an input method for Mac OS X implemented by uim.
+http://macuim.googlecode.com/
+http://macuim.yatsu.info/
 
 * Caution *
 Login again after install this software.
@@ -10,14 +11,19 @@ Sary and GLib are static linked with sary-ruby.
 Freetype2 is static linked with m17n-lib.
 
 Uim:
-http://code.google.com/p/uim/
+http://uim.googlecode.com/
 
-Uim will be installed into /Library/Frameworks/UIM.framework/.
+Uim will be installed into /Library/Frameworks/UIM.framework.
 
 m17nlib:
 http://www.m17n.org/
 
 m17nlib will be installed into /Library/M17NLib.
+
+Ispell:
+http://ficus-www.cs.ucla.edu/geoff/ispell.html
+
+ispell will be installed into /Library/M17NLib.
 
 Anthy:
 http://anthy.sourceforge.jp/
@@ -49,12 +55,4 @@ Sary-ruby is linked with the following libraries.
 
 Sary:
 http://namazu.org/~satoru/sary/
-
-GLib:
-http://www.gtk.org/
-
-Ispell:
-http://ficus-www.cs.ucla.edu/geoff/ispell.html
-
-Freetype:
-http://www.freetype.org/</description><contents><choice title="Package_contents" id="choice8" starts_selected="true" starts_enabled="true" starts_hidden="false"><pkgref id="info.yatsu.MacUIM-IMK"/></choice></contents><resources bg-scale="none" bg-align="topleft"><locale lang="en"/></resources><flags/><item type="file">01package.xml</item><mod>description</mod></pkmkdoc>
+</description><contents><choice title="Package_contents" id="choice3" starts_selected="true" starts_enabled="true" starts_hidden="false"><pkgref id="info.yatsu.MacUIM-IMK"/></choice></contents><resources bg-scale="none" bg-align="topleft"><locale lang="en"/></resources><flags/><item type="file">01package.xml</item><mod>description</mod><mod>properties.systemDomain</mod></pkmkdoc>
