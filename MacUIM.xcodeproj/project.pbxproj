@@ -105,6 +105,7 @@
 		32CA4F630368D1EE00C91783 /* MacUIM_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MacUIM_Prefix.pch; path = Sources/MacUIM_Prefix.pch; sourceTree = "<group>"; };
 		41076C390F3852C000F32AFF /* RSVerticallyCenteredTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RSVerticallyCenteredTextFieldCell.h; path = Sources/RSVerticallyCenteredTextFieldCell.h; sourceTree = "<group>"; };
 		4140F4960F3852DF00F51127 /* RSVerticallyCenteredTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RSVerticallyCenteredTextFieldCell.m; path = Sources/RSVerticallyCenteredTextFieldCell.m; sourceTree = "<group>"; };
+		4151FCB80F3C24720047C754 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		415F09330F355781007AA30B /* UimHelperController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UimHelperController.h; path = Sources/UimHelperController.h; sourceTree = "<group>"; };
 		415F09340F355781007AA30B /* UimHelperController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UimHelperController.m; path = Sources/UimHelperController.m; sourceTree = "<group>"; };
 		419A639A0F38B818008DE9B1 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/KeyView.nib; sourceTree = "<group>"; };
@@ -628,6 +629,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				089C165DFE840E0CC02AAC07 /* InfoPlist.strings */,
+				4151FCB80F3C24720047C754 /* Japanese */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
