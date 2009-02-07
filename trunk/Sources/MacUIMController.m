@@ -490,6 +490,31 @@ static NSMutableArray *contextList;
 	}
 }
 
+- (void)setValue:(id)value forTag:(unsigned long)tag client:(id)sender
+{
+	NSString *newModeString = (NSString*)value;
+	//NSLog(@"setValue: %@", (NSString *)newModeString);
+
+	if ([newModeString isEqual:(NSString *)kTextServiceInputModeRoman] ||
+	    [newModeString isEqual:(NSString *)kTextServiceInputModePassword]) {
+		uim_press_key(uc, UKey_Private1, 0);
+		uim_release_key(uc, UKey_Private1, 0);
+	} else if ([newModeString isEqual:(NSString *)kTextServiceInputModeJapanese] ||
+		   [newModeString isEqual:(NSString *)kTextServiceInputModeJapaneseHiragana] ||
+		   [newModeString isEqual:(NSString *)kTextServiceInputModeJapaneseKatakana] ||
+		   [newModeString isEqual:(NSString *)kTextServiceInputModeJapaneseHalfWidthKana] ||
+		   [newModeString isEqual:(NSString *)kTextServiceInputModeJapaneseFullWidthRoman] ||
+		   [newModeString isEqual:(NSString *)kTextServiceInputModeJapaneseFirstName] ||
+		   [newModeString isEqual:(NSString *)kTextServiceInputModeJapaneseLastName] ||
+		   [newModeString isEqual:(NSString *)kTextServiceInputModeJapanesePlaceName] ||
+		   [newModeString isEqual:(NSString *)kTextServiceInputModeTradChinese] ||
+		   [newModeString isEqual:(NSString *)kTextServiceInputModeSimpChinese] ||
+		   [newModeString isEqual:(NSString *)kTextServiceInputModeKorean]) {
+		uim_press_key(uc, UKey_Private2, 0);
+		uim_release_key(uc, UKey_Private2, 0);
+	}
+}
+
 - (CGWindowLevel)clientWindowLevel
 {
 	if (currentClient != nil)
