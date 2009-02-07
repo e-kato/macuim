@@ -150,11 +150,8 @@ static void helperDisconnect()
 			CFStringRef second = CFArrayGetValueAtIndex(array, 1);
 			CFStringRef third = CFArrayGetValueAtIndex(array, 2);
 			if (second && third) {
-				int custom_len_max, val_len_max;
-				custom_len_max =
-					CFStringGetLength(second) * MB_CUR_MAX;
-				val_len_max =
-					CFStringGetLength(third) * MB_CUR_MAX;
+				int custom_len_max = CFStringGetMaximumSizeForEncoding(CFStringGetLength(second), kCFStringEncodingUTF8);
+				int val_len_max = CFStringGetMaximumSizeForEncoding(CFStringGetLength(third), kCFStringEncodingUTF8);
 				char custom[custom_len_max];
 				char val[val_len_max];
 
@@ -188,8 +185,7 @@ static void helperDisconnect()
 				CFStringRef second;
 				second = CFArrayGetValueAtIndex(array, 1);     
 				if (second) {
-					int max = CFStringGetLength(second) *
-						  MB_CUR_MAX;
+					int max = CFStringGetMaximumSizeForEncoding(CFStringGetLength(second), kCFStringEncodingUTF8);
 					char how[max];
 					CFStringGetCString(second, how, max,
 							   kCFStringEncodingUTF8);
