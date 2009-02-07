@@ -475,7 +475,7 @@ static NSMutableArray *contextList;
 
 - (void)commitComposition:(id)sender
 {
-	NSLog(@"commitComposition");
+	//NSLog(@"commitComposition");
 	if ([fixedBuffer length] > 0) {
 		[sender insertText:fixedBuffer
 		 	 	replacementRange:
@@ -492,7 +492,7 @@ static NSMutableArray *contextList;
 
 - (void)setValue:(id)value forTag:(unsigned long)tag client:(id)sender
 {
-	NSString *newModeString = (NSString*)value;
+	NSString *newModeString = (NSString*)[value copy];
 	//NSLog(@"setValue: %@", (NSString *)newModeString);
 
 	if ([newModeString isEqual:(NSString *)kTextServiceInputModeRoman] ||
@@ -513,6 +513,7 @@ static NSMutableArray *contextList;
 		uim_press_key(uc, UKey_Private2, 0);
 		uim_release_key(uc, UKey_Private2, 0);
 	}
+	[newModeString release];
 }
 
 - (CGWindowLevel)clientWindowLevel
