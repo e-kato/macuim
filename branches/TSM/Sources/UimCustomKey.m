@@ -56,7 +56,7 @@ static NSArray *uimKeys = nil;
   if (!uimKeys) {
     uimKeys = [[NSArray arrayWithObjects:
       @"insert", @"zenkaku-hankaku", @"Multi_key", @"Mode_switch",
-      @"Henkan_Mode", @"Muhenkan",
+      @"Henkan_Mode", @"Muhenkan",
       nil] retain];
   }
   
@@ -206,6 +206,8 @@ static NSArray *uimKeys = nil;
   // /System/Library/Frameworks/AppKit.framework/Versions/C/Headers/NSEvent.h
   
   if (!strcmp(key, "space"))
+    [str appendString:LocalizedString(@"space")];
+  else if (!strcmp(key, " "))
     [str appendString:LocalizedString(@"space")];
   else if (!strcmp(key, "backspace"))
     [str appendString:LocalizedString(@"backspace")];
