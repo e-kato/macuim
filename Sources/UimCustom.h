@@ -79,6 +79,7 @@
 {
   struct uim_custom_group *custom_group;
   NSMutableArray *customs;
+  BOOL loaded;
 }
 
 - (id)initWithCustomGroup:(struct uim_custom_group *)aCustomGroup;
@@ -87,7 +88,9 @@
 
 - (NSArray *)customs;
 
+- (void)loadCustoms;
 - (void)addCustom:(UimCustom *)custom;
+- (BOOL)loaded;
 
 @end
 
