@@ -629,14 +629,18 @@ ParseHelperString(const char *str)
 	CFStringGetCString(second, custom, custom_len_max,
 			   kCFStringEncodingUTF8);
 	CFStringGetCString(third, val, val_len_max, kCFStringEncodingUTF8);
-        uim_prop_update_custom((*gActiveSession)->fUC, custom, val);
+	BlockUpdatePreedit();
+	uim_prop_update_custom((*gActiveSession)->fUC, custom, val);
+	UnblockUpdatePreedit();
       }
     }
     CFRelease(array);
     CFRelease(cfstr);
   }
   else if (strncmp("custom_reload_notify", str, 20) == 0) {
-	  uim_prop_reload_configs();
+    BlockUpdatePreedit();
+    uim_prop_reload_configs();
+    UnblockUpdatePreedit();
   }
   else if (strncmp("focus_in", str, 8) == 0) {
     gActiveProp = false;
