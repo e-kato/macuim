@@ -1,6 +1,6 @@
 /*
 
-  Copyright (c) 2009 uim Project http://code.google.com/p/uim/
+  Copyright (c) 2009 MacUIM Project http://code.google.com/p/macuim/
 
   All rights reserved.
 
