@@ -49,7 +49,7 @@
   NSMutableArray *customGroups;
 }
 
-+ (id)sharedController;
++ (UimPrefController *)sharedController;
 
 - (CustomViewController *)customViewController;
 

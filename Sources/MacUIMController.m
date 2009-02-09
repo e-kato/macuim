@@ -1,6 +1,6 @@
 /*
 
-  Copyright (c) 2009 uim Project http://code.google.com/p/uim/
+  Copyright (c) 2009 MacUIM Project http://code.google.com/p/macuim/
 
   All rights reserved.
 
@@ -34,6 +34,7 @@
 #include "KeycodeToUKey.h"
 #import "PreferenceController.h"
 #import "ModeTipsController.h"
+#import "MacUIMApplicationDelegate.h"
 
 
 static MacUIMController *activeContext;
@@ -528,6 +529,11 @@ static NSMutableArray *contextList;
 	return uc;
 }
 
+- (NSMenu *)menu
+{
+	return [[NSApp delegate] menu];
+}
+
 + (id)activeContext
 {
 	return activeContext;
@@ -552,6 +558,11 @@ static NSMutableArray *contextList;
 	n = [contextList count];
 	for (i = 0; i < n; i++)
 		uim_switch_im([[contextList objectAtIndex:i] uc], im);
+}
+- (void)openSystemPrefs:(id)sender
+{
+	[NSTask launchedTaskWithLaunchPath:@"/usr/bin/open"
+				 arguments:[NSArray arrayWithObject:@"/Library/PreferencePanes/MacUIM.prefPane"]];
 }
 @end
 

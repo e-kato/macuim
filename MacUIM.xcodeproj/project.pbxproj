@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4140F4970F3852DF00F51127 /* RSVerticallyCenteredTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4140F4960F3852DF00F51127 /* RSVerticallyCenteredTextFieldCell.m */; };
 		415F09350F355781007AA30B /* UimHelperController.m in Sources */ = {isa = PBXBuildFile; fileRef = 415F09340F355781007AA30B /* UimHelperController.m */; };
+		41951C2D0F3F48BB00F6B975 /* MacUIMApplicationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 41951C2C0F3F48BB00F6B975 /* MacUIMApplicationDelegate.m */; };
 		41A03AB50F388B9B00AE2344 /* PreferencePanes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41A03AB40F388B9B00AE2344 /* PreferencePanes.framework */; };
 		41A03AB70F388BA600AE2344 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41A03AB60F388BA600AE2344 /* SystemConfiguration.framework */; };
 		41A03AB80F388BAE00AE2344 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -108,6 +109,8 @@
 		4151FCB80F3C24720047C754 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		415F09330F355781007AA30B /* UimHelperController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UimHelperController.h; path = Sources/UimHelperController.h; sourceTree = "<group>"; };
 		415F09340F355781007AA30B /* UimHelperController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UimHelperController.m; path = Sources/UimHelperController.m; sourceTree = "<group>"; };
+		41951C2B0F3F48BB00F6B975 /* MacUIMApplicationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MacUIMApplicationDelegate.h; path = Sources/MacUIMApplicationDelegate.h; sourceTree = "<group>"; };
+		41951C2C0F3F48BB00F6B975 /* MacUIMApplicationDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MacUIMApplicationDelegate.m; path = Sources/MacUIMApplicationDelegate.m; sourceTree = "<group>"; };
 		419A639A0F38B818008DE9B1 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/KeyView.nib; sourceTree = "<group>"; };
 		419A639C0F38B83E008DE9B1 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/OrderedListView.nib; sourceTree = "<group>"; };
 		419A639D0F38B84C008DE9B1 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/PathnameView.nib; sourceTree = "<group>"; };
@@ -252,6 +255,8 @@
 				E93074E10A5C2F1200470842 /* MacUIMController.m */,
 				415F09330F355781007AA30B /* UimHelperController.h */,
 				415F09340F355781007AA30B /* UimHelperController.m */,
+				41951C2B0F3F48BB00F6B975 /* MacUIMApplicationDelegate.h */,
+				41951C2C0F3F48BB00F6B975 /* MacUIMApplicationDelegate.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -611,6 +616,7 @@
 				415F09350F355781007AA30B /* UimHelperController.m in Sources */,
 				41F885FA0F3735EC00E7003C /* PreferenceController.m in Sources */,
 				4140F4970F3852DF00F51127 /* RSVerticallyCenteredTextFieldCell.m in Sources */,
+				41951C2D0F3F48BB00F6B975 /* MacUIMApplicationDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

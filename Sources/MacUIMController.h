@@ -112,10 +112,10 @@ static char *get_caret_state_label_from_prop_list(const char *str);
 - (void)setPageCandidates:(unsigned int)page;
 - (int)indexFromIndexInPage:(int)pageIndex;
 
+- (void)openSystemPrefs:(id)sender;
 
 + (id)activeContext;
 + (void)updateCustom:(const char *)custom:(const char *)val;
 + (void)switchIM:(const char *)im;
-
 
 @end

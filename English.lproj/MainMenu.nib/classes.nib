@@ -5,12 +5,41 @@
 	<key>IBClasses</key>
 	<array>
 		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>openSystemPrefs</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>MacUIMApplicationDelegate</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>_menu</key>
+				<string>NSMenu</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
 			<key>CLASS</key>
 			<string>FirstResponder</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
 			<key>SUPERCLASS</key>
 			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>setFont</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>NSObject</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
 		</dict>
 	</array>
 	<key>IBVersion</key>

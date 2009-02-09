@@ -1,6 +1,5 @@
-/* -*- mode:objc; coding:utf-8; tab-width:8; c-basic-offset:2; indent-tabs-mode:nil -*- */
 /*
-  Copyright (c) 2003-2005 MacUIM contributors, All rights reserved.
+  Copyright (c) 2009 MacUIM Project http://code.google.com/p/macuim/
 
   Redistribution and use in source and binary forms, with or without
   modification, are permitted provided that the following conditions

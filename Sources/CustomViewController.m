@@ -31,6 +31,7 @@
 #import "Debug.h"
 #import "CustomViewController.h"
 #import "CustomViewCell.h"
+#import "UimCustom.h"
 
 
 @implementation CustomViewController
@@ -252,6 +253,10 @@ didClickTableColumn:(NSTableColumn *)aTableColumn
 
 - (void)outlineViewItemWillExpand:(NSNotification *)notification
 {
+  UimCustomGroup *customGroup = [[notification userInfo] objectForKey:@"NSObject"];
+  if (![customGroup loaded])
+	  [customGroup loadCustoms];
+
   if ([self isValidDelegateForSelector:_cmd])
     [[self delegate] performSelector:_cmd
                           withObject:notification];
