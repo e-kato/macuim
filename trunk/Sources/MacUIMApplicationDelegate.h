@@ -39,6 +39,5 @@
 }
 
 - (NSMenu *)menu;
-- (void)openSystemPrefs:(id)sender;
 
 @end
