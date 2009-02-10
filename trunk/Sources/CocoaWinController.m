@@ -208,17 +208,20 @@ static CocoaWinController *sharedController;
 	NSAttributedString *headStr;
 	NSAttributedString *candStr;
 
-	if (head)
+	if (head) {
+		// use just the last one character of the string
+		int headLen = strlen(head);
+		char *shead = head + headLen - 1;
 		headStr = [[NSAttributedString alloc]
 				initWithString:
-					[NSString stringWithUTF8String:head]
+					[NSString stringWithUTF8String:shead]
 				attributes:
 					[NSDictionary
 						dictionaryWithObjectsAndKeys:
 							font_small,
 							NSFontAttributeName,
 							nil]];
-	else
+	} else {
 		headStr = [[NSAttributedString alloc]
 				initWithString:@""
 				attributes:
@@ -227,6 +230,7 @@ static CocoaWinController *sharedController;
 							font_small,
 							NSFontAttributeName,
 							nil]];
+	}
 
 	if (cand)
 		candStr = [[NSAttributedString alloc]

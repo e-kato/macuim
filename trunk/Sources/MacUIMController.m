@@ -559,6 +559,7 @@ static NSMutableArray *contextList;
 	for (i = 0; i < n; i++)
 		uim_switch_im([[contextList objectAtIndex:i] uc], im);
 }
+
 - (void)openSystemPrefs:(id)sender
 {
 	[NSTask launchedTaskWithLaunchPath:@"/usr/bin/open"
@@ -598,8 +599,7 @@ static int convertKey(unsigned short keyCode,
 		if (flags & NSControlKeyMask) {
 			for (i = 0; CharToKey[i].ckey; i++) {
 				if (CharToKey[i].charcode == charCode) {
-					key =
-						CharToKey[i].ckey;
+					key = CharToKey[i].ckey;
 					break;
 				}
 			}
