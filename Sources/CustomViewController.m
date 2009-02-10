@@ -254,8 +254,10 @@ didClickTableColumn:(NSTableColumn *)aTableColumn
 - (void)outlineViewItemWillExpand:(NSNotification *)notification
 {
   UimCustomGroup *customGroup = [[notification userInfo] objectForKey:@"NSObject"];
-  if (![customGroup loaded])
-	  [customGroup loadCustoms];
+  if (![customGroup loaded]) {
+    [customGroup loadCustoms];
+    [outlineView reloadData];
+  }
 
   if ([self isValidDelegateForSelector:_cmd])
     [[self delegate] performSelector:_cmd
