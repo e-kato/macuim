@@ -43,7 +43,7 @@ PKG_CONFIG_PATH="/Library/PRIME/lib/pkgconfig:/Library/Anthy/lib/pkgconfig:/Libr
   --disable-strict-argcheck \
   --with-anthy-utf8 \
   --with-curl \
-  --with-expat=/usr \
+  --with-expat=/opt/macuim \
   || exit 1
 #  --without-gtk2  \
 #  --without-x  \
@@ -129,8 +129,8 @@ uim_candwin_gtk-caret-state-indicator.o -framework CoreFoundation \
 /opt/macuim/lib/libgobject-2.0.a /opt/macuim/lib/libgmodule-2.0.a \
 /opt/macuim/lib/libglib-2.0.a /opt/macuim/lib/libintl.a -lc \
 ../uim/.libs/UIM /usr/lib/libiconv.dylib \
-/Users/kato/macsrc/MacUIM/UIM/uim/uim/.libs/UIM \
-/Users/kato/macsrc/MacUIM/UIM/uim/sigscheme/libgcroots/.libs/libgcroots.dylib \
+/Users/kato/macsrc/MacUIM-google/trunk/UIM/uim/uim/.libs/UIM \
+/Users/kato/macsrc/MacUIM-google/trunk/UIM/uim/sigscheme/libgcroots/.libs/libgcroots.dylib \
 -ldl
 
 #-lXdamage \
