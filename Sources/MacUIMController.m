@@ -38,6 +38,7 @@
 
 
 static MacUIMController *activeContext;
+static MacUIMController *lastDeactivatedContext;
 static NSMutableArray *contextList;
 
 @implementation MacUIMController
@@ -102,7 +103,8 @@ static NSMutableArray *contextList;
 	if (candidateIsActive == true)
 		[candWin showWindow:inputRect];
 
-	[helperController focusIn:uc];
+	if (self != lastDeactivatedContext)
+		[helperController focusIn:uc];
 }
 
 - (void)deactivateServer:(id)sender
@@ -115,6 +117,8 @@ static NSMutableArray *contextList;
 	currentClient = nil;
 
 	[helperController focusOut:uc];
+
+	lastDeactivatedContext = self;
 }
 
 - (void)commitString:(const char *)str
