@@ -30,7 +30,6 @@
 
 #import <sys/types.h>
 #import <sys/socket.h>
-#import <iconv.h>
 #import "MacUIMHelperExtra.h"
 #import "Debug.h"
 #import "Preference.h"

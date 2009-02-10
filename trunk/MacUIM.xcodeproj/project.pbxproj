@@ -14,13 +14,11 @@
 		41A03AB70F388BA600AE2344 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41A03AB60F388BA600AE2344 /* SystemConfiguration.framework */; };
 		41A03AB80F388BAE00AE2344 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		41A03ABB0F388BB600AE2344 /* UIM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41BAAD140F304A9900A56D3E /* UIM.framework */; };
-		41A03ABD0F388BC300AE2344 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 41A03ABC0F388BC300AE2344 /* libiconv.dylib */; };
 		41A03AC00F388BEA00AE2344 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41A03ABF0F388BEA00AE2344 /* ApplicationServices.framework */; };
 		41A03ACC0F388C9B00AE2344 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		41A03ACE0F388C9F00AE2344 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41A03ACD0F388C9F00AE2344 /* Carbon.framework */; };
 		41A03AD00F388CAB00AE2344 /* SystemUIPlugin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41A03ACF0F388CAB00AE2344 /* SystemUIPlugin.framework */; };
 		41A03AD10F388CB000AE2344 /* UIM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41BAAD140F304A9900A56D3E /* UIM.framework */; };
-		41A03AD20F388CB600AE2344 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 41A03ABC0F388BC300AE2344 /* libiconv.dylib */; };
 		41A03B0A0F388EBB00AE2344 /* MacUIMPrefPane.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A03AF40F388EBA00AE2344 /* MacUIMPrefPane.m */; };
 		41A03B0B0F388EBB00AE2344 /* TabView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A03AF50F388EBB00AE2344 /* TabView.m */; };
 		41A03B0C0F388EBB00AE2344 /* UimCustom.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A03AF60F388EBB00AE2344 /* UimCustom.m */; };
@@ -122,7 +120,6 @@
 		41A03A970F388B2D00AE2344 /* Info-PrefPane.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-PrefPane.plist"; sourceTree = "<group>"; };
 		41A03AB40F388B9B00AE2344 /* PreferencePanes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PreferencePanes.framework; path = /System/Library/Frameworks/PreferencePanes.framework; sourceTree = "<absolute>"; };
 		41A03AB60F388BA600AE2344 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
-		41A03ABC0F388BC300AE2344 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = /usr/lib/libiconv.dylib; sourceTree = "<absolute>"; };
 		41A03ABF0F388BEA00AE2344 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = /System/Library/Frameworks/ApplicationServices.framework; sourceTree = "<absolute>"; };
 		41A03AC50F388C8D00AE2344 /* MacUIMHelper.menu */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MacUIMHelper.menu; sourceTree = BUILT_PRODUCTS_DIR; };
 		41A03ACD0F388C9F00AE2344 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
@@ -217,7 +214,6 @@
 				41A03AB70F388BA600AE2344 /* SystemConfiguration.framework in Frameworks */,
 				41A03AB80F388BAE00AE2344 /* Cocoa.framework in Frameworks */,
 				41A03ABB0F388BB600AE2344 /* UIM.framework in Frameworks */,
-				41A03ABD0F388BC300AE2344 /* libiconv.dylib in Frameworks */,
 				41A03AC00F388BEA00AE2344 /* ApplicationServices.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -230,7 +226,6 @@
 				41A03ACE0F388C9F00AE2344 /* Carbon.framework in Frameworks */,
 				41A03AD00F388CAB00AE2344 /* SystemUIPlugin.framework in Frameworks */,
 				41A03AD10F388CB000AE2344 /* UIM.framework in Frameworks */,
-				41A03AD20F388CB600AE2344 /* libiconv.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -305,7 +300,6 @@
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				41A03AB40F388B9B00AE2344 /* PreferencePanes.framework */,
 				41A03AB60F388BA600AE2344 /* SystemConfiguration.framework */,
-				41A03ABC0F388BC300AE2344 /* libiconv.dylib */,
 				41A03ABF0F388BEA00AE2344 /* ApplicationServices.framework */,
 				41A03ACD0F388C9F00AE2344 /* Carbon.framework */,
 				41A03ACF0F388CAB00AE2344 /* SystemUIPlugin.framework */,
