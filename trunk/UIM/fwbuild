@@ -155,8 +155,8 @@ uim_xim-helper.o uim_xim-compose.o -Wl,-bind_at_load \
 -L/opt/macuim/lib -L/Library/M17NLib/lib -L/Library/Anthy/lib \
 -L/usr/X11R6/lib -lXext -lX11 -lXau -lXdmcp -lXft ../uim/.libs/UIM \
 /usr/lib/libiconv.dylib \
-/Users/kato/macsrc/MacUIM/UIM/uim/uim/.libs/UIM \
-/Users/kato/macsrc/MacUIM/UIM/uim/sigscheme/libgcroots/.libs/libgcroots.dylib \
+/Users/kato/macsrc/MacUIM-google/trunk/UIM/uim/uim/.libs/UIM \
+/Users/kato/macsrc/MacUIM-google/trunk/UIM/uim/sigscheme/libgcroots/.libs/libgcroots.dylib \
 ../uim/.libs/libuim-x-util.a -ldl
 make -w DESTDIR=${dest} install || exit 1
 cd ..
