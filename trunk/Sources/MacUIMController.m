@@ -103,8 +103,10 @@ static NSMutableArray *contextList;
 	if (candidateIsActive == true)
 		[candWin showWindow:inputRect];
 
+	[helperController focusIn:uc];
+
 	if (self != lastDeactivatedContext)
-		[helperController focusIn:uc];
+		uim_prop_list_update(uc);
 }
 
 - (void)deactivateServer:(id)sender
