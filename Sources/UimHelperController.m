@@ -236,7 +236,6 @@ static void helperDisconnect()
 - (void)focusIn:(uim_context)uc
 {
 	uim_helper_client_focus_in(uc);
-	uim_prop_list_update(uc);
 	isMacUIMfocused = YES;
 }
 
