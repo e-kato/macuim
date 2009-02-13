@@ -85,6 +85,11 @@ perl -pi -e "s|^library_names=.*$|library_names='UIM'|" libuim-custom.la
 perl -pi -e "s|^library_names=.*$|library_names='UIM'|" libuim-scm.la
 perl -pi -e "s|^library_names=.*$|library_names='UIM'|" libuim-bsdlook.la
 
+perl -pi -e "s| /\S*libgcroots.la||" libuim.la
+perl -pi -e "s| /\S*libgcroots.la||" libuim-custom.la
+perl -pi -e "s| /\S*libgcroots.la||" libuim-scm.la
+perl -pi -e "s| /\S*libgcroots.la||" libuim-bsdlook.la
+
 make -w pkglibdir=${prefix}/pkglib || exit 1
 
 cd ..
@@ -130,7 +135,6 @@ uim_candwin_gtk-caret-state-indicator.o -framework CoreFoundation \
 /opt/macuim/lib/libglib-2.0.a /opt/macuim/lib/libintl.a -lc \
 ../uim/.libs/UIM /usr/lib/libiconv.dylib \
 /Users/kato/macsrc/MacUIM-google/trunk/UIM/uim/uim/.libs/UIM \
-/Users/kato/macsrc/MacUIM-google/trunk/UIM/uim/sigscheme/libgcroots/.libs/libgcroots.dylib \
 -ldl
 
 #-lXdamage \
@@ -156,15 +160,18 @@ uim_xim-helper.o uim_xim-compose.o -Wl,-bind_at_load \
 -L/usr/X11R6/lib -lXext -lX11 -lXau -lXdmcp -lXft ../uim/.libs/UIM \
 /usr/lib/libiconv.dylib \
 /Users/kato/macsrc/MacUIM-google/trunk/UIM/uim/uim/.libs/UIM \
-/Users/kato/macsrc/MacUIM-google/trunk/UIM/uim/sigscheme/libgcroots/.libs/libgcroots.dylib \
 ../uim/.libs/libuim-x-util.a -ldl
+
 make -w DESTDIR=${dest} install || exit 1
 cd ..
 
 cd ${dest}/${prefix}
 mv include/uim Headers
 ln -sv lib/UIM .
+
 rm -rf include share/applications bin/uim-sh lib/libuim* 
+rm -rf lib/libgcroots*
+rm -rf lib/pkgconfig/gcroots.pc
 
 rm -rf bin/uim-toolbar-gtk*
 rm -rf bin/uim-pref-gtk
