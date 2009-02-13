@@ -70,7 +70,6 @@ gcc -dynamiclib -undefined dynamic_lookup \
 -o uim/.libs/UIM \
 uim/.libs/libuim_la*.o uim/.libs/libuim_custom_la*.o replace/.libs/libreplace.a \
 uim/.libs/libuim_scm_la*.o \
-uim/.libs/libuim_bsdlook_la*.o \
 sigscheme/libgcroots/.libs/*.o \
 -L/opt/macuim/lib -liconv -ldl -lintl \
 -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc \
@@ -83,12 +82,10 @@ cd uim
 perl -pi -e "s|^library_names=.*$|library_names='UIM'|" libuim.la
 perl -pi -e "s|^library_names=.*$|library_names='UIM'|" libuim-custom.la
 perl -pi -e "s|^library_names=.*$|library_names='UIM'|" libuim-scm.la
-perl -pi -e "s|^library_names=.*$|library_names='UIM'|" libuim-bsdlook.la
 
-perl -pi -e "s| /\S*libgcroots.la||" libuim.la
-perl -pi -e "s| /\S*libgcroots.la||" libuim-custom.la
+perl -pi -e "s| /\S*libuim-scm.la /\S*libgcroots.la||" libuim.la
+perl -pi -e "s| /\S*libuim-scm.la /\S*libgcroots.la||" libuim-custom.la
 perl -pi -e "s| /\S*libgcroots.la||" libuim-scm.la
-perl -pi -e "s| /\S*libgcroots.la||" libuim-bsdlook.la
 
 make -w pkglibdir=${prefix}/pkglib || exit 1
 
