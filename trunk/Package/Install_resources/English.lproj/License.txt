@@ -5,6 +5,7 @@ Sary and GLib is static linked with sary-ruby.
 Glib, ATK, GTK+, Pango, Cairo, libpng, pixman are static linked with
 uim-candwin-gtk.
 Curl and Expat are statically linked with libuim-curl.so and libuim-expat.so respectively.
+Freetype2 is static linked with m17n-lib.
 
 Read the each software's license.
 
@@ -993,6 +994,7 @@ Static linked libraries
 ----------------
 GNU gettext is released under GPL.
 Sary, GLib, GTK+, Pango, Cairo are released under LGPL.
+Freetype2 is released under GPL.
 
 
 libpng is OSI Certified Open Source Software.
