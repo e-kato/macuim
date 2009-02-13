@@ -73,7 +73,7 @@ static ModeTipsController *sharedController;
   NSArray *labels;
   NSPoint point = cursorRect.origin;
 
-  if (point.x== 0 && point.y == 0) {
+  if (point.x == 0 && point.y == 0) {
     // cannot get window position
     return;
   }
