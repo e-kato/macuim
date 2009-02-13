@@ -51,7 +51,7 @@ convertHelperString(char *str);
 
 @implementation MacUIMHelperExtra
 
-+ (MacUIMHelperExtra *)sharedExtra
++ (id)sharedExtra
 {
   return sharedExtra;
 }
@@ -70,9 +70,7 @@ convertHelperString(char *str);
                                    menuExtra:self];
   [self setView:view];
 
-#ifndef NEW_HELPER
   uimFD = -1;
-#endif
   [self helperConnect];
 
   imName = nil;
@@ -392,11 +390,7 @@ convertHelperString(char *str);
       NSMutableString *msg = [[NSMutableString alloc] initWithString:@"prop_activate\n"];
       [msg appendString:[NSString stringWithString:[propNames objectAtIndex:i]]];
       [msg appendString:@"\n"];
-#ifdef NEW_HELPER
-      uim_helper_send_message([msg UTF8String]);
-#else
       uim_helper_send_message(uimFD, [msg UTF8String]);
-#endif
       [msg release];
       break;
     }
@@ -449,26 +443,16 @@ convertHelperString(char *str);
 
 - (int)helperConnect
 {
-#ifndef NEW_HELPER
   if (uimFD >= 0)
     return uimFD;
 
-#endif
   NSNotificationCenter *noc = [NSNotificationCenter defaultCenter];
 
-#ifdef NEW_HELPER
-  if (uim_helper_init_client(uimDisconnect) == 0)
-#else
   uimFD = uim_helper_init_client_fd(uimDisconnect);
   if (uimFD >= 0)
-#endif
   {
     uimHandle = [[NSFileHandle alloc]
-#ifdef NEW_HELPER
-                  initWithFileDescriptor:uim_helper_get_client_fd()
-#else
                   initWithFileDescriptor:uimFD
-#endif
                  ];
 
     [uimHandle waitForDataInBackgroundAndNotify];
@@ -477,10 +461,6 @@ convertHelperString(char *str);
          selector:@selector(helperRead:)
          name:@"NSFileHandleDataAvailableNotification"
          object:uimHandle];
-
-#ifdef NEW_HELPER
-    is_helper_connect = YES;
-#endif
   }
 
   return uimFD;
@@ -490,11 +470,7 @@ convertHelperString(char *str);
 {
   char *tmp;
 
-#ifdef NEW_HELPER
-  uim_helper_read_proc(uim_helper_get_client_fd());
-#else
   uim_helper_read_proc(uimFD);
-#endif
   while ((tmp = uim_helper_get_message())) {
 #if DEBUG_HELPER_EXTRA
     fprintf(stderr, "MacUIMHelperExtra::helperRead() tmp='%s'\n", tmp);
@@ -503,11 +479,7 @@ convertHelperString(char *str);
     free(tmp);
   }
 
-#ifdef NEW_HELPER
-  if (is_helper_connect)
-#else
   if (uimFD >= 0)
-#endif
     [uimHandle waitForDataInBackgroundAndNotify];
   else {
     // disconnected
@@ -570,16 +542,8 @@ convertHelperString(char *str);
 
 - (void)helperClose
 {
-#ifdef NEW_HELPER
-  if (is_helper_connect)
-#else
   if (uimFD >= 0)
-#endif
-#ifdef NEW_HELPER
-    uim_helper_close_client();
-#else
     uim_helper_close_client_fd(uimFD);
-#endif
 }
 
 - (void)helperDisconnect
@@ -589,11 +553,7 @@ convertHelperString(char *str);
   [uimHandle release];
   uimHandle = nil;
 
-#ifdef NEW_HELPER
-  is_helper_connect = NO;
-#else
   uimFD = -1;
-#endif
 }
 
 - (void)propListUpdate:(NSArray *)lines
@@ -632,7 +592,7 @@ convertHelperString(char *str);
         
         // disable uim's IM-switch
         if ([prop compare:@"action_imsw_"
-                   options:nil
+                   options:NSLiteralSearch
                      range:NSMakeRange(0, strlen("action_imsw_"))]
             == NSOrderedSame) {
           [mode release];

@@ -54,7 +54,8 @@ static void helperDisconnect()
 	return sharedController;
 }
 
-- (id)init {
+- (id)init
+{
 	if (sharedController)
 		return sharedController;
 

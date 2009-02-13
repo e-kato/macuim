@@ -51,7 +51,7 @@ prefChanged(CFNotificationCenterRef inCenter, void *inObserver,
 
 @implementation MacUIMPrefPane
  
-+ (MacUIMPrefPane *)sharedPane
++ (id)sharedPane
 {
   return sharedPane;
 }
