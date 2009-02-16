@@ -34,8 +34,6 @@
 #import <Cocoa/Cocoa.h>
 #import <InputMethodKit/InputMethodKit.h>
 
-#import "PreferenceController.h"
-
 //Each input method needs a unique connection name. 
 //Note that periods and spaces are not allowed in the connection name.
 const NSString *kConnectionName = @"MacUIM_1_Connection";
@@ -58,16 +56,6 @@ int main(int argc, char *argv[])
 	//load the bundle explicitly because in this case the input method is a background only application 
 	[NSBundle loadNibNamed:@"MainMenu" owner:[NSApplication sharedApplication]];
 	
-	CFNotificationCenterRef center =
-		CFNotificationCenterGetDistributedCenter();
-
-	if (center) {
-		CFNotificationCenterAddObserver(center, NULL,
-				NotificationCallback, NULL,
-				CFSTR(kAppID),
-				CFNotificationSuspensionBehaviorCoalesce);
-	}
-
 	//finally run everything
 	[[NSApplication sharedApplication] run];
 	
