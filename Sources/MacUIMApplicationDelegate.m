@@ -32,6 +32,7 @@
 */
 
 #import "MacUIMApplicationDelegate.h"
+#import "PreferenceController.h"
 
 
 @implementation MacUIMApplicationDelegate
@@ -47,6 +48,16 @@
 
 	if (preferences) {
 		[preferences setAction:@selector(openSystemPrefs:)];
+	}
+
+	CFNotificationCenterRef center =
+		CFNotificationCenterGetDistributedCenter();
+
+	if (center) {
+		CFNotificationCenterAddObserver(center, NULL,
+				NotificationCallback, NULL,
+				CFSTR(kAppID),
+				CFNotificationSuspensionBehaviorCoalesce);
 	}
 }
 
