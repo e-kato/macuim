@@ -256,6 +256,7 @@ static NSMutableArray *contextList;
 - (void)activateCandidate:(int)nr:(int)displayLimit
 {
 	NSRect theRect;
+	NSDictionary *theDict;
 
 	//NSLog(@"activateCandidate");
 	candidateIsActive = true;
@@ -286,10 +287,17 @@ static NSMutableArray *contextList;
 				theRect.origin.x, theRect.origin.y,
 				theRect.size.width);
 #endif
+		theDict = [currentClient attributesForCharacterIndex:caretSegmentStartPos lineHeightRectangle:&inputRect];
 		inputRect = theRect;
 	} else {
-		[currentClient attributesForCharacterIndex:0
-			       lineHeightRectangle:&inputRect];
+		theDict = [currentClient attributesForCharacterIndex:0 lineHeightRectangle:&inputRect];
+	}
+	NSFont *font = [theDict objectForKey:@"NSFont"];
+	if (font != nil) {
+		inputRect.origin.y +=
+			CTFontGetUnderlinePosition((CTFontRef)font);
+		inputRect.origin.y -=
+			CTFontGetUnderlineThickness((CTFontRef)font);
 	}
 
 	[candWin showWindow:inputRect];
@@ -394,9 +402,19 @@ static NSMutableArray *contextList;
 		CFRelease(allstr);
 		if (array) {
 			NSRect cursorRect;
-			[currentClient
-				attributesForCharacterIndex:0
-					lineHeightRectangle:&cursorRect];
+			NSDictionary *theDict;
+			NSFont *font;
+			theDict = [currentClient attributesForCharacterIndex: 0
+						 lineHeightRectangle:
+						 	&cursorRect];
+			font = [theDict objectForKey:@"NSFont"];
+			if (font != nil) {
+				cursorRect.origin.y +=
+					CTFontGetUnderlinePosition((CTFontRef)font);
+				cursorRect.origin.y -=
+					CTFontGetUnderlineThickness((CTFontRef)font);
+			}
+
 			[[ModeTipsController sharedController]
 				showModeTips:cursorRect:(NSArray *)array];
 			CFRelease(array);
