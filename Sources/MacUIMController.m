@@ -593,20 +593,21 @@ static int convertKey(unsigned short keyCode,
 		if ([string length] > 0) {
 			key = charCode = [string characterAtIndex:0];
 		}
-		if (charCode >= 0x01 && charCode <= 0x1a) {
-			if (flags & NSShiftKeyMask)
-				key += 0x40;
-			else
-				key += 0x60;
-		}
 		// convert control sequence to normal
 		// charactor
-		// (when <control> + <special charactor>)
 		if (flags & NSControlKeyMask) {
-			for (i = 0; CharToKey[i].ckey; i++) {
-				if (CharToKey[i].charcode == charCode) {
-					key = CharToKey[i].ckey;
-					break;
+			// (when <control> + [A-Za-z])
+			if (charCode >= 0x01 && charCode <= 0x1a) {
+				if (flags & NSShiftKeyMask)
+					key += 0x40;
+				else
+					key += 0x60;
+			} else { // (when <control> + <special charactor>)
+				for (i = 0; CharToKey[i].ckey; i++) {
+					if (CharToKey[i].charcode == charCode) {
+						key = CharToKey[i].ckey;
+						break;
+					}
 				}
 			}
 		}
