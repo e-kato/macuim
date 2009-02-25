@@ -1,44 +1,52 @@
-<pkmkdoc spec="1.12"><properties><title>MacUIM</title><build>/Users/kato/macsrc/MacUIM-google/trunk/Package/MacUIM-0.6.0-10/MacUIM-0.6.0-10.pkg</build><organization>info.yatsu.MacUIM</organization><userSees ui="easy"/><min-target os="3"/><domain anywhere="true"/></properties><distribution><versions min-spec="1.000000"/><scripts></scripts></distribution><description>MacUIM is an input method for Mac OS X implemented by uim.
+<pkmkdoc spec="1.12"><properties><title>MacUIM</title><build>/Users/kato/macsrc/MacUIM-google/trunk/Package/MacUIM-0.6.0-14/MacUIM-0.6.0-14.pkg</build><organization>info.yatsu.MacUIM</organization><userSees ui="easy"/><min-target os="3"/><domain anywhere="true" system="true"/></properties><distribution><versions min-spec="1.000000"/><scripts></scripts></distribution><description>MacUIM is an input method for Mac OS X implemented by uim.
 http://macuim.googlecode.com/
-http://macuim.yatsu.info/
+
 
 * Caution *
 Login again after install this software.
 
-This package contains Uim, Anthy, PRIME, SKK dictionaries, m17n-lib, sary-ruby, suikyo, Ruby/ProgressBar, MenuCracker, Ispell and MacUIM.
 GNU gettext is static linked with several programs and libraries.
 Sary and GLib are static linked with sary-ruby.
+Glib, ATK, GTK+, Pango, Cairo, libpng, pixman are static linked with
+uim-candwin-gtk.
+Curl and Expat are statically linked with libuim-curl.so and libuim-expat.so respectively.
 Freetype2 is static linked with m17n-lib.
 
-Uim:
+uim:
 http://uim.googlecode.com/
 
-Uim will be installed into /Library/Frameworks/UIM.framework.
+uim will be installed into /Library/Frameworks/UIM.framework.
 
-m17nlib:
-http://www.m17n.org/
-
-m17nlib will be installed into /Library/M17NLib.
-
-Ispell:
-http://ficus-www.cs.ucla.edu/geoff/ispell.html
-
-ispell will be installed into /Library/M17NLib.
 
 Anthy:
 http://anthy.sourceforge.jp/
 
 Anthy will be installed into /Library/Anthy.
 
+
 PRIME:
 http://taiyaki.org/prime/
 
 PRIME will be installed into /Library/PRIME.
 
+
 SKK dictionaries:
 http://openlab.ring.gr.jp/skk/dic.html
 
 SKK Dictionaries will be installed into /Library/Dictionaries/SKK.
+
+
+m17nlib:
+http://www.m17n.org/
+
+m17nlib will be installed into /Library/M17NLib.
+
+
+Ispell:
+http://ficus-www.cs.ucla.edu/geoff/ispell.html
+
+ispell will be installed into /Library/M17NLib.
+
 
 The following softwares will be installed into /Library/PRIME.
 
@@ -46,13 +54,4 @@ sary-ruby:
 http://namazu.org/~satoru/sary/#ruby
 
 Ruby/ProgressBar:
-http://namazu.org/~satoru/ruby-progressbar/
-
-GNU gettext:
-http://www.gnu.org/software/gettext/gettext.html
-
-Sary-ruby is linked with the following libraries.
-
-Sary:
-http://namazu.org/~satoru/sary/
-</description><contents><choice title="Package_contents" id="choice3" starts_selected="true" starts_enabled="true" starts_hidden="false"><pkgref id="info.yatsu.MacUIM-IMK"/></choice></contents><resources bg-scale="none" bg-align="topleft"><locale lang="en"/></resources><flags/><item type="file">01package.xml</item><mod>description</mod><mod>properties.systemDomain</mod></pkmkdoc>
+http://namazu.org/~satoru/ruby-progressbar/</description><contents><choice title="Package_contents" id="choice14" starts_selected="true" starts_enabled="true" starts_hidden="false"><pkgref id="info.yatsu.MacUIM-IMK"/></choice></contents><resources bg-scale="none" bg-align="topleft"><locale lang="en"><resource mod="true" type="license">/Users/kato/macsrc/MacUIM-google/trunk/Package/Install_resources/English.lproj/License.txt</resource><resource mod="true" type="welcome">/Users/kato/macsrc/MacUIM-google/trunk/Package/Install_resources/English.lproj/Welcome.rtf</resource></locale><locale lang="jp"><resource mod="true" type="license">/Users/kato/macsrc/MacUIM-google/trunk/Package/Install_resources/Japanese.lproj/License.rtf</resource><resource mod="true" type="welcome">/Users/kato/macsrc/MacUIM-google/trunk/Package/Install_resources/Japanese.lproj/Welcome.rtf</resource></locale></resources><flags/><item type="file">01package.xml</item><mod>description</mod><mod>properties.systemDomain</mod></pkmkdoc>
