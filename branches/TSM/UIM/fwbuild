@@ -43,7 +43,8 @@ PKG_CONFIG_PATH="/Library/PRIME/lib/pkgconfig:/Library/Anthy/lib/pkgconfig:/Libr
   --disable-strict-argcheck \
   --with-anthy-utf8 \
   --with-curl \
-  --with-expat=/usr \
+  --with-expat=/opt/macuim \
+  --enable-openssl \
   || exit 1
 #  --without-gtk2  \
 #  --without-x  \
@@ -70,7 +71,6 @@ gcc -dynamiclib -undefined dynamic_lookup \
 -o uim/.libs/UIM \
 uim/.libs/libuim_la*.o uim/.libs/libuim_custom_la*.o replace/.libs/libreplace.a \
 uim/.libs/libuim_scm_la*.o \
-uim/.libs/libuim_bsdlook_la*.o \
 sigscheme/libgcroots/.libs/*.o \
 -L/opt/macuim/lib -liconv -ldl -lintl \
 -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc \
@@ -83,7 +83,10 @@ cd uim
 perl -pi -e "s|^library_names=.*$|library_names='UIM'|" libuim.la
 perl -pi -e "s|^library_names=.*$|library_names='UIM'|" libuim-custom.la
 perl -pi -e "s|^library_names=.*$|library_names='UIM'|" libuim-scm.la
-perl -pi -e "s|^library_names=.*$|library_names='UIM'|" libuim-bsdlook.la
+
+perl -pi -e "s| /\S*libuim-scm.la /\S*libgcroots.la||" libuim.la
+perl -pi -e "s| /\S*libuim-scm.la /\S*libgcroots.la||" libuim-custom.la
+perl -pi -e "s| /\S*libgcroots.la||" libuim-scm.la
 
 make -w pkglibdir=${prefix}/pkglib || exit 1
 
@@ -129,8 +132,7 @@ uim_candwin_gtk-caret-state-indicator.o -framework CoreFoundation \
 /opt/macuim/lib/libgobject-2.0.a /opt/macuim/lib/libgmodule-2.0.a \
 /opt/macuim/lib/libglib-2.0.a /opt/macuim/lib/libintl.a -lc \
 ../uim/.libs/UIM /usr/lib/libiconv.dylib \
-/Users/kato/macsrc/MacUIM/UIM/uim/uim/.libs/UIM \
-/Users/kato/macsrc/MacUIM/UIM/uim/sigscheme/libgcroots/.libs/libgcroots.dylib \
+/Users/kato/macsrc/MacUIM-google/branches/TSM/UIM/uim/uim/.libs/UIM \
 -ldl
 
 #-lXdamage \
@@ -155,16 +157,19 @@ uim_xim-helper.o uim_xim-compose.o -Wl,-bind_at_load \
 -L/opt/macuim/lib -L/Library/M17NLib/lib -L/Library/Anthy/lib \
 -L/usr/X11R6/lib -lXext -lX11 -lXau -lXdmcp -lXft ../uim/.libs/UIM \
 /usr/lib/libiconv.dylib \
-/Users/kato/macsrc/MacUIM/UIM/uim/uim/.libs/UIM \
-/Users/kato/macsrc/MacUIM/UIM/uim/sigscheme/libgcroots/.libs/libgcroots.dylib \
+/Users/kato/macsrc/MacUIM-google/branches/TSM/UIM/uim/uim/.libs/UIM \
 ../uim/.libs/libuim-x-util.a -ldl
+
 make -w DESTDIR=${dest} install || exit 1
 cd ..
 
 cd ${dest}/${prefix}
 mv include/uim Headers
 ln -sv lib/UIM .
+
 rm -rf include share/applications bin/uim-sh lib/libuim* 
+rm -rf lib/libgcroots*
+rm -rf lib/pkgconfig/gcroots.pc
 
 rm -rf bin/uim-toolbar-gtk*
 rm -rf bin/uim-pref-gtk
