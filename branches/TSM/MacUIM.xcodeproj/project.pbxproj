@@ -244,7 +244,7 @@
 		1C69B4530802736F007386C4 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/OrderedListView.nib; sourceTree = "<group>"; };
 		1C69B45A08027403007386C4 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/PathnameView.nib; sourceTree = "<group>"; };
 		1C7180E80625AED60059AEA9 /* MacUIMHelper.menu */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MacUIMHelper.menu; sourceTree = BUILT_PRODUCTS_DIR; };
-		1C7180E90625AED60059AEA9 /* Info-Helper.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Info-Helper.plist"; sourceTree = "<group>"; };
+		1C7180E90625AED60059AEA9 /* Info-Helper.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-Helper.plist"; sourceTree = "<group>"; };
 		1C7180F40625B03F0059AEA9 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		1C71829D0625B0690059AEA9 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		1C7183360625B0C60059AEA9 /* SystemUIPlugin.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemUIPlugin.framework; path = /System/Library/PrivateFrameworks/SystemUIPlugin.framework; sourceTree = "<absolute>"; };
@@ -253,14 +253,14 @@
 		1C7B862006BE9B3000FBCEC9 /* Utils.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = Utils.c; path = Sources/Utils.c; sourceTree = "<group>"; };
 		1C7B862106BE9B3000FBCEC9 /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Utils.h; path = Sources/Utils.h; sourceTree = "<group>"; };
 		1C80B1B9062197C60073E2E8 /* MacUIM.prefPane */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MacUIM.prefPane; sourceTree = BUILT_PRODUCTS_DIR; };
-		1C80B1BA062197C70073E2E8 /* Info-PrefPane.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Info-PrefPane.plist"; sourceTree = "<group>"; };
+		1C80B1BA062197C70073E2E8 /* Info-PrefPane.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-PrefPane.plist"; sourceTree = "<group>"; };
 		1C80B29A0621987C0073E2E8 /* PreferencePanes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PreferencePanes.framework; path = /System/Library/Frameworks/PreferencePanes.framework; sourceTree = "<absolute>"; };
 		1C80B2A1062198920073E2E8 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
 		1C80B2B5062198DE0073E2E8 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PrefPane.nib; sourceTree = "<group>"; };
 		1C80B2B706219F160073E2E8 /* MacUIMPrefPane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MacUIMPrefPane.h; path = Sources/MacUIMPrefPane.h; sourceTree = "<group>"; };
 		1C80B2B806219F160073E2E8 /* MacUIMPrefPane.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MacUIMPrefPane.m; path = Sources/MacUIMPrefPane.m; sourceTree = "<group>"; };
 		1C837F79060C7AA70042AA48 /* CocoaWinController.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CocoaWinController.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
-		1C837F7A060C7AA70042AA48 /* Info-CocoaWinController.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Info-CocoaWinController.plist"; sourceTree = "<group>"; };
+		1C837F7A060C7AA70042AA48 /* Info-CocoaWinController.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-CocoaWinController.plist"; sourceTree = "<group>"; };
 		1C837F8A060C7F7C0042AA48 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/CocoaWindow.nib; sourceTree = "<group>"; };
 		1C997C29060DFA2D00D168CB /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = /System/Library/Frameworks/CoreServices.framework; sourceTree = "<absolute>"; };
 		1CA3F1B00627F12E00F1C327 /* UIM.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIM.framework; path = /Library/Frameworks/UIM.framework; sourceTree = "<absolute>"; };
@@ -291,7 +291,7 @@
 		1CEBCB250626E2F900DB6963 /* MacUIMHelperView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MacUIMHelperView.h; path = Sources/MacUIMHelperView.h; sourceTree = "<group>"; };
 		1CEBCB260626E2F900DB6963 /* MacUIMHelperView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MacUIMHelperView.m; path = Sources/MacUIMHelperView.m; sourceTree = "<group>"; };
 		1CEBCB7B0626F80E00DB6963 /* MenuCracker.menu */ = {isa = PBXFileReference; lastKnownFileType = wrapper.cfbundle; name = MenuCracker.menu; path = Sources/MenuCracker/MenuCracker.menu; sourceTree = "<group>"; };
-		8D01CCD10486CAD60068D4B7 /* Info-MacUIM.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Info-MacUIM.plist"; sourceTree = "<group>"; };
+		8D01CCD10486CAD60068D4B7 /* Info-MacUIM.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-MacUIM.plist"; sourceTree = "<group>"; };
 		8D01CCD20486CAD60068D4B7 /* MacUIM.component */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MacUIM.component; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -956,6 +956,7 @@
 				DEBUGGING_SYMBOLS = YES;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_GC = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -987,6 +988,7 @@
 				DEBUGGING_SYMBOLS = YES;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_GC = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1017,6 +1019,7 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_GC = YES;
 				GCC_OPTIMIZATION_LEVEL = 3;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
@@ -1043,6 +1046,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_DEBUGGING_SYMBOLS = full;
+				GCC_ENABLE_OBJC_GC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
@@ -1066,6 +1070,7 @@
 		1CAEDF240857309600A8C6B0 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_ENABLE_OBJC_GC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
