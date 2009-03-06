@@ -101,3 +101,41 @@ Index: uim.pc.in
 -Libs: -L${libdir} -luim-scm -luim @LIBINTL@ @LIBICONV@
 +Cflags: -I${includedir}
 +Libs: -framework UIM
+Index: scm/action.scm
+===================================================================
+--- scm/action.scm	(revision 5889)
++++ scm/action.scm	(working copy)
+@@ -232,19 +232,23 @@
+ 
+ (define widget-update-configuration!
+   (lambda (widget)
+-    (let* ((new-config (widget-configuration widget))
+-	   (config-updated? (not (equal? (widget-prev-config widget)
+-					 new-config))))
+-      (widget-set-prev-config! widget new-config)
+-      config-updated?)))
++    (if (symbol? widget)
++      #f
++      (let* ((new-config (widget-configuration widget))
++	     (config-updated? (not (equal? (widget-prev-config widget)
++					   new-config))))
++        (widget-set-prev-config! widget new-config)
++        config-updated?))))
+ 
+ (define widget-update-state!
+   (lambda (widget)
+-    (let* ((new-state (widget-state widget))
+-	   (state-updated? (not (equal? (widget-prev-state widget)
+-					new-state))))
+-      (widget-set-prev-state! widget new-state)
+-      state-updated?)))
++    (if (symbol? widget)
++      #f
++      (let* ((new-state (widget-state widget))
++	     (state-updated? (not (equal? (widget-prev-state widget)
++					  new-state))))
++        (widget-set-prev-state! widget new-state)
++        state-updated?))))
+ 
+ (define widget-debug-message
+   (lambda (widget location defect)

@@ -44,6 +44,7 @@ PKG_CONFIG_PATH="/Library/PRIME/lib/pkgconfig:/Library/Anthy/lib/pkgconfig:/Libr
   --with-anthy-utf8 \
   --with-curl \
   --with-expat=/opt/macuim \
+  --enable-openssl \
   || exit 1
 #  --without-gtk2  \
 #  --without-x  \
@@ -170,8 +171,8 @@ rm -rf include share/applications bin/uim-sh lib/libuim*
 rm -rf lib/libgcroots*
 rm -rf lib/pkgconfig/gcroots.pc
 
-rm -rf bin/uim-toolbar-gtk*
-rm -rf bin/uim-pref-gtk
+#rm -rf bin/uim-toolbar-gtk*
+#rm -rf bin/uim-pref-gtk
 rm -rf bin/uim-im-switcher-gtk
 rm -rf bin/uim-input-pad-ja
 
