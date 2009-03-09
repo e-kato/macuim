@@ -39,7 +39,7 @@
 
 static MacUIMController *activeContext;
 static MacUIMController *lastDeactivatedContext;
-static NSMutableArray *contextList;
+static NSPointerArray *contextList;
 
 @implementation MacUIMController
 
@@ -86,8 +86,8 @@ static NSMutableArray *contextList;
 						 UIMSwitchSystemGlobalIM);
 
 		if (!contextList)
-			contextList = [[NSMutableArray alloc] init];
-		[contextList addObject:self];
+			contextList = [[NSPointerArray pointerArrayWithWeakObjects] retain];
+		[contextList addPointer:self];
 	}
 
 	return self;
@@ -450,7 +450,15 @@ static NSMutableArray *contextList;
 	uim_release_context(uc);
 	[fixedBuffer release];
 	[preeditBuffer release];
-	[contextList removeObject:self];
+	int i, count;
+	count = [contextList count];
+	for (i = 0; i < count; i++) {
+		if ([contextList pointerAtIndex:i] == self)
+			break;
+	}
+	if (i < count)
+		[contextList removePointerAtIndex:i];
+
 	[super dealloc];
 }
 
@@ -569,7 +577,7 @@ static NSMutableArray *contextList;
 	
 	n = [contextList count];
 	for (i = 0; i < n; i++) {
-		uim_prop_update_custom([[contextList objectAtIndex:i] uc],
+		uim_prop_update_custom([(MacUIMController *)[contextList pointerAtIndex:i] uc],
 				       custom, val);
 		break; /* all custom variables are global */
 	}
@@ -581,7 +589,7 @@ static NSMutableArray *contextList;
 	
 	n = [contextList count];
 	for (i = 0; i < n; i++)
-		uim_switch_im([[contextList objectAtIndex:i] uc], im);
+		uim_switch_im([(MacUIMController *)[contextList pointerAtIndex:i] uc], im);
 }
 
 - (void)openSystemPrefs:(id)sender
