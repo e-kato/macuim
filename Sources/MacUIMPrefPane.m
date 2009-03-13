@@ -243,10 +243,18 @@ done:
     propVal = CFPreferencesCopyAppValue(CFSTR(kPrefCandFont), appID);
     if (propVal && CFGetTypeID(propVal) == CFStringGetTypeID())
       name = (NSString *) propVal;
+    else {
+      if (propVal)
+	CFRelease(propVal);
+    }
     
     propVal = CFPreferencesCopyAppValue(CFSTR(kPrefCandFontSize), appID);
     if (propVal && CFGetTypeID(propVal) == CFNumberGetTypeID())
       size = (NSNumber *) propVal;
+    else {
+      if (propVal)
+	CFRelease(propVal);
+    }
     
     if (name && size)
       font = [NSFont fontWithName:name size:[size floatValue]];
@@ -254,6 +262,11 @@ done:
       font = [NSFont userFontOfSize:12];
     
     [self updateFontSample];
+
+    if (name)
+      [name release];
+    if (size)
+      [size release];
   }
   
   // transparency of candidate window
