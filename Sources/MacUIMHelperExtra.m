@@ -700,17 +700,25 @@ convertHelperString(char *str);
   CFPreferencesAppSynchronize(CFSTR(kAppID));
 
   propVal = CFPreferencesCopyAppValue(CFSTR(kPrefIM), CFSTR(kAppID));
-  if (!propVal || CFGetTypeID(propVal) != CFStringGetTypeID())
+  if (!propVal)
     return;
+  if (CFGetTypeID(propVal) != CFStringGetTypeID()) {
+    CFRelease(propVal);
+    return;
+  }
 
   if (imName) [imName release];
 
   imName = (NSString *) propVal;
 
   propVal = CFPreferencesCopyAppValue(CFSTR(kPrefHelperIM), CFSTR(kAppID));
-  if (!propVal || CFGetTypeID(propVal) != CFArrayGetTypeID())
+  if (!propVal)
     return;
-  
+  if (CFGetTypeID(propVal) != CFArrayGetTypeID()) {
+    CFRelease(propVal);
+    return;
+  }
+
   array = (NSArray *) propVal;
   
   [imNames removeAllObjects];
