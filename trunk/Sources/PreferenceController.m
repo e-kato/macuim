@@ -86,7 +86,8 @@ static PreferenceController *sharedController;
 					    CFSTR(kAppID));
 	if (propVal && CFGetTypeID(propVal) == CFStringGetTypeID()) {
 		gCandFont = (CFStringRef)propVal;
-		CFRetain(gCandFont);
+	} else {
+		CFRelease(propVal);
 	}
 
 	propVal = CFPreferencesCopyAppValue(CFSTR(kPrefCandFontSize),
@@ -95,6 +96,7 @@ static PreferenceController *sharedController;
 		CFNumberGetValue((CFNumberRef)propVal,
 				kCFNumberFloatType, &gCandFontSize);
 	}
+	CFRelease(propVal);
 
 	gEnableModeTips =
 		CFPreferencesGetAppBooleanValue(CFSTR(kPrefModeTips),
@@ -106,6 +108,7 @@ static PreferenceController *sharedController;
 				   kCFStringEncodingMacRoman);
 	} else
 		[self setIMName:kDefaultIM];
+	CFRelease(propVal);
 }
 
 - (void)setIMName:(const char *)str
