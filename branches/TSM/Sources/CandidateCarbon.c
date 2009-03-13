@@ -122,7 +122,6 @@ InitCandidateWindow(MUIMSessionHandle inHandle)
     (*inHandle)->fBundleRef = CFBundleCreate(NULL, bundleURL2);
   require((*inHandle)->fBundleRef, CantCreateBundle);
                 
-  CFRelease(bundleURL);
 
   // call function to initialize bundle
   initPtr = CFBundleGetFunctionPointerForName((*inHandle)->fBundleRef,
@@ -136,11 +135,18 @@ InitCandidateWindow(MUIMSessionHandle inHandle)
                 
  CantCreateBundleURL:
  CantCreateBundle:
-  CFRelease(baseURL);
  CantCopyURL:
  CantFindMainBundle:
  CantFindFunction:
  CantInitializeBundle:
+  if (bundleURL)
+    CFRelease(bundleURL);
+  if (bundleURL2)
+    CFRelease(bundleURL2);
+  if (baseURL)
+    CFRelease(baseURL);
+  if (baseURL2)
+    CFRelease(baseURL2);
 
   return res;
 }

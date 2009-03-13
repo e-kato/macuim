@@ -267,12 +267,18 @@ MUIMInitialize(ComponentInstance inComponentInstance,
     propVal = CFPreferencesCopyAppValue(CFSTR(kPrefCandFont), CFSTR(kAppID));
     if (propVal && CFGetTypeID(propVal) == CFStringGetTypeID()) {
       gCandFont = (CFStringRef) propVal;
-      CFRetain(gCandFont);
+    } else {
+      if (propVal)
+	CFRelease(propVal);
     }
     
     propVal = CFPreferencesCopyAppValue(CFSTR(kPrefCandFontSize), CFSTR(kAppID));
     if (propVal && CFGetTypeID(propVal) == CFNumberGetTypeID())
       CFNumberGetValue((CFNumberRef) propVal, kCFNumberFloatType, &gCandFontSize);
+    else {
+      if (propVal)
+	CFRelease(propVal);
+    }
   
     if (CFPreferencesGetAppBooleanValue(CFSTR(kPrefModeTips),
                                         CFSTR(kAppID), &dummy))
