@@ -215,7 +215,7 @@ static CocoaWinController *sharedController;
 		// use just the last one character of the string
 		int headLen = strlen(head);
 		const char *shead = head + headLen - 1;
-		headStr = [[NSAttributedString alloc]
+		headStr = [[[NSAttributedString alloc]
 				initWithString:
 					[NSString stringWithUTF8String:shead]
 				attributes:
@@ -223,20 +223,20 @@ static CocoaWinController *sharedController;
 						dictionaryWithObjectsAndKeys:
 							font_small,
 							NSFontAttributeName,
-							nil]];
+							nil]] autorelease];
 	} else {
-		headStr = [[NSAttributedString alloc]
+		headStr = [[[NSAttributedString alloc]
 				initWithString:@""
 				attributes:
 					[NSDictionary
 						dictionaryWithObjectsAndKeys:
 							font_small,
 							NSFontAttributeName,
-							nil]];
+							nil]] autorelease];
 	}
 
 	if (cand)
-		candStr = [[NSAttributedString alloc]
+		candStr = [[[NSAttributedString alloc]
 				initWithString:
 					[NSString stringWithUTF8String:cand]
 				attributes:
@@ -244,16 +244,16 @@ static CocoaWinController *sharedController;
 						dictionaryWithObjectsAndKeys:
 							font,
 							NSFontAttributeName,
-							nil]];
+							nil]] autorelease];
 	else
-		candStr = [[NSAttributedString alloc]
+		candStr = [[[NSAttributedString alloc]
 				initWithString:@""
 				attributes:
 					[NSDictionary
 						dictionaryWithObjectsAndKeys:
 							font,
 							NSFontAttributeName,
-							nil]];
+							nil]] autorelease];
 
 	[headArray addObject:headStr];
 	[candArray addObject:candStr];
