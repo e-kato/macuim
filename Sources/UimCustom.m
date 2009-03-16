@@ -230,25 +230,25 @@ static void UimUpdateCustom(void *ptr, const char *custom_sym);
       
 	    switch (uc->type) {
 	    case UCustom_Bool:
-	          custom = [[UimCustomBoolean alloc] initWithCustom:uc];
+	          custom = [[[UimCustomBoolean alloc] initWithCustom:uc] autorelease];
 	          break;
 	    case UCustom_Int:
-	          custom = [[UimCustomInteger alloc] initWithCustom:uc];
+	          custom = [[[UimCustomInteger alloc] initWithCustom:uc] autorelease];
 	          break;
 	    case UCustom_Str:
-	          custom = [[UimCustomString alloc] initWithCustom:uc];
+	          custom = [[[UimCustomString alloc] initWithCustom:uc] autorelease];
 	          break;
 	    case UCustom_Pathname:
-	          custom = [[UimCustomPathname alloc] initWithCustom:uc];
+	          custom = [[[UimCustomPathname alloc] initWithCustom:uc] autorelease];
 	          break;
 	    case UCustom_Choice:
-	          custom = [[UimCustomChoice alloc] initWithCustom:uc];
+	          custom = [[[UimCustomChoice alloc] initWithCustom:uc] autorelease];
 	          break;
 	    case UCustom_OrderedList:
-	          custom = [[UimCustomOrderedList alloc] initWithCustom:uc];
+	          custom = [[[UimCustomOrderedList alloc] initWithCustom:uc] autorelease];
 	          break;
 	    case UCustom_Key:
-	          custom = [[UimCustomKey alloc] initWithCustom:uc];
+	          custom = [[[UimCustomKey alloc] initWithCustom:uc] autorelease];
 	          break;
 	    }
 	      
