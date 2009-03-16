@@ -37,6 +37,9 @@ static CocoaWinController *sharedController;
  
 + (id)sharedController
 {
+	if (!sharedController)
+		[[self alloc] init];
+
 	return sharedController;
 }
 
@@ -56,7 +59,7 @@ static CocoaWinController *sharedController;
 	}
 	sharedController = self;
 
-	pref = [[PreferenceController alloc] init];
+	pref = [PreferenceController sharedController];
 	[self setFont:(NSString *)[pref candFont] size:[pref candFontSize]];
 
 	origSize = [panel frame].size;

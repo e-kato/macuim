@@ -51,6 +51,9 @@ static void helperDisconnect()
 
 + (id)sharedController
 {
+	if (!sharedController)
+		[[self alloc] init];
+
 	return sharedController;
 }
 

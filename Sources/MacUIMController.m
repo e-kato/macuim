@@ -49,7 +49,7 @@ static NSPointerArray *contextList;
 	if (self = [super initWithServer:server delegate:delegate client:inputClient]) {
 		currentClient = nil;
 
-		pref = [[PreferenceController alloc] init];
+		pref = [PreferenceController sharedController];
 
 		uc = uim_create_context(self,
 					"UTF-8",
@@ -74,9 +74,9 @@ static NSPointerArray *contextList;
 		caretSegmentStartPos = -1;
 		caretPrevSegLen = 0;
 
-		candWin = [[CocoaWinController alloc] init];
+		candWin = [CocoaWinController sharedController];
 
-		helperController = [[UimHelperController alloc] init];
+		helperController = [UimHelperController sharedController];
 		[helperController checkHelperConnection];
 
 		uim_set_prop_list_update_cb(uc, UIMUpdatePropList);

@@ -48,6 +48,9 @@ static PreferenceController *sharedController;
 
 + (id)sharedController
 {
+	if (!sharedController)
+		[[self alloc] init];
+
 	return sharedController;
 }
 

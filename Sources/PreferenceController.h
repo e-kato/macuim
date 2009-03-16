@@ -51,6 +51,8 @@
 - (int)candTransparency;
 - (float)candFontSize;
 - (BOOL)enableModeTips;
+
++ (id)sharedController;
 @end
 
 
