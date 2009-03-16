@@ -58,6 +58,7 @@ static void UimUpdateCustom(void *ptr, const char *custom_sym);
 - (void)dealloc
 {
   [controller release];
+  [super dealloc];
 }
 
 - (UimCustomController *)controller
@@ -173,6 +174,8 @@ static void UimUpdateCustom(void *ptr, const char *custom_sym);
   
   if (custom_group)
     uim_custom_group_free(custom_group);
+
+  [super dealloc];
 }
 
 - (struct uim_custom_group *)customGroup
