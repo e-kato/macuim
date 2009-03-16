@@ -203,16 +203,16 @@ static CocoaWinController *sharedController;
   NSString *candStr;
 
   if (head && headLen > 0)
-    headStr = [[NSString alloc] initWithCharacters:head + headLen - 1
-                                length:1];
+    headStr = [[[NSString alloc] initWithCharacters:head + headLen - 1
+                                length:1] autorelease];
   else
-    headStr = [[NSString alloc] initWithString:@""];;
+    headStr = [[[NSString alloc] initWithString:@""] autorelease];
 
   if (cand && candLen > 0)
-    candStr = [[NSString alloc] initWithCharacters:cand
-                                length:candLen];
+    candStr = [[[NSString alloc] initWithCharacters:cand
+                                length:candLen] autorelease];
   else
-    candStr = [[NSString alloc] initWithString:@""];;
+    candStr = [[[NSString alloc] initWithString:@""] autorelease];
 
   [headArray addObject:headStr];
   [candArray addObject:candStr];

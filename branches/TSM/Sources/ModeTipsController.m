@@ -150,35 +150,6 @@ static ModeTipsController *sharedController;
   }
 }
 
-- (NSArray *)parseLabel:(NSArray *)lines
-{
-  int i;
-  NSString *line;
-  NSArray *cols;
-  NSMutableArray *labels;
-  
-  if (!lines || [lines count] < 2)
-    return nil;
-  
-  labels = [[NSMutableArray alloc] init];
-  
-  for (i = 0; i < [lines count] - 1; i++) {
-    line = [lines objectAtIndex:i];
-    if (!line || [line compare:@""] == NSOrderedSame)
-      break;
-    
-    cols = [line componentsSeparatedByString:@"\t"];
-    if (cols && [cols count] >= 2) {
-      NSMutableString *label =
-        [[[NSMutableString alloc] initWithString:[cols objectAtIndex:0]]
-          autorelease];
-      [labels addObject:label];
-    }
-  }
-  
-  return labels;
-}
-
 @end
 
 OSStatus
