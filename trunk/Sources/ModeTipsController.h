@@ -55,7 +55,6 @@
 - (void)hideModeTips;
 - (void)modeTipsFadeStart:(NSTimer *)timer;
 - (void)modeTipsFade:(NSTimer *)timer;
-- (NSArray *)parseLabel:(NSArray *)lines;
 
 + (id)sharedController;
 
