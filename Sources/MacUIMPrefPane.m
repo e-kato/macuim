@@ -143,19 +143,19 @@ prefChanged(CFNotificationCenterRef inCenter, void *inObserver,
           UniCharPtr scriptStr;
           int len;
 
-          [imOnArray addObject:[[NSNumber alloc] initWithInt:NSOffState]];
+          [imOnArray addObject:[[[NSNumber alloc] initWithInt:NSOffState] autorelease]];
           
           len = [self charArrayToUni:imModules[i]->name
                               uniStr:&nameStr
                               encoding:kTextEncodingMacRoman];
-          [imNameArray addObject:[[NSString alloc] initWithCharacters:nameStr
-                                                               length:len]];
+          [imNameArray addObject:[[[NSString alloc] initWithCharacters:nameStr
+                                                               length:len] autorelease]];
           
           len = [self charArrayToUni:imModules[i]->lang
                               uniStr:&scriptStr
                               encoding:kTextEncodingMacRoman];
-          [imScriptArray addObject:[[NSString alloc] initWithCharacters:scriptStr
-                                                                 length:len]];
+          [imScriptArray addObject:[[[NSString alloc] initWithCharacters:scriptStr
+                                                                 length:len] autorelease]];
         }
       }
     }
