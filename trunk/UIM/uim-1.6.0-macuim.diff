@@ -45,19 +45,6 @@ Index: scm/generic-key-custom.scm
                 '(global-keys1)
  	       '(key)
  	       (N_ "[Global] off")
-Index: uim/prime.c
-===================================================================
---- uim/prime.c	(revision 5027)
-+++ uim/prime.c	(working copy)
-@@ -61,7 +61,7 @@
- static FILE *primer, *primew;
- static pid_t prime_pid = 0;
- 
--static char *prime_command = "prime";
-+static char *prime_command = "/Library/PRIME/bin/prime";
- 
- static char *prime_ud_path;
- static int prime_fd = -1;
 Index: uim/uim-helper.c
 ===================================================================
 --- uim/uim-helper.c	(revision 5027)
