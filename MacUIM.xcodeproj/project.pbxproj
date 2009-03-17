@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		4140F4970F3852DF00F51127 /* RSVerticallyCenteredTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4140F4960F3852DF00F51127 /* RSVerticallyCenteredTextFieldCell.m */; };
+		414363F90F6F8E5200CFE24F /* MacUIMPref.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 41A03B090F388EBB00AE2344 /* MacUIMPref.tiff */; };
+		414364C90F6FB27300CFE24F /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 414364C80F6FB27300CFE24F /* Growl.framework */; };
+		414364DC0F6FB78700CFE24F /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 414364C80F6FB27300CFE24F /* Growl.framework */; };
 		415F09350F355781007AA30B /* UimHelperController.m in Sources */ = {isa = PBXBuildFile; fileRef = 415F09340F355781007AA30B /* UimHelperController.m */; };
 		41951C2D0F3F48BB00F6B975 /* MacUIMApplicationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 41951C2C0F3F48BB00F6B975 /* MacUIMApplicationDelegate.m */; };
 		41A03AB50F388B9B00AE2344 /* PreferencePanes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41A03AB40F388B9B00AE2344 /* PreferencePanes.framework */; };
@@ -81,6 +84,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		4182F37C0F6F76C7008A293C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				414364DC0F6FB78700CFE24F /* Growl.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		41A03E0E0F38AAF100AE2344 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -104,6 +117,7 @@
 		32CA4F630368D1EE00C91783 /* MacUIM_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MacUIM_Prefix.pch; path = Sources/MacUIM_Prefix.pch; sourceTree = "<group>"; };
 		41076C390F3852C000F32AFF /* RSVerticallyCenteredTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RSVerticallyCenteredTextFieldCell.h; path = Sources/RSVerticallyCenteredTextFieldCell.h; sourceTree = "<group>"; };
 		4140F4960F3852DF00F51127 /* RSVerticallyCenteredTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RSVerticallyCenteredTextFieldCell.m; path = Sources/RSVerticallyCenteredTextFieldCell.m; sourceTree = "<group>"; };
+		414364C80F6FB27300CFE24F /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = Sources/Growl/Growl.framework; sourceTree = "<group>"; };
 		4151FCB80F3C24720047C754 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		415F09330F355781007AA30B /* UimHelperController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UimHelperController.h; path = Sources/UimHelperController.h; sourceTree = "<group>"; };
 		415F09340F355781007AA30B /* UimHelperController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UimHelperController.m; path = Sources/UimHelperController.m; sourceTree = "<group>"; };
@@ -236,6 +250,7 @@
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				E93074B70A5C264700470842 /* InputMethodKit.framework in Frameworks */,
 				41BAAD150F304A9900A56D3E /* UIM.framework in Frameworks */,
+				414364C90F6FB27300CFE24F /* Growl.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -395,7 +410,6 @@
 				41A03B060F388EBB00AE2344 /* UimCustomKeyController.m */,
 				41A03B070F388EBB00AE2344 /* CustomViewCell.m */,
 				41A03B080F388EBB00AE2344 /* CustomViewController.m */,
-				41A03B090F388EBB00AE2344 /* MacUIMPref.tiff */,
 			);
 			name = PrefPane;
 			sourceTree = "<group>";
@@ -415,6 +429,7 @@
 		41A03B310F388F9B00AE2344 /* Other Products */ = {
 			isa = PBXGroup;
 			children = (
+				414364C80F6FB27300CFE24F /* Growl.framework */,
 				41A03E270F38AD9100AE2344 /* MenuCracker.menu */,
 			);
 			name = "Other Products";
@@ -441,6 +456,7 @@
 		E93396E20A9A0AAD0073E6C4 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				41A03B090F388EBB00AE2344 /* MacUIMPref.tiff */,
 				E93396E50A9A0AD50073E6C4 /* MacUIM.tiff */,
 			);
 			name = images;
@@ -492,6 +508,7 @@
 				8D1107290486CEB800E47090 /* Resources */,
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
+				4182F37C0F6F76C7008A293C /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -555,6 +572,7 @@
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				E93396E90A9A0AD60073E6C4 /* MacUIM.tiff in Resources */,
 				41F42DFE0F31B48B00B8A4AB /* CocoaWindow.nib in Resources */,
+				414363F90F6F8E5200CFE24F /* MacUIMPref.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -854,6 +872,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/Sources\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/Sources/Growl\"";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
@@ -873,6 +900,15 @@
 					ppc,
 					i386,
 				);
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/Sources\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/Sources/Growl\"";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				INFOPLIST_FILE = "Info-MacUIM.plist";

@@ -32,12 +32,16 @@
 */
 
 #import <Cocoa/Cocoa.h>
+#import <Growl/GrowlApplicationBridge.h>
 
 
-@interface MacUIMApplicationDelegate : NSObject {
+@interface MacUIMApplicationDelegate : NSObject <GrowlApplicationBridgeDelegate>
+{
 	IBOutlet NSMenu *_menu;
+	BOOL growlAvailable;
 }
 
 - (NSMenu *)menu;
+- (NSDictionary *)registrationDictionaryForGrowl;
 
 @end

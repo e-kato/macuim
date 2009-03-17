@@ -1,0 +1,20 @@
+--- Growl-1.1.4-src/Growl.xcodeproj/project.pbxproj	2008-06-16 11:31:09.000000000 +0900
++++ Growl-1.1.4-src.ek/Growl.xcodeproj/project.pbxproj	2009-03-17 18:38:22.000000000 +0900
+@@ -4044,7 +4044,7 @@
+ 				INFOPLIST_FILE = "Framework/Resources/Growl.framework-Info.plist";
+ 				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/SVNRevision.h";
+ 				INFOPLIST_PREPROCESS = YES;
+-				INSTALL_PATH = "@executable_path/../Frameworks";
++				INSTALL_PATH = "/Library/Input Methods/MacUIM.app/Contents/Frameworks";
+ 				LIBRARY_STYLE = DYNAMIC;
+ 				MACH_O_TYPE = mh_dylib;
+ 				OTHER_LDFLAGS = (
+@@ -4077,7 +4077,7 @@
+ 				INFOPLIST_FILE = "Framework/Resources/Growl.framework-Info.plist";
+ 				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/SVNRevision.h";
+ 				INFOPLIST_PREPROCESS = YES;
+-				INSTALL_PATH = "@executable_path/../Frameworks";
++				INSTALL_PATH = "/Library/Input Methods/MacUIM.app/Contents/Frameworks";
+ 				LIBRARY_STYLE = DYNAMIC;
+ 				MACH_O_TYPE = mh_dylib;
+ 				OTHER_LDFLAGS = (

@@ -308,11 +308,28 @@ MenuCracker.menuをMacUIM/Sources/MenuCrackerに置く。
      MenuCracker/
        MenuCracker.menu
 
+=== Growl
+
+Growlでメッセージを通知するために使用。
+http://growl.info/files/source/Growl-1.1.4-src.tar.bz2をダウンロードし、パッチを当てGrowl.frameworkを作成。
+
+ % cd Growl-1.1.4-src
+ % patch -p1 ../growl.diff
+ % ../build-growl
+
+以下のようなディレクトリ構成になる。
+
+ MacUIM/
+   Sources/
+     Growl/
+       Growl.framework
+
+
 == MacUIMのビルド
 
 配布するバージョンをビルドする場合はdeployを実行する。
 これによってMacUIMがdestディレクトリに置かれる。
-
+ 
 Input Methods/MacUIM.app     - MacUIM本体
 PreferencePanes/MacUIM.prefPane - 環境設定
 
