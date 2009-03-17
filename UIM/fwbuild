@@ -45,6 +45,7 @@ PKG_CONFIG_PATH="/Library/PRIME/lib/pkgconfig:/Library/Anthy/lib/pkgconfig:/Libr
   --with-curl \
   --with-expat=/opt/macuim \
   --enable-openssl \
+  --enable-notify=growl \
   || exit 1
 #  --without-gtk2  \
 #  --without-x  \

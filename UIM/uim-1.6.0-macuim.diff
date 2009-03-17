@@ -139,3 +139,29 @@ Index: scm/action.scm
  
  (define widget-debug-message
    (lambda (widget location defect)
+Index: uim/uim-notify.c
+===================================================================
+--- uim/uim-notify.c	(revision 5896)
++++ uim/uim-notify.c	(working copy)
+@@ -52,7 +52,7 @@
+ #include "uim-notify.h"
+ 
+ 
+-#define NOTIFY_PLUGIN_PATH LIBDIR "/uim/notify"
++#define NOTIFY_PLUGIN_PATH LIBDIR "/../pkglib/notify"
+ #define NOTIFY_PLUGIN_PREFIX "libuimnotify-"
+ #define NOTIFY_PLUGIN_SUFFIX ".so"
+ 
+Index: scm/im-custom.scm
+===================================================================
+--- scm/im-custom.scm	(revision 5896)
++++ scm/im-custom.scm	(working copy)
+@@ -599,7 +599,7 @@
+ 		     (N_ "Notify")
+ 		     (N_ "long description will be here."))
+ 
+-(define-custom 'notify-agent 'stderr
++(define-custom 'notify-agent 'growl
+   '(notify)
+   `(choice
+     ,@(uim-notify-get-plugins))
