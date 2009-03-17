@@ -152,3 +152,39 @@ Index: scm/im-custom.scm
    '(notify)
    `(choice
      ,@(uim-notify-get-plugins))
+Index: fep/Makefile.am
+===================================================================
+--- fep/Makefile.am	(revision 5896)
++++ fep/Makefile.am	(working copy)
+@@ -9,7 +9,8 @@
+ uim_fep_CPPFLAGS = -I$(top_srcdir)
+ uim_fep_CFLAGS =
+ uim_fep_LDADD = $(top_builddir)/uim/libuim-scm.la \
+-		$(top_builddir)/uim/libuim.la @FEP_LIBADD@
++		$(top_builddir)/uim/libuim.la @FEP_LIBADD@ \
++		$(top_builddir)/replace/libreplace.la
+ 
+ uim_fep_tick_SOURCES = uim-fep-tick.c uim-fep.h udsock.c udsock.h
+ uim_fep_tick_CPPFLAGS= -I$(top_srcdir)
+Index: scm/prime.scm
+===================================================================
+--- scm/prime.scm	(revision 5896)
++++ scm/prime.scm	(working copy)
+@@ -838,7 +838,7 @@
+       (or fds
+           (begin
+             (unlink socket-path)
+-            (process-with-daemon "prime" (list "prime" "-u" socket-path))
++            (process-with-daemon "/Library/PRIME/bin/prime" (list "/Library/PRIME/bin/prime" "-u" socket-path))
+             (let loop ((fds (prime-open-unix-domain-socket socket-path))
+                        (giveup 100))
+               (cond ((= giveup 0)
+@@ -899,7 +899,7 @@
+                      ((eq? prime-server-setting? 'tcpserver)
+                       (prime-open-with-tcp-socket prime-tcpserver-name prime-tcpserver-port))
+                      ((eq? prime-server-setting? 'pipe)
+-                      (prime-open-with-pipe "prime"))
++                      (prime-open-with-pipe "/Library/PRIME/bin/prime"))
+                      (else
+                       (uim-notify-fatal (N_ "Prime connection is not defined"))))))
+       (cons (open-file-port (car fds))
