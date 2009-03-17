@@ -581,14 +581,14 @@ convertHelperString(char *str);
       col = [cols objectAtIndex:0];
       if ([col compare:@"branch"] == NSOrderedSame) {
         NSMutableString *branch =
-          [[[NSMutableString alloc] initWithString:[cols objectAtIndex:2]] autorelease];
+          [[NSMutableString alloc] initWithString:[cols objectAtIndex:2]];
         [labels addObject:branch];
       }
       else if ([col compare:@"leaf"] == NSOrderedSame) {
         NSMutableString *mode = 
-          [[[NSMutableString alloc] initWithString:[cols objectAtIndex:3]] autorelease];
+          [[NSMutableString alloc] initWithString:[cols objectAtIndex:3]];
         NSMutableString *prop =
-          [[[NSMutableString alloc] initWithString:[cols objectAtIndex:5]] autorelease];
+          [[NSMutableString alloc] initWithString:[cols objectAtIndex:5]];
         
         // disable uim's IM-switch
         if ([prop compare:@"action_imsw_"
@@ -637,8 +637,8 @@ convertHelperString(char *str);
 
     cols = [line componentsSeparatedByString:@"\t"];
     if (cols && [cols count] >= 2) {
-      NSMutableString *label = [[[NSMutableString alloc]
-                                 initWithString:[cols objectAtIndex:0]] autorelease];
+      NSMutableString *label = [[NSMutableString alloc]
+                                 initWithString:[cols objectAtIndex:0]];
 #if DEBUG_HELPER_EXTRA
       fprintf(stderr, "propLabelUpdate: label='%s'\n", [label UTF8String]);
 #endif
