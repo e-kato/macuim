@@ -59,6 +59,50 @@
 				CFSTR(kAppID),
 				CFNotificationSuspensionBehaviorCoalesce);
 	}
+
+	[GrowlApplicationBridge setGrowlDelegate:self];
 }
 
+- (NSDictionary *)registrationDictionaryForGrowl
+{
+	NSMutableArray *defArray = [NSMutableArray array];
+	NSMutableArray *allArray = [NSMutableArray array];
+
+	[allArray addObject:@"uim notify info"];
+	[allArray addObject:@"uim notify fatal"];
+
+	[defArray addObject:@"uim notify info"];
+	[defArray addObject:@"uim notify fatal"];
+
+	NSDictionary *regDict = [NSDictionary
+		dictionaryWithObjectsAndKeys:
+			[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"], GROWL_APP_NAME,
+			allArray, GROWL_NOTIFICATIONS_ALL,
+			defArray, GROWL_NOTIFICATIONS_DEFAULT,
+			nil];
+	growlAvailable = YES;
+
+	return regDict;
+}
+
+- (NSData *)applicationIconDataForGrowl
+{
+
+	NSString *iconPath = [[[NSBundle mainBundle] bundlePath]
+				stringByAppendingPathComponent:
+				@"Contents/Resources/MacUIMPref.tiff"];
+	NSImage *image = [[[NSImage alloc]
+				initByReferencingFile:iconPath] autorelease];
+	NSData *imageData = [image TIFFRepresentation];
+
+	return imageData;
+}
+
+- (void)growlIsReady
+{
+	if (!growlAvailable) {
+		[GrowlApplicationBridge setGrowlDelegate:self];
+		growlAvailable = YES;
+	}
+}
 @end
