@@ -172,11 +172,11 @@ convertHelperString(char *str);
 
   if (clicked == NO) {
     strokeColor = [NSColor blackColor];
-    fillColor = [NSColor whiteColor];
+    fillColor = [NSColor colorWithCalibratedWhite:1.0 alpha:0.0];
   }
   else {
     strokeColor = [NSColor blackColor];
-    fillColor = [NSColor blackColor];
+    fillColor = [NSColor colorWithCalibratedWhite:0.0 alpha:0.0];
   }
 
   [image lockFocus];
