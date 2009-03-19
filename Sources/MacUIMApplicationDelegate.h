@@ -43,5 +43,7 @@
 
 - (NSMenu *)menu;
 - (NSDictionary *)registrationDictionaryForGrowl;
+- (NSData *)applicationIconDataForGrowl;
+- (void)growlIsReady;
 
 @end
