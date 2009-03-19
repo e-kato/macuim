@@ -32,8 +32,8 @@
 #import "ModeTipsView.h"
 
 #define kModeTipsWidth   19
-#define kModeTipsWidth2  29
-#define kModeTipsWidth3  43
+#define kModeTipsWidth2  40
+#define kModeTipsWidth3  57
 #define kModeTipsHeight  22
 
 @interface ModeTipsPanel : NSPanel
