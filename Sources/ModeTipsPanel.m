@@ -126,15 +126,13 @@
     [color set];
     [framePath stroke];
 
-    framePath =
-      [NSBezierPath bezierPathWithRect:
-        NSMakeRect(kModeTipsWidth2 / 2.0, 0.5,
-                   0.1, kModeTipsHeight - 1.0)];
-    [[NSColor whiteColor] set];
-    [framePath fill];
-
+    [[NSGraphicsContext currentContext] setShouldAntialias:NO];
+    framePath = [NSBezierPath bezierPath];
+    [framePath moveToPoint:NSMakePoint(kModeTipsWidth2 / 2.0, 0.5)];
+    [framePath lineToPoint:NSMakePoint(kModeTipsWidth2 / 2.0, 0.5 + kModeTipsHeight - 1.0)];
     [color set];
     [framePath stroke];
+    [[NSGraphicsContext currentContext] setShouldAntialias:YES];
   } else {
     framePath =
       [NSBezierPath bezierPathWithRect:
@@ -142,29 +140,23 @@
                    kModeTipsWidth3 - 1.0, kModeTipsHeight - 1.0)];
     [[NSColor whiteColor] set];
     [framePath fill];
-
     [color set];
     [framePath stroke];
 
-    framePath =
-      [NSBezierPath bezierPathWithRect:
-        NSMakeRect(kModeTipsWidth3 / 3.0, 0.5,
-                   0.1, kModeTipsHeight - 1.0)];
-    [[NSColor whiteColor] set];
-    [framePath fill];
 
+    [[NSGraphicsContext currentContext] setShouldAntialias:NO];
+    framePath = [NSBezierPath bezierPath];
+    [framePath moveToPoint:NSMakePoint(kModeTipsWidth3 / 3.0, 0.5)];
+    [framePath lineToPoint:NSMakePoint(kModeTipsWidth3 / 3.0, 0.5 + kModeTipsHeight - 1.0)];
     [color set];
     [framePath stroke];
 
-    framePath =
-      [NSBezierPath bezierPathWithRect:
-        NSMakeRect(kModeTipsWidth3 * 2.0 / 3.0, 0.5,
-                   0.1, kModeTipsHeight - 1.0)];
-    [[NSColor whiteColor] set];
-    [framePath fill];
-
+    framePath = [NSBezierPath bezierPath];
+    [framePath moveToPoint:NSMakePoint(kModeTipsWidth3 * 2.0 / 3.0, 0.5)];
+    [framePath lineToPoint:NSMakePoint(kModeTipsWidth3 * 2.0 / 3.0, 0.5 + kModeTipsHeight - 1.0)];
     [color set];
     [framePath stroke];
+    [[NSGraphicsContext currentContext] setShouldAntialias:YES];
   }
 
   [image unlockFocus];
