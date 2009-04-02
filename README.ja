@@ -328,7 +328,7 @@ http://growl.info/files/source/Growl-1.1.4-src.tar.bz2をダウンロードし�
 == MacUIMのビルド
 
 配布するバージョンをビルドする場合はdeployを実行する。
-これによってMacUIMがdestディレクトリに置かれる。
+これによってMacUIMがPackage_contentsディレクトリに置かれる。
  
 Input Methods/MacUIM.app     - MacUIM本体
 PreferencePanes/MacUIM.prefPane - 環境設定
@@ -361,7 +361,7 @@ SKK-JISYO.[LMS]がダウンロードされる。
 
 == パッケージ作成
 
-上記すべてを実行したら、PackageMakerでPackage/MacUIM.pmprojを開き、パッケージを
+上記すべてを実行したら、PackageMakerでPackage/MacUIM.pmdocを開き、パッケージを
 作成する(control + b)。
 このとき、ファイル名はMacUIM-<source_version>-<release_version>.pkgとする。
 

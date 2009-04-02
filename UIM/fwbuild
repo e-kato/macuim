@@ -93,7 +93,7 @@ make -w pkglibdir=${prefix}/pkglib || exit 1
 
 cd ..
 
-make -w DESTDIR=${dest} pkglibdir=${prefix}/pkglib \
+make -w DESTDIR=${dest} pkglibdir=${prefix}/pkglib DATADIRNAME=share \
   install || exit 1
 
 cd helper
