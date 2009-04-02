@@ -48,9 +48,6 @@ static UimPrefController *sharedController;
   return sharedController;
 }
 
-/*
- * Initialize the mode-tips contoller
- */
 - (void)awakeFromNib
 {
   char **groups, **grp;
