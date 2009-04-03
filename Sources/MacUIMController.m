@@ -597,6 +597,12 @@ static NSPointerArray *contextList;
 	[NSTask launchedTaskWithLaunchPath:@"/usr/bin/open"
 				 arguments:[NSArray arrayWithObject:@"/Library/PreferencePanes/MacUIM.prefPane"]];
 }
+
+- (void)openUimHelp:(id)sender
+{
+	[NSTask launchedTaskWithLaunchPath:@"/Library/Frameworks/UIM.framework/Versions/Current/bin/uim-help"
+				 arguments:[NSArray arrayWithObject:@""]];
+}
 @end
 
 static int convertKey(unsigned short keyCode,

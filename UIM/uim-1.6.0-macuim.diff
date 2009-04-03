@@ -350,6 +350,19 @@ Index: scm/im-custom.scm
    '(notify)
    `(choice
      ,@(uim-notify-get-plugins))
+Index: scm/uim-help.scm
+===================================================================
+--- scm/uim-help.scm	(revision 5946)
++++ scm/uim-help.scm	(working copy)
+@@ -64,7 +64,7 @@
+ 
+ (define (uim-help args)
+   (let ((cmd (cond ((eq? toolbar-help-browser 'system)
+-                    "xdg-open")
++                    "open")
+                    ((eq? toolbar-help-browser 'manual)
+                     toolbar-help-browser-name)
+                    (else
 Index: uim/uim-helper.c
 ===================================================================
 --- uim/uim-helper.c	(revision 5946)
