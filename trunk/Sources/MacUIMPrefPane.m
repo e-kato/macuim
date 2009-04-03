@@ -120,7 +120,6 @@ prefChanged(CFNotificationCenterRef inCenter, void *inObserver,
   bind_textdomain_codeset(PACKAGE, "UTF-8");
   
   // load IM modules
-  NSLog(@"call uim_init from MacUIMPrefPane.m");
   uim_init();
   uc = uim_create_context(NULL, "UTF-8",
                           NULL, NULL, NULL, NULL);
