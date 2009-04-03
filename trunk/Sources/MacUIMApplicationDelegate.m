@@ -45,9 +45,13 @@
 - (void)awakeFromNib
 {
 	NSMenuItem *preferences = [_menu itemWithTag:0];
+	NSMenuItem *help = [_menu itemWithTag:1];
 
 	if (preferences) {
 		[preferences setAction:@selector(openSystemPrefs:)];
+	}
+	if (help) {
+		[help setAction:@selector(openUimHelp:)];
 	}
 
 	CFNotificationCenterRef center =
