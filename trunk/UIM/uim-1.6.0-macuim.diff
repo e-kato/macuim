@@ -1,6 +1,20 @@
+Index: fep/Makefile.am
+===================================================================
+--- fep/Makefile.am	(revision 5946)
++++ fep/Makefile.am	(working copy)
+@@ -9,7 +9,8 @@
+ uim_fep_CPPFLAGS = -I$(top_srcdir)
+ uim_fep_CFLAGS =
+ uim_fep_LDADD = $(top_builddir)/uim/libuim-scm.la \
+-		$(top_builddir)/uim/libuim.la @FEP_LIBADD@
++		$(top_builddir)/uim/libuim.la @FEP_LIBADD@ \
++		$(top_builddir)/replace/libreplace.la
+ 
+ uim_fep_tick_SOURCES = uim-fep-tick.c uim-fep.h udsock.c udsock.h
+ uim_fep_tick_CPPFLAGS= -I$(top_srcdir)
 Index: scm/skk-custom.scm
 ===================================================================
---- scm/skk-custom.scm	(revision 5027)
+--- scm/skk-custom.scm	(revision 5946)
 +++ scm/skk-custom.scm	(working copy)
 @@ -386,8 +386,7 @@
  	 (lambda ()
@@ -12,85 +26,31 @@ Index: scm/skk-custom.scm
    '(skk-dict dict-files)
    '(pathname regular-file)
    (N_ "System dictionary file")
-Index: scm/tutcode-key-custom.scm
+Index: scm/prime.scm
 ===================================================================
---- scm/tutcode-key-custom.scm	(revision 5027)
-+++ scm/tutcode-key-custom.scm	(working copy)
-@@ -53,7 +53,7 @@
- 	       (N_ "[TUT-Code] off")
- 	       (N_ "long description will be here"))
- 
--(define-custom 'tutcode-kana-toggle-key '("<IgnoreShift>'")
-+(define-custom 'tutcode-kana-toggle-key '("<IgnoreShift>'" "<Shift>Private2")
-                '(tutcode-keys1 mode-transition)
- 	       '(key)
- 	       (N_ "[TUT-Code] toggle hiragana/katakana mode")
-Index: scm/generic-key-custom.scm
-===================================================================
---- scm/generic-key-custom.scm	(revision 5027)
-+++ scm/generic-key-custom.scm	(working copy)
-@@ -41,13 +41,13 @@
- 		     (N_ "long description will be here."))
- 
- 
--(define-custom 'generic-on-key '("zenkaku-hankaku" "<Shift> ")
-+(define-custom 'generic-on-key '("zenkaku-hankaku" "<Shift> " "Private2")
-                '(global-keys1)
- 	       '(key)
- 	       (N_ "[Global] on")
- 	       (N_ "long description will be here"))
- 
--(define-custom 'generic-off-key '("zenkaku-hankaku" "<Shift> ")
-+(define-custom 'generic-off-key '("zenkaku-hankaku" "<Shift> " "Private1")
-                '(global-keys1)
- 	       '(key)
- 	       (N_ "[Global] off")
-Index: uim/uim-helper.c
-===================================================================
---- uim/uim-helper.c	(revision 5027)
-+++ uim/uim-helper.c	(working copy)
-@@ -48,6 +48,8 @@
- #include <errno.h>
- #include <sys/stat.h>
- 
-+#include <libkern/OSByteOrder.h>
-+
- #include "uim-internal.h"
- #include "uim-helper.h"
- #include "uim-util.h"
-@@ -205,6 +207,9 @@
-     perror("getpeereid failed");
-     return -1;
-   }
-+  if (euid > INT32_MAX)
-+    euid = OSSwapInt32(euid);
-+
-   if ((euid != 0) && (euid != getuid())) {
-     fprintf(stderr, "uid mismatch\n");
-     return -1;
-Index: uim.pc.in
-===================================================================
---- uim.pc.in	(revision 5027)
-+++ uim.pc.in	(working copy)
-@@ -1,6 +1,6 @@
- prefix=@prefix@
- exec_prefix=@exec_prefix@
--includedir=@includedir@
-+includedir=@prefix@/Headers
- libdir=@libdir@
- datarootdir=@datarootdir@
- datadir=@datadir@
-@@ -10,5 +10,5 @@
- Name: uim
- Description: multilingual input method library
- Version: @VERSION@
--Cflags: -I${includedir}/uim
--Libs: -L${libdir} -luim-scm -luim @LIBINTL@ @LIBICONV@
-+Cflags: -I${includedir}
-+Libs: -framework UIM
+--- scm/prime.scm	(revision 5946)
++++ scm/prime.scm	(working copy)
+@@ -838,7 +838,7 @@
+       (or fds
+           (begin
+             (unlink socket-path)
+-            (process-with-daemon "prime" (list "prime" "-u" socket-path))
++            (process-with-daemon "/Library/PRIME/bin/prime" (list "/Library/PRIME/bin/prime" "-u" socket-path))
+             (let loop ((fds (prime-open-unix-domain-socket socket-path))
+                        (giveup 100))
+               (cond ((= giveup 0)
+@@ -899,7 +899,7 @@
+                      ((eq? prime-server-setting? 'tcpserver)
+                       (prime-open-with-tcp-socket prime-tcpserver-name prime-tcpserver-port))
+                      ((eq? prime-server-setting? 'pipe)
+-                      (prime-open-with-pipe "prime"))
++                      (prime-open-with-pipe "/Library/PRIME/bin/prime"))
+                      (else
+                       (uim-notify-fatal (N_ "Prime connection is not defined"))))))
+       (cons (open-file-port (car fds))
 Index: scm/action.scm
 ===================================================================
---- scm/action.scm	(revision 5889)
+--- scm/action.scm	(revision 5946)
 +++ scm/action.scm	(working copy)
 @@ -232,19 +232,23 @@
  
@@ -126,11 +86,262 @@ Index: scm/action.scm
  
  (define widget-debug-message
    (lambda (widget location defect)
+Index: scm/tutcode-key-custom.scm
+===================================================================
+--- scm/tutcode-key-custom.scm	(revision 5946)
++++ scm/tutcode-key-custom.scm	(working copy)
+@@ -53,7 +53,7 @@
+ 	       (N_ "[TUT-Code] off")
+ 	       (N_ "long description will be here"))
+ 
+-(define-custom 'tutcode-kana-toggle-key '("<IgnoreShift>'")
++(define-custom 'tutcode-kana-toggle-key '("<IgnoreShift>'" "<Shift>Private2")
+                '(tutcode-keys1 mode-transition)
+ 	       '(key)
+ 	       (N_ "[TUT-Code] toggle hiragana/katakana mode")
+Index: scm/generic-key-custom.scm
+===================================================================
+--- scm/generic-key-custom.scm	(revision 5946)
++++ scm/generic-key-custom.scm	(working copy)
+@@ -41,13 +41,13 @@
+ 		     (N_ "long description will be here."))
+ 
+ 
+-(define-custom 'generic-on-key '("zenkaku-hankaku" "<Shift> ")
++(define-custom 'generic-on-key '("zenkaku-hankaku" "<Shift> " "Private2")
+                '(global-keys1)
+ 	       '(key)
+ 	       (N_ "[Global] on")
+ 	       (N_ "long description will be here"))
+ 
+-(define-custom 'generic-off-key '("zenkaku-hankaku" "<Shift> ")
++(define-custom 'generic-off-key '("zenkaku-hankaku" "<Shift> " "Private1")
+                '(global-keys1)
+ 	       '(key)
+ 	       (N_ "[Global] off")
 Index: scm/im-custom.scm
 ===================================================================
---- scm/im-custom.scm	(revision 5896)
+--- scm/im-custom.scm	(revision 5946)
 +++ scm/im-custom.scm	(working copy)
-@@ -599,7 +599,7 @@
+@@ -371,6 +371,11 @@
+ 		 (lambda ()
+ 		   (update-style uim-color-spec (symbol-value uim-color))))
+ 
++(custom-add-hook 'uim-color
++		 'custom-activity-hooks
++		 (lambda ()
++		   enable-outside-macuim-setting?))
++
+ ;; referred by some bridges
+ (define-custom 'candidate-window-position 'caret
+   '(global visual-preference)
+@@ -387,6 +392,11 @@
+   (N_ "Candidate window position")
+   (N_ "long description will be here."))
+ 
++(custom-add-hook 'candidate-window-position
++		 'custom-activity-hooks
++		 (lambda ()
++		   enable-outside-macuim-setting?))
++
+ (define-custom 'enable-lazy-loading? #t
+   '(global advanced)
+   '(boolean)
+@@ -399,6 +409,12 @@
+ 		   (if enable-lazy-loading?
+ 		       (require "lazy-load.scm"))))
+ 
++(define-custom 'enable-outside-macuim-setting? #f
++  '(global advanced)
++  '(boolean)
++  (N_ "Enable uim settings other than for MacUIM")
++  (N_ "long description will be here."))
++
+ ;;
+ ;; toolbar buttons
+ ;;
+@@ -427,6 +443,11 @@
+   (N_ "Enable menu-based input method switcher")
+   (N_ "Show menu-based IM switcher on toolbar."))
+ 
++(custom-add-hook 'toolbar-show-action-based-switcher-button?
++		 'custom-activity-hooks
++		 (lambda ()
++		   enable-outside-macuim-setting?))
++
+ (define-custom 'imsw-coverage 'system-global
+   '(toolbar menu-imsw)
+   (list 'choice
+@@ -446,7 +467,8 @@
+ (custom-add-hook 'imsw-coverage
+ 		 'custom-activity-hooks
+ 		 (lambda ()
+-		   toolbar-show-action-based-switcher-button?))
++		   (and toolbar-show-action-based-switcher-button?
++			enable-outside-macuim-setting?)))
+ 
+ (define-custom 'toolbar-show-switcher-button? #f
+   '(toolbar buttons)
+@@ -454,36 +476,66 @@
+   (N_ "full-featured input method switcher")
+   (N_ "Show the button on toolbar that invokes uim-im-switcher application for IM switching."))
+ 
++(custom-add-hook 'toolbar-show-switcher-button?
++		 'custom-activity-hooks
++		 (lambda ()
++		   enable-outside-macuim-setting?))
++
+ (define-custom 'toolbar-show-pref-button? #t
+   '(toolbar buttons)
+   '(boolean)
+   (N_ "preference tool")
+   (N_ "long description will be here."))
+ 
++(custom-add-hook 'toolbar-show-pref-button?
++		 'custom-activity-hooks
++		 (lambda ()
++		   enable-outside-macuim-setting?))
++
+ (define-custom 'toolbar-show-dict-button? #f
+   '(toolbar buttons)
+   '(boolean)
+   (N_ "Japanese dictionary tool")
+   (N_ "long description will be here."))
+ 
++(custom-add-hook 'toolbar-show-dict-button?
++		 'custom-activity-hooks
++		 (lambda ()
++		   enable-outside-macuim-setting?))
++
+ (define-custom 'toolbar-show-input-pad-button? #f
+   '(toolbar buttons)
+   '(boolean)
+   (N_ "input pad")
+   (N_ "long description will be here."))
+ 
++(custom-add-hook 'toolbar-show-input-pad-button?
++		 'custom-activity-hooks
++		 (lambda ()
++		   enable-outside-macuim-setting?))
++
+ (define-custom 'toolbar-show-handwriting-input-pad-button? #f
+   '(toolbar buttons)
+   '(boolean)
+   (N_ "handwriting-input pad")
+   (N_ "long description will be here."))
+ 
++(custom-add-hook 'toolbar-show-handwriting-input-pad-button?
++		 'custom-activity-hooks
++		 (lambda ()
++		   enable-outside-macuim-setting?))
++
+ (define-custom 'toolbar-show-help-button? #f
+   '(toolbar buttons)
+   '(boolean)
+   (N_ "help")
+   (N_ "long description will be here."))
+ 
++(custom-add-hook 'toolbar-show-help-button?
++		 'custom-activity-hooks
++		 (lambda ()
++		   enable-outside-macuim-setting?))
++
+ (define-custom 'toolbar-help-browser 'system
+   '(toolbar toolbar-help)
+   (list 'choice
+@@ -496,6 +548,11 @@
+   (N_ "Document browser")
+   (N_ "long description will be here."))
+ 
++(custom-add-hook 'toolbar-help-browser
++		 'custom-activity-hooks
++		 (lambda ()
++		   enable-outside-macuim-setting?))
++
+ (define-custom 'toolbar-help-browser-name "firefox"
+   '(toolbar toolbar-help)
+   '(string ".*")
+@@ -505,7 +562,8 @@
+ (custom-add-hook 'toolbar-help-browser-name
+ 		 'custom-activity-hooks
+ 		 (lambda ()
+-                   (eq? toolbar-help-browser 'manual)))
++                   (and (eq? toolbar-help-browser 'manual)
++			enable-outside-macuim-setting?)))
+ 
+ (define-custom 'bridge-show-input-state? #f
+   '(global visual-preference)
+@@ -513,6 +571,11 @@
+   (N_ "Show input mode nearby cursor")
+   (N_ "long description will be here."))
+ 
++(custom-add-hook 'bridge-show-input-state?
++		 'custom-activity-hooks
++		 (lambda ()
++		   enable-outside-macuim-setting?))
++
+ (define-custom 'bridge-show-with? 'time
+   '(global visual-preference)
+   (list 'choice
+@@ -528,7 +591,9 @@
+ (custom-add-hook 'bridge-show-with?
+ 		 'custom-activity-hooks
+ 		 (lambda ()
+-                   bridge-show-input-state?))
++		   (and
++                     bridge-show-input-state?
++		     enable-outside-macuim-setting?)))
+ 
+ (define-custom 'bridge-show-input-state-time-length 3
+   '(global visual-preference)
+@@ -556,6 +621,11 @@
+   (N_ "Use EB library to search annotations")
+   (N_ "long description will be here."))
+ 
++(custom-add-hook 'eb-enable-for-annotation?
++		 'custom-activity-hooks
++		 (lambda ()
++		   enable-outside-macuim-setting?))
++
+ (define-custom 'eb-dic-path
+   (string-append (sys-datadir) "/dict")
+   '(eb candwin)
+@@ -563,10 +633,12 @@
+   (N_ "The directory which contains EB dictionary file")
+   (N_ "long description will be here."))
+ 
++
+ (custom-add-hook 'eb-dic-path
+ 		 'custom-activity-hooks
+ 		 (lambda ()
+-		   eb-enable-for-annotation?))
++		   (and eb-enable-for-annotation?
++			enable-outside-macuim-setting?)))
+ 
+ ;; uim-xim specific custom
+ (define-custom-group 'xim
+@@ -583,6 +655,11 @@
+   (N_ "Use anti-aliased fonts for Over-the-Spot/Root-Window preedit")
+   (N_ "long description will be here."))
+ 
++(custom-add-hook 'uim-xim-use-xft-font?
++		 'custom-activity-hooks
++		 (lambda ()
++		   enable-outside-macuim-setting?))
++
+ (define-custom 'uim-xim-xft-font-name "Sans"
+   '(xim preedit)
+   '(string ".*")
+@@ -592,14 +669,15 @@
+ (custom-add-hook 'uim-xim-xft-font-name
+ 		 'custom-activity-hooks
+ 		 (lambda ()
+-		   uim-xim-use-xft-font?))
++		   (and uim-xim-use-xft-font?
++			enable-outside-macuim-setting?)))
+ 
+ 
+ (define-custom-group 'notify
  		     (N_ "Notify")
  		     (N_ "long description will be here."))
  
@@ -139,39 +350,46 @@ Index: scm/im-custom.scm
    '(notify)
    `(choice
      ,@(uim-notify-get-plugins))
-Index: fep/Makefile.am
+Index: uim/uim-helper.c
 ===================================================================
---- fep/Makefile.am	(revision 5896)
-+++ fep/Makefile.am	(working copy)
-@@ -9,7 +9,8 @@
- uim_fep_CPPFLAGS = -I$(top_srcdir)
- uim_fep_CFLAGS =
- uim_fep_LDADD = $(top_builddir)/uim/libuim-scm.la \
--		$(top_builddir)/uim/libuim.la @FEP_LIBADD@
-+		$(top_builddir)/uim/libuim.la @FEP_LIBADD@ \
-+		$(top_builddir)/replace/libreplace.la
+--- uim/uim-helper.c	(revision 5946)
++++ uim/uim-helper.c	(working copy)
+@@ -49,6 +49,8 @@
+ #include <errno.h>
+ #include <sys/stat.h>
  
- uim_fep_tick_SOURCES = uim-fep-tick.c uim-fep.h udsock.c udsock.h
- uim_fep_tick_CPPFLAGS= -I$(top_srcdir)
-Index: scm/prime.scm
++#include <libkern/OSByteOrder.h>
++
+ #include "uim-internal.h"
+ #include "uim-helper.h"
+ #include "uim-posix.h"
+@@ -227,6 +229,9 @@
+ #endif
+     return -1;
+   }
++  if (euid > INT32_MAX)
++    euid = OSSwapInt32(euid);
++
+   if ((euid != 0) && (euid != getuid())) {
+ #if USE_UIM_NOTIFY && !UIM_NON_LIBUIM_PROG
+     uim_notify_fatal("uim_helper: uid mismatch");
+Index: uim.pc.in
 ===================================================================
---- scm/prime.scm	(revision 5896)
-+++ scm/prime.scm	(working copy)
-@@ -838,7 +838,7 @@
-       (or fds
-           (begin
-             (unlink socket-path)
--            (process-with-daemon "prime" (list "prime" "-u" socket-path))
-+            (process-with-daemon "/Library/PRIME/bin/prime" (list "/Library/PRIME/bin/prime" "-u" socket-path))
-             (let loop ((fds (prime-open-unix-domain-socket socket-path))
-                        (giveup 100))
-               (cond ((= giveup 0)
-@@ -899,7 +899,7 @@
-                      ((eq? prime-server-setting? 'tcpserver)
-                       (prime-open-with-tcp-socket prime-tcpserver-name prime-tcpserver-port))
-                      ((eq? prime-server-setting? 'pipe)
--                      (prime-open-with-pipe "prime"))
-+                      (prime-open-with-pipe "/Library/PRIME/bin/prime"))
-                      (else
-                       (uim-notify-fatal (N_ "Prime connection is not defined"))))))
-       (cons (open-file-port (car fds))
+--- uim.pc.in	(revision 5946)
++++ uim.pc.in	(working copy)
+@@ -1,6 +1,6 @@
+ prefix=@prefix@
+ exec_prefix=@exec_prefix@
+-includedir=@includedir@
++includedir=@prefix@/Headers
+ libdir=@libdir@
+ datarootdir=@datarootdir@
+ datadir=@datadir@
+@@ -10,5 +10,5 @@
+ Name: uim
+ Description: multilingual input method library
+ Version: @VERSION@
+-Cflags: -I${includedir}/uim
+-Libs: -L${libdir} -luim-scm -luim @LIBINTL@ @LIBICONV@
++Cflags: -I${includedir}
++Libs: -framework UIM
