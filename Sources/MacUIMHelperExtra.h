@@ -36,8 +36,8 @@
 
 
 #define kMenuBarWidth   19
-#define kMenuBarWidth2  29
-#define kMenuBarWidth3  43
+#define kMenuBarWidth2  38
+#define kMenuBarWidth3  57
 #define kMenuBarHeight  22
 
 
