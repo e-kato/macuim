@@ -179,7 +179,7 @@ convertHelperString(char *str);
   }
   else {
     strokeColor = [NSColor blackColor];
-    fillColor = [NSColor blackColor];
+    fillColor = [NSColor colorWithCalibratedWhite:0.0 alpha:0.0];
   }
 
   [image lockFocus];
@@ -202,13 +202,13 @@ convertHelperString(char *str);
     [strokeColor set];
     [framePath stroke];
 
-    framePath =
-      [NSBezierPath bezierPathWithRect:NSMakeRect(kMenuBarWidth2 / 2.0, 3.5,
-                                                  0.1, kMenuBarHeight - 7.0)];
-    [fillColor set];
-    [framePath fill];
+    [[NSGraphicsContext currentContext] setShouldAntialias:NO];
+    framePath = [NSBezierPath bezierPath];
+    [framePath moveToPoint:NSMakePoint(kMenuBarWidth2 / 2.0, 3.5)];
+    [framePath lineToPoint:NSMakePoint(kMenuBarWidth2 / 2.0, 3.5 + kMenuBarHeight - 7.0)];
     [strokeColor set];
     [framePath stroke];
+    [[NSGraphicsContext currentContext] setShouldAntialias:YES];
   }
   else {
     framePath =
@@ -219,21 +219,19 @@ convertHelperString(char *str);
     [strokeColor set];
     [framePath stroke];
 
-    framePath =
-      [NSBezierPath bezierPathWithRect:NSMakeRect(kMenuBarWidth3 / 3.0, 3.5,
-                                                  0.1, kMenuBarHeight - 7.0)];
-    [fillColor set];
-    [framePath fill];
+    [[NSGraphicsContext currentContext] setShouldAntialias:NO];
+    framePath = [NSBezierPath bezierPath];
+    [framePath moveToPoint:NSMakePoint(kMenuBarWidth3 / 3.0, 3.5)];
+    [framePath lineToPoint:NSMakePoint(kMenuBarWidth3 / 3.0, 3.5 + kMenuBarHeight - 7.0)];
     [strokeColor set];
     [framePath stroke];
 
-    framePath =
-      [NSBezierPath bezierPathWithRect:NSMakeRect(kMenuBarWidth3 * 2.0 / 3.0, 3.5,
-                                                  0.1, kMenuBarHeight - 7.0)];
-    [fillColor set];
-    [framePath fill];
+    framePath = [NSBezierPath bezierPath];
+    [framePath moveToPoint:NSMakePoint(kMenuBarWidth3 * 2.0 / 3.0, 3.5)];
+    [framePath lineToPoint:NSMakePoint(kMenuBarWidth3 * 2.0 / 3.0, 3.5 + kMenuBarHeight - 7.0)];
     [strokeColor set];
     [framePath stroke];
+    [[NSGraphicsContext currentContext] setShouldAntialias:YES];
   }
 
   [image unlockFocus];
