@@ -519,8 +519,8 @@ static NSPointerArray *contextList;
 		[fixedBuffer setString:@""];
 	}
 	if (self == activeContext) {
-		uim_focus_out_context(uc);
-		uim_focus_in_context(uc);
+		uim_displace_context(uc);
+		uim_place_context(uc);
 	} else {
 		uim_reset_context(uc);
 	}
