@@ -107,11 +107,14 @@ static NSPointerArray *contextList;
 
 	if (self != lastDeactivatedContext)
 		uim_prop_list_update(uc);
+
+	uim_focus_in_context(uc);
 }
 
 - (void)deactivateServer:(id)sender
 {
 	//NSLog(@"deactivateServer %p", sender);
+	uim_focus_out_context(uc);
 
 	if (candidateIsActive == true)
 		[candWin hideWindow];
