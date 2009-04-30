@@ -46,6 +46,17 @@ int main(int argc, char *argv[])
 	NSString *identifier;
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
+	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+	NSArray *langs = [defs objectForKey:@"AppleLanguages"];
+	NSString *lang = [langs objectAtIndex:0];
+	const char *lang_c = [lang UTF8String];
+
+	setenv("LANG", lang_c, 1);
+	if ([lang compare:@"ja"] == NSOrderedSame)
+		setlocale(LC_CTYPE, "ja_JP.UTF-8");
+	else
+		setlocale(LC_ALL, lang_c);
+
 	if (uim_init() == -1)
 		return 0;
 
