@@ -172,7 +172,10 @@ convertHelperString(char *str);
 
   if (clicked == NO) {
     strokeColor = [NSColor blackColor];
-    fillColor = [NSColor windowBackgroundColor];
+    fillColor = [NSColor colorWithCalibratedRed:0.94
+					  green:0.94
+					   blue:0.94
+					  alpha:0.5];
   }
   else {
     strokeColor = [NSColor blackColor];
