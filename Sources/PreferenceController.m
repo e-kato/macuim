@@ -41,6 +41,7 @@ static float gCandFontSize;
 static CFIndex gCandTransparency;
 static Boolean gEnableModeTips;
 static Boolean gCandVertical;
+static Boolean gEnableAnnotation;
 
 static PreferenceController *sharedController;
 
@@ -105,6 +106,10 @@ static PreferenceController *sharedController;
 		CFPreferencesGetAppBooleanValue(CFSTR(kPrefModeTips),
 						CFSTR(kAppID), &dummy);
 
+	gEnableAnnotation =
+		CFPreferencesGetAppBooleanValue(CFSTR(kPrefAnnotation),
+						CFSTR(kAppID), &dummy);
+
 	propVal = CFPreferencesCopyAppValue(CFSTR(kPrefIM), CFSTR(kAppID));
 	if (propVal && CFGetTypeID(propVal) == CFStringGetTypeID()) {
 		CFStringGetCString((CFStringRef)propVal, imName, BUFSIZ,
@@ -142,6 +147,11 @@ static PreferenceController *sharedController;
 - (BOOL)enableModeTips
 {
 	return gEnableModeTips ? YES : NO;
+}
+
+- (BOOL)enableAnnotation
+{
+	return gEnableAnnotation ? YES : NO;
 }
 @end
 
@@ -185,6 +195,9 @@ void NotificationCallback(CFNotificationCenterRef inCenter,
   if ((on = CFDictionaryGetValue(inUserInfo, CFSTR(kPrefModeTips))))
     gEnableModeTips = on == kCFBooleanTrue ? true : false;
   
+  if ((on = CFDictionaryGetValue(inUserInfo, CFSTR(kPrefAnnotation))))
+    gEnableAnnotation = on == kCFBooleanTrue ? true : false;
+
 #if DEBUG_NOTIFY
   DEBUG_PRINT("NotificationCallback() vertical=%s transparency=%s modetips=%s\n",
               gCandVertical ? "true" : "false",

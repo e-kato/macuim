@@ -91,6 +91,8 @@
 
 - (void)setFont:(NSString *)name size:(float)size;
 
+- (void)showAnnotation:(int)indexInPage;
+
 + (id)sharedController;
 
 @end

@@ -57,6 +57,7 @@
 		41A03B950F38944F00AE2344 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 41A03B930F38944F00AE2344 /* Localizable.strings */; };
 		41A03E2B0F38AD9100AE2344 /* MenuCracker.menu in CopyFiles */ = {isa = PBXBuildFile; fileRef = 41A03E270F38AD9100AE2344 /* MenuCracker.menu */; };
 		41A03EB10F38B50D00AE2344 /* MacUIMHelper.menu in CopyFiles */ = {isa = PBXBuildFile; fileRef = 41A03AC50F388C8D00AE2344 /* MacUIMHelper.menu */; };
+		41B4DE420F89C4E60018B15F /* AnnotationWinController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B4DE410F89C4E60018B15F /* AnnotationWinController.m */; };
 		41BAAD150F304A9900A56D3E /* UIM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41BAAD140F304A9900A56D3E /* UIM.framework */; };
 		41F42DF80F31B3D100B8A4AB /* CocoaWinController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F42DF40F31B3D100B8A4AB /* CocoaWinController.m */; };
 		41F42DF90F31B3D100B8A4AB /* ModeTipsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F42DF50F31B3D100B8A4AB /* ModeTipsController.m */; };
@@ -198,7 +199,10 @@
 		41A03B910F38943300AE2344 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/StringView.nib; sourceTree = "<group>"; };
 		41A03E270F38AD9100AE2344 /* MenuCracker.menu */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; name = MenuCracker.menu; path = Sources/MenuCracker/MenuCracker.menu; sourceTree = "<group>"; };
 		41B111B80F3017AE0060BD3D /* MacUIM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacUIM.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		41B4DE3F0F89C4D40018B15F /* AnnotationWinController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnnotationWinController.h; path = Sources/AnnotationWinController.h; sourceTree = "<group>"; };
+		41B4DE410F89C4E60018B15F /* AnnotationWinController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnnotationWinController.m; path = Sources/AnnotationWinController.m; sourceTree = "<group>"; };
 		41BAAD140F304A9900A56D3E /* UIM.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIM.framework; path = /Library/Frameworks/UIM.framework; sourceTree = "<absolute>"; };
+		41DDF3590FA9A3CB0028F9D0 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/CocoaWindow.nib; sourceTree = "<group>"; };
 		41F42DA60F31B15300B8A4AB /* KeycodeToUKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KeycodeToUKey.h; path = Sources/KeycodeToUKey.h; sourceTree = "<group>"; };
 		41F42DF00F31B3D100B8A4AB /* CocoaWinController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CocoaWinController.h; path = Sources/CocoaWinController.h; sourceTree = "<group>"; };
 		41F42DF10F31B3D100B8A4AB /* ModeTipsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModeTipsController.h; path = Sources/ModeTipsController.h; sourceTree = "<group>"; };
@@ -438,6 +442,8 @@
 		41F42DEF0F31B3D100B8A4AB /* CocoaWinController */ = {
 			isa = PBXGroup;
 			children = (
+				41B4DE410F89C4E60018B15F /* AnnotationWinController.m */,
+				41B4DE3F0F89C4D40018B15F /* AnnotationWinController.h */,
 				4140F4960F3852DF00F51127 /* RSVerticallyCenteredTextFieldCell.m */,
 				41076C390F3852C000F32AFF /* RSVerticallyCenteredTextFieldCell.h */,
 				41F42DFC0F31B48B00B8A4AB /* CocoaWindow.nib */,
@@ -630,6 +636,7 @@
 				41F885FA0F3735EC00E7003C /* PreferenceController.m in Sources */,
 				4140F4970F3852DF00F51127 /* RSVerticallyCenteredTextFieldCell.m in Sources */,
 				41951C2D0F3F48BB00F6B975 /* MacUIMApplicationDelegate.m in Sources */,
+				41B4DE420F89C4E60018B15F /* AnnotationWinController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -743,6 +750,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				41F42DFD0F31B48B00B8A4AB /* English */,
+				41DDF3590FA9A3CB0028F9D0 /* Japanese */,
 			);
 			name = CocoaWindow.nib;
 			sourceTree = "<group>";

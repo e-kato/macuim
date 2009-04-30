@@ -62,6 +62,9 @@
 // mode-tips enable flag
 #define kPrefModeTips         "ShowModeTips"
 
+// annotation enable flag
+#define kPrefAnnotation         "ShowAnnotation"
+
 // selectable IMs in helper-applet
 #define kPrefHelperIM         "HelperIMSwitch"
 
