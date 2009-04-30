@@ -280,6 +280,12 @@ done:
     [modeTipsButton setState:NSOnState];
   else
     [modeTipsButton setState:NSOffState];
+
+   // annotation flag
+  if (CFPreferencesGetAppBooleanValue(CFSTR(kPrefAnnotation), appID, &dummy))
+    [annotationButton setState:NSOnState];
+  else
+    [annotationButton setState:NSOffState];
       
   // switchable input methods
   propVal = CFPreferencesCopyAppValue(CFSTR(kPrefHelperIM), appID);
@@ -372,6 +378,11 @@ done:
   [[fontSample window] makeFirstResponder:[fontSample window]];
   [[NSFontManager sharedFontManager] orderFrontFontPanel:self];
   [[NSFontManager sharedFontManager] setSelectedFont:font isMultiple:NO];
+}
+
+- (IBAction)annotationChange:(id)sender
+{
+  [self prefSync];
 }
 
 - (void)changeFont:(id)fontManager
@@ -486,6 +497,12 @@ done:
   else
     CFPreferencesSetAppValue(CFSTR(kPrefModeTips), kCFBooleanTrue, appID);
   
+  // set annotation flag
+  if ([annotationButton state] == NSOffState)
+    CFPreferencesSetAppValue(CFSTR(kPrefAnnotation), kCFBooleanFalse, appID);
+  else
+    CFPreferencesSetAppValue(CFSTR(kPrefAnnotation), kCFBooleanTrue, appID);
+  
   // set helper-switchable input method list
   array = CFArrayCreateMutable(kCFAllocatorDefault, 100, NULL);
   for (i = 0; i < numModules; i++) {
@@ -521,6 +538,11 @@ done:
   else
     CFDictionarySetValue(dict, CFSTR(kPrefModeTips), kCFBooleanFalse);
   
+  if ([annotationButton state] == NSOnState)
+    CFDictionarySetValue(dict, CFSTR(kPrefAnnotation), kCFBooleanTrue);
+  else
+    CFDictionarySetValue(dict, CFSTR(kPrefAnnotation), kCFBooleanFalse);
+
   CFDictionarySetValue(dict, CFSTR(kPrefHelperIM), array);
   
   // post a notification that the preferences have changed

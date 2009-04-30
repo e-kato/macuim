@@ -91,6 +91,8 @@
 		<dict>
 			<key>ACTIONS</key>
 			<dict>
+				<key>annotationChange</key>
+				<string>id</string>
 				<key>appletChange</key>
 				<string>id</string>
 				<key>changeFont</key>
@@ -118,6 +120,8 @@
 			<string>ObjC</string>
 			<key>OUTLETS</key>
 			<dict>
+				<key>annotationButton</key>
+				<string>NSButton</string>
 				<key>appletButton</key>
 				<string>NSButton</string>
 				<key>fontSample</key>

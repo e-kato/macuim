@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2009 MacUIM Project http://code.google.com/p/macuim/
+  Copyright (c) 2009 MacUIM contributors, All rights reserved.
 
   Redistribution and use in source and binary forms, with or without
   modification, are permitted provided that the following conditions
@@ -27,41 +27,58 @@
   SUCH DAMAGE.
 */
 
-#import <Cocoa/Cocoa.h>
+#import "AnnotationWinController.h"
+#import "PreferenceController.h"
+#import "MacUIMController.h"
 
-#include "Preference.h"
+static AnnotationWinController *sharedController;
 
-@interface PreferenceController : NSObject
+@implementation AnnotationWinController
+ 
++ (id)sharedController
 {
-	char imName[BUFSIZ];
-#if 0
-	//CFStringRef gIMName;
-	CFStringRef candFont;
-	float candFontSize;
-	CFIndex candTransparency;
-	Boolean enableModeTips;
-	Boolean candVertical;
-#endif
+	return sharedController;
 }
-- (void)loadSetting;
-- (void)setIMName:(const char *)str;
 
-- (const char *)imName;
-- (CFStringRef)candFont;
-- (int)candTransparency;
-- (float)candFontSize;
-- (BOOL)enableModeTips;
-- (BOOL)enableAnnotation;
-//- (CFStringRef)annotationFont;
-//- (float)annotationFontSize;
+/**
+ * Initialize
+ */
+- (id)awakeFromNib
+{
+	sharedController = self;
 
-+ (id)sharedController;
+	pref = [PreferenceController sharedController];
+	//[self setFont:(NSString *)[pref annotationFont] size:[pref annotationFontSize]];
+
+	return self;
+}
+
+- (void)showWindow:(NSRect)rect
+{
+	[panel setFrameOrigin:rect.origin];
+	[panel orderFront:nil];
+}
+
+- (void)hideWindow
+{
+	[panel orderOut:nil];
+}
+
+- (void)setAnnotation:(NSString *)annotation
+{
+	[self clearAnnotation];
+	[view insertText:annotation];
+	[view setSelectedRange:NSMakeRange(0,0)];
+	[view scrollRangeToVisible:NSMakeRange(0,0)];
+}
+
+- (void)clearAnnotation
+{
+	[view setString:@""];
+}
+
+- (void)setFont:(NSString *)name size:(float)size
+{
+}
+
 @end
-
-
-void NotificationCallback(CFNotificationCenterRef inCenter,
-				 void *inObserver,
-				 CFStringRef inName,
-				 const void *inObject,
-				 CFDictionaryRef inUserInfo);
-

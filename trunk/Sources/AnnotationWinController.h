@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2009 MacUIM Project http://code.google.com/p/macuim/
+  Copyright (c) 2009 MacUIM contributors, All rights reserved.
 
   Redistribution and use in source and binary forms, with or without
   modification, are permitted provided that the following conditions
@@ -28,40 +28,30 @@
 */
 
 #import <Cocoa/Cocoa.h>
+#import "PreferenceController.h"
 
-#include "Preference.h"
 
-@interface PreferenceController : NSObject
+@interface AnnotationWinController : NSObject
 {
-	char imName[BUFSIZ];
-#if 0
-	//CFStringRef gIMName;
-	CFStringRef candFont;
-	float candFontSize;
-	CFIndex candTransparency;
-	Boolean enableModeTips;
-	Boolean candVertical;
-#endif
-}
-- (void)loadSetting;
-- (void)setIMName:(const char *)str;
+	PreferenceController *pref;
 
-- (const char *)imName;
-- (CFStringRef)candFont;
-- (int)candTransparency;
-- (float)candFontSize;
-- (BOOL)enableModeTips;
-- (BOOL)enableAnnotation;
-//- (CFStringRef)annotationFont;
-//- (float)annotationFontSize;
+	IBOutlet NSPanel *panel;
+
+	IBOutlet NSTextView *view;
+
+	NSFont *font;
+}
+
+- (void)showWindow:(NSRect)rect;
+
+- (void)hideWindow;
+
+- (void)setAnnotation:(NSString *)annotation;
+
+- (void)clearAnnotation;
+
+- (void)setFont:(NSString *)name size:(float)size;
 
 + (id)sharedController;
+
 @end
-
-
-void NotificationCallback(CFNotificationCenterRef inCenter,
-				 void *inObserver,
-				 CFStringRef inName,
-				 const void *inObject,
-				 CFDictionaryRef inUserInfo);
-

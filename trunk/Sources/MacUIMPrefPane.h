@@ -65,6 +65,7 @@ typedef struct _IMModule {
   IBOutlet NSTableView *imTable;
   IBOutlet NSSlider *opacitySlider;
   IBOutlet NSTextField *fontSample;
+  IBOutlet NSButton *annotationButton;
 
   CFStringRef appID;
 
@@ -93,6 +94,8 @@ typedef struct _IMModule {
 - (IBAction)opacityChange:(id)sender;
 
 - (IBAction)chooseFont:(id)sender;
+
+- (IBAction)annotationChange:(id)sender;
 
 - (void)changeFont:(id)sender;
 

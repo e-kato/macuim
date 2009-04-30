@@ -30,6 +30,7 @@
 #import "CocoaWinController.h"
 #import "MacUIMController.h"
 #import "PreferenceController.h"
+#import "AnnotationWinController.h"
 
 static CocoaWinController *sharedController;
 
@@ -133,6 +134,9 @@ static CocoaWinController *sharedController;
 	[[table tableColumnWithIdentifier:@"candidate"] setWidth:36];
 	[panel setFrame:NSMakeRect(origin.x, origin.y, origSize.width, 37)
 		display:NO];
+
+	AnnotationWinController *AWin = [AnnotationWinController sharedController];
+	[AWin hideWindow];
 }
 
 /**
@@ -289,6 +293,7 @@ static CocoaWinController *sharedController;
 	[indexSet release];
 
 	[self setLabel];
+	[self showAnnotation:indexInPage];
 }
 
 /**
@@ -339,8 +344,11 @@ static CocoaWinController *sharedController;
 	index = [[MacUIMController activeContext]
 			indexFromIndexInPage:indexInPage];
 
-	//NSLog(@"CocoaWinController::candClicked() %d, %d", [sender clickedRow], index);
+#if DEBUG_CANDIDATE_WINDOW
+	NSLog(@"CocoaWinController::candClicked() %d, %d", [sender clickedRow], index);
+#endif
 	uim_set_candidate_index([[MacUIMController activeContext] uc], index);
+	[self showAnnotation:indexInPage];
 }
 
 - (void)replaceWindow:(NSRect)cursorRect
@@ -467,6 +475,35 @@ static CocoaWinController *sharedController;
 	rect.size.height = ([table rowHeight] + 2) * 10 + 20;
 	rect = [panel frameRectForContentRect:rect];
 	origSize.height = rect.size.height;
+}
+
+- (void)showAnnotation:(int)indexInPage
+{
+	NSString *cand;
+	NSString *annotation;
+	AnnotationWinController *AWin;
+
+	if (![pref enableAnnotation])
+		return;
+
+	cand = [[[table dataSource]
+		tableView:table objectValueForTableColumn:
+		[table tableColumnWithIdentifier:@"candidate"]
+					     row:indexInPage] string];
+
+	AWin = [AnnotationWinController sharedController];
+	annotation = (NSString *)DCSCopyTextDefinition(NULL,
+			(CFStringRef)cand,
+			CFRangeMake(0, [cand length]));
+	if (annotation != nil) {
+		NSRect rect = [panel frame];
+		rect.origin.x += rect.size.width;
+        	[AWin setAnnotation:annotation];
+		[AWin showWindow:rect];
+	} else {
+        	[AWin clearAnnotation];
+	        [AWin hideWindow];
+	}
 }
 
 @end

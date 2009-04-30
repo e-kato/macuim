@@ -24,6 +24,21 @@
 			<string>ObjC</string>
 		</dict>
 		<dict>
+			<key>CLASS</key>
+			<string>AnnotationWinController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>panel</key>
+				<string>NSPanel</string>
+				<key>view</key>
+				<string>NSTextView</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
 			<key>ACTIONS</key>
 			<dict>
 				<key>candClicked</key>
