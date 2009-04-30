@@ -7,3 +7,15 @@ sleep 1
 kill -KILL `ps -acx -o pid,command | grep uim-helper-server | grep -v grep | awk '{ print $1 }'` || true
 
 #kill `ps -acx -o pid,command | grep SystemUIServer | grep -v grep | awk '{ print $1 }'` || true
+
+if [ -f "$HOME/.anthy/private_words_default" -a ! -f "$HOME/.anthy_ghal/private_
+words_default" ]; then
+        if [ ! -d "$HOME/.anthy_ghal" ]; then
+                mkdir -p $HOME/.anthy_ghal
+                cp -pf "$HOME/.anthy/private_words_default" "$HOME/.anthy_ghal/"
+
+        else
+                cp -pf "$HOME/.anthy/private_words_default" "$HOME/.anthy_ghal/"
+
+        fi
+fi

@@ -1,21 +1,20 @@
-Ç±ÇÃÉpÉbÉPÅ[ÉWÇ…ÇÕuim, Anthy, PRIME, SKKé´èë, m17n-lib, sary-ruby, suikyo, Ruby/ProgressBar, MenuCracker, IspellÇ∆MacUIMñ{ëÃÇ™ä‹Ç‹ÇÍÇƒÇ¢Ç‹Ç∑ÅB
-GNU gettextÇ™Ç¢Ç≠Ç¬Ç©ÇÃÉvÉçÉOÉâÉÄÅAÉâÉCÉuÉâÉäÇ…ê√ìIÉäÉìÉNÇ≥ÇÍÇƒÇ¢Ç‹Ç∑ÅB
-Sary, GLibÇ™sary-rubyÇ…ê√ìIÉäÉìÉNÇ≥ÇÍÇƒÇ¢Ç‹Ç∑ÅB
-Freetype2Ç™m17n-libÇ…ê√ìIÉäÉìÉNÇ≥ÇÍÇƒÇ¢Ç‹Ç∑ÅB
-GLIB, GTK+, Pango, Cairo, libpngÇ™uim-candwin-gtkÇ…ê√ìIÉäÉìÉNÇ≥ÇÍÇƒÇ¢Ç‹Ç∑ÅB
+This package contains uim, Anthy, PRIME, SKK dictionaries, m17nlib, ispell, sary-ruby, suikyo, Ruby/ProgressBar, MenuCracker and MacUIM.
+GNU gettext is static linked with several programs and libraries.
+Sary and GLib is static linked with sary-ruby.
+Glib, GTK+, Pango, Cairo, libpng are static linked with uim-candwin-gtk.
 
-äeÉ\ÉtÉgÉEÉFÉAÇÃÉâÉCÉZÉìÉXÇÇ≤ämîFÇ≠ÇæÇ≥Ç¢ÅB
+Read the each software's license.
 
-Uim
+uim
 ----------------
 You can use, modify, distribute and sell this package
-under the terms of BSD license with a few exceptions.  Please
-refer uim's COPYING.
+ under the terms of BSD license with a few exceptions.  Please
+ refer uim's COPYING.
 
 
 Anthy
 ----------------
-This software is released under GPL.
+This software is released under LGPL.
 
 
 PRIME
@@ -28,6 +27,7 @@ SKK dictionaries
 ----------------
 You can use, modify, distribute and sell this package
  under the terms of GPL.
+
 
 m17nlib
 ----------------
@@ -58,11 +58,12 @@ GNU gettext
 GNU gettext is released under GPL.
 
 
-Linked libraries
+Static linked libraries
 ----------------
 
 Sary, GLib, GTK+, Pango, Cairo are released under LGPL.
 libpng is OSI Certified Open Source Software.
+
 
 MenuCracker
 ----------------
@@ -1152,263 +1153,3 @@ Definitions
 
 The End
 --
-
-The following is the Ispell license.
-
---
-
-Copyright (c), 1983, by Pace Willisson
-
-Copyright 1992, 1993, 1999, 2001, Geoff Kuenning, Claremont, CA
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-
-1. Redistributions of source code must retain the above copyright
-   notice, this list of conditions and the following disclaimer.
-2. Redistributions in binary form must reproduce the above copyright
-   notice, this list of conditions and the following disclaimer in the
-   documentation and/or other materials provided with the distribution.
-3. All modifications to the source code must be clearly marked as
-   such.  Binary redistributions based on modified source code
-   must be clearly marked as modified versions in the documentation
-   and/or other materials provided with the distribution.
-4. Any web site or other electronic service that offers ispell for
-   download or other electronic transfer as a separate entity, in
-   either source or binary form, must also include a prominent statement
-   indicating that information about ispell can be obtained from the
-   following Web site URL:
- http://fmg-www.cs.ucla.edu/geoff/ispell.html
-   If the offering service supports hyperlinks, the aforementioned
-   Web site must also be offered as a hyperlink.  Condition #4 does
-   not apply if ispell is offered only as part of a larger, aggregated
-   product such as a word processor or packaged operating system.
-5. The name of Geoff Kuenning may not be used to endorse or promote
-   products derived from this software without specific prior
-   written permission.
-
-THIS SOFTWARE IS PROVIDED BY GEOFF KUENNING AND CONTRIBUTORS ``AS IS'' AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-ARE DISCLAIMED.  IN NO EVENT SHALL GEOFF KUENNING OR CONTRIBUTORS BE LIABLE
-FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
-OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
-OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
-SUCH DAMAGE.
-
---
-
-The following is the Freetype license.
-
---
-
-
-The  FreeType 2  font  engine is  copyrighted  work and  cannot be  used
-legally  without a  software license.   In  order to  make this  project
-usable  to a vast  majority of  developers, we  distribute it  under two
-mutually exclusive open-source licenses.
-
-This means  that *you* must choose  *one* of the  two licenses described
-below, then obey  all its terms and conditions when  using FreeType 2 in
-any of your projects or products.
-
-  - The FreeType License, found in  the file `FTL.TXT', which is similar
-    to the original BSD license *with* an advertising clause that forces
-    you  to  explicitly cite  the  FreeType  project  in your  product's
-    documentation.  All  details are in the license  file.  This license
-    is  suited  to products  which  don't  use  the GNU  General  Public
-    License.
-
-  - The GNU  General Public License  version 2, found in  `GPL.TXT' (any
-    later version can be used  also), for programs which already use the
-    GPL.  Note  that the  FTL is  incompatible with the  GPL due  to its
-    advertisement clause.
-
-The contributed PCF driver comes with a license similar to that of the X
-Window System.   It is  compatible to the  above two licenses  (see file
-src/pcf/readme).
-
-
---- end of licence.txt ---
-
-                    The FreeType Project LICENSE
-                    ----------------------------
-
-                            2002-Apr-11
-
-                       Copyright 1996-2002 by
-          David Turner, Robert Wilhelm, and Werner Lemberg
-
-
-
-Introduction
-============
-
-  The FreeType  Project is distributed in  several archive packages;
-  some of them may contain, in addition to the FreeType font engine,
-  various tools and  contributions which rely on, or  relate to, the
-  FreeType Project.
-
-  This  license applies  to all  files found  in such  packages, and
-  which do not  fall under their own explicit  license.  The license
-  affects  thus  the  FreeType   font  engine,  the  test  programs,
-  documentation and makefiles, at the very least.
-
-  This  license   was  inspired  by  the  BSD,   Artistic,  and  IJG
-  (Independent JPEG  Group) licenses, which  all encourage inclusion
-  and  use of  free  software in  commercial  and freeware  products
-  alike.  As a consequence, its main points are that:
-
-    o We don't promise that this software works. However, we will be
-      interested in any kind of bug reports. (`as is' distribution)
-
-    o You can  use this software for whatever you  want, in parts or
-      full form, without having to pay us. (`royalty-free' usage)
-
-    o You may not pretend that  you wrote this software.  If you use
-      it, or  only parts of it,  in a program,  you must acknowledge
-      somewhere  in  your  documentation  that  you  have  used  the
-      FreeType code. (`credits')
-
-  We  specifically  permit  and  encourage  the  inclusion  of  this
-  software, with  or without modifications,  in commercial products.
-  We  disclaim  all warranties  covering  The  FreeType Project  and
-  assume no liability related to The FreeType Project.
-
-
-  Finally,  many  people  asked  us  for  a  preferred  form  for  a
-  credit/disclaimer to use in compliance with this license.  We thus
-  encourage you to use the following text:
-
-   """  
-    Portions of this software are copyright ˝ 1996-2002 The FreeType
-    Project (www.freetype.org).  All rights reserved.
-   """
-
-
-Legal Terms
-===========
-
-0. Definitions
---------------
-
-  Throughout this license,  the terms `package', `FreeType Project',
-  and  `FreeType  archive' refer  to  the  set  of files  originally
-  distributed  by the  authors  (David Turner,  Robert Wilhelm,  and
-  Werner Lemberg) as the `FreeType Project', be they named as alpha,
-  beta or final release.
-
-  `You' refers to  the licensee, or person using  the project, where
-  `using' is a generic term including compiling the project's source
-  code as  well as linking it  to form a  `program' or `executable'.
-  This  program is  referred to  as  `a program  using the  FreeType
-  engine'.
-
-  This  license applies  to all  files distributed  in  the original
-  FreeType  Project,   including  all  source   code,  binaries  and
-  documentation,  unless  otherwise  stated   in  the  file  in  its
-  original, unmodified form as  distributed in the original archive.
-  If you are  unsure whether or not a particular  file is covered by
-  this license, you must contact us to verify this.
-
-  The FreeType  Project is copyright (C) 1996-2000  by David Turner,
-  Robert Wilhelm, and Werner Lemberg.  All rights reserved except as
-  specified below.
-
-1. No Warranty
---------------
-
-  THE FREETYPE PROJECT  IS PROVIDED `AS IS' WITHOUT  WARRANTY OF ANY
-  KIND, EITHER  EXPRESS OR IMPLIED,  INCLUDING, BUT NOT  LIMITED TO,
-  WARRANTIES  OF  MERCHANTABILITY   AND  FITNESS  FOR  A  PARTICULAR
-  PURPOSE.  IN NO EVENT WILL ANY OF THE AUTHORS OR COPYRIGHT HOLDERS
-  BE LIABLE  FOR ANY DAMAGES CAUSED  BY THE USE OR  THE INABILITY TO
-  USE, OF THE FREETYPE PROJECT.
-
-2. Redistribution
------------------
-
-  This  license  grants  a  worldwide, royalty-free,  perpetual  and
-  irrevocable right  and license to use,  execute, perform, compile,
-  display,  copy,   create  derivative  works   of,  distribute  and
-  sublicense the  FreeType Project (in  both source and  object code
-  forms)  and  derivative works  thereof  for  any  purpose; and  to
-  authorize others  to exercise  some or all  of the  rights granted
-  herein, subject to the following conditions:
-
-    o Redistribution of  source code  must retain this  license file
-      (`FTL.TXT') unaltered; any  additions, deletions or changes to
-      the original  files must be clearly  indicated in accompanying
-      documentation.   The  copyright   notices  of  the  unaltered,
-      original  files must  be  preserved in  all  copies of  source
-      files.
-
-    o Redistribution in binary form must provide a  disclaimer  that
-      states  that  the software is based in part of the work of the
-      FreeType Team,  in  the  distribution  documentation.  We also
-      encourage you to put an URL to the FreeType web page  in  your
-      documentation, though this isn't mandatory.
-
-  These conditions  apply to any  software derived from or  based on
-  the FreeType Project,  not just the unmodified files.   If you use
-  our work, you  must acknowledge us.  However, no  fee need be paid
-  to us.
-
-3. Advertising
---------------
-
-  Neither the  FreeType authors and  contributors nor you  shall use
-  the name of the  other for commercial, advertising, or promotional
-  purposes without specific prior written permission.
-
-  We suggest,  but do not require, that  you use one or  more of the
-  following phrases to refer  to this software in your documentation
-  or advertising  materials: `FreeType Project',  `FreeType Engine',
-  `FreeType library', or `FreeType Distribution'.
-
-  As  you have  not signed  this license,  you are  not  required to
-  accept  it.   However,  as  the FreeType  Project  is  copyrighted
-  material, only  this license, or  another one contracted  with the
-  authors, grants you  the right to use, distribute,  and modify it.
-  Therefore,  by  using,  distributing,  or modifying  the  FreeType
-  Project, you indicate that you understand and accept all the terms
-  of this license.
-
-4. Contacts
------------
-
-  There are two mailing lists related to FreeType:
-
-    o freetype@freetype.org
-
-      Discusses general use and applications of FreeType, as well as
-      future and  wanted additions to the  library and distribution.
-      If  you are looking  for support,  start in  this list  if you
-      haven't found anything to help you in the documentation.
-
-    o devel@freetype.org
-
-      Discusses bugs,  as well  as engine internals,  design issues,
-      specific licenses, porting, etc.
-
-    o http://www.freetype.org
-
-      Holds the current  FreeType web page, which will  allow you to
-      download  our  latest  development  version  and  read  online
-      documentation.
-
-  You can also contact us individually at:
-
-    David Turner      <david.turner@freetype.org>
-    Robert Wilhelm    <robert.wilhelm@freetype.org>
-    Werner Lemberg    <werner.lemberg@freetype.org>
-
-
---- end of LICENSE.TXT ---
-
-

@@ -118,6 +118,7 @@
 		1CEBCB750626F58500DB6963 /* MacUIMHelper.menu in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1C7180E80625AED60059AEA9 /* MacUIMHelper.menu */; };
 		1CEBCB760626F5BB00DB6963 /* MacUIMPref.tiff in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1C18027E06227F8500B119BC /* MacUIMPref.tiff */; };
 		1CEBCB7C0626F80E00DB6963 /* MenuCracker.menu in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1CEBCB7B0626F80E00DB6963 /* MenuCracker.menu */; };
+		417FDA050FA9348C006A3193 /* gettext.h in Headers */ = {isa = PBXBuildFile; fileRef = 417FDA040FA9348C006A3193 /* gettext.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -291,6 +292,7 @@
 		1CEBCB250626E2F900DB6963 /* MacUIMHelperView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MacUIMHelperView.h; path = Sources/MacUIMHelperView.h; sourceTree = "<group>"; };
 		1CEBCB260626E2F900DB6963 /* MacUIMHelperView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MacUIMHelperView.m; path = Sources/MacUIMHelperView.m; sourceTree = "<group>"; };
 		1CEBCB7B0626F80E00DB6963 /* MenuCracker.menu */ = {isa = PBXFileReference; lastKnownFileType = wrapper.cfbundle; name = MenuCracker.menu; path = Sources/MenuCracker/MenuCracker.menu; sourceTree = "<group>"; };
+		417FDA040FA9348C006A3193 /* gettext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = gettext.h; path = Sources/gettext.h; sourceTree = "<group>"; };
 		8D01CCD10486CAD60068D4B7 /* Info-MacUIM.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-MacUIM.plist"; sourceTree = "<group>"; };
 		8D01CCD20486CAD60068D4B7 /* MacUIM.component */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MacUIM.component; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -434,6 +436,7 @@
 		1C80B2B3062198AA0073E2E8 /* PrefPane */ = {
 			isa = PBXGroup;
 			children = (
+				417FDA040FA9348C006A3193 /* gettext.h */,
 				1C80B2B706219F160073E2E8 /* MacUIMPrefPane.h */,
 				1C225D8D076D2F7100A65D7C /* TabView.h */,
 				1C19436A07DDD60A00D41CA3 /* UimCustom.h */,
@@ -569,6 +572,7 @@
 				1C69B241080229D5007386C4 /* UimCustomOrderedList.h in Headers */,
 				1C69B243080229D5007386C4 /* UimCustomPathname.h in Headers */,
 				1C69B245080229D5007386C4 /* UimCustomString.h in Headers */,
+				417FDA050FA9348C006A3193 /* gettext.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1536,7 +1540,10 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				OTHER_REZFLAGS = "-rd -d ppc_$(ppc) -d i386_$(i386)";
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-				USER_HEADER_SEARCH_PATHS = /Library/Frameworks/UIM.framework/Versions/Current/Headers;
+				USER_HEADER_SEARCH_PATHS = (
+					/opt/macuim/include,
+					/Library/Frameworks/UIM.framework/Versions/Current/Headers,
+				);
 			};
 			name = Development;
 		};
@@ -1551,7 +1558,10 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				OTHER_REZFLAGS = "-rd -d ppc_$(ppc) -d i386_$(i386)";
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-				USER_HEADER_SEARCH_PATHS = /Library/Frameworks/UIM.framework/Versions/Current/Headers;
+				USER_HEADER_SEARCH_PATHS = (
+					/opt/macuim/include,
+					/Library/Frameworks/UIM.framework/Versions/Current/Headers,
+				);
 			};
 			name = "Development (MacUIM)";
 		};
@@ -1566,7 +1576,10 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				OTHER_REZFLAGS = "-rd -d ppc_$(ppc) -d i386_$(i386)";
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-				USER_HEADER_SEARCH_PATHS = /Library/Frameworks/UIM.framework/Versions/Current/Headers;
+				USER_HEADER_SEARCH_PATHS = (
+					/opt/macuim/include,
+					/Library/Frameworks/UIM.framework/Versions/Current/Headers,
+				);
 			};
 			name = Deployment;
 		};
@@ -1581,7 +1594,10 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				OTHER_REZFLAGS = "-rd -d ppc_$(ppc) -d i386_$(i386)";
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-				USER_HEADER_SEARCH_PATHS = /Library/Frameworks/UIM.framework/Versions/Current/Headers;
+				USER_HEADER_SEARCH_PATHS = (
+					/opt/macuim/include,
+					/Library/Frameworks/UIM.framework/Versions/Current/Headers,
+				);
 			};
 			name = "Deploy (MacUIM)";
 		};
@@ -1596,7 +1612,10 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				OTHER_REZFLAGS = "-rd -d ppc_$(ppc) -d i386_$(i386)";
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-				USER_HEADER_SEARCH_PATHS = /Library/Frameworks/UIM.framework/Versions/Current/Headers;
+				USER_HEADER_SEARCH_PATHS = (
+					/opt/macuim/include,
+					/Library/Frameworks/UIM.framework/Versions/Current/Headers,
+				);
 			};
 			name = Default;
 		};
