@@ -92,7 +92,7 @@ make -w pkglibdir=${prefix}/pkglib || exit 1
 
 cd ..
 
-make -w DESTDIR=${dest} pkglibdir=${prefix}/pkglib \
+make -w DESTDIR=${dest} pkglibdir=${prefix}/pkglib DATADIRNAME=share \
   install || exit 1
 
 cd helper
@@ -171,8 +171,8 @@ rm -rf include share/applications bin/uim-sh lib/libuim*
 rm -rf lib/libgcroots*
 rm -rf lib/pkgconfig/gcroots.pc
 
-rm -rf bin/uim-toolbar-gtk*
-rm -rf bin/uim-pref-gtk
+#rm -rf bin/uim-toolbar-gtk*
+#rm -rf bin/uim-pref-gtk
 rm -rf bin/uim-im-switcher-gtk
 rm -rf bin/uim-input-pad-ja
 

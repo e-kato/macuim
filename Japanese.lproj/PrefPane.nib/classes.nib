@@ -1,61 +1,145 @@
-{
-    IBClasses = (
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {
-            ACTIONS = {
-                appletChange = id; 
-                chooseFont = id; 
-                imChange = id; 
-                imSwitchChange = id; 
-                listDirectionChange = id; 
-                modeTipsChange = id; 
-                opacityChange = id; 
-            }; 
-            CLASS = MacUIMPrefPane; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                appletButton = NSButton; 
-                fontSample = NSTextField; 
-                imButton = NSPopUpButton; 
-                listDirection = NSMatrix; 
-                modeTipsButton = NSButton; 
-                opacitySlider = NSSlider; 
-                tab = NSTabView; 
-            }; 
-            SUPERCLASS = NSPreferencePane; 
-        }, 
-        {
-            CLASS = NSPreferencePane; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                "_firstKeyView" = NSView; 
-                "_initialKeyView" = NSView; 
-                "_lastKeyView" = NSView; 
-                "_window" = NSWindow; 
-            }; 
-            SUPERCLASS = NSObject; 
-        }, 
-        {
-            CLASS = TabView; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {fontDelegate = id; }; 
-            SUPERCLASS = NSTabView; 
-        }, 
-        {CLASS = UimPrefCell; LANGUAGE = ObjC; SUPERCLASS = NSTextFieldCell; }, 
-        {
-            ACTIONS = {applyAction = id; defaultAction = id; }; 
-            CLASS = UimPrefController; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                applyButton = NSButton; 
-                defaultButton = NSButton; 
-                labelColumn = NSTableColumn; 
-                outlineView = NSOutlineView; 
-                valueColumn = NSTableColumn; 
-            }; 
-            SUPERCLASS = NSObject; 
-        }, 
-        {CLASS = UimPrefView; LANGUAGE = ObjC; SUPERCLASS = NSControl; }
-    ); 
-    IBVersion = 1; 
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IBClasses</key>
+	<array>
+		<dict>
+			<key>CLASS</key>
+			<string>FirstResponder</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>setFont</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>NSObject</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>changeFont</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>TabView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>fontDelegate</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSTabView</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSPreferencePane</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>_firstKeyView</key>
+				<string>NSView</string>
+				<key>_initialKeyView</key>
+				<string>NSView</string>
+				<key>_lastKeyView</key>
+				<string>NSView</string>
+				<key>_window</key>
+				<string>NSWindow</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>applyAction</key>
+				<string>id</string>
+				<key>defaultAction</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>UimPrefController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>applyButton</key>
+				<string>NSButton</string>
+				<key>defaultButton</key>
+				<string>NSButton</string>
+				<key>labelColumn</key>
+				<string>NSTableColumn</string>
+				<key>outlineView</key>
+				<string>NSOutlineView</string>
+				<key>valueColumn</key>
+				<string>NSTableColumn</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>appletChange</key>
+				<string>id</string>
+				<key>changeFont</key>
+				<string>id</string>
+				<key>chooseFont</key>
+				<string>id</string>
+				<key>imChange</key>
+				<string>id</string>
+				<key>imSwitchApply</key>
+				<string>id</string>
+				<key>imSwitchChange</key>
+				<string>id</string>
+				<key>listDirectionChange</key>
+				<string>id</string>
+				<key>modeTipsChange</key>
+				<string>id</string>
+				<key>opacityChange</key>
+				<string>id</string>
+				<key>setFont</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>MacUIMPrefPane</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>appletButton</key>
+				<string>NSButton</string>
+				<key>fontSample</key>
+				<string>NSTextField</string>
+				<key>imButton</key>
+				<string>NSPopUpButton</string>
+				<key>imTable</key>
+				<string>NSTableView</string>
+				<key>listDirection</key>
+				<string>NSMatrix</string>
+				<key>modeTipsButton</key>
+				<string>NSButton</string>
+				<key>opacitySlider</key>
+				<string>NSSlider</string>
+				<key>tab</key>
+				<string>NSTabView</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSPreferencePane</string>
+		</dict>
+	</array>
+	<key>IBVersion</key>
+	<string>1</string>
+</dict>
+</plist>
