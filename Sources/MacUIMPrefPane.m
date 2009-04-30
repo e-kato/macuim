@@ -15,10 +15,10 @@
      may be used to endorse or promote products derived from this software
      without specific prior written permission.
 
-  THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS IS'' AND
   ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-  ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+  ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR CONTRIBUTORS BE LIABLE
   FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
   DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
   OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
@@ -35,12 +35,11 @@
 #import "Preference.h"
 #import "MacUIMPrefPane.h"
 
-#if 0
-#import <libintl.h>
+#define ENABLE_NLS 1
+#include "gettext.h"
 
 #define PACKAGE    "uim"
 #define LOCALEDIR  "/Library/Frameworks/UIM.framework/Versions/Current/share/locale"
-#endif
 
 static MacUIMPrefPane *sharedPane;
 
@@ -51,7 +50,7 @@ prefChanged(CFNotificationCenterRef inCenter, void *inObserver,
 
 @implementation MacUIMPrefPane
  
-+ (MacUIMPrefPane *)sharedPane
++ (id)sharedPane
 {
   return sharedPane;
 }
@@ -85,11 +84,10 @@ prefChanged(CFNotificationCenterRef inCenter, void *inObserver,
 
 - (id)initWithBundle:(NSBundle *)bundle
 {
-#if 0
   NSUserDefaults *defs;
   NSArray *langs;
   NSString *lang;
-#endif
+  const char *lang_c;
   uim_context uc;
   
   // Initialize the location of our preferences
@@ -106,19 +104,20 @@ prefChanged(CFNotificationCenterRef inCenter, void *inObserver,
   numModules = 0;
   imModules = NULL;
   
-#if 0
   defs = [NSUserDefaults standardUserDefaults];
+  langs = [defs objectForKey:@"AppleLanguages"];
   lang = [langs objectAtIndex:0];
-  
-  if (!lang)
-    setlocale(LC_ALL, "");
+
+  lang_c = [lang UTF8String];
+  setenv("LANG", lang_c, 1);
+  if ([lang compare:@"ja"] == NSOrderedSame)
+    setlocale(LC_CTYPE, "ja_JP.UTF-8");
   else
-    setlocale(LC_ALL, [lang cString]);
+    setlocale(LC_ALL, lang_c);
   
   bindtextdomain(PACKAGE, LOCALEDIR);
   textdomain(PACKAGE);
   bind_textdomain_codeset(PACKAGE, "UTF-8");
-#endif
   
   // load IM modules
   uim_init();
