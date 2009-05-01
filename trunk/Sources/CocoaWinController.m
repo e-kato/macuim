@@ -500,6 +500,7 @@ static CocoaWinController *sharedController;
 		rect.origin.x += rect.size.width;
         	[AWin setAnnotation:annotation];
 		[AWin showWindow:rect];
+		CFRelease((CFStringRef)annotation);
 	} else {
         	[AWin clearAnnotation];
 	        [AWin hideWindow];
