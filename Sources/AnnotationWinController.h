@@ -52,6 +52,8 @@
 
 - (void)setFont:(NSString *)name size:(float)size;
 
+- (NSSize)size;
+
 + (id)sharedController;
 
 @end

@@ -498,6 +498,7 @@ static CocoaWinController *sharedController;
 	if (annotation != nil) {
 		NSRect rect = [panel frame];
 		rect.origin.x += rect.size.width;
+		rect.origin.y -= ([AWin size].height - rect.size.height);
         	[AWin setAnnotation:annotation];
 		[AWin showWindow:rect];
 		CFRelease((CFStringRef)annotation);
