@@ -81,4 +81,8 @@ static AnnotationWinController *sharedController;
 {
 }
 
+- (NSSize)size
+{
+	return [panel frame].size;
+}
 @end
