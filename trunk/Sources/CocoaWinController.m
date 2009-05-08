@@ -271,9 +271,12 @@ static CocoaWinController *sharedController;
 #if DEBUG_CANDIDATE_WINDOW
 	NSLog(@"CocoaWinController::clearCandidate");
 #endif
-
 	[headArray removeAllObjects];
 	[candArray removeAllObjects];
+
+	AnnotationWinController *AWin =
+		[AnnotationWinController sharedController];
+        [AWin hideWindow];
 }
 
 /**
