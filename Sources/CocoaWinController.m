@@ -276,7 +276,7 @@ static CocoaWinController *sharedController;
 
 	AnnotationWinController *AWin =
 		[AnnotationWinController sharedController];
-        [AWin hideWindow];
+	[AWin hideWindow];
 }
 
 /**
