@@ -49,13 +49,11 @@ int main(int argc, char *argv[])
 	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
 	NSArray *langs = [defs objectForKey:@"AppleLanguages"];
 	NSString *lang = [langs objectAtIndex:0];
+	NSString *locale = [defs objectForKey:@"AppleLocale"];
 	const char *lang_c = [lang UTF8String];
 
 	setenv("LANG", lang_c, 1);
-	if ([lang compare:@"ja"] == NSOrderedSame)
-		setlocale(LC_CTYPE, "ja_JP.UTF-8");
-	else
-		setlocale(LC_ALL, lang_c);
+	setlocale(LC_CTYPE, [locale UTF8String]);
 
 	if (uim_init() == -1)
 		return 0;
