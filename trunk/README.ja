@@ -128,20 +128,20 @@ sary-ruby-?.?.?.tar.gzをhttp://sary.sourceforge.net/からダウンロードし
 
 ==== ruby-progressbar
 
-ruby-progressbar-0.8.tar.gzを
+ruby-progressbar-0.9.tar.gzを
 http://namazu.org/~satoru/ruby-progressbar/からダウンロードし、展開し
 て、中に含まれるprogressbar.rbをPackage/dest/Library/PRIME/lib/rubyに
 コピーする。
 
- % cd ruby-progressbar-0.8
+ % cd ruby-progressbar-0.9
  % cp progressbar.rb ../../Package/dest/Library/PRIME/lib/ruby
 
 ==== suikyo
 
-suikyo-2.0.1.2.tar.gzをhttp://prime.sourceforge.jp/src/からダウンロー
+suikyo-2.1.0.tar.gzをhttp://prime.sourceforge.jp/src/からダウンロー
 ドし、展開して、以下のようにビルドする。
 
- % cd suikyo-2.0.1.2
+ % cd suikyo-2.1.0
  % ../build-suikyo
 
 これによって、suikyoがPackage/dest/Library/PRIME/lib/rubyにインストー
@@ -152,6 +152,7 @@ suikyo-2.0.1.2.tar.gzをhttp://prime.sourceforge.jp/src/からダウンロー
 prime-x.x.x.tar.gzを展開して、以下のようにビルドする。
 
  % cd prime-x.x.x
+ % patch -p1 < ../prime-1.0.0.1-crash.patch
  % ../build-prime
 
 これによって、primeがPackage/dest/Library/PRIMEにインストールされる。
@@ -258,6 +259,13 @@ m17n-libディレクトリでパッチを当ててビルドする。
 
 /Library/M17NLibディレクトリとPackage/dest/Library/M17NLibディレクトリの両方
 にインストールされる。
+
+=== pixman
+=== libpng
+=== atk
+=== cairo
+=== pango
+=== gtk+2
 
 === uimのビルド
 
