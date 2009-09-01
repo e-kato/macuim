@@ -256,7 +256,7 @@ didClickTableColumn:(NSTableColumn *)aTableColumn
   UimCustomGroup *customGroup = [[notification userInfo] objectForKey:@"NSObject"];
   if (![customGroup loaded]) {
     [customGroup loadCustoms];
-    [outlineView reloadData];
+    //[outlineView reloadData];
   }
 
   if ([self isValidDelegateForSelector:_cmd])
