@@ -13,11 +13,13 @@ fi
 
 PATH="${prefix}/bin:/bin:/bin:/usr/bin"
 
-PKG_CONFIG_PATH=/usr/X11R6/lib/pkgconfig \
+PKG_CONFIG_PATH="/opt/macuim/lib/pkgconfig:/usr/X11R6/lib/pkgconfig" \
 LIBS="-Wl,-framework -Wl,CoreFoundation -L${prefix}/lib -framework Carbon" \
 CPPFLAGS="-no-cpp-precomp -isystem ${prefix}/include" \
-CFLAGS="-Os -funroll-loops -fstrict-aliasing -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc -mmacosx-version-min=10.4" \
-LDFLAGS="-arch i386 -arch ppc" \
+CFLAGS="-Os -funroll-loops -fstrict-aliasing -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch i386 -arch ppc -arch x86_64 -mmacosx-version-min=10.4" \
+CAIRO_CFLAGS="-I${prefix}/include/cairo" \
+CAIRO_LIBS="-L${prefix}/lib -lcairo -lpixman-1" \
+LDFLAGS="-arch i386 -arch ppc -arch x86_64" \
 LIBRARY_PATH="${prefix}/lib:/usr/lib" \
 ./configure --prefix=${prefix} --disable-shared \
   --mandir=${prefix}/share/man --disable-gtk-doc --disable-dependency-tracking \

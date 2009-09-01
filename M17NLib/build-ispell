@@ -15,10 +15,10 @@ cp local.h.macos local.h
 export TMPDIR=/tmp
 rm -f config.sh
 make config.sh
-perl -pi -e 's|^CC=.*$|CC="cc -g -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc -mmacosx-version-min=10.4"|' config.sh
+perl -pi -e 's|^CC=.*$|CC="cc -g -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch i386 -arch ppc -arch x86_64 -mmacosx-version-min=10.4"|' config.sh
 cp config.sh config.sh.BUILD
 sed "s|${prefix}|${dest}${prefix}|g" < config.sh.BUILD > config.sh.INSTALL
-make -w CC="cc -g -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc -mmacosx-version-min=10.4"
+make -w CC="cc -g -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch i386 -arch ppc -arch x86_64 -mmacosx-version-min=10.4"
 #make -w install || exit 1
 rm -f config.sh
 ln -s config.sh.INSTALL config.sh
