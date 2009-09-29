@@ -418,8 +418,12 @@ static NSPointerArray *contextList;
 					CTFontGetUnderlineThickness((CTFontRef)font);
 			}
 
-			[[ModeTipsController sharedController]
-				showModeTips:cursorRect:(NSArray *)array];
+			// workaround for x86_64 on OS X 10.6.1
+			if (!isnan(cursorRect.origin.y) &
+			    cursorRect.origin.y > -1000000) {
+				[[ModeTipsController sharedController]
+					showModeTips:cursorRect:(NSArray *)array];
+			}
 			CFRelease(array);
 		}
 	}
