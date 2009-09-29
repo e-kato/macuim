@@ -920,6 +920,7 @@
 				ARCHS = (
 					ppc,
 					i386,
+					x86_64,
 				);
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
