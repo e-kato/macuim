@@ -29,7 +29,6 @@
 */
 
 #import "ModeTipsController.h"
-#import "MacUIMController.h"
 
 static ModeTipsController *sharedController;
 
@@ -46,26 +45,26 @@ static ModeTipsController *sharedController;
 - (void)awakeFromNib
 {
   sharedController = self;
- 
+  
   realModeTipsPanel = [[ModeTipsPanel alloc]
                         initWithContentRect:[[modeTipsPanel contentView] frame]
                                   styleMask:NSBorderlessWindowMask
                                     backing:[modeTipsPanel backingType]
                                       defer:NO];
-
+  
   [realModeTipsPanel initView];
- 
+  
   [realModeTipsPanel setBackgroundColor:[NSColor whiteColor]];
   [realModeTipsPanel setHasShadow:YES];
 
   [realModeTipsPanel setBecomesKeyOnlyIfNeeded:NO];
   [realModeTipsPanel setHidesOnDeactivate:NO];
-
+  
   modeTipsTimer = nil;
   lastLabel = nil;
 
   [realModeTipsPanel setFloatingPanel:YES];
-}
+}  
 
 - (void)showModeTips:(NSRect)cursorRect:(NSArray *)lines
 {
@@ -78,12 +77,12 @@ static ModeTipsController *sharedController;
     // cannot get window position
     return;
   }
- 
+  
   if (!lines || [lines count] <= 0) {
     // there is no label string
     return;
   }
- 
+  
 #if 0
   if (lastLabel &&
       [lastLabel compare:[lines objectAtIndex:0]] == NSOrderedSame) {
@@ -91,35 +90,29 @@ static ModeTipsController *sharedController;
     return;
   }
 #endif
-
+  
   [lastLabel release];
   lastLabel = [lines objectAtIndex:0];
   [lastLabel retain];
- 
+  
   labels = lines;
- 
+  
   [realModeTipsPanel showLabels:labels];
- 
+  
   rect = [realModeTipsPanel frame];
- 
+  
   x = point.x;
   y = point.y - rect.size.height;
   [realModeTipsPanel setFrameOrigin:NSMakePoint(x, y)];
-
-  if ([realModeTipsPanel isVisible] == NO) {
-    CGWindowLevel level;
-    level = [[MacUIMController activeContext] clientWindowLevel];
-    if (level != kCGAssistiveTechHighWindowLevelKey)
-      level++;
-    [realModeTipsPanel orderFront:nil];
-    [realModeTipsPanel setLevel:level];
-  }
-
+  
+  [realModeTipsPanel orderFront:nil];
+  [realModeTipsPanel setLevel:NSFloatingWindowLevel];
+  
   if (modeTipsTimer)
     [modeTipsTimer invalidate];
- 
+  
   opacity = 100;
- 
+  
   modeTipsTimer =
     [NSTimer scheduledTimerWithTimeInterval:0.25
                                      target:self
@@ -145,9 +138,9 @@ static ModeTipsController *sharedController;
 }
 
 - (void)modeTipsFade:(NSTimer *)timer
-{
+{  
   opacity -= 5;
- 
+  
   if (opacity <= 0) {
     [self hideModeTips];
     [modeTipsTimer invalidate];
