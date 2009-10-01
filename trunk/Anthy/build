@@ -24,9 +24,9 @@ PATH=/bin:/usr/bin
 
 perl -pi -e "s|-flat_namespace -undefined suppress|-undefined dynamic_lookup|" configure
 
-CFLAGS="-O2 -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc -mmacosx-version-min=10.4" \
-CXXFLAGS="-O2 -isysroot /Developer/SDKs/MacOSX10.4u.sdk -arch i386 -arch ppc -mmacosx-version-min=10.4" \
-LDFLAGS="-arch i386 -arch ppc" \
+CFLAGS="-O2 -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch i386 -arch x86_64 -arch ppc -mmacosx-version-min=10.4" \
+CXXFLAGS="-O2 -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch i386 -arch x86_64 -arch ppc -mmacosx-version-min=10.4" \
+LDFLAGS="-arch i386 -arch x86_64 -arch ppc" \
 ./configure --prefix=${prefix} --disable-dependency-tracking || exit 1
 
 make -w || make -w || exit 1
