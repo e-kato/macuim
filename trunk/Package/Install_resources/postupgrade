@@ -16,3 +16,8 @@ if [ -f "$HOME/.anthy/private_words_default" -a ! -f "$HOME/.anthy_ghal/private_
                 cp -pf "$HOME/.anthy/private_words_default" "$HOME/.anthy_ghal/"
         fi
 fi
+
+rm -f $HOME/.anthy_ghal/last-record1_*.bin
+/Library/Anthy/bin/anthy-agent --update-base-record
+rm -f $HOME/.anthy_ghal/last-record1_*.bin
+/Library/Anthy/bin/anthy-agent --update-base-record
