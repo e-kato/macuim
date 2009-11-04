@@ -21,3 +21,4 @@ rm -f $HOME/.anthy_ghal/last-record1_*.bin
 /Library/Anthy/bin/anthy-agent --update-base-record
 rm -f $HOME/.anthy_ghal/last-record1_*.bin
 /Library/Anthy/bin/anthy-agent --update-base-record
+touch $HOME/.anthy_ghal/last-record1_default.utf8
