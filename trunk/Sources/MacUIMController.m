@@ -114,12 +114,12 @@ static NSPointerArray *contextList;
 - (void)deactivateServer:(id)sender
 {
 	//NSLog(@"deactivateServer %p", sender);
+	currentClient = nil;
+
 	uim_focus_out_context(uc);
 
 	if (candidateIsActive == true)
 		[candWin hideWindow];
-
-	currentClient = nil;
 
 	[helperController focusOut:uc];
 
