@@ -1,6 +1,6 @@
 Index: fep/Makefile.am
 ===================================================================
---- fep/Makefile.am	(revision 5946)
+--- fep/Makefile.am	(revision 6045)
 +++ fep/Makefile.am	(working copy)
 @@ -9,7 +9,8 @@
  uim_fep_CPPFLAGS = -I$(top_srcdir)
@@ -14,7 +14,7 @@ Index: fep/Makefile.am
  uim_fep_tick_CPPFLAGS= -I$(top_srcdir)
 Index: scm/skk-custom.scm
 ===================================================================
---- scm/skk-custom.scm	(revision 5946)
+--- scm/skk-custom.scm	(revision 6045)
 +++ scm/skk-custom.scm	(working copy)
 @@ -386,8 +386,7 @@
  	 (lambda ()
@@ -28,9 +28,9 @@ Index: scm/skk-custom.scm
    (N_ "System dictionary file")
 Index: scm/prime.scm
 ===================================================================
---- scm/prime.scm	(revision 5946)
+--- scm/prime.scm	(revision 6045)
 +++ scm/prime.scm	(working copy)
-@@ -838,7 +838,7 @@
+@@ -825,7 +825,7 @@
        (or fds
            (begin
              (unlink socket-path)
@@ -39,7 +39,7 @@ Index: scm/prime.scm
              (let loop ((fds (prime-open-unix-domain-socket socket-path))
                         (giveup 100))
                (cond ((= giveup 0)
-@@ -899,7 +899,7 @@
+@@ -865,7 +865,7 @@
                       ((eq? prime-server-setting? 'tcpserver)
                        (prime-open-with-tcp-socket prime-tcpserver-name prime-tcpserver-port))
                       ((eq? prime-server-setting? 'pipe)
@@ -50,7 +50,7 @@ Index: scm/prime.scm
        (cons (open-file-port (car fds))
 Index: scm/action.scm
 ===================================================================
---- scm/action.scm	(revision 5946)
+--- scm/action.scm	(revision 6045)
 +++ scm/action.scm	(working copy)
 @@ -232,19 +232,23 @@
  
@@ -88,7 +88,7 @@ Index: scm/action.scm
    (lambda (widget location defect)
 Index: scm/tutcode-key-custom.scm
 ===================================================================
---- scm/tutcode-key-custom.scm	(revision 5946)
+--- scm/tutcode-key-custom.scm	(revision 6045)
 +++ scm/tutcode-key-custom.scm	(working copy)
 @@ -53,7 +53,7 @@
  	       (N_ "[TUT-Code] off")
@@ -101,7 +101,7 @@ Index: scm/tutcode-key-custom.scm
  	       (N_ "[TUT-Code] toggle hiragana/katakana mode")
 Index: scm/generic-key-custom.scm
 ===================================================================
---- scm/generic-key-custom.scm	(revision 5946)
+--- scm/generic-key-custom.scm	(revision 6045)
 +++ scm/generic-key-custom.scm	(working copy)
 @@ -41,13 +41,13 @@
  		     (N_ "long description will be here."))
@@ -121,7 +121,7 @@ Index: scm/generic-key-custom.scm
  	       (N_ "[Global] off")
 Index: scm/im-custom.scm
 ===================================================================
---- scm/im-custom.scm	(revision 5946)
+--- scm/im-custom.scm	(revision 6045)
 +++ scm/im-custom.scm	(working copy)
 @@ -371,6 +371,11 @@
  		 (lambda ()
@@ -352,7 +352,7 @@ Index: scm/im-custom.scm
      ,@(uim-notify-get-plugins))
 Index: scm/uim-help.scm
 ===================================================================
---- scm/uim-help.scm	(revision 5946)
+--- scm/uim-help.scm	(revision 6045)
 +++ scm/uim-help.scm	(working copy)
 @@ -64,7 +64,7 @@
  
@@ -363,9 +363,22 @@ Index: scm/uim-help.scm
                     ((eq? toolbar-help-browser 'manual)
                      toolbar-help-browser-name)
                     (else
+Index: scm/predict-look-skk.scm
+===================================================================
+--- scm/predict-look-skk.scm	(revision 6045)
++++ scm/predict-look-skk.scm	(working copy)
+@@ -37,7 +37,7 @@
+ 
+ (define-class predict-look-skk predict
+   '((limit 10)
+-    (jisyo "/usr/share/skk/SKK-JISYO.L")) ;; SKK-JISYO
++    (jisyo "/Library/Dictionaries/SKK/SKK-JISYO.L")) ;; SKK-JISYO
+   '(search))
+ 
+ (class-set-method! predict-look-skk search
 Index: uim/uim-helper.c
 ===================================================================
---- uim/uim-helper.c	(revision 5946)
+--- uim/uim-helper.c	(revision 6045)
 +++ uim/uim-helper.c	(working copy)
 @@ -49,6 +49,8 @@
  #include <errno.h>
@@ -388,7 +401,7 @@ Index: uim/uim-helper.c
      uim_notify_fatal("uim_helper: uid mismatch");
 Index: uim.pc.in
 ===================================================================
---- uim.pc.in	(revision 5946)
+--- uim.pc.in	(revision 6045)
 +++ uim.pc.in	(working copy)
 @@ -1,6 +1,6 @@
  prefix=@prefix@
