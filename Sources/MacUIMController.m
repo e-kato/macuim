@@ -407,8 +407,6 @@ static NSTimeInterval lastDeactivatedTime;
 			goto dont_show;
 		}
 #endif
-
-
 		char *label = get_caret_state_label_from_prop_list(str);
 		CFStringRef allstr =
 			CFStringCreateWithCString(kCFAllocatorDefault,
