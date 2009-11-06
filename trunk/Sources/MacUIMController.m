@@ -40,6 +40,7 @@
 static MacUIMController *activeContext;
 static MacUIMController *lastDeactivatedContext;
 static NSPointerArray *contextList;
+static NSTimeInterval lastDeactivatedTime;
 
 @implementation MacUIMController
 
@@ -114,16 +115,17 @@ static NSPointerArray *contextList;
 - (void)deactivateServer:(id)sender
 {
 	//NSLog(@"deactivateServer %p", sender);
-	currentClient = nil;
-
 	uim_focus_out_context(uc);
 
 	if (candidateIsActive == true)
 		[candWin hideWindow];
 
+	currentClient = nil;
+
 	[helperController focusOut:uc];
 
 	lastDeactivatedContext = self;
+	lastDeactivatedTime = [NSDate timeIntervalSinceReferenceDate];
 }
 
 - (void)commitString:(const char *)str
@@ -391,6 +393,20 @@ static NSPointerArray *contextList;
 
 	// show mode tips
 	if ([pref enableModeTips]) {
+#if 1
+		// issue #2: hack for Microsoft Word
+		BOOL showModeTips;
+		NSTimeInterval thisTime = [NSDate timeIntervalSinceReferenceDate];
+		NSString *bundleName = [currentClient bundleIdentifier];
+
+		if ([bundleName isEqualToString:@"com.microsoft.Word"] && 
+		    (lastDeactivatedTime != 0.0 && 
+		     (thisTime - lastDeactivatedTime) < 0.05)) {
+			goto dont_show;
+		}
+#endif
+
+
 		char *label = get_caret_state_label_from_prop_list(str);
 		CFStringRef allstr =
 			CFStringCreateWithCString(kCFAllocatorDefault,
@@ -427,6 +443,8 @@ static NSPointerArray *contextList;
 			CFRelease(array);
 		}
 	}
+dont_show:
+	return;
 }
 
 - (void)configurationChanged
