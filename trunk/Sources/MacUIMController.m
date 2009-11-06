@@ -392,12 +392,14 @@ static NSTimeInterval lastDeactivatedTime;
 	free(msg);
 
 	// show mode tips
-	if ([pref enableModeTips]) {
+	if ([pref enableModeTips] && currentClient) {
 #if 1
 		// issue #2: hack for Microsoft Word
 		BOOL showModeTips;
 		NSTimeInterval thisTime = [NSDate timeIntervalSinceReferenceDate];
-		NSString *bundleName = [currentClient bundleIdentifier];
+		NSString *bundleName;
+		
+		bundleName = [currentClient bundleIdentifier];
 
 		if ([bundleName isEqualToString:@"com.microsoft.Word"] && 
 		    (lastDeactivatedTime != 0.0 && 
