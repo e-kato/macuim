@@ -489,6 +489,9 @@ static CocoaWinController *sharedController;
 	if (![pref enableAnnotation])
 		return;
 
+	if (indexInPage < 0)
+		return;
+
 	cand = [[[table dataSource]
 		tableView:table objectValueForTableColumn:
 		[table tableColumnWithIdentifier:@"candidate"]
