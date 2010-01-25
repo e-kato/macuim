@@ -562,8 +562,13 @@ done:
                                        ofType:@"menu"
                                   inDirectory:@""]];
 
+  crackerUrl = [NSURL fileURLWithPath:[[self bundle] pathForResource:@"MenuCracker"
+			       				      ofType:@"menu"
+							 inDirectory:@""]];
+  CoreMenuExtraAddMenuExtra((CFURLRef)crackerUrl, 0, 0, 0, 0, 0);
+
   // Try default MenuCracker installed by user
-  CoreMenuExtraAddMenuExtra((CFURLRef) helperUrl, 0, 0, 0, 0, 0);
+  CoreMenuExtraAddMenuExtra((CFURLRef)helperUrl, 0, 0, 0, 0, 0);
 
   while (![self isExtraLoaded:kHelperID]
          && (sleepCount < 2000000)) {
@@ -573,24 +578,18 @@ done:
 
   if (![self isExtraLoaded:kHelperID]) {
     // No load
-    if (![self isExtraLoaded:kMenuCrackerBundleID]) {
-      // Load the cracker
-      crackerUrl = [NSURL fileURLWithPath:[[self bundle] pathForResource:@"MenuCracker"
-                                                                  ofType:@"menu"
-                                                             inDirectory:@""]];
-      CoreMenuExtraAddMenuExtra((CFURLRef) crackerUrl,
-                                0, 0, 0, 0, 0);
-      // Load the request again
-      CoreMenuExtraAddMenuExtra((CFURLRef) helperUrl,
-                                0, 0, 0, 0, 0);
+    CoreMenuExtraAddMenuExtra((CFURLRef)crackerUrl, 0, 0, 0, 0, 0);
+    CoreMenuExtraAddMenuExtra((CFURLRef)helperUrl, 0, 0, 0, 0, 0);
+    sleepCount = 0;
+    while (![self isExtraLoaded:kHelperID]
+           && (sleepCount < 2000000)) {
+      sleepCount += 250000;
+      usleep(250000);
     }
   }
 
-  sleepCount = 0;
-  while (![self isExtraLoaded:kHelperID]
-         && (sleepCount < 2000000)) {
-    sleepCount += 250000;
-    usleep(250000);
+  if (![self isExtraLoaded:kHelperID]) {
+    NSLog(@"helperExtra load failed");
   }
 }
 
