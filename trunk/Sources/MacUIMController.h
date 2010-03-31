@@ -87,6 +87,8 @@ static char *get_caret_state_label_from_prop_list(const char *str);
 	PreferenceController *pref;
 
 	NSArray *attrArray;
+
+	BOOL contextIsReleasing;
 }
 
 - (void)commitString:(const char *)str;

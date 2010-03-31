@@ -80,6 +80,8 @@ static NSTimeInterval lastDeactivatedTime;
 		helperController = [UimHelperController sharedController];
 		[helperController checkHelperConnection];
 
+		contextIsReleasing = false;
+
 		uim_set_prop_list_update_cb(uc, UIMUpdatePropList);
 
 		uim_set_configuration_changed_cb(uc, UIMConfigurationChanged);
@@ -392,10 +394,10 @@ static NSTimeInterval lastDeactivatedTime;
 	free(msg);
 
 	// show mode tips
-	if ([pref enableModeTips] && currentClient) {
+	if ([pref enableModeTips] && currentClient != nil &&
+	    !contextIsReleasing) {
 #if 1
 		// issue #2: hack for Microsoft Word
-		BOOL showModeTips;
 		NSTimeInterval thisTime = [NSDate timeIntervalSinceReferenceDate];
 		NSString *bundleName;
 		
@@ -408,6 +410,9 @@ static NSTimeInterval lastDeactivatedTime;
 		}
 #endif
 		char *label = get_caret_state_label_from_prop_list(str);
+		if (!label)
+			goto dont_show;
+
 		CFStringRef allstr =
 			CFStringCreateWithCString(kCFAllocatorDefault,
 						  label,
@@ -472,7 +477,9 @@ dont_show:
 - (void)dealloc
 {
 	//NSLog(@"dealloc");
+	contextIsReleasing = true;
 	uim_release_context(uc);
+	contextIsReleasing = false;
 	[fixedBuffer release];
 	[preeditBuffer release];
 	int i, count;
