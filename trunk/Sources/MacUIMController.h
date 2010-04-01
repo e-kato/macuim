@@ -89,6 +89,8 @@ static char *get_caret_state_label_from_prop_list(const char *str);
 	NSArray *attrArray;
 
 	BOOL contextIsReleasing;
+	NSUInteger previousPreeditLen;
+	BOOL previousIsCommitString;
 }
 
 - (void)commitString:(const char *)str;

@@ -70,6 +70,8 @@ static NSTimeInterval lastDeactivatedTime;
 
 		fixedBuffer = [NSMutableString new];
 		preeditBuffer = [NSMutableAttributedString new];
+		previousPreeditLen = 0;
+		previousIsCommitString = false;
 
 		caretPos = -1;
 		caretSegmentStartPos = -1;
@@ -143,6 +145,7 @@ static NSTimeInterval lastDeactivatedTime;
 						NSMakeRange(NSNotFound,
 							    NSNotFound)];
 		[fixedBuffer setString:@""];
+		previousIsCommitString = true;
 	}
 }
 
@@ -222,6 +225,13 @@ static NSTimeInterval lastDeactivatedTime;
 						    0)
 				replacementRange:
 					NSMakeRange(NSNotFound, NSNotFound)];
+	NSUInteger len = [preeditBuffer length];
+	if (len == 0 && previousPreeditLen > 0 && !previousIsCommitString) {
+		[currentClient insertText:@""
+			 replacementRange:NSMakeRange(NSNotFound, NSNotFound)];
+	}
+	previousPreeditLen = len;
+	previousIsCommitString = false;
 }
 
 - (void)setPageCandidates:(unsigned int)page
