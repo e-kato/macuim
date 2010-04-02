@@ -1,0 +1,19 @@
+#!/bin/sh
+
+PATH=/bin:/usr/bin:/opt/macuim/bin:/Library/M17NLib/bin
+
+export MACOSX_DEPLOYMENT_TARGET="10.3"
+
+prefix="/Library/M17NLib/"
+top=`pwd`
+dest="${top}/../../Package/dest"
+
+CFLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk -arch i386 -arch ppc -arch x86_64 -mmacosx-version-min=10.4" \
+LDFLAGS="-arch i386 -arch ppc -arch x86_64" \
+./configure --prefix=${prefix} \
+  --disable-dependency-tracking || exit 1
+
+make -w -j2 || exit 1
+
+#make -w install || exit 1
+make -w DESTDIR=${dest} install || exit 1
