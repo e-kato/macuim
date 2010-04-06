@@ -415,7 +415,7 @@ static NSTimeInterval lastDeactivatedTime;
 
 		if ([bundleName isEqualToString:@"com.microsoft.Word"] && 
 		    (lastDeactivatedTime != 0.0 && 
-		     (thisTime - lastDeactivatedTime) < 0.5)) {
+		     (thisTime - lastDeactivatedTime) < 1.0)) {
 			goto dont_show;
 		}
 #endif
