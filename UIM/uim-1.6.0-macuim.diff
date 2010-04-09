@@ -121,7 +121,7 @@ Index: scm/generic-key-custom.scm
  	       (N_ "[Global] off")
 Index: scm/im-custom.scm
 ===================================================================
---- scm/im-custom.scm	(revision 6045)
+--- scm/im-custom.scm	(revision 6299)
 +++ scm/im-custom.scm	(working copy)
 @@ -371,6 +371,11 @@
  		 (lambda ()
@@ -294,7 +294,17 @@ Index: scm/im-custom.scm
  
  (define-custom 'bridge-show-input-state-time-length 3
    '(global visual-preference)
-@@ -556,6 +621,11 @@
+@@ -539,7 +604,8 @@
+ (custom-add-hook 'bridge-show-input-state-time-length
+ 		 'custom-activity-hooks
+ 		 (lambda ()
+-		   (and bridge-show-input-state?
++		   (and enable-outside-macuim-setting?
++		        bridge-show-input-state?
+                         (eq? bridge-show-with?
+                              'time))))
+ 
+@@ -556,6 +622,11 @@
    (N_ "Use EB library to search annotations")
    (N_ "long description will be here."))
  
@@ -306,7 +316,7 @@ Index: scm/im-custom.scm
  (define-custom 'eb-dic-path
    (string-append (sys-datadir) "/dict")
    '(eb candwin)
-@@ -563,10 +633,12 @@
+@@ -563,10 +634,12 @@
    (N_ "The directory which contains EB dictionary file")
    (N_ "long description will be here."))
  
@@ -320,7 +330,7 @@ Index: scm/im-custom.scm
  
  ;; uim-xim specific custom
  (define-custom-group 'xim
-@@ -583,6 +655,11 @@
+@@ -583,6 +656,11 @@
    (N_ "Use anti-aliased fonts for Over-the-Spot/Root-Window preedit")
    (N_ "long description will be here."))
  
@@ -332,7 +342,7 @@ Index: scm/im-custom.scm
  (define-custom 'uim-xim-xft-font-name "Sans"
    '(xim preedit)
    '(string ".*")
-@@ -592,14 +669,15 @@
+@@ -592,14 +670,15 @@
  (custom-add-hook 'uim-xim-xft-font-name
  		 'custom-activity-hooks
  		 (lambda ()
