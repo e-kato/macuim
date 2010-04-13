@@ -257,7 +257,7 @@ done:
     if (name && size)
       font = [NSFont fontWithName:name size:[size floatValue]];
     else
-      font = [NSFont userFontOfSize:12];
+      font = [NSFont userFontOfSize:16];
     
     [self updateFontSample];
 
