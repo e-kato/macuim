@@ -402,14 +402,14 @@ done:
   [self prefSync];
 }
 
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
   return [imNameArray count];
 }
 
 - (id)tableView:(NSTableView *)tableView
   objectValueForTableColumn:(NSTableColumn *)tableColumn
-            row:(int)rowIndex
+            row:(NSInteger)rowIndex
 {
   id colID = [tableColumn identifier];
 
@@ -426,7 +426,7 @@ done:
 - (void)tableView:(NSTableView *)tableView
    setObjectValue:(id)object 
    forTableColumn:(NSTableColumn *)tableColumn 
-              row:(int)rowIndex;
+              row:(NSInteger)rowIndex;
 {
   id identifier;
   
