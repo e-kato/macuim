@@ -22,4 +22,5 @@ make -w CC="cc -g -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch i386 -arch ppc 
 #make -w install || exit 1
 rm -f config.sh
 ln -s config.sh.INSTALL config.sh
+make -w install
 make -w install || exit 1

@@ -1,0 +1,17 @@
+--- m17n-lib-1.6.0/configure.orig	2010-04-23 11:35:58.000000000 +0900
++++ m17n-lib-1.6.0/configure	2010-04-23 11:35:19.000000000 +0900
+@@ -26380,10 +26380,10 @@
+ 
+ 
+ SHLIB_EXT=".so"
+-case $host_os in
+-darwin* | rhapsody*)
+-  SHLIB_EXT=".dylib";;
+-esac
++#case $host_os in
++#darwin* | rhapsody*)
++#  SHLIB_EXT=".dylib";;
++#esac
+ 
+ cat >>confdefs.h <<_ACEOF
+ #define DLOPEN_SHLIB_EXT "$SHLIB_EXT"
