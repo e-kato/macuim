@@ -1,20 +1,56 @@
---- Growl-1.1.4-src/Growl.xcodeproj/project.pbxproj	2008-06-16 11:31:09.000000000 +0900
-+++ Growl-1.1.4-src.ek/Growl.xcodeproj/project.pbxproj	2009-03-17 18:38:22.000000000 +0900
-@@ -4044,7 +4044,7 @@
+--- Growl.xcodeproj/project.pbxproj.orig	2010-04-23 10:33:23.000000000 +0900
++++ Growl.xcodeproj/project.pbxproj	2010-04-23 11:10:00.000000000 +0900
+@@ -3704,7 +3704,7 @@
+ 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
  				INFOPLIST_FILE = "Framework/Resources/Growl.framework-Info.plist";
- 				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/SVNRevision.h";
  				INFOPLIST_PREPROCESS = YES;
 -				INSTALL_PATH = "@executable_path/../Frameworks";
 +				INSTALL_PATH = "/Library/Input Methods/MacUIM.app/Contents/Frameworks";
  				LIBRARY_STYLE = DYNAMIC;
  				MACH_O_TYPE = mh_dylib;
- 				OTHER_LDFLAGS = (
-@@ -4077,7 +4077,7 @@
- 				INFOPLIST_FILE = "Framework/Resources/Growl.framework-Info.plist";
- 				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/SVNRevision.h";
+ 				MACOSX_DEPLOYMENT_TARGET = 10.5;
+@@ -3766,7 +3766,7 @@
+ 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+ 				INFOPLIST_FILE = "Framework/Resources/Growl-WithInstaller.framework-Info.plist";
  				INFOPLIST_PREPROCESS = YES;
 -				INSTALL_PATH = "@executable_path/../Frameworks";
 +				INSTALL_PATH = "/Library/Input Methods/MacUIM.app/Contents/Frameworks";
  				LIBRARY_STYLE = DYNAMIC;
  				MACH_O_TYPE = mh_dylib;
- 				OTHER_LDFLAGS = (
+ 				MACOSX_DEPLOYMENT_TARGET = 10.5;
+@@ -4773,7 +4773,7 @@
+ 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+ 				INFOPLIST_FILE = "Framework/Resources/Growl.framework-Info.plist";
+ 				INFOPLIST_PREPROCESS = YES;
+-				INSTALL_PATH = "@executable_path/../Frameworks";
++				INSTALL_PATH = "/Library/Input Methods/MacUIM.app/Contents/Frameworks";
+ 				LIBRARY_STYLE = DYNAMIC;
+ 				MACH_O_TYPE = mh_dylib;
+ 				MACOSX_DEPLOYMENT_TARGET = 10.5;
+@@ -4810,7 +4810,7 @@
+ 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+ 				INFOPLIST_FILE = "Framework/Resources/Growl.framework-Info.plist";
+ 				INFOPLIST_PREPROCESS = YES;
+-				INSTALL_PATH = "@executable_path/../Frameworks";
++				INSTALL_PATH = "/Library/Input Methods/MacUIM.app/Contents/Frameworks";
+ 				LIBRARY_STYLE = DYNAMIC;
+ 				MACH_O_TYPE = mh_dylib;
+ 				MACOSX_DEPLOYMENT_TARGET = 10.5;
+@@ -4846,7 +4846,7 @@
+ 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+ 				INFOPLIST_FILE = "Framework/Resources/Growl-WithInstaller.framework-Info.plist";
+ 				INFOPLIST_PREPROCESS = YES;
+-				INSTALL_PATH = "@executable_path/../Frameworks";
++				INSTALL_PATH = "/Library/Input Methods/MacUIM.app/Contents/Frameworks";
+ 				LIBRARY_STYLE = DYNAMIC;
+ 				MACH_O_TYPE = mh_dylib;
+ 				MACOSX_DEPLOYMENT_TARGET = 10.5;
+@@ -4884,7 +4884,7 @@
+ 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+ 				INFOPLIST_FILE = "Framework/Resources/Growl-WithInstaller.framework-Info.plist";
+ 				INFOPLIST_PREPROCESS = YES;
+-				INSTALL_PATH = "@executable_path/../Frameworks";
++				INSTALL_PATH = "/Library/Input Methods/MacUIM.app/Contents/Frameworks";
+ 				LIBRARY_STYLE = DYNAMIC;
+ 				MACH_O_TYPE = mh_dylib;
+ 				MACOSX_DEPLOYMENT_TARGET = 10.5;
