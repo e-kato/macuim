@@ -5,7 +5,7 @@
 	<key>CFBundleName</key>
 	<string>MacUIM</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.6.6</string>
+	<string>0.6.7</string>
 	<key>NSPrefPaneIconFile</key>
 	<string>MacUIMPref.tiff</string>
 	<key>CFBundleIconFile</key>
@@ -25,7 +25,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>0.6.6</string>
+	<string>0.6.7</string>
 	<key>NSMainNibFile</key>
 	<string>PrefPane</string>
 	<key>NSPrincipalClass</key>
