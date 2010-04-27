@@ -1,0 +1,12 @@
+"Delete" = "削除";
+"SureDelete" = "本当に%d件のレコードを削除してよろしいですか?";
+"Yes" = "はい";
+"No" = "いいえ";
+"Cancel" = "キャンセル";
+"SureSave" = "閉じる前に、変更内容を保存しますか？";
+"DontSave" = "保存しない";
+"Save" = "保存";
+"Quit" = "終了";
+"NewPhonetic" = "新規読み";
+"NewLiteral" = "新規書き";
+

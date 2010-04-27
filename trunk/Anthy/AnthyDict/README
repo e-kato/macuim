@@ -1,0 +1,12 @@
+AnthyDict is a personal dictionary editor of Anthy
+(http://anthy.sourceforge.jp/).
+
+
+
+dict-canna-cclass.[c,h] are imported from uim-1.2.1 under its
+3-clause BSD license.
+  http://uim.freedesktop.org/
+
+Anthy icon is imported from scim-imengine-icons 1.0.0 under its
+3-clause BSD license.
+  http://prdownloads.sourceforge.jp/scim-imengine/18883/scim-imengine-icons-1.0.0.tar.gz

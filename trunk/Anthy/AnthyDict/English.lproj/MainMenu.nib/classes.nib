@@ -1,0 +1,22 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {deleteWord = id; newWord = id; saveDict = id; }; 
+            CLASS = DictController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                adjectiveMenu = NSMenuItem; 
+                adverbMenu = NSMenuItem; 
+                deleteButton = NSButton; 
+                etcMenu = NSMenuItem; 
+                saveButton = NSButton; 
+                substantiveMenu = NSMenuItem; 
+                tableView = NSTableView; 
+                verbMenu = NSMenuItem; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}
