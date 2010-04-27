@@ -1,0 +1,11 @@
+"Delete" = "Delete";
+"SureDelete" = "Do you really want to delete %d records?";
+"Yes" = "Yes";
+"No" = "No";
+"Cancel" = "Cancel";
+"SureSave" = "Do you want to save changes before closing?";
+"DontSave" = "Don't Save";
+"Save" = "Save";
+"Quit" = "Quit";
+"NewPhonetic" = "NewPhonetic";
+"NewLiteral" = "NewLiteral";
