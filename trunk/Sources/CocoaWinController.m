@@ -167,7 +167,7 @@ static CocoaWinController *sharedController;
 /**
  * Get a number of rows in the TableView
  */
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
 	return [candArray count];
 }
@@ -177,7 +177,7 @@ static CocoaWinController *sharedController;
  */
 - (id)tableView:(NSTableView *)tableView
   objectValueForTableColumn:(NSTableColumn *)tableColumn
-            row:(int)rowIndex
+            row:(NSInteger)rowIndex
 {
 	id colID = [tableColumn identifier];
 
@@ -192,7 +192,7 @@ static CocoaWinController *sharedController;
 - (void)tableView:(NSTableView *)tableView
   willDisplayCell:(id)cell
    forTableColumn:(NSTableColumn *)tableColumn
-              row:(int)row
+              row:(NSInteger)row
 {
   /*
   [cell setDrawsBackground:YES];
