@@ -43,14 +43,12 @@ static AnnotationWinController *sharedController;
 /**
  * Initialize
  */
-- (id)awakeFromNib
+- (void)awakeFromNib
 {
 	sharedController = self;
 
 	pref = [PreferenceController sharedController];
 	//[self setFont:(NSString *)[pref annotationFont] size:[pref annotationFontSize]];
-
-	return self;
 }
 
 - (void)showWindow:(NSRect)rect
