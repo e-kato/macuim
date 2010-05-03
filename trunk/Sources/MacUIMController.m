@@ -782,7 +782,7 @@ static unsigned int convertModifier(NSUInteger flags)
 	return mod;
 }
 
-static void *get_uim_current_im_lang_internal(uim_context uc)
+static const char *get_uim_current_im_lang_internal(uim_context uc)
 {
 	uim_lisp im, str_;
 	const char *str;
@@ -791,16 +791,12 @@ static void *get_uim_current_im_lang_internal(uim_context uc)
 	str_ = uim_scm_callf("im-lang", "o", im);
 	str = REFER_C_STR(str_);
 	
-	return (void *)str;
+	return str;
 }
 
 static const char *get_uim_current_im_lang(uim_context uc)
 {
-	const char *str;
-
-	str = (char *)uim_scm_call_with_gc_ready_stack((uim_gc_gate_func_ptr)get_uim_current_im_lang_internal, uc);
-
-	return str;
+	return uim_scm_call_with_gc_ready_stack((uim_gc_gate_func_ptr)get_uim_current_im_lang_internal, uc);
 }
 
 void UIMCommitString(void *ptr, const char *str)
