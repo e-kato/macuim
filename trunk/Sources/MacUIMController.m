@@ -35,6 +35,8 @@
 #import "PreferenceController.h"
 #import "ModeTipsController.h"
 #import "MacUIMApplicationDelegate.h"
+#include <uim-scm.h>
+#include <uim-scm-abbrev.h>
 
 
 static MacUIMController *activeContext;
@@ -82,8 +84,13 @@ static NSTimeInterval lastDeactivatedTime;
 		helperController = [UimHelperController sharedController];
 		[helperController checkHelperConnection];
 
-		contextIsReleasing = false;
+		contextIsReleasing = NO;
+		modeIsChangedBySelf = NO;
 
+		uim_set_mode_cb(uc, UIMUpdateMode);
+#if 0
+		uim_set_mode_list_update_cb(uc, UIMUpdateModeList);
+#endif
 		uim_set_prop_list_update_cb(uc, UIMUpdatePropList);
 
 		uim_set_configuration_changed_cb(uc, UIMConfigurationChanged);
@@ -392,6 +399,68 @@ static NSTimeInterval lastDeactivatedTime;
 	candidateIsActive = NO;
 }
 
+- (void)updateMode:(int)mode
+{
+	const char *mode_name = uim_get_mode_name(uc, mode);
+	const char *offlist[] = {"off", "direct", "直接入力", "영문", NULL};
+	BOOL setOff = NO;
+	int i;
+
+	for (i = 0; offlist[i]; i++) {
+		if (!strcmp(offlist[i], mode_name)) {
+			setOff = YES;
+			break;
+		}
+	}
+
+	if (setOff == YES) {
+		modeIsChangedBySelf = YES;
+		if (currentClient != nil)
+			[currentClient selectInputMode:(NSString *)kTextServiceInputModeRoman];
+	} else {
+		const char *lang;
+		char *l;
+
+		lang = get_uim_current_im_lang(uc);
+		if (lang) {
+			l = strdup(lang);
+			if (!strcmp(l, "ja")) {
+				modeIsChangedBySelf = YES;
+				if (currentClient != nil)
+					[currentClient selectInputMode:(NSString *)kTextServiceInputModeJapanese];
+			} else if (!strcmp(l, "ko")) {
+				modeIsChangedBySelf = YES;
+				if (currentClient != nil)
+					[currentClient selectInputMode:(NSString *)kTextServiceInputModeKorean];
+			} else if (!strcmp(l, "zh") || !strcmp(l, "zh_CN")) {
+				modeIsChangedBySelf = YES;
+				if (currentClient != nil)
+					[currentClient selectInputMode:(NSString *)kTextServiceInputModeSimpChinese];
+			} else if (!strcmp(l, "zh_TW") || !strcmp(l, "zh_HK")) {
+				modeIsChangedBySelf = YES;
+				if (currentClient != nil)
+					[currentClient selectInputMode:(NSString *)kTextServiceInputModeTradChinese];
+			}
+			free(l);
+		}
+
+	}
+}
+
+#if 0
+- (void)updateModeList
+{
+	int i, n;
+	//NSLog(@"updateModeList");
+	n = uim_get_nr_modes(uc);
+	for (i = 0; i < n; i++) {
+		const char *name;
+		name = uim_get_mode_name(uc, i);
+//		NSLog(@"name: %@", [NSString stringWithUTF8String:name]);
+	}
+}
+#endif
+
 - (void)updatePropList:(const char *)str
 {
 	char *msg;
@@ -405,7 +474,7 @@ static NSTimeInterval lastDeactivatedTime;
 
 	// show mode tips
 	if ([pref enableModeTips] && currentClient != nil &&
-	    !contextIsReleasing) {
+	    contextIsReleasing == NO) {
 #if 1
 		// issue #2: hack for Microsoft Word
 		NSTimeInterval thisTime = [NSDate timeIntervalSinceReferenceDate];
@@ -487,9 +556,9 @@ dont_show:
 - (void)dealloc
 {
 	//NSLog(@"dealloc");
-	contextIsReleasing = true;
+	contextIsReleasing = YES;
 	uim_release_context(uc);
-	contextIsReleasing = false;
+	contextIsReleasing = NO;
 	[fixedBuffer release];
 	[preeditBuffer release];
 	int i, count;
@@ -565,15 +634,18 @@ dont_show:
 	}
 }
 
-- (void)setValue:(id)value forTag:(unsigned long)tag client:(id)sender
+- (void)setValue:(id)value forTag:(long)tag client:(id)sender
 {
 	NSString *newModeString = (NSString*)[value copy];
 	//NSLog(@"setValue: %@", (NSString *)newModeString);
 
 	if ([newModeString isEqual:(NSString *)kTextServiceInputModeRoman] ||
 	    [newModeString isEqual:(NSString *)kTextServiceInputModePassword]) {
-		uim_press_key(uc, UKey_Private1, 0);
-		uim_release_key(uc, UKey_Private1, 0);
+		if (!modeIsChangedBySelf) {
+			uim_press_key(uc, UKey_Private1, 0);
+			uim_release_key(uc, UKey_Private1, 0);
+		}
+		modeIsChangedBySelf = NO;
 	} else if ([newModeString isEqual:(NSString *)kTextServiceInputModeJapanese] ||
 		   [newModeString isEqual:(NSString *)kTextServiceInputModeJapaneseHiragana] ||
 		   [newModeString isEqual:(NSString *)kTextServiceInputModeJapaneseKatakana] ||
@@ -585,8 +657,11 @@ dont_show:
 		   [newModeString isEqual:(NSString *)kTextServiceInputModeTradChinese] ||
 		   [newModeString isEqual:(NSString *)kTextServiceInputModeSimpChinese] ||
 		   [newModeString isEqual:(NSString *)kTextServiceInputModeKorean]) {
-		uim_press_key(uc, UKey_Private2, 0);
-		uim_release_key(uc, UKey_Private2, 0);
+		if (!modeIsChangedBySelf) {
+			uim_press_key(uc, UKey_Private2, 0);
+			uim_release_key(uc, UKey_Private2, 0);
+		}
+		modeIsChangedBySelf = NO;
 	}
 	[newModeString release];
 }
@@ -707,6 +782,27 @@ static unsigned int convertModifier(NSUInteger flags)
 	return mod;
 }
 
+static void *get_uim_current_im_lang_internal(uim_context uc)
+{
+	uim_lisp im, str_;
+	const char *str;
+
+	im = uim_scm_callf("uim-context-im", "p", uc);
+	str_ = uim_scm_callf("im-lang", "o", im);
+	str = REFER_C_STR(str_);
+	
+	return (void *)str;
+}
+
+static const char *get_uim_current_im_lang(uim_context uc)
+{
+	const char *str;
+
+	str = (char *)uim_scm_call_with_gc_ready_stack((uim_gc_gate_func_ptr)get_uim_current_im_lang_internal, uc);
+
+	return str;
+}
+
 void UIMCommitString(void *ptr, const char *str)
 {
 	[(MacUIMController *)ptr commitString:str];
@@ -746,6 +842,18 @@ void UIMCandDeactivate(void *ptr)
 {
 	[(MacUIMController *)ptr deactivateCandidate];
 }
+
+void UIMUpdateMode(void *ptr, int mode)
+{
+	[(MacUIMController *)ptr updateMode:mode];
+}
+
+#if 0
+void UIMUpdateModeList(void *ptr)
+{
+	[(MacUIMController *)ptr updateModeList];
+}
+#endif
 
 void UIMUpdatePropList(void *ptr, const char *str)
 {
