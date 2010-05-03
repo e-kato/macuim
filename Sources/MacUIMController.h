@@ -50,6 +50,10 @@ void UIMCandSelect(void *ptr, int index);
 void UIMCandShiftPage(void *ptr, int forward);
 void UIMCandDeactivate(void *ptr);
 
+void UIMUpdateMode(void *ptr, int mode);
+#if 0
+void UIMUpdateModeList(void *ptr);
+#endif
 void UIMUpdatePropList(void *ptr, const char *str);
 
 void UIMConfigurationChanged(void *ptr);
@@ -61,6 +65,7 @@ static int convertKey(unsigned short keyCode,
 		      NSString *string);
 static unsigned int convertModifier(NSUInteger flags);
 static char *get_caret_state_label_from_prop_list(const char *str);
+static const char *get_uim_current_im_lang(uim_context uc);
 
 
 @interface MacUIMController : IMKInputController {
@@ -91,6 +96,8 @@ static char *get_caret_state_label_from_prop_list(const char *str);
 	BOOL contextIsReleasing;
 	NSUInteger previousPreeditLen;
 	BOOL previousIsCommitString;
+
+	BOOL modeIsChangedBySelf;
 }
 
 - (void)commitString:(const char *)str;
@@ -103,6 +110,10 @@ static char *get_caret_state_label_from_prop_list(const char *str);
 - (void)shiftPageCandidate:(int)forward;
 - (void)deactivateCandidate;
 
+- (void)updateMode:(int)mode;
+#if 0
+- (void)updateModeList;
+#endif
 - (void)updatePropList:(const char *)str;
 
 - (void)configurationChanged;
