@@ -54,7 +54,14 @@ static AnnotationWinController *sharedController;
 - (void)showWindow:(NSRect)rect
 {
 	[panel setFrameOrigin:rect.origin];
-	[panel orderFront:nil];
+	if ([panel isVisible] == NO) {
+		CGWindowLevel level;
+		level = [[MacUIMController activeContext] clientWindowLevel];
+		if (level != kCGAssistiveTechHighWindowLevelKey)
+			level++;
+		[panel orderFront:nil];
+		[panel setLevel:level];
+	}
 }
 
 - (void)hideWindow
