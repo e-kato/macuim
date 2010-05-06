@@ -117,9 +117,7 @@ static NSTimeInterval lastDeactivatedTime;
 
 	[helperController focusIn:uc];
 
-	if (self != lastDeactivatedContext)
-		uim_prop_list_update(uc);
-
+	uim_prop_list_update(uc);
 	uim_focus_in_context(uc);
 }
 
