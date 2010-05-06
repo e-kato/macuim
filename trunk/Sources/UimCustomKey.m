@@ -511,14 +511,14 @@ static NSArray *uimKeys = nil;
 // Table data source
 //
 
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
   return [keyArray count];
 }
 
 - (id)tableView:(NSTableView *)aTableView
  objectValueForTableColumn:(NSTableColumn *)aTableColumn
-            row:(int)rowIndex
+            row:(NSInteger)rowIndex
 {
   return [self uimKeyToString:[[keyArray objectAtIndex:rowIndex] uimKey]->literal];
 }
@@ -534,7 +534,7 @@ static NSArray *uimKeys = nil;
 
 - (NSDragOperation)tableView:(NSTableView *)tableView
                 validateDrop:(id <NSDraggingInfo>)info
-                 proposedRow:(int)row
+                 proposedRow:(NSInteger)row
        proposedDropOperation:(NSTableViewDropOperation)operation
 {
   NSPasteboard *pboard = [info draggingPasteboard];
@@ -549,7 +549,7 @@ static NSArray *uimKeys = nil;
 
 - (BOOL)tableView:(NSTableView *)tableView
        acceptDrop:(id <NSDraggingInfo>)info
-              row:(int)row
+              row:(NSInteger)row
     dropOperation:(NSTableViewDropOperation)operation
 {
   NSPasteboard *pboard = [info draggingPasteboard];

@@ -338,7 +338,7 @@
 // Table data source
 //
 
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
   if (aTableView == [(UimCustomOrderedListController *) controller listTable])
     return [choiceArray count];
@@ -350,7 +350,7 @@
 
 - (id)tableView:(NSTableView *)aTableView
  objectValueForTableColumn:(NSTableColumn *)aTableColumn
-            row:(int)rowIndex
+            row:(NSInteger)rowIndex
 {
   if ([[aTableColumn identifier] isEqualToString:@"list"])
     return [NSString stringWithUTF8String:[[choiceArray objectAtIndex:rowIndex] choice]->label];
@@ -365,7 +365,7 @@
 - (void)tableView:(NSTableView *)tableView
    setObjectValue:(id)object 
    forTableColumn:(NSTableColumn *)tableColumn 
-              row:(int)rowIndex;
+              row:(NSInteger)rowIndex;
 {
   if ([[tableColumn identifier] isEqualToString:@"on"])
     [[availableArray objectAtIndex:rowIndex] setEnabled:[object intValue]];
@@ -386,7 +386,7 @@
 
 - (NSDragOperation)tableView:(NSTableView *)tableView
                 validateDrop:(id <NSDraggingInfo>)info
-                 proposedRow:(int)row
+                 proposedRow:(NSInteger)row
        proposedDropOperation:(NSTableViewDropOperation)operation
 {
   NSPasteboard *pboard = [info draggingPasteboard];
@@ -402,7 +402,7 @@
 
 - (BOOL)tableView:(NSTableView *)tableView
        acceptDrop:(id <NSDraggingInfo>)info
-              row:(int)row
+              row:(NSInteger)row
     dropOperation:(NSTableViewDropOperation)operation
 {
   NSPasteboard *pboard = [info draggingPasteboard];
