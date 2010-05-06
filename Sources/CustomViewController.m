@@ -295,7 +295,7 @@ didClickTableColumn:(NSTableColumn *)aTableColumn
 - (BOOL)outlineView:(NSOutlineView *)aOutlineView
          acceptDrop:(id <NSDraggingInfo>)info
                item:(id)item
-         childIndex:(int)index
+         childIndex:(NSInteger)index
 {
   if ([self isValidDelegateForSelector:_cmd])
     return [[self delegate] outlineView:aOutlineView
@@ -307,7 +307,7 @@ didClickTableColumn:(NSTableColumn *)aTableColumn
 }
 
 - (id)outlineView:(NSOutlineView *)aOutlineView
-            child:(int)index
+            child:(NSInteger)index
            ofItem:(id)item
 {
   if (![self isValidDelegateForSelector:_cmd])
@@ -338,7 +338,7 @@ didClickTableColumn:(NSTableColumn *)aTableColumn
               itemForPersistentObject:object];
 }
 
-- (int)outlineView:(NSOutlineView *)aOutlineView
+- (NSInteger)outlineView:(NSOutlineView *)aOutlineView
  numberOfChildrenOfItem:(id)item
 {
   if ([self isValidDelegateForSelector:_cmd])
@@ -397,7 +397,7 @@ didClickTableColumn:(NSTableColumn *)aTableColumn
 - (NSDragOperation)outlineView:(NSOutlineView *)aOutlineView
                   validateDrop:(id <NSDraggingInfo>)info
                   proposedItem:(id)item
-            proposedChildIndex:(int)index
+            proposedChildIndex:(NSInteger)index
 {
   if ([self isValidDelegateForSelector:_cmd])
     return [[self delegate] outlineView:aOutlineView

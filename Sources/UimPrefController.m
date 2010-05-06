@@ -198,7 +198,7 @@ static UimPrefController *sharedController;
   return [[item className] isEqualToString:@"UimCustomGroup"];
 }
 
-- (int)outlineView:(NSOutlineView *)outlineView
+- (NSInteger)outlineView:(NSOutlineView *)outlineView
  numberOfChildrenOfItem:(id)item
 {
   if (!item)
@@ -208,7 +208,7 @@ static UimPrefController *sharedController;
 }
 
 - (id)outlineView:(NSOutlineView *)outlineView
-            child:(int)index
+            child:(NSInteger)index
            ofItem:(id)item
 {
   if (!item)
