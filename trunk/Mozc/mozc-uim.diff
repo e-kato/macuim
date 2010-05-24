@@ -871,7 +871,7 @@ Index: unix/uim/mozc.cc
 ===================================================================
 --- unix/uim/mozc.cc	(revision 0)
 +++ unix/uim/mozc.cc	(revision 0)
-@@ -0,0 +1,729 @@
+@@ -0,0 +1,730 @@
 +/*
 +
 +  Copyright (c) 2010 uim Project http://code.google.com/p/uim/
@@ -1131,6 +1131,7 @@ Index: unix/uim/mozc.cc
 +    delete context_slot[id].keyTranslator;
 +    delete context_slot[id].output;
 +    context_slot[id].session = NULL;
++    context_slot[id].output = NULL;
 +  }
 +
 +  return uim_scm_f();
