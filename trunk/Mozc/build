@@ -1,0 +1,60 @@
+#!/bin/sh -x
+
+# usage
+# ./build --apply-patch
+
+top=`pwd`
+PATCH0=${top}/mozc-macosx.diff
+PATCH1=${top}/gyp-macosx.diff
+PATCH2=${top}/mozc-uim.diff
+PATCH3=${top}/mozc-uim-xcode-proj.diff
+
+dest="${top}/../Package/dest"
+fwdir="/Library/Frameworks/UIM.framework/Versions/Current"
+
+if [ ! -d depot_tools ]; then
+	svn co http://src.chromium.org/svn/trunk/tools/depot_tools
+fi
+
+export PATH=$PATH:`pwd`/depot_tools
+export PKG_CONFIG_PATH=/Library/Frameworks/UIM.framework/Versions/Current/lib/pkgconfig:$PKG_CONFIG_PATH
+
+if [ ! -d mozc ]; then
+	mkdir mozc
+
+	cd mozc
+		gclient config http://mozc.googlecode.com/svn/trunk/src
+		gclient sync
+	cd -
+fi
+
+cd mozc/src
+
+	# apply patches
+	if test -n "$1" && test $1 = "--apply-patch" ;then
+			patch -p0 < ${PATCH0}
+			(cd mozc_build_tools/gyp; patch -p0 < ${PATCH1})
+			patch -p0 < ${PATCH2}
+	fi
+
+
+	# gyp
+	python build_mozc.py gyp
+	# fix xcode project
+	patch -p0 < ${PATCH3}
+
+	# build build_tools
+	python build_mozc.py build_tools -c Release
+
+	# build libuim-mozc.so
+	python build_mozc.py build -c Release unix/uim/uim-macuim.gyp:uim-mozc
+
+
+cd -
+
+# install  
+mkdir -p ${dest}
+install mozc/src/xcodebuild/Release/libuim-mozc.so \
+	${dest}/${fwdir}/pkglib/plugin/
+install scm/mozc*.scm ${dest}/${fwdir}/share/uim/
+

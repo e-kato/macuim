@@ -1,0 +1,47 @@
+Index: base/process.cc
+===================================================================
+--- base/process.cc	(revision 19)
++++ base/process.cc	(working copy)
+@@ -50,6 +50,7 @@
+ #include <spawn.h>  // for posix_spawn().
+ #include <sys/stat.h>
+ #include "base/mac_process.h"
++#include <crt_externs.h>
+ #endif  // OS_MACOSX
+ 
+ #ifdef OS_LINUX
+@@ -67,8 +68,10 @@
+ // Defined somewhere in libc. We can't pass NULL as the 6th argument of
+ // posix_spawn() since Qt applications use (at least) DISPLAY and QT_IM_MODULE
+ // environment variables.
++#ifndef OS_MACOSX
+ extern char **environ;
+ #endif
++#endif
+ 
+ #ifdef OS_WINDOWS
+ namespace {
+@@ -309,6 +312,9 @@
+   // posix_spawn returns 0 even if kMozcServer doesn't exist, because
+   // the return value of posix_spawn is basically determined
+   // by the return value of fork().
++#if OS_MACOSX
++  char **environ = *_NSGetEnviron();
++#endif
+   const int result = ::posix_spawn(
+       &tmp_pid, path.c_str(), NULL, NULL, const_cast<char* const*>(argv.get()),
+       environ);
+Index: build_mozc.py
+===================================================================
+--- build_mozc.py	(revision 19)
++++ build_mozc.py	(working copy)
+@@ -129,7 +129,8 @@
+     gyp_file_names.extend(glob.glob('%s/win32/*/*.gyp' % SRC_DIR))
+     gyp_file_names.extend(glob.glob('third_party/breakpad/*.gyp'))
+     gyp_file_names.append('third_party/mozc/sandbox/sandbox.gyp')
+-  elif IsLinux():
++  #elif IsLinux():
++  elif IsLinux() or IsMac():
+     gyp_file_names.extend(glob.glob('%s/unix/*/*.gyp' % SRC_DIR))
+     # Add ibus.gyp if ibus is isntalled.
+     # Ubuntu 8.04 (Hardy) does not contain ibus package.
