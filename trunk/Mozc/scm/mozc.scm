@@ -248,8 +248,8 @@
   mozc-set-candidate-index-handler
   context-prop-activate-handler
   #f
-  mozc-focus-in-handler
-  mozc-focus-out-handler
+  #f ;mozc-focus-in-handler
+  #f ;mozc-focus-out-handler
   #f
   #f
 )
