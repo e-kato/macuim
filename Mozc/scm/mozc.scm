@@ -152,24 +152,6 @@
       (mozc-context-set-mc-id! mc mc-id)
       mc)))
 
-(define mozc-input-state-preedit
-  (lambda (mc)
-    (let* ((mc-id (mozc-context-mc-id mc))
-           (nr (mozc-lib-get-nr-segments mc-id))
-           (seq (iota nr)))
-      '()
-      )))
-      ;(map (lambda (x) (mozc-lib-get-nth-segment mc-id x)) seq))))
-
-(define mozc-update-preedit
-  (lambda (mc)
-    (if (not (mozc-context-commit-raw mc))
-      (let ((segments (if (mozc-context-on mc)
-                        (mozc-input-state-preedit mc)
-                        '())))
-        (context-update-preedit mc segments))
-      (mozc-context-set-commit-raw! mc #f))))
-
 (define mozc-proc-direct-state
   (lambda (mc key key-state)
    (if (mozc-on-key? key key-state)
@@ -228,16 +210,12 @@
   (lambda (mc)
     (let ((mid (mozc-context-mc-id mc)))
       ;(mozc-lib-focus-in mid)
-      ;(mozc-update-preedit mc)
-      (print "focus-in")
       )))
 
 (define mozc-focus-out-handler
   (lambda (mc)
     (let ((mid (mozc-context-mc-id mc)))
       ;(mozc-lib-focus-out mid)
-      ;(mozc-update-preedit mc)
-      (print "focus-out")
       )))
 
 (define mozc-get-candidate-handler
