@@ -1,6 +1,6 @@
 Index: base/process.cc
 ===================================================================
---- base/process.cc	(revision 19)
+--- base/process.cc	(revision 23)
 +++ base/process.cc	(working copy)
 @@ -50,6 +50,7 @@
  #include <spawn.h>  // for posix_spawn().
@@ -33,15 +33,25 @@ Index: base/process.cc
        environ);
 Index: build_mozc.py
 ===================================================================
---- build_mozc.py	(revision 19)
+--- build_mozc.py	(revision 23)
 +++ build_mozc.py	(working copy)
-@@ -129,7 +129,8 @@
-     gyp_file_names.extend(glob.glob('%s/win32/*/*.gyp' % SRC_DIR))
+@@ -130,13 +130,18 @@
      gyp_file_names.extend(glob.glob('third_party/breakpad/*.gyp'))
      gyp_file_names.append('third_party/mozc/sandbox/sandbox.gyp')
--  elif IsLinux():
-+  #elif IsLinux():
-+  elif IsLinux() or IsMac():
-     gyp_file_names.extend(glob.glob('%s/unix/*/*.gyp' % SRC_DIR))
+   elif IsLinux():
+-    gyp_file_names.extend(glob.glob('%s/unix/*/*.gyp' % SRC_DIR))
++    gyp_file_names.extend(glob.glob('%s/unix/ibus/*.gyp' % SRC_DIR))
++    gyp_file_names.extend(glob.glob('%s/unix/uim/*linux*.gyp' % SRC_DIR))
      # Add ibus.gyp if ibus is isntalled.
      # Ubuntu 8.04 (Hardy) does not contain ibus package.
+     try:
+       RunOrDie(['pkg-config', '--exists', 'ibus-1.0'])
+     except RunOrDieError:
+       gyp_file_names.remove('%s/unix/ibus/ibus.gyp' % SRC_DIR)
++
++  elif IsMac():
++    gyp_file_names.extend(glob.glob('%s/unix/ibus/*.gyp' % SRC_DIR))
++    gyp_file_names.extend(glob.glob('%s/unix/uim/*mac*.gyp' % SRC_DIR))
+   gyp_file_names.extend(glob.glob('third_party/rx/*.gyp'))
+   gyp_file_names.sort()
+   return gyp_file_names
