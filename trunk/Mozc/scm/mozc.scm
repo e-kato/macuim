@@ -157,7 +157,7 @@
      (begin
        (mozc-lib-set-on (mozc-context-mc-id mc))
        (mozc-context-set-on! mc #t))
-       (im-commit-raw mc))))
+     (im-commit-raw mc))))
 
 (define mozc-init-handler
   (lambda (id im arg)
