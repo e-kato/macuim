@@ -139,8 +139,7 @@
    ;; renamed from 'id' to avoid conflict with context-id
    (list
      (list 'mc-id             #f)
-     (list 'on                #f)
-     (list 'commit-raw        #t))))
+     (list 'on                #f))))
 (define-record 'mozc-context mozc-context-rec-spec)
 (define mozc-context-new-internal mozc-context-new)
 
@@ -158,12 +157,7 @@
      (begin
        (mozc-lib-set-on (mozc-context-mc-id mc))
        (mozc-context-set-on! mc #t))
-       (mozc-commit-raw mc))))
-
-(define mozc-commit-raw
-  (lambda (mc)
-    (im-commit-raw mc)
-    (mozc-context-set-commit-raw! mc #t)))
+       (im-commit-raw mc))))
 
 (define mozc-init-handler
   (lambda (id im arg)
@@ -179,27 +173,29 @@
 
 (define mozc-proc-input-state
   (lambda (mc key key-state)
-    (let* ((mid (mozc-context-mc-id mc)))
-          (if (mozc-off-key? key key-state)
-	      (mozc-lib-set-input-mode mc mid mozc-type-direct)
-	      (if (mozc-lib-press-key mc mid (if (symbol? key)
-                                            (keysym-to-int key)
-                                            key) key-state)
-                  #f  ; Key event is consumed
-		(mozc-commit-raw mc)
-                )))))
+    (if (ichar-control? key)
+      (im-commit-raw mc)
+      (let ((mid (mozc-context-mc-id mc)))
+        (if (mozc-off-key? key key-state)
+          (mozc-lib-set-input-mode mc mid mozc-type-direct)
+          (if (mozc-lib-press-key mc mid (if (symbol? key)
+                                           (keysym-to-int key)
+                                           key) key-state)
+            #f  ; Key event is consumed
+            (im-commit-raw mc)))))))
 
 
 (define mozc-press-key-handler
   (lambda (mc key key-state)
     (if (mozc-context-on mc)
       (mozc-proc-input-state mc key key-state)
-      (mozc-proc-direct-state mc key key-state)
-      )))
+      (mozc-proc-direct-state mc key key-state))))
 
 (define mozc-release-key-handler
   (lambda (mc key key-state)
-    #f))
+    (if (or (ichar-control? key)
+            (not (mozc-context-on mc)))
+      (im-commit-raw mc))))
 
 (define mozc-reset-handler
   (lambda (mc)
