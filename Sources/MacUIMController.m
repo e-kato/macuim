@@ -119,6 +119,7 @@ static NSTimeInterval lastDeactivatedTime;
 
 	uim_prop_list_update(uc);
 	uim_focus_in_context(uc);
+	[currentClient retain];
 }
 
 - (void)deactivateServer:(id)sender
@@ -129,6 +130,7 @@ static NSTimeInterval lastDeactivatedTime;
 	if (candidateIsActive == true)
 		[candWin hideWindow];
 
+	[currentClient release];
 	currentClient = nil;
 
 	[helperController focusOut:uc];
@@ -179,7 +181,8 @@ static NSTimeInterval lastDeactivatedTime;
 	//NSLog(@"pushbackPreedit: attr %d, style %d", attr, style);
 
 	if (attr & UPreeditAttr_Separator) {
-		NSLog(@"Attr_Separator"); // FIXME
+		//NSLog(@"Attr_Separator"); // FIXME
+		;
 	}
 
 	theString = [[NSAttributedString alloc]
