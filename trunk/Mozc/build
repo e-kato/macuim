@@ -1,7 +1,9 @@
 #!/bin/sh -x
 
 # usage
-# ./build --apply-patch
+# ./build --apply-patch		# just apply patches
+# ./build			# build and install
+# ./build --clean-patch		# remove uim-mozc patches
 
 top=`pwd`
 PATCH0=${top}/mozc-macosx.diff
@@ -21,7 +23,6 @@ export PKG_CONFIG_PATH=/Library/Frameworks/UIM.framework/Versions/Current/lib/pk
 
 if [ ! -d mozc ]; then
 	mkdir mozc
-
 	cd mozc
 		gclient config http://mozc.googlecode.com/svn/trunk/src
 		gclient sync
@@ -29,12 +30,12 @@ if [ ! -d mozc ]; then
 fi
 
 cd mozc/src
-
 	# apply patches
 	if test -n "$1" && test $1 = "--apply-patch" ;then
 		patch -p0 < ${PATCH0}
 		(cd mozc_build_tools/gyp; patch -p0 < ${PATCH1})
 		patch -p0 < ${PATCH2}
+		exit
 	fi
 
 	# clean patches and exit
@@ -60,7 +61,6 @@ cd mozc/src
 	if [ $? != 0 ]; then
 		exit
 	fi
-
 cd -
 
 # install  
