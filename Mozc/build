@@ -34,6 +34,9 @@ cd mozc/src
 	if test -n "$1" && test $1 = "--apply-patch" ;then
 		patch -p0 < ${PATCH0}
 		(cd mozc_build_tools/gyp; patch -p0 < ${PATCH1})
+		if [ -d unix/uim ]; then
+			rm -rf unix/uim
+		fi
 		patch -p0 < ${PATCH2}
 		exit
 	fi
