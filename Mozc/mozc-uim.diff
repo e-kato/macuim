@@ -873,7 +873,7 @@ Index: unix/uim/mozc.cc
 ===================================================================
 --- unix/uim/mozc.cc	(revision 0)
 +++ unix/uim/mozc.cc	(revision 0)
-@@ -0,0 +1,761 @@
+@@ -0,0 +1,757 @@
 +/*
 +
 +  Copyright (c) 2010 uim Project http://code.google.com/p/uim/
@@ -1456,19 +1456,7 @@ Index: unix/uim/mozc.cc
 +    return a < b;
 +  }
 +};
-+template <>
-+struct hash<const char *> {
-+  inline size_t operator()(const char *str) const {
-+    size_t result = 0;
-+    for (; *str != '\0'; str++) {
-+      result = 5 * result + *str;
-+    }
-+    return result;
-+  }
-+  inline bool operator()(const char* a, const char* b) const {
-+    return strcmp(a, b) < 0;
-+  }
-+};
++
 +struct eqstr
 +{
 +  bool operator()(const char* s1, const char* s2) const
@@ -1477,8 +1465,7 @@ Index: unix/uim/mozc.cc
 +  }
 +};
 +
-+
-+typedef hash_map<const char *, int, hash<const char *>, eqstr> KeyMap;
++typedef hash_map<const char *, int, __gnu_cxx::hash<const char *>, eqstr> KeyMap;
 +static KeyMap key_map;
 +
 +static void install_keymap(void)
@@ -1599,6 +1586,14 @@ Index: unix/uim/mozc.cc
 +  return uim_scm_t();
 +}
 +
++static uim_lisp
++has_preedit(uim_lisp id_)
++{
++  int id = C_INT(id_);
++  
++  return context_slot[id].has_preedit_before ? uim_scm_t() : uim_scm_f();
++}
++
 +} // namespace
 +} // namespace
 +
@@ -1618,6 +1613,7 @@ Index: unix/uim/mozc.cc
 +  uim_scm_init_proc1("mozc-lib-input-mode", mozc::uim::get_composition_mode);
 +  uim_scm_init_proc3("mozc-lib-set-input-mode", mozc::uim::set_composition_mode);
 +  uim_scm_init_proc1("mozc-lib-set-on", mozc::uim::set_composition_on);
++  uim_scm_init_proc1("mozc-lib-has-preedit?", mozc::uim::has_preedit);
 +
 +  int argc = 1;
 +  static const char name[] = "uim-mozc";

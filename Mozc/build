@@ -1,8 +1,9 @@
-#!/bin/sh -x
+#!/bin/sh
 
 # usage
 # ./build --apply-patch		# just apply patches
 # ./build			# build and install
+#
 # ./build --clean-patch		# remove uim-mozc patches
 
 top=`pwd`
@@ -23,6 +24,7 @@ export PATH=$PATH:`pwd`/depot_tools
 export PKG_CONFIG_PATH=/Library/Frameworks/UIM.framework/Versions/Current/lib/pkgconfig:$PKG_CONFIG_PATH
 
 if [ ! -d mozc ]; then
+	echo "pull mozc"
 	mkdir mozc
 	cd mozc
 		gclient config http://mozc.googlecode.com/svn/trunk/src
@@ -33,6 +35,7 @@ fi
 cd mozc/src
 	# apply patches
 	if test -n "$1" && test $1 = "--apply-patch" ;then
+		echo "apply patches"
 		patch -p0 < ${PATCH0}
 		(cd mozc_build_tools/gyp; patch -p0 < ${PATCH1})
 		if [ -d unix/uim ]; then
@@ -44,30 +47,53 @@ cd mozc/src
 
 	# clean patches and exit
 	if test -n "$1" && test $1 = "--clean-patch" ;then
+		echo "cleanup patches"
 		svn status . | grep "^M" | sed -e 's/^M//' | xargs svn revert
 		svn status mozc_build_tools/gyp | grep "^M" | sed -e 's/^M//' | xargs svn revert
 		rm -rf unix/uim/
 		exit
 	fi
 
+	if test -n "$1" && test $1 = "--help" ;then
+		cat <<HERE
+# usage
+# ./build --apply-patch		# just apply patches
+# ./build			# build and install
+#
+# ./build --help		# show help
+# ./build --clean-patch		# remove uim-mozc patches
+HERE
+		exit
+	fi
+
+	# check unix/uim
+	if [ ! -d unix/uim ]; then
+		echo "./build --apply-patch first"
+		exit
+	fi
 
 	# gyp
+	echo "generate rules"
 	python build_mozc.py gyp
 	# fix xcode project
 	patch -p0 < ${PATCH3}
 
 	# build build_tools
+	echo "build_tools"
 	python build_mozc.py build_tools -c Release
 
 	# build libuim-mozc.so
+	echo "build"
 	python build_mozc.py build -c Release unix/uim/uim-macuim.gyp:uim-mozc
 
 	if [ $? != 0 ]; then
+		echo "failed"
 		exit
 	fi
 cd -
 
 # install  
+echo "install"
 mkdir -p ${dest}
 install mozc/src/xcodebuild/Release/libuim-mozc.so \
 	${dest}/${fwdir}/pkglib/plugin/
