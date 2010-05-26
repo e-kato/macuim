@@ -13,6 +13,7 @@ PATCH3=${top}/mozc-uim-xcode-proj.diff
 
 dest="${top}/../Package/dest"
 fwdir="/Library/Frameworks/UIM.framework/Versions/Current"
+uim_build_dir="${top}/../UIM/uim"
 
 if [ ! -d depot_tools ]; then
 	svn co http://src.chromium.org/svn/trunk/tools/depot_tools
@@ -71,4 +72,9 @@ mkdir -p ${dest}
 install mozc/src/xcodebuild/Release/libuim-mozc.so \
 	${dest}/${fwdir}/pkglib/plugin/
 install scm/mozc*.scm ${dest}/${fwdir}/share/uim/
+
+# put into uim build dir too
+install mozc/src/xcodebuild/Release/libuim-mozc.so \
+	${uim_build_dir}/uim/
+install scm/mozc*.scm ${uim_build_dir}/scm/
 
