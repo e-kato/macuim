@@ -402,104 +402,6 @@ Index: unix/uim/uim-linux.gyp
 +    },
 +  ],
 +}
-Index: unix/uim/key_translator.h
-===================================================================
---- unix/uim/key_translator.h	(revision 0)
-+++ unix/uim/key_translator.h	(revision 0)
-@@ -0,0 +1,93 @@
-+// Copyright 2010, Google Inc.
-+// All rights reserved.
-+//
-+// Redistribution and use in source and binary forms, with or without
-+// modification, are permitted provided that the following conditions are
-+// met:
-+//
-+//     * Redistributions of source code must retain the above copyright
-+// notice, this list of conditions and the following disclaimer.
-+//     * Redistributions in binary form must reproduce the above
-+// copyright notice, this list of conditions and the following disclaimer
-+// in the documentation and/or other materials provided with the
-+// distribution.
-+//     * Neither the name of Google Inc. nor the names of its
-+// contributors may be used to endorse or promote products derived from
-+// this software without specific prior written permission.
-+//
-+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-+// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-+// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-+// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-+// OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-+// SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-+// LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-+// DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-+// THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-+// (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-+// OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-+
-+#ifndef MOZC_UNIX_UIM_KEY_TRANSLATOR_H_
-+#define MOZC_UNIX_UIM_KEY_TRANSLATOR_H_
-+
-+#include <uim.h>
-+
-+#include <map>
-+
-+#include "base/base.h"
-+#include "session/commands.pb.h"
-+
-+namespace mozc {
-+namespace uim {
-+
-+// This class is responsible for converting key code sent from ibus-daemon
-+// (defined in /usr/include/ibus-1.0/ibuskeysyms.h) to a KeyEvent object for
-+// the input of session_interface.
-+class KeyTranslator {
-+ public:
-+  KeyTranslator();
-+  virtual ~KeyTranslator();
-+
-+  // Converts ibus keycode to Mozc key code and stores them on |out_event|.
-+  // Returns true if ibus keycode is successfully converted to Mozc key code.
-+  bool Translate(unsigned int keyval,
-+                 unsigned int keycode,
-+                 unsigned int modifiers,
-+                 mozc::commands::KeyEvent *out_event) const;
-+
-+ private:
-+  typedef map<unsigned int, commands::KeyEvent::SpecialKey> SpecialKeyMap;
-+  typedef map<unsigned int, commands::KeyEvent::ModifierKey> ModifierKeyMap;
-+
-+  // Returns true iff key is modifier key such as SHIFT, ALT, or CAPSLOCK.
-+  bool IsModifierKey(unsigned int keyval,
-+                     unsigned int keycode,
-+                     unsigned int modifiers) const;
-+
-+  // Returns true iff key is special key such as ENTER, ESC, or PAGE_UP.
-+  bool IsSpecialKey(unsigned int keyval,
-+                    unsigned int keycode,
-+                    unsigned int modifiers) const;
-+
-+  // Returns true iff key is ASCII such as '0', 'A', or '!'.
-+  static bool IsAscii(unsigned int keyval,
-+                      unsigned int keycode,
-+                      unsigned int modifiers);
-+
-+  // Initializes private fields.
-+  void Init();
-+
-+  // Stores a mapping from ibus keys to Mozc's special keys.
-+  SpecialKeyMap special_key_map_;
-+  // Stores a mapping from ibus modifier keys to Mozc's modifier keys.
-+  ModifierKeyMap modifier_key_map_;
-+  // Stores a mapping from ibus modifier masks to Mozc's modifier keys.
-+  ModifierKeyMap modifier_mask_map_;
-+
-+  DISALLOW_COPY_AND_ASSIGN(KeyTranslator);
-+};
-+
-+}  // namespace uim
-+}  // namespace mozc
-+
-+#endif  // MOZC_UNIX_UIM_KEY_TRANSLATOR_H_
 Index: unix/uim/session.cc
 ===================================================================
 --- unix/uim/session.cc	(revision 0)
@@ -736,6 +638,106 @@ Index: unix/uim/session.cc
 +
 +}  // namespace uim
 +}  // namespace mozc
+Index: unix/uim/key_translator.h
+===================================================================
+--- unix/uim/key_translator.h	(revision 0)
++++ unix/uim/key_translator.h	(revision 0)
+@@ -0,0 +1,95 @@
++// Copyright 2010, Google Inc.
++// All rights reserved.
++//
++// Redistribution and use in source and binary forms, with or without
++// modification, are permitted provided that the following conditions are
++// met:
++//
++//     * Redistributions of source code must retain the above copyright
++// notice, this list of conditions and the following disclaimer.
++//     * Redistributions in binary form must reproduce the above
++// copyright notice, this list of conditions and the following disclaimer
++// in the documentation and/or other materials provided with the
++// distribution.
++//     * Neither the name of Google Inc. nor the names of its
++// contributors may be used to endorse or promote products derived from
++// this software without specific prior written permission.
++//
++// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
++// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
++// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
++// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
++// OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
++// SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
++// LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
++// DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
++// THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
++// (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
++// OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++
++#ifndef MOZC_UNIX_UIM_KEY_TRANSLATOR_H_
++#define MOZC_UNIX_UIM_KEY_TRANSLATOR_H_
++
++#include <uim.h>
++
++#include <map>
++#include <ext/hash_map>
++using __gnu_cxx::hash_map;
++
++#include "base/base.h"
++#include "session/commands.pb.h"
++
++namespace mozc {
++namespace uim {
++
++// This class is responsible for converting key code sent from ibus-daemon
++// (defined in /usr/include/ibus-1.0/ibuskeysyms.h) to a KeyEvent object for
++// the input of session_interface.
++class KeyTranslator {
++ public:
++  KeyTranslator();
++  virtual ~KeyTranslator();
++
++  // Converts ibus keycode to Mozc key code and stores them on |out_event|.
++  // Returns true if ibus keycode is successfully converted to Mozc key code.
++  bool Translate(unsigned int keyval,
++                 unsigned int keycode,
++                 unsigned int modifiers,
++                 mozc::commands::KeyEvent *out_event) const;
++
++ private:
++  typedef hash_map<unsigned int, commands::KeyEvent::SpecialKey> SpecialKeyMap;
++  typedef map<unsigned int, commands::KeyEvent::ModifierKey> ModifierKeyMap;
++
++  // Returns true iff key is modifier key such as SHIFT, ALT, or CAPSLOCK.
++  bool IsModifierKey(unsigned int keyval,
++                     unsigned int keycode,
++                     unsigned int modifiers) const;
++
++  // Returns true iff key is special key such as ENTER, ESC, or PAGE_UP.
++  bool IsSpecialKey(unsigned int keyval,
++                    unsigned int keycode,
++                    unsigned int modifiers) const;
++
++  // Returns true iff key is ASCII such as '0', 'A', or '!'.
++  static bool IsAscii(unsigned int keyval,
++                      unsigned int keycode,
++                      unsigned int modifiers);
++
++  // Initializes private fields.
++  void Init();
++
++  // Stores a mapping from ibus keys to Mozc's special keys.
++  SpecialKeyMap special_key_map_;
++  // Stores a mapping from ibus modifier keys to Mozc's modifier keys.
++  ModifierKeyMap modifier_key_map_;
++  // Stores a mapping from ibus modifier masks to Mozc's modifier keys.
++  ModifierKeyMap modifier_mask_map_;
++
++  DISALLOW_COPY_AND_ASSIGN(KeyTranslator);
++};
++
++}  // namespace uim
++}  // namespace mozc
++
++#endif  // MOZC_UNIX_UIM_KEY_TRANSLATOR_H_
 Index: unix/uim/session.h
 ===================================================================
 --- unix/uim/session.h	(revision 0)
@@ -871,7 +873,7 @@ Index: unix/uim/mozc.cc
 ===================================================================
 --- unix/uim/mozc.cc	(revision 0)
 +++ unix/uim/mozc.cc	(revision 0)
-@@ -0,0 +1,729 @@
+@@ -0,0 +1,761 @@
 +/*
 +
 +  Copyright (c) 2010 uim Project http://code.google.com/p/uim/
@@ -930,8 +932,9 @@ Index: unix/uim/mozc.cc
 +#include "unix/uim/key_translator.h"
 +
 +#include <map>
-+
-+static bool initialized;
++#include <ext/hash_map>
++using __gnu_cxx::hash_map;
++static char **argv;
 +
 +namespace mozc {
 +namespace uim {
@@ -1110,12 +1113,14 @@ Index: unix/uim/mozc.cc
 +{
 +  int id;
 +
++  Session *session = new Session;
++  KeyTranslator *keyTranslator = new KeyTranslator;
++  commands::Output *output = new commands::Output;
++
 +  id = unused_context_id();
-+  Session *session_ = new Session;
-+  KeyTranslator *keyTranslator_ = new KeyTranslator;
-+  context_slot[id].session = session_;
-+  context_slot[id].keyTranslator = keyTranslator_;
-+  context_slot[id].output = NULL;
++  context_slot[id].session = session;
++  context_slot[id].keyTranslator = keyTranslator;
++  context_slot[id].output = output;
 +  context_slot[id].currentMode = commands::HIRAGANA;
 +  context_slot[id].has_preedit_before = false;
 +  context_slot[id].cand_nr_before = 0;
@@ -1148,29 +1153,25 @@ Index: unix/uim/mozc.cc
 +static uim_lisp
 +press_key(uim_lisp mc_, uim_lisp id_, uim_lisp key_, uim_lisp state_)
 +{
-+  Session *session_;
-+  KeyTranslator *keyTranslator_;
++  Session *session;
++  KeyTranslator *keyTranslator;
 +  commands::KeyEvent key;
 +  int id;
 +  int keyval, keycode, modifiers;
 +  bool consumed;
 +
 +  id = C_INT(id_);
-+  session_ = context_slot[id].session;
-+  keyTranslator_ = context_slot[id].keyTranslator;
++  session = context_slot[id].session;
++  keyTranslator = context_slot[id].keyTranslator;
 +
 +  keyval = C_INT(key_);
 +  modifiers = C_INT(state_);
 +  keycode = 0; /* XXX */
 +
-+  if (!(*keyTranslator_).Translate(keyval, keycode, modifiers, &key))
++  if (!(*keyTranslator).Translate(keyval, keycode, modifiers, &key))
 +    return uim_scm_f();
 +
-+  if (!context_slot[id].output) {
-+    commands::Output *output = new commands::Output;
-+    context_slot[id].output = output;
-+  }
-+  if (!(*session_).SendKey(key, context_slot[id].output))
++  if (!(*session).SendKey(key, context_slot[id].output))
 +    return uim_scm_f();
 +
 +  update_all(mc_, id);
@@ -1446,20 +1447,57 @@ Index: unix/uim/mozc.cc
 +  /*  {UKey_Other, "other"},*/
 +  {0, 0}
 +};
++template <typename Key>
++struct hash {
++  int operator()(const Key& key) {
++    return 0;
++  }
++  inline bool operator()(const Key& a, const Key& b) const {
++    return a < b;
++  }
++};
++template <>
++struct hash<const char *> {
++  inline size_t operator()(const char *str) const {
++    size_t result = 0;
++    for (; *str != '\0'; str++) {
++      result = 5 * result + *str;
++    }
++    return result;
++  }
++  inline bool operator()(const char* a, const char* b) const {
++    return strcmp(a, b) < 0;
++  }
++};
++struct eqstr
++{
++  bool operator()(const char* s1, const char* s2) const
++  {
++    return strcmp(s1, s2) == 0;
++  }
++};
++
++
++typedef hash_map<const char *, int, hash<const char *>, eqstr> KeyMap;
++static KeyMap key_map;
++
++static void install_keymap(void)
++{
++  int i;
++
++  for (i = 0; key_tab[i].key; i++)
++    key_map.insert(make_pair(key_tab[i].str, key_tab[i].key));
++}
 +
 +static uim_lisp
 +keysym_to_int(uim_lisp sym_)
 +{
 +  const char *sym = uim_scm_refer_c_str(sym_);
 +  int key = 0;
-+  int i;
 +
-+  for (i = 0; key_tab[i].key; i++) {
-+    if (!strcmp(key_tab[i].str, sym)) {
-+      key = key_tab[i].key;
-+      break;
-+    }
-+  }
++  KeyMap::iterator it = key_map.find(sym);
++  if (it != key_map.end())
++    key = it->second;
 +
 +  return uim_scm_make_int(key);
 +}
@@ -1533,11 +1571,6 @@ Index: unix/uim/mozc.cc
 +    break;
 +  }
 +
-+  if (!context_slot[id].output) {
-+    commands::Output *output = new commands::Output;
-+    context_slot[id].output = output;
-+  }
-+
 +  if (mode == commands::DIRECT) {
 +    command.set_type(commands::SessionCommand::SUBMIT);
 +    context_slot[id].session->SendCommand(command, context_slot[id].output);
@@ -1563,43 +1596,44 @@ Index: unix/uim/mozc.cc
 +  command.set_composition_mode(context_slot[id].currentMode);
 +  context_slot[id].session->SendCommand(command, context_slot[id].output);
 +
-+//  uim_scm_callf("mozc-context-set-on!", "oo", context_slot[id].mc, uim_scm_t());
 +  return uim_scm_t();
 +}
 +
 +} // namespace
 +} // namespace
 +
++
++
 +void
 +uim_plugin_instance_init(void)
 +{
-+  if (!initialized) {
-+    uim_scm_init_proc1("mozc-lib-alloc-context", mozc::uim::create_context);
-+    uim_scm_init_proc1("mozc-lib-free-context", mozc::uim::release_context);
-+    uim_scm_init_proc1("mozc-lib-reset", mozc::uim::reset_context);
-+    uim_scm_init_proc4("mozc-lib-press-key", mozc::uim::press_key);
-+    uim_scm_init_proc3("mozc-lib-release-key", mozc::uim::release_key);
-+    uim_scm_init_proc1("mozc-lib-get-nr-candidates", mozc::uim::get_nr_candidates);
-+    uim_scm_init_proc2("mozc-lib-get-nth-candidate", mozc::uim::get_nth_candidate);
-+    uim_scm_init_proc1("keysym-to-int", mozc::uim::keysym_to_int);
-+    uim_scm_init_proc1("mozc-lib-input-mode", mozc::uim::get_composition_mode);
-+    uim_scm_init_proc3("mozc-lib-set-input-mode", mozc::uim::set_composition_mode);
-+    uim_scm_init_proc1("mozc-lib-set-on", mozc::uim::set_composition_on);
++  uim_scm_init_proc1("mozc-lib-alloc-context", mozc::uim::create_context);
++  uim_scm_init_proc1("mozc-lib-free-context", mozc::uim::release_context);
++  uim_scm_init_proc1("mozc-lib-reset", mozc::uim::reset_context);
++  uim_scm_init_proc4("mozc-lib-press-key", mozc::uim::press_key);
++  uim_scm_init_proc3("mozc-lib-release-key", mozc::uim::release_key);
++  uim_scm_init_proc1("mozc-lib-get-nr-candidates", mozc::uim::get_nr_candidates);
++  uim_scm_init_proc2("mozc-lib-get-nth-candidate", mozc::uim::get_nth_candidate);
++  uim_scm_init_proc1("keysym-to-int", mozc::uim::keysym_to_int);
++  uim_scm_init_proc1("mozc-lib-input-mode", mozc::uim::get_composition_mode);
++  uim_scm_init_proc3("mozc-lib-set-input-mode", mozc::uim::set_composition_mode);
++  uim_scm_init_proc1("mozc-lib-set-on", mozc::uim::set_composition_on);
 +
-+    int argc = 1;
-+    static const char name[] = "uim-mozc";
-+    static char **argv = (char **)malloc(sizeof(char *) * 2);
-+    argv[0] = (char *)name;
-+    argv[1] =  NULL;
++  int argc = 1;
++  static const char name[] = "uim-mozc";
++  argv = (char **)malloc(sizeof(char *) * 2);
++  argv[0] = (char *)name;
++  argv[1] =  NULL;
 +
-+    InitGoogle((const char *)argv[0], &argc, (char ***)&argv, true);
-+    initialized = true;
-+  }
++  InitGoogle((const char *)argv[0], &argc, (char ***)&argv, true);
++  mozc::uim::install_keymap();
 +}
 +
 +void
 +uim_plugin_instance_quit(void)
 +{
++  mozc::uim::key_map.clear();
++  free(argv);
 +}
 Index: unix/uim/uim-macfink.gyp
 ===================================================================
