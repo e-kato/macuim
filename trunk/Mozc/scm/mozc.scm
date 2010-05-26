@@ -178,6 +178,9 @@
         (cond
           ((mozc-cancel-key? key key-state)
            (set-car! new 'escape)
+           (set-cdr! new 0))
+          ((mozc-prev-segment-key? key key-state)
+           (set-car! new 'left)
            (set-cdr! new 0))))
       new)))
 
