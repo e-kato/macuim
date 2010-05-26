@@ -48,3 +48,15 @@
 	       '(key)
 	       (_ "[Mozc] off")
 	       (_ "long description will be here"))
+
+(define-custom 'mozc-cancel-key '(generic-cancel-key)
+               '(mozc-keys)
+	       '(key)
+	       (_ "[Mozc] cancel")
+	       (_ "long description will be here"))
+
+(define-custom 'mozc-vi-escape-key '("escape" "<Control>[")
+               '(mozc-keys)
+	       '(key)
+	       (_ "[Mozc] ESC keys on vi-cooperative mode")
+	       (_ "long description will be here"))

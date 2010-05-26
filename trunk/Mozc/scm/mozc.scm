@@ -171,6 +171,16 @@
         #f)
     #f)))
 
+(define mozc-transpose-keys
+  (lambda (mid key key-state)
+    (let ((new (cons key key-state)))
+      (if (mozc-lib-has-preedit? mid)
+        (cond
+          ((mozc-cancel-key? key key-state)
+           (set-car! new 'escape)
+           (set-cdr! new 0))))
+      new)))
+
 (define mozc-proc-input-state
   (lambda (mc key key-state)
     (if (ichar-control? key)
@@ -178,12 +188,18 @@
       (let ((mid (mozc-context-mc-id mc)))
         (if (mozc-off-key? key key-state)
           (mozc-lib-set-input-mode mc mid mozc-type-direct)
-          (if (mozc-lib-press-key mc mid (if (symbol? key)
-                                           (keysym-to-int key)
-                                           key) key-state)
-            #f  ; Key event is consumed
-            (im-commit-raw mc)))))))
-
+          (let* ((new (mozc-transpose-keys mid key key-state))
+                 (nkey (car new))
+                 (nkey-state (cdr new)))
+            (if (mozc-lib-press-key mc mid (if (symbol? nkey)
+                                             (keysym-to-int nkey)
+                                             nkey) nkey-state)
+              #f ; Key event is consumed
+              (begin
+                (and mozc-use-with-vi?
+                     (mozc-vi-escape-key? key key-state)
+                     (mozc-lib-set-input-mode mc mid mozc-type-direct))
+                (im-commit-raw mc)))))))))
 
 (define mozc-press-key-handler
   (lambda (mc key key-state)

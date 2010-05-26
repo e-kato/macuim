@@ -147,3 +147,11 @@
 		 'custom-set-hooks
 		 (lambda ()
 		   (mozc-configure-widgets)))
+
+(define-custom 'mozc-use-with-vi? #f
+  '(mozc special-op)
+  '(boolean)
+  (N_ "Enable vi-cooperative mode")
+  (N_ "long description will be here."))
+
+  
