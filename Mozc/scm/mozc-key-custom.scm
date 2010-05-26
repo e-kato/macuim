@@ -55,6 +55,12 @@
 	       (_ "[Mozc] cancel")
 	       (_ "long description will be here"))
 
+(define-custom 'mozc-prev-segment-key '(generic-go-left-key)
+               '(mozc-keys)
+	       '(key)
+	       (_ "[Mozc] previous segment")
+	       (_ "long description will be here"))
+
 (define-custom 'mozc-vi-escape-key '("escape" "<Control>[")
                '(mozc-keys)
 	       '(key)
