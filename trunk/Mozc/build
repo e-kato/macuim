@@ -10,7 +10,6 @@ top=`pwd`
 os=`uname -s`
 PATCH0=${top}/mozc-macosx.diff
 PATCH1=${top}/gyp-macosx.diff
-PATCH2=${top}/mozc-uim.diff
 PATCH3=${top}/uim-mozc-xcodeproj.diff
 
 dest="${top}/../Package/dest"
@@ -43,7 +42,7 @@ pushd mozc/src
 		if [ -d unix/uim ]; then
 			rm -rf unix/uim
 		fi
-		patch -p0 < ${PATCH2}
+		rsync -auv ${top}/uim unix/
 		(cd mozc_build_tools/gyp; patch -p0 < ${PATCH1})
 		if [ ${os} = "Darwin" ]; then
 			patch -p0 < ${PATCH0}
