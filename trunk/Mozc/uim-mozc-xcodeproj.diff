@@ -1,6 +1,6 @@
---- unix/uim/uim-macuim.xcodeproj/project.pbxproj.orig	2010-05-24 15:00:39.000000000 +0900
-+++ unix/uim/uim-macuim.xcodeproj/project.pbxproj	2010-05-24 15:04:35.000000000 +0900
-@@ -1825,6 +1825,9 @@
+--- unix/uim/uim-macuim.xcodeproj/project.pbxproj.orig	2010-05-28 13:30:43.000000000 +0900
++++ unix/uim/uim-macuim.xcodeproj/project.pbxproj	2010-05-28 13:34:01.000000000 +0900
+@@ -962,6 +962,9 @@
  					x86_64,
  				);
  				DEAD_CODE_STRIPPING = YES;
@@ -10,7 +10,17 @@
  				EXECUTABLE_PREFIX = lib;
  				FRAMEWORK_SEARCH_PATHS = ../../../mac/Releases/GoogleBreakpad;
  				GCC_ENABLE_CPP_EXCEPTIONS = NO;
-@@ -1940,6 +1943,9 @@
+@@ -1025,6 +1028,9 @@
+ 					x86_64,
+ 				);
+ 				COPY_PHASE_STRIP = NO;
++				DYLIB_COMPATIBILITY_VERSION = "";
++				DYLIB_CURRENT_VERSION = "";
++				EXECUTABLE_EXTENSION = so;
+ 				EXECUTABLE_PREFIX = lib;
+ 				FRAMEWORK_SEARCH_PATHS = ../../../mac/Releases/GoogleBreakpad;
+ 				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+@@ -1077,6 +1083,9 @@
  					x86_64,
  				);
  				DEAD_CODE_STRIPPING = YES;

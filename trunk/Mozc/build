@@ -7,14 +7,18 @@
 # ./build --clean-patch		# remove uim-mozc patches
 
 top=`pwd`
+os=`uname -s`
 PATCH0=${top}/mozc-macosx.diff
 PATCH1=${top}/gyp-macosx.diff
 PATCH2=${top}/mozc-uim.diff
-PATCH3=${top}/mozc-uim-xcode-proj.diff
+PATCH3=${top}/uim-mozc-xcodeproj.diff
 
 dest="${top}/../Package/dest"
 fwdir="/Library/Frameworks/UIM.framework/Versions/Current"
+mozcdir="/Library/Mozc"
+launchagentdir="/Library/LaunchAgents"
 uim_build_dir="${top}/../UIM/uim"
+target="MacUIM"
 
 if [ ! -d depot_tools ]; then
 	svn co http://src.chromium.org/svn/trunk/tools/depot_tools
@@ -32,16 +36,18 @@ if [ ! -d mozc ]; then
 	cd -
 fi
 
-cd mozc/src
+pushd mozc/src
 	# apply patches
 	if test -n "$1" && test $1 = "--apply-patch" ;then
 		echo "apply patches"
-		patch -p0 < ${PATCH0}
-		(cd mozc_build_tools/gyp; patch -p0 < ${PATCH1})
 		if [ -d unix/uim ]; then
 			rm -rf unix/uim
 		fi
 		patch -p0 < ${PATCH2}
+		(cd mozc_build_tools/gyp; patch -p0 < ${PATCH1})
+		if [ ${os} = "Darwin" ]; then
+			patch -p0 < ${PATCH0}
+		fi
 		exit
 	fi
 
@@ -76,7 +82,14 @@ HERE
 	echo "generate rules"
 	python build_mozc.py gyp
 	# fix xcode project
-	patch -p0 < ${PATCH3}
+	if [ ${os} = "Darwin" ]; then
+		for i in macuim macfink
+		do
+			pushd unix/uim/uim-${i}.xcodeproj
+			patch < ${PATCH3}
+			popd
+		done
+	fi
 
 	# build build_tools
 	echo "build_tools"
@@ -84,23 +97,42 @@ HERE
 
 	# build libuim-mozc.so
 	echo "build"
-	python build_mozc.py build -c Release unix/uim/uim-macuim.gyp:uim-mozc
+	if [ ${os} = "Darwin" ]; then
+		if [ ${target} = "MacUIM" ]; then
+			python build_mozc.py build -c Release unix/uim/uim-macuim.gyp:uim-mozc
+		else
+			python build_mozc.py build -c Release unix/uim/uim-macfink.gyp:uim-mozc
+		fi
+	else
+		python build_mozc.py build -c Release unix/uim/uim.gyp:uim-mozc
+	fi
+	python build_mozc.py build -c Release server/server.gyp:mozc_server
 
 	if [ $? != 0 ]; then
 		echo "failed"
 		exit
 	fi
-cd -
+popd
 
 # install  
-echo "install"
-mkdir -p ${dest}
-install mozc/src/xcodebuild/Release/libuim-mozc.so \
-	${dest}/${fwdir}/pkglib/plugin/
-install scm/mozc*.scm ${dest}/${fwdir}/share/uim/
+if [ ${os} = Darwin -a ${target} = "MacUIM" ]; then
+	echo "install"
+	mkdir -p ${dest}
+	install mozc/src/xcodebuild/Release/libuim-mozc.so \
+		${dest}/${fwdir}/pkglib/plugin/
+	install scm/mozc*.scm ${dest}/${fwdir}/share/uim/
 
-# put into uim build dir too
-install mozc/src/xcodebuild/Release/libuim-mozc.so \
-	${uim_build_dir}/uim/
-install scm/mozc*.scm ${uim_build_dir}/scm/
+	# put into uim build dir too
+	install mozc/src/xcodebuild/Release/libuim-mozc.so \
+		${uim_build_dir}/uim/
+	install scm/mozc*.scm ${uim_build_dir}/scm/
 
+	# install server
+	mkdir -p ${dest}/${mozc}
+	rsync -auv mozc/src/xcodebuild/Release/MozcConverter.app \
+		${dest}/${mozc}/
+
+	mkdir -p ${dest}/${launchagentdir}
+	cp -p mozc/src/mac/org.mozc.inputmethod.Japanaes.Converter.plist \
+		${dest}/${launchagentdir}
+fi
