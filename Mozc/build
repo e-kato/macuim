@@ -61,6 +61,8 @@ pushd mozc/src
 				(cd mozc_build_tools/gyp; patch -p0 < ${PATCH1})
 				;;
 			esac
+			rm -f mac/org.mozc.inputmethod.Japanaes.Converter.plist
+			rm -f mac/mozc_server_info
 			patch -p0 < ${PATCH0}
 		fi
 		exit
@@ -72,6 +74,8 @@ pushd mozc/src
 		svn status . | grep "^M" | sed -e 's/^M//' | xargs svn revert
 		svn status mozc_build_tools/gyp | grep "^M" | sed -e 's/^M//' | xargs svn revert
 		rm -rf unix/uim/
+		rm -f mac/org.mozc.inputmethod.Japanaes.Converter.plist
+		rm -f mac/mozc_server_info
 		exit
 	fi
 
