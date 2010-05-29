@@ -1,0 +1,28 @@
+Index: pylib/gyp/generator/xcode.py
+===================================================================
+--- pylib/gyp/generator/xcode.py	(revision 824)
++++ pylib/gyp/generator/xcode.py	(working copy)
+@@ -150,6 +150,10 @@
+                          '$(PROJECT_DERIVED_FILE_DIR)/$(CONFIGURATION)')
+     xccl.SetBuildSetting(_shared_intermediate_var,
+                          '$(SYMROOT)/DerivedSources/$(CONFIGURATION)')
++    xccl.SetBuildSetting('SDKROOT',
++                         'macosx10.5')
++    xccl.SetBuildSetting('GCC_ENABLE_OBJC_GC',
++                         'supported')
+ 
+     # Set user-specified project-wide build settings.  This is intended to be
+     # used very sparingly.  Really, almost everything should go into
+@@ -1111,8 +1115,12 @@
+     for configuration_name in configuration_names:
+       configuration = spec['configurations'][configuration_name]
+       xcbc = xct.ConfigurationNamed(configuration_name)
++      for arch in ['i386']:
++          xcbc.AppendBuildSetting('ARCHS', arch)
+       for include_dir in configuration.get('mac_framework_dirs', []):
+         xcbc.AppendBuildSetting('FRAMEWORK_SEARCH_PATHS', include_dir)
++      for include_dir in configuration.get('library_dirs', []):
++        xcbc.AppendBuildSetting('LIBRARY_SEARCH_PATHS', include_dir)
+       for include_dir in configuration.get('include_dirs', []):
+         xcbc.AppendBuildSetting('HEADER_SEARCH_PATHS', include_dir)
+       if 'defines' in configuration:

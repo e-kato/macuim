@@ -538,14 +538,14 @@ Index: client/server_launcher.cc
  const uint32 kServerWaitTimeout = 20000;  // 20 sec
 Index: build_mozc.py
 ===================================================================
---- build_mozc.py	(revision 24)
+--- build_mozc.py	(revision 28)
 +++ build_mozc.py	(working copy)
-@@ -143,6 +143,8 @@
-       RunOrDie(['pkg-config', '--exists', 'QtCore', 'QtGui'])
-     except RunOrDieError:
-       gyp_file_names.remove('%s/gui/gui.gyp' % SRC_DIR)
-+  elif IsMac():
-+    gyp_file_names.extend(glob.glob('%s/unix/*/*.gyp' % SRC_DIR))
-   gyp_file_names.extend(glob.glob('third_party/rx/*.gyp'))
-   gyp_file_names.sort()
-   return gyp_file_names
+@@ -130,7 +130,7 @@
+     gyp_file_names.extend(glob.glob('%s/win32/*/*.gyp' % SRC_DIR))
+     gyp_file_names.extend(glob.glob('third_party/breakpad/*.gyp'))
+     gyp_file_names.append('third_party/mozc/sandbox/sandbox.gyp')
+-  elif IsLinux():
++  elif IsLinux() or IsMac():
+     gyp_file_names.extend(glob.glob('%s/unix/*/*.gyp' % SRC_DIR))
+     # Add ibus.gyp if ibus is installed.
+     # Ubuntu 8.04 (Hardy) does not contain ibus package.
