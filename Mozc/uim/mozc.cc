@@ -139,7 +139,9 @@ insert_cursor(uim_lisp segs, const commands::Preedit::Segment &segment, int attr
   wchar_t ucs4[len + 1];
   wchar_t wc_former[pos + 1], wc_latter[len - pos + 1];
 
-  char *locale = strdup(setlocale(LC_CTYPE, "en_US.UTF-8"));
+  char *locale = strdup(setlocale(LC_CTYPE, NULL));
+  setlocale(LC_CTYPE, "en_US.UTF-8");
+
   if (mbstowcs(ucs4, str, len) < 0)
     return uim_scm_null();
 
