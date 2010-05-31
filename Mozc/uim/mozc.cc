@@ -135,22 +135,10 @@ update_result(uim_lisp mc_, int id)
 static uim_lisp
 insert_cursor(uim_lisp segs, const commands::Preedit::Segment &segment, int attr, int pos)
 {
-  const char *begin = segment.value().c_str();
-  const char *end = begin + segment.value().size();
-  size_t mblen = 0;
-  string former;
-  string latter;
+  size_t len = segment.value_length();
 
-  for (int i = 0; begin < end; i++) {
-    const uint16 w = Util::UTF8ToUCS2(begin, end, &mblen);
-    begin += mblen;
-
-    if (i < pos) {
-      Util::UCS2ToUTF8Append(w, &former);
-    } else {
-      Util::UCS2ToUTF8Append(w, &latter);
-    }
-  }
+  string former = Util::SubString(segment.value(), 0, pos);
+  string latter = Util::SubString(segment.value(), pos, len);
 
   uim_lisp seg_f, seg_c, seg_l, segs_this;
   if (pos == 0) {
