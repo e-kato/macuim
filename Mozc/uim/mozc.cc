@@ -49,6 +49,7 @@
 #endif
 
 #include "base/base.h"
+#include "base/util.h"
 #include "base/scoped_ptr.h"
 #include "session/commands.pb.h"
 #include "client/session.h"
@@ -134,52 +135,33 @@ update_result(uim_lisp mc_, int id)
 static uim_lisp
 insert_cursor(uim_lisp segs, const commands::Preedit::Segment &segment, int attr, int pos)
 {
-  const char *str = segment.value().c_str();
-  int i, len = segment.value_length();
-  wchar_t ucs4[len + 1];
-  wchar_t wc_former[pos + 1], wc_latter[len - pos + 1];
+  const char *begin = segment.value().c_str();
+  const char *end = begin + segment.value().size();
+  size_t mblen = 0;
+  string former;
+  string latter;
 
-  char *locale = strdup(setlocale(LC_CTYPE, NULL));
-  setlocale(LC_CTYPE, "en_US.UTF-8");
+  for (int i = 0; begin < end; i++) {
+    const uint16 w = Util::UTF8ToUCS2(begin, end, &mblen);
+    begin += mblen;
 
-  if (mbstowcs(ucs4, str, len) < 0)
-    return uim_scm_null();
-
-  for (i = 0; i < pos; i++)
-    wc_former[i] = ucs4[i];
-  wc_former[i] = L'\0';
-
-  for (i = pos; i < len; i++)
-    wc_latter[i - pos] = ucs4[i];
-  wc_latter[i - pos] = L'\0';
-
-  char *former, *latter;
-  if (pos == 0) {
-    latter = (char *)uim_malloc((len - pos) * MB_CUR_MAX + 1);
-    if (wcstombs(latter, wc_latter, (len - pos) * MB_CUR_MAX) < 0)
-      return uim_scm_null();
-  } else {
-    former = (char *)uim_malloc(pos * MB_CUR_MAX + 1);
-    latter = (char *)uim_malloc((len - pos) * MB_CUR_MAX + 1);
-    if (wcstombs(former, wc_former, pos * MB_CUR_MAX) < 0) 
-      return uim_scm_null();
-    if (wcstombs(latter, wc_latter, (len - pos) * MB_CUR_MAX) < 0)
-      return uim_scm_null();
+    if (i < pos) {
+      Util::UCS2ToUTF8Append(w, &former);
+    } else {
+      Util::UCS2ToUTF8Append(w, &latter);
+    }
   }
-
-  setlocale(LC_CTYPE, locale);
-  free(locale);
 
   uim_lisp seg_f, seg_c, seg_l, segs_this;
   if (pos == 0) {
     seg_f = uim_scm_null(); /* not used */
     seg_c = CONS(MAKE_INT(UPreeditAttr_Cursor), MAKE_STR(""));
-    seg_l = CONS(MAKE_INT(attr), MAKE_STR_DIRECTLY(latter));
+    seg_l = CONS(MAKE_INT(attr), MAKE_STR(latter.c_str()));
     segs_this = LIST2(seg_c, seg_l);
   } else {
-    seg_f = CONS(MAKE_INT(attr), MAKE_STR_DIRECTLY(former));
+    seg_f = CONS(MAKE_INT(attr), MAKE_STR(former.c_str()));
     seg_c = CONS(MAKE_INT(UPreeditAttr_Cursor), MAKE_STR(""));
-    seg_l = CONS(MAKE_INT(attr), MAKE_STR_DIRECTLY(latter));
+    seg_l = CONS(MAKE_INT(attr), MAKE_STR(latter.c_str()));
     segs_this = LIST3(seg_f, seg_c, seg_l);
   }
   segs = uim_scm_callf("append", "oo", segs, segs_this);
