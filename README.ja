@@ -332,6 +332,12 @@ http://growl.info/files/source/Growl-1.1.4-src.tar.bz2をダウンロードし�
      Growl/
        Growl.framework
 
+=== Mozc のビルド
+
+Mozcディレクトリで
+ % ./build --clear-patch && ./build --apply-patch && ./build
+ すると、Package/dest/Library/MozcにMozcConverter.app、
+ Package/dest/Library/LaunchAgents/org.mozc.inputmethod.Japanaes.Converter.plistが配置される。また、UIM.framework内にlibuim-mozc.so、mozc*.scmがコピーされる。
 
 == MacUIMのビルド
 
