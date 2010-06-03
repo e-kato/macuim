@@ -1,6 +1,6 @@
 Index: fep/Makefile.am
 ===================================================================
---- fep/Makefile.am	(revision 6045)
+--- fep/Makefile.am	(revision 6393)
 +++ fep/Makefile.am	(working copy)
 @@ -9,7 +9,8 @@
  uim_fep_CPPFLAGS = -I$(top_srcdir)
@@ -12,23 +12,9 @@ Index: fep/Makefile.am
  
  uim_fep_tick_SOURCES = uim-fep-tick.c uim-fep.h udsock.c udsock.h
  uim_fep_tick_CPPFLAGS= -I$(top_srcdir)
-Index: scm/skk-custom.scm
-===================================================================
---- scm/skk-custom.scm	(revision 6045)
-+++ scm/skk-custom.scm	(working copy)
-@@ -386,8 +386,7 @@
- 	 (lambda ()
- 	   skk-use-skkserv?))
- 
--(define-custom 'skk-dic-file-name (string-append (sys-datadir)
--						 "/skk/SKK-JISYO.L")
-+(define-custom 'skk-dic-file-name "/Library/Dictionaries/SKK/SKK-JISYO.L"
-   '(skk-dict dict-files)
-   '(pathname regular-file)
-   (N_ "System dictionary file")
 Index: scm/prime.scm
 ===================================================================
---- scm/prime.scm	(revision 6045)
+--- scm/prime.scm	(revision 6393)
 +++ scm/prime.scm	(working copy)
 @@ -825,7 +825,7 @@
        (or fds
@@ -50,7 +36,7 @@ Index: scm/prime.scm
        (cons (open-file-port (car fds))
 Index: scm/action.scm
 ===================================================================
---- scm/action.scm	(revision 6045)
+--- scm/action.scm	(revision 6393)
 +++ scm/action.scm	(working copy)
 @@ -232,19 +232,23 @@
  
@@ -86,9 +72,22 @@ Index: scm/action.scm
  
  (define widget-debug-message
    (lambda (widget location defect)
+Index: scm/anthy-custom.scm
+===================================================================
+--- scm/anthy-custom.scm	(revision 6393)
++++ scm/anthy-custom.scm	(working copy)
+@@ -313,7 +313,7 @@
+   (N_ "Show selected prediction candidate in preedit area")
+   (N_ "long description will be here."))
+ 
+-(define-custom 'anthy-prediction-start-char-count 1
++(define-custom 'anthy-prediction-start-char-count 3
+   '(anthy-advanced anthy-prediction)
+   '(integer 1 65535)
+   (N_ "Character count to start input prediction")
 Index: scm/tutcode-key-custom.scm
 ===================================================================
---- scm/tutcode-key-custom.scm	(revision 6045)
+--- scm/tutcode-key-custom.scm	(revision 6393)
 +++ scm/tutcode-key-custom.scm	(working copy)
 @@ -53,7 +53,7 @@
  	       (N_ "[TUT-Code] off")
@@ -99,9 +98,94 @@ Index: scm/tutcode-key-custom.scm
                 '(tutcode-keys1 mode-transition)
  	       '(key)
  	       (N_ "[TUT-Code] toggle hiragana/katakana mode")
+Index: scm/tutcode-custom.scm
+===================================================================
+--- scm/tutcode-custom.scm	(revision 6393)
++++ scm/tutcode-custom.scm	(working copy)
+@@ -47,8 +47,7 @@
+ ;; dictionary
+ ;;
+ 
+-(define-custom 'tutcode-dic-filename (string-append (sys-datadir)
+-						 "/tc/mazegaki.dic")
++(define-custom 'tutcode-dic-filename "/Library/Dictionaries/tc/mazegaki.dic"
+   '(tutcode tutcode-dict)
+   '(pathname regular-file)
+   (N_ "Mazegaki dictionary file")
+Index: scm/prime-custom.scm
+===================================================================
+--- scm/prime-custom.scm	(revision 6393)
++++ scm/prime-custom.scm	(working copy)
+@@ -153,14 +153,14 @@
+   (N_ "long description will be here."))
+ 
+ ;; If #t a candidate window displays usage examples of candidate words.
+-(define-custom 'prime-custom-display-usage? #t
++(define-custom 'prime-custom-display-usage? #f
+   '(prime-advanced annotation)
+   '(boolean)
+   (N_ "Show usage examples of candidate words")
+   (N_ "long description will be here."))
+ 
+ ;; If #t a candidate window displays comments of candidate words.
+-(define-custom 'prime-custom-display-comment? #t
++(define-custom 'prime-custom-display-comment? #f
+   '(prime-advanced annotation)
+   '(boolean)
+   (N_ "Show candidate annotations")
+@@ -168,7 +168,7 @@
+ 
+ ;; If #t a candidate window displays forms of candidate words such as
+ ;; 'l (small L)', 'I (large i)'.
+-(define-custom 'prime-custom-display-form? #t
++(define-custom 'prime-custom-display-form? #f
+   '(prime-advanced annotation)
+   '(boolean)
+   (N_ "Show candidate forms")
+Index: scm/im-switcher.scm
+===================================================================
+--- scm/im-switcher.scm	(revision 6393)
++++ scm/im-switcher.scm	(working copy)
+@@ -50,7 +50,8 @@
+     (ipa-x-sampa . "I")
+     (latin       . "Lt")
+     (look        . "Lo")
+-    (mana        . "M")
++    (mana        . "Ma")
++    (mozc        . "Mz")
+     (pinyin-big5 . "Pi")
+     (pyunihan    . "Py")
+     (prime       . "Pm")
+Index: scm/predict-look-skk.scm
+===================================================================
+--- scm/predict-look-skk.scm	(revision 6393)
++++ scm/predict-look-skk.scm	(working copy)
+@@ -37,7 +37,7 @@
+ 
+ (define-class predict-look-skk predict
+   '((limit 10)
+-    (jisyo "/usr/share/skk/SKK-JISYO.L")) ;; SKK-JISYO
++    (jisyo "/Library/Dictionaries/SKK/SKK-JISYO.L")) ;; SKK-JISYO
+   '(search))
+ 
+ (class-set-method! predict-look-skk search
+Index: scm/skk-custom.scm
+===================================================================
+--- scm/skk-custom.scm	(revision 6393)
++++ scm/skk-custom.scm	(working copy)
+@@ -386,8 +386,7 @@
+ 	 (lambda ()
+ 	   skk-use-skkserv?))
+ 
+-(define-custom 'skk-dic-file-name (string-append (sys-datadir)
+-						 "/skk/SKK-JISYO.L")
++(define-custom 'skk-dic-file-name "/Library/Dictionaries/SKK/SKK-JISYO.L"
+   '(skk-dict dict-files)
+   '(pathname regular-file)
+   (N_ "System dictionary file")
 Index: scm/generic-key-custom.scm
 ===================================================================
---- scm/generic-key-custom.scm	(revision 6045)
+--- scm/generic-key-custom.scm	(revision 6393)
 +++ scm/generic-key-custom.scm	(working copy)
 @@ -41,13 +41,13 @@
  		     (N_ "long description will be here."))
@@ -121,7 +205,7 @@ Index: scm/generic-key-custom.scm
  	       (N_ "[Global] off")
 Index: scm/im-custom.scm
 ===================================================================
---- scm/im-custom.scm	(revision 6299)
+--- scm/im-custom.scm	(revision 6393)
 +++ scm/im-custom.scm	(working copy)
 @@ -371,6 +371,11 @@
  		 (lambda ()
@@ -304,9 +388,9 @@ Index: scm/im-custom.scm
                          (eq? bridge-show-with?
                               'time))))
  
-@@ -556,6 +622,11 @@
-   (N_ "Use EB library to search annotations")
-   (N_ "long description will be here."))
+@@ -594,6 +660,11 @@
+     (and enable-annotation?
+       (eq? annotation-agent 'eb))))
  
 +(custom-add-hook 'eb-enable-for-annotation?
 +		 'custom-activity-hooks
@@ -315,8 +399,8 @@ Index: scm/im-custom.scm
 +
  (define-custom 'eb-dic-path
    (string-append (sys-datadir) "/dict")
-   '(eb candwin)
-@@ -563,10 +634,12 @@
+   '(annotation eb)
+@@ -601,10 +672,12 @@
    (N_ "The directory which contains EB dictionary file")
    (N_ "long description will be here."))
  
@@ -328,9 +412,9 @@ Index: scm/im-custom.scm
 +		   (and eb-enable-for-annotation?
 +			enable-outside-macuim-setting?)))
  
- ;; uim-xim specific custom
- (define-custom-group 'xim
-@@ -583,6 +656,11 @@
+ (custom-add-hook 'eb-dic-path
+   'custom-activity-hooks
+@@ -627,6 +700,11 @@
    (N_ "Use anti-aliased fonts for Over-the-Spot/Root-Window preedit")
    (N_ "long description will be here."))
  
@@ -342,7 +426,7 @@ Index: scm/im-custom.scm
  (define-custom 'uim-xim-xft-font-name "Sans"
    '(xim preedit)
    '(string ".*")
-@@ -592,14 +670,15 @@
+@@ -636,14 +714,15 @@
  (custom-add-hook 'uim-xim-xft-font-name
  		 'custom-activity-hooks
  		 (lambda ()
@@ -360,9 +444,22 @@ Index: scm/im-custom.scm
    '(notify)
    `(choice
      ,@(uim-notify-get-plugins))
+Index: scm/anthy-utf8-custom.scm
+===================================================================
+--- scm/anthy-utf8-custom.scm	(revision 6393)
++++ scm/anthy-utf8-custom.scm	(working copy)
+@@ -320,7 +320,7 @@
+   (N_ "Show selected prediction candidate in preedit area")
+   (N_ "long description will be here."))
+ 
+-(define-custom 'anthy-prediction-start-char-count 1
++(define-custom 'anthy-prediction-start-char-count 3
+   '(anthy-advanced anthy-prediction)
+   '(integer 1 65535)
+   (N_ "Character count to start input prediction")
 Index: scm/uim-help.scm
 ===================================================================
---- scm/uim-help.scm	(revision 6045)
+--- scm/uim-help.scm	(revision 6393)
 +++ scm/uim-help.scm	(working copy)
 @@ -64,7 +64,7 @@
  
@@ -373,22 +470,9 @@ Index: scm/uim-help.scm
                     ((eq? toolbar-help-browser 'manual)
                      toolbar-help-browser-name)
                     (else
-Index: scm/predict-look-skk.scm
-===================================================================
---- scm/predict-look-skk.scm	(revision 6045)
-+++ scm/predict-look-skk.scm	(working copy)
-@@ -37,7 +37,7 @@
- 
- (define-class predict-look-skk predict
-   '((limit 10)
--    (jisyo "/usr/share/skk/SKK-JISYO.L")) ;; SKK-JISYO
-+    (jisyo "/Library/Dictionaries/SKK/SKK-JISYO.L")) ;; SKK-JISYO
-   '(search))
- 
- (class-set-method! predict-look-skk search
 Index: uim/uim-helper.c
 ===================================================================
---- uim/uim-helper.c	(revision 6045)
+--- uim/uim-helper.c	(revision 6393)
 +++ uim/uim-helper.c	(working copy)
 @@ -49,6 +49,8 @@
  #include <errno.h>
@@ -411,7 +495,7 @@ Index: uim/uim-helper.c
      uim_notify_fatal("uim_helper: uid mismatch");
 Index: uim.pc.in
 ===================================================================
---- uim.pc.in	(revision 6045)
+--- uim.pc.in	(revision 6393)
 +++ uim.pc.in	(working copy)
 @@ -1,6 +1,6 @@
  prefix=@prefix@
