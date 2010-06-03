@@ -20,8 +20,8 @@ fwdir="/Library/Frameworks/UIM.framework/Versions/Current"
 mozcdir="/Library/Mozc"
 launchagentdir="/Library/LaunchAgents"
 uim_build_dir="${top}/../UIM/uim"
-#target="MacUIM"
-target="Fink i386"
+target="MacUIM"
+#target="Fink i386"
 #target="Fink x86_64"
 
 if [ ! -d depot_tools ]; then
@@ -50,7 +50,7 @@ pushd mozc/src
 		rsync -auv --exclude=.svn ${top}/uim unix/
 		if [ ${os} = "Darwin" ]; then
 
-			case ${target} in
+			case "${target}" in
 			"Fink i386")
 				(cd mozc_build_tools/gyp; patch -p0 < ${PATCH2})
 				;;
@@ -147,9 +147,9 @@ if [ ${os} = Darwin -a "${target}" = "MacUIM" ] ; then
 	install scm/mozc*.scm ${uim_build_dir}/scm/
 
 	# install server
-	mkdir -p ${dest}/${mozc}
+	mkdir -p ${dest}/${mozcdir}
 	rsync -auv mozc/src/xcodebuild/Release/MozcConverter.app \
-		${dest}/${mozc}/
+		${dest}/${mozcdir}/
 
 	mkdir -p ${dest}/${launchagentdir}
 	cp -p mozc/src/mac/org.mozc.inputmethod.Japanaes.Converter.plist \
