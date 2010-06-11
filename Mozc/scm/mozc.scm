@@ -174,14 +174,16 @@
 (define mozc-transpose-keys
   (lambda (mid key key-state)
     (let ((new (cons key key-state)))
-      (if (mozc-lib-has-preedit? mid)
-        (cond
-          ((mozc-cancel-key? key key-state)
-           (set-car! new 'escape)
-           (set-cdr! new 0))
-          ((mozc-prev-segment-key? key key-state)
-           (set-car! new 'left)
-           (set-cdr! new 0))))
+      ;; Since mozc_tool is now available, these key transposings
+      ;; are not needed usually.
+      ;;(if (mozc-lib-has-preedit? mid)
+      ;;  (cond
+      ;;    ((mozc-cancel-key? key key-state)
+      ;;     (set-car! new 'escape)
+      ;;     (set-cdr! new 0))
+      ;;    ((mozc-prev-segment-key? key key-state)
+      ;;     (set-car! new 'left)
+      ;;     (set-cdr! new 0))))
       new)))
 
 (define mozc-proc-input-state
@@ -189,20 +191,30 @@
     (if (ichar-control? key)
       (im-commit-raw mc)
       (let ((mid (mozc-context-mc-id mc)))
-        (if (mozc-off-key? key key-state)
-          (mozc-lib-set-input-mode mc mid mozc-type-direct)
-          (let* ((new (mozc-transpose-keys mid key key-state))
-                 (nkey (car new))
-                 (nkey-state (cdr new)))
-            (if (mozc-lib-press-key mc mid (if (symbol? nkey)
-                                             (keysym-to-int nkey)
-                                             nkey) nkey-state)
-              #f ; Key event is consumed
-              (begin
-                (and mozc-use-with-vi?
-                     (mozc-vi-escape-key? key key-state)
-                     (mozc-lib-set-input-mode mc mid mozc-type-direct))
-                (im-commit-raw mc)))))))))
+        (cond
+          ((mozc-off-key? key key-state)
+           (mozc-lib-set-input-mode mc mid mozc-type-direct))
+          ;; non available modifiers on Mozc
+          ((or
+             (meta-key-mask key-state)
+             (super-key-mask key-state)
+             (hyper-key-mask key-state))
+           (if (mozc-lib-has-preedit? mid)
+             #f ;; ignore
+             (im-commit-raw mc))) ;; pass through
+          (else
+            (let* ((new (mozc-transpose-keys mid key key-state))
+                   (nkey (car new))
+                   (nkey-state (cdr new)))
+              (if (mozc-lib-press-key mc mid (if (symbol? nkey)
+                                               (keysym-to-int nkey) nkey)
+                                      nkey-state)
+                #f ; Key event is consumed
+                (begin
+                  (and mozc-use-with-vi?
+                       (mozc-vi-escape-key? key key-state)
+                       (mozc-lib-set-input-mode mc mid mozc-type-direct))
+                  (im-commit-raw mc))))))))))
 
 (define mozc-press-key-handler
   (lambda (mc key key-state)

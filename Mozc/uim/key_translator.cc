@@ -101,7 +101,6 @@ const struct ModifierMaskMap {
   {UMod_Shift, mozc::commands::KeyEvent::SHIFT},
   {UMod_Control, mozc::commands::KeyEvent::CTRL},
   {UMod_Alt, mozc::commands::KeyEvent::ALT},
-  {UMod_Meta, mozc::commands::KeyEvent::ALT}, // there is no meta in Mozc
 };
 
 }  // namespace
