@@ -1,0 +1,62 @@
+Index: gyp/common.gypi
+===================================================================
+--- gyp/common.gypi	(revision 28)
++++ gyp/common.gypi	(working copy)
+@@ -407,6 +407,9 @@
+         'defines': [
+           'OS_LINUX',
+         ],
++        'include_dirs': [
++          '../protobuf/files/src',
++	],
+         'cflags': [
+           '<@(gcc_cflags)',
+           '-fPIC',
+Index: protobuf/genproto.gypi
+===================================================================
+--- protobuf/genproto.gypi	(revision 28)
++++ protobuf/genproto.gypi	(working copy)
+@@ -39,7 +39,7 @@
+         '<(protobuf_dir)/protobuf.gyp:install_protoc',
+       ],
+     }],
+-    ['OS!="linux"', {
++    ['OS!="hoge"', {
+       'variables': {
+         'protoc_command%': '<(relative_dir)/<(mozc_build_tools_dir)/protoc<(EXECUTABLE_SUFFIX)',
+       },
+Index: protobuf/protobuf.gyp
+===================================================================
+--- protobuf/protobuf.gyp	(revision 28)
++++ protobuf/protobuf.gyp	(working copy)
+@@ -33,7 +33,7 @@
+       'target_name': 'protobuf',
+       'type': 'static_library',
+       'conditions': [
+-        ['OS!="linux"', {
++        ['OS!="hoge"', {
+           'sources': [
+             'files/src/google/protobuf/compiler/importer.cc',
+             'files/src/google/protobuf/compiler/parser.cc',
+@@ -71,12 +71,6 @@
+           'include_dirs': [
+             '.',
+           ],
+-        }, {  # else
+-          'link_settings': {
+-            'libraries': [
+-              '-lprotobuf',
+-            ],
+-          },
+         }],
+         ['OS=="mac"', {
+           'xcode_settings': {
+@@ -143,7 +137,7 @@
+       },
+       'conditions': [
+         # use system-installed protoc on Linux
+-        ['OS!="linux"', {
++        ['OS!="hoge"', {
+           'includes' : [
+             '../gyp/install_build_tool.gypi',
+           ]

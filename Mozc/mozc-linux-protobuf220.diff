@@ -1,0 +1,20 @@
+Index: protobuf/protobuf.gyp
+===================================================================
+--- protobuf/protobuf.gyp	(revision 28)
++++ protobuf/protobuf.gyp	(working copy)
+@@ -115,11 +109,11 @@
+         'files/src/google/protobuf/compiler/java/java_primitive_field.cc',
+         'files/src/google/protobuf/compiler/java/java_service.cc',
+         'files/src/google/protobuf/compiler/main.cc',
+-        'files/src/google/protobuf/compiler/plugin.cc',
+-        'files/src/google/protobuf/compiler/plugin.pb.cc',
++        #'files/src/google/protobuf/compiler/plugin.cc',
++        #'files/src/google/protobuf/compiler/plugin.pb.cc',
+         'files/src/google/protobuf/compiler/python/python_generator.cc',
+-        'files/src/google/protobuf/compiler/subprocess.cc',
+-        'files/src/google/protobuf/compiler/zip_writer.cc',
++        #'files/src/google/protobuf/compiler/subprocess.cc',
++        #'files/src/google/protobuf/compiler/zip_writer.cc',
+       ],
+       'dependencies': [
+         'protobuf',
