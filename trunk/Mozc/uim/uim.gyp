@@ -39,7 +39,6 @@
     'uim_dependencies': [
       '../../base/base.gyp:base',
       '../../client/client.gyp:client',
-      '../../session/session.gyp:ime_switch_util',
     ],
   },
   'targets': [

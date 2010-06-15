@@ -49,6 +49,12 @@
 	       (_ "[Mozc] off")
 	       (_ "long description will be here"))
 
+(define-custom 'mozc-kana-toggle-key '()
+               '(mozc-keys)
+	       '(key)
+	       (_ "[Mozc] toggle hiragana/katakana mode")
+	       (_ "long description will be here"))
+
 ;;(define-custom 'mozc-cancel-key '(generic-cancel-key)
 ;;               '(mozc-keys)
 ;;	       '(key)

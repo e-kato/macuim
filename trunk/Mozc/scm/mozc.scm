@@ -151,6 +151,14 @@
       (mozc-context-set-mc-id! mc mc-id)
       mc)))
 
+(define mozc-separator
+  (lambda ()
+    (let ((attr (bitwise-ior preedit-separator
+                             preedit-underline)))
+      (if mozc-show-segment-separator?
+        (cons attr mozc-segment-separator)
+        #f))))
+
 (define mozc-proc-direct-state
   (lambda (mc key key-state)
    (if (mozc-on-key? key key-state)
@@ -186,6 +194,17 @@
       ;;     (set-cdr! new 0))))
       new)))
 
+(define mozc-kana-toggle
+  (lambda (mc mid)
+    (let ((mode (mozc-lib-input-mode mid)))
+      (cond
+        ((= mode mozc-type-hiragana)
+         (mozc-lib-set-input-mode mc mid mozc-type-katakana))
+        ((= mode mozc-type-katakana)
+         (mozc-lib-set-input-mode mc mid mozc-type-hiragana))
+        (else
+          #f)))))
+
 (define mozc-proc-input-state
   (lambda (mc key key-state)
     (if (ichar-control? key)
@@ -203,18 +222,22 @@
              #f ;; ignore
              (im-commit-raw mc))) ;; pass through
           (else
-            (let* ((new (mozc-transpose-keys mid key key-state))
-                   (nkey (car new))
-                   (nkey-state (cdr new)))
-              (if (mozc-lib-press-key mc mid (if (symbol? nkey)
-                                               (keysym-to-int nkey) nkey)
-                                      nkey-state)
-                #f ; Key event is consumed
-                (begin
-                  (and mozc-use-with-vi?
-                       (mozc-vi-escape-key? key key-state)
-                       (mozc-lib-set-input-mode mc mid mozc-type-direct))
-                  (im-commit-raw mc))))))))))
+            (or
+              (and
+                (mozc-kana-toggle-key? key key-state)
+                (mozc-kana-toggle mc mid))
+              (let* ((new (mozc-transpose-keys mid key key-state))
+                     (nkey (car new))
+                     (nkey-state (cdr new)))
+                (if (mozc-lib-press-key mc mid (if (symbol? nkey)
+                                                 (keysym-to-int nkey) nkey)
+                                        nkey-state)
+                  #f ; Key event is consumed
+                  (begin
+                    (and mozc-use-with-vi?
+                         (mozc-vi-escape-key? key key-state)
+                         (mozc-lib-set-input-mode mc mid mozc-type-direct))
+                    (im-commit-raw mc)))))))))))
 
 (define mozc-press-key-handler
   (lambda (mc key key-state)

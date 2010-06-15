@@ -38,6 +38,27 @@
 		     (ugettext mozc-im-short-desc))
 
 ;;
+;; segment separator
+;;
+
+(define-custom 'mozc-show-segment-separator? #f
+  '(mozc segment-sep)
+  '(boolean)
+  (N_ "Show segment separator")
+  (N_ "long description will be here."))
+
+(define-custom 'mozc-segment-separator "|"
+  '(mozc segment-sep)
+  '(string ".*")
+  (N_ "Segment separator")
+  (N_ "long description will be here."))
+
+(custom-add-hook 'mozc-segment-separator
+                 'custom-activity-hooks
+                 (lambda ()
+                   mozc-show-segment-separator?))
+
+;;
 ;; toolbar
 ;;
 

@@ -1,0 +1,20 @@
+Index: gui/qt_libraries.gypi
+===================================================================
+--- gui/qt_libraries.gypi	(revision 27)
++++ gui/qt_libraries.gypi	(working copy)
+@@ -38,10 +38,13 @@
+     ['OS=="mac"', {
+       'link_settings': {
+         'libraries': [
+-          'libQtCore.dylib',
+-          'libQtGui.dylib',
++          'QtCore.framework',
++          'QtGui.framework',
+           '$(SDKROOT)/System/Library/Frameworks/Carbon.framework',
+         ],
++	'mac_framework_dirs': [
++	  '$(QTDIR)/lib',
++	],
+       },
+     }],
+     ['OS=="linux"', {

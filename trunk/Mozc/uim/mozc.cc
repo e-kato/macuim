@@ -140,19 +140,23 @@ insert_cursor(uim_lisp segs, const commands::Preedit::Segment &segment, int attr
   string former = Util::SubString(segment.value(), 0, pos);
   string latter = Util::SubString(segment.value(), pos, len);
 
-  uim_lisp seg_f, seg_c, seg_l, segs_this;
+  uim_lisp seg_f, seg_c, seg_l;
   if (pos == 0) {
     seg_f = uim_scm_null(); /* not used */
     seg_c = CONS(MAKE_INT(UPreeditAttr_Cursor), MAKE_STR(""));
     seg_l = CONS(MAKE_INT(attr), MAKE_STR(latter.c_str()));
-    segs_this = LIST2(seg_c, seg_l);
+
+    segs = CONS(seg_c, segs);
+    segs = CONS(seg_l, segs);
   } else {
     seg_f = CONS(MAKE_INT(attr), MAKE_STR(former.c_str()));
     seg_c = CONS(MAKE_INT(UPreeditAttr_Cursor), MAKE_STR(""));
     seg_l = CONS(MAKE_INT(attr), MAKE_STR(latter.c_str()));
-    segs_this = LIST3(seg_f, seg_c, seg_l);
+
+    segs = CONS(seg_f, segs);
+    segs = CONS(seg_c, segs);
+    segs = CONS(seg_l, segs);
   }
-  segs = uim_scm_callf("append", "oo", segs, segs_this);
 
   return segs;
 }
@@ -162,6 +166,7 @@ compose_preedit(const commands::Output *output)
 {
   const commands::Preedit &preedit = output->preedit();
   uim_lisp segs = uim_scm_null();
+  uim_lisp separator = uim_scm_callf("mozc-separator", "");
   int cursorPos;
   int count = 0;
   int seg_count = preedit.segment_size();
@@ -201,18 +206,17 @@ compose_preedit(const commands::Output *output)
 
     seg = CONS(MAKE_INT(attr), MAKE_STR(str));
 
-    if (NULLP(segs))
-      segs = CONS(seg, uim_scm_null());
-    else
-      segs = uim_scm_callf("append", "oo", segs, CONS(seg, uim_scm_null()));
+    if (TRUEP(separator) && i > 0)
+        segs = CONS(separator, segs);
+    segs = CONS(seg, segs);
 
     if (count == cursorPos && !output->preedit().has_highlighted_position()) {
       seg = CONS(MAKE_INT(UPreeditAttr_Cursor), MAKE_STR(""));
-      segs = uim_scm_callf("append", "oo", segs, CONS(seg, uim_scm_null()));
+      segs = CONS(seg, segs);
     }
   }
 
-  return segs;
+  return uim_scm_callf("reverse", "o", segs);
 }
 
 static void

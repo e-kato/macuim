@@ -2,7 +2,7 @@
 
 # usage
 # ./build --apply-patch		# just apply patches
-# ./build			# build and install
+# QTDIR=/usr/lib64/qt ./build	# build and install
 #
 # ./build --clear-patch		# remove uim-mozc patches
 
@@ -14,12 +14,18 @@ PATCH2=${top}/gyp-macosx-i386.diff
 PATCH3=${top}/gyp-macosx-x86_64.diff
 PATCH4=${top}/uim-mozc-xcodeproj.diff
 PATCH5=${top}/uim-mozc-xcodeproj-fink.diff
+PATCH6=${top}/mozc_tool-macosx.diff
+PATCH7=${top}/mozc_tool-macuim.diff
+PATCH8=${top}/mozc-linux-protobuf.diff
+PATCH9=${top}/mozc-linux-protobuf220.diff
 
 dest="${top}/../Package/dest"
 fwdir="/Library/Frameworks/UIM.framework/Versions/Current"
 mozcdir="/Library/Mozc"
 launchagentdir="/Library/LaunchAgents"
 uim_build_dir="${top}/../UIM/uim"
+protobuf_ver=2.2.0
+#protobuf_ver=2.3.0
 target="MacUIM"
 #target="Fink i386"
 #target="Fink x86_64"
@@ -41,6 +47,11 @@ if [ ! -d mozc ]; then
 fi
 
 pushd mozc/src
+	if [ "${os}" = "Linux" ]; then
+		# pull protobuf
+		svn co http://protobuf.googlecode.com/svn/tags/${protobuf_ver} protobuf/files
+	fi
+
 	# apply patches
 	if test -n "$1" && test $1 = "--apply-patch" ;then
 		echo "apply patches"
@@ -64,6 +75,17 @@ pushd mozc/src
 			rm -f mac/org.mozc.inputmethod.Japanaes.Converter.plist
 			rm -f mac/mozc_server_info
 			patch -p0 < ${PATCH0}
+			rm -f mac/shared_subpackage_info
+			patch -p0 < ${PATCH6}
+			if [ "${target}" = "MacUIM" ]; then
+				patch -p0 < ${PATCH7}
+			fi
+		fi
+		if [ ${os} = "Linux" ]; then
+			patch -p0 < ${PATCH8}
+			if [ ${protobuf_ver} = "2.2.0" ]; then
+				patch -p0 < ${PATCH9}
+			fi
 		fi
 		exit
 	fi
@@ -76,6 +98,7 @@ pushd mozc/src
 		rm -rf unix/uim/
 		rm -f mac/org.mozc.inputmethod.Japanaes.Converter.plist
 		rm -f mac/mozc_server_info
+		rm -f mac/shared_subpackage_info
 		exit
 	fi
 
@@ -99,7 +122,7 @@ HERE
 
 	# gyp
 	echo "generate rules"
-	python build_mozc.py gyp
+	PKG_CONFIG_PATH=/opt/qt/lib/pkgconfig python build_mozc.py gyp
 	# fix xcode project
 	if [ ${os} = "Darwin" ]; then
 		pushd unix/uim/uim-macuim.xcodeproj
@@ -125,12 +148,25 @@ HERE
 	else
 		python build_mozc.py build -c Release unix/uim/uim.gyp:uim-mozc
 	fi
-	python build_mozc.py build -c Release server/server.gyp:mozc_server
-
 	if [ $? != 0 ]; then
 		echo "failed"
 		exit
 	fi
+
+	# build mozc_server
+	python build_mozc.py build -c Release server/server.gyp:mozc_server
+	if [ $? != 0 ]; then
+		echo "failed"
+		exit
+	fi
+
+	# build mozc_tool
+	python build_mozc.py build -c Release gui/gui.gyp:mozc_tool
+	if [ $? != 0 ]; then
+		echo "failed"
+		exit
+	fi
+
 popd
 
 # install  
@@ -154,4 +190,8 @@ if [ ${os} = Darwin -a "${target}" = "MacUIM" ] ; then
 	mkdir -p ${dest}/${launchagentdir}
 	cp -p mozc/src/mac/org.mozc.inputmethod.Japanaes.Converter.plist \
 		${dest}/${launchagentdir}
+
+	# install tool
+	rsync -auv mozc/src/xcodebuild/Release/MozcTool.app \
+		${dest}/${mozcdir}/
 fi

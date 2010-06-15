@@ -92,7 +92,7 @@ Index: unix/uim/uim-macuim.gyp
 ===================================================================
 --- unix/uim/uim-macuim.gyp	(revision 0)
 +++ unix/uim/uim-macuim.gyp	(revision 0)
-@@ -0,0 +1,88 @@
+@@ -0,0 +1,87 @@
 +#
 +# Copyright (c) 2010 uim Project http://code.google.com/p/uim/
 +#
@@ -135,7 +135,6 @@ Index: unix/uim/uim-macuim.gyp
 +    'uim_dependencies': [
 +      '../../base/base.gyp:base',
 +      '../../client/client.gyp:client',
-+      '../../session/session.gyp:ime_switch_util',
 +    ],
 +  },
 +  'targets': [
@@ -185,7 +184,7 @@ Index: unix/uim/uim-macfink.gyp
 ===================================================================
 --- unix/uim/uim-macfink.gyp	(revision 0)
 +++ unix/uim/uim-macfink.gyp	(revision 0)
-@@ -0,0 +1,92 @@
+@@ -0,0 +1,91 @@
 +#
 +# Copyright (c) 2010 uim Project http://code.google.com/p/uim/
 +#
@@ -229,7 +228,6 @@ Index: unix/uim/uim-macfink.gyp
 +    'uim_dependencies': [
 +      '../../base/base.gyp:base',
 +      '../../client/client.gyp:client',
-+      '../../session/session.gyp:ime_switch_util',
 +    ],
 +  },
 +  'targets': [
