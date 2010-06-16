@@ -1,8 +1,8 @@
 Index: unix/ibus/mozc_engine.cc
 ===================================================================
---- unix/ibus/mozc_engine.cc	(revision 24)
+--- unix/ibus/mozc_engine.cc	(revision 30)
 +++ unix/ibus/mozc_engine.cc	(working copy)
-@@ -487,7 +487,7 @@
+@@ -500,7 +500,7 @@
  
  #ifndef OS_CHROMEOS
    DCHECK(prop_mozc_tool_);
@@ -11,7 +11,7 @@ Index: unix/ibus/mozc_engine.cc
      if (!g_strcmp0(property_name, prop->key)) {
        const MozcEngineToolProperty *entry =
            reinterpret_cast<const MozcEngineToolProperty*>(
-@@ -506,7 +506,7 @@
+@@ -519,7 +519,7 @@
    }
  
    i = 0;
@@ -22,7 +22,7 @@ Index: unix/ibus/mozc_engine.cc
            reinterpret_cast<const MozcEngineProperty*>(
 Index: unix/ibus/ibus.gyp
 ===================================================================
---- unix/ibus/ibus.gyp	(revision 24)
+--- unix/ibus/ibus.gyp	(revision 30)
 +++ unix/ibus/ibus.gyp	(working copy)
 @@ -37,6 +37,14 @@
        'ibus-1.0',
@@ -36,10 +36,10 @@ Index: unix/ibus/ibus.gyp
 +      '/sw/include/ibus-1.0',
 +      '/sw/include',
 +    ],
-     'ibus_common_dependencies': [
-       '../../base/base.gyp:base',
-     ],
-@@ -90,6 +98,9 @@
+     'ibus_client_dependencies' : [
+       '../../client/client.gyp:client',
+       '../../session/session.gyp:ime_switch_util',
+@@ -74,6 +82,9 @@
        'cflags': [
          '<!@(pkg-config --cflags <@(pkg_config_libs))',
        ],
@@ -49,7 +49,7 @@ Index: unix/ibus/ibus.gyp
      },
      {
        'target_name': 'ibus_mozc',
-@@ -104,12 +115,24 @@
+@@ -99,12 +110,24 @@
        'cflags': [
          '<!@(pkg-config --cflags <@(pkg_config_libs))',
        ],
@@ -77,9 +77,9 @@ Index: unix/ibus/ibus.gyp
        'target_name': 'ibus_mozc_test',
 Index: unix/ibus/main.cc
 ===================================================================
---- unix/ibus/main.cc	(revision 24)
+--- unix/ibus/main.cc	(revision 30)
 +++ unix/ibus/main.cc	(working copy)
-@@ -82,7 +82,7 @@
+@@ -90,7 +90,7 @@
    // Don't wait() child process termination.
    struct sigaction sa;
    sa.sa_handler = SIG_IGN;
@@ -278,7 +278,7 @@ Index: unix/uim/uim-macfink.gyp
 +}
 Index: session/session_server.cc
 ===================================================================
---- session/session_server.cc	(revision 24)
+--- session/session_server.cc	(revision 30)
 +++ session/session_server.cc	(working copy)
 @@ -42,8 +42,13 @@
  namespace {
@@ -361,7 +361,7 @@ Index: mac/org.mozc.inputmethod.Japanaes.Converter.plist
 +</plist>
 Index: server/mozc_server.cc
 ===================================================================
---- server/mozc_server.cc	(revision 24)
+--- server/mozc_server.cc	(revision 30)
 +++ server/mozc_server.cc	(working copy)
 @@ -88,7 +88,11 @@
  
@@ -375,81 +375,29 @@ Index: server/mozc_server.cc
    if (!mutex.Lock()) {
      LOG(INFO) << "Mozc Server is already running";
      return -1;
-Index: server/server.gyp
-===================================================================
---- server/server.gyp	(revision 24)
-+++ server/server.gyp	(working copy)
-@@ -57,7 +57,7 @@
-       ],
-       'conditions': [
-         ['OS=="mac"', {
--          'product_name': 'GoogleJapaneseInputConverter',
-+          'product_name': 'MozcConverter',
-           'sources': [
-             '../mac/mozc_server_info',
-           ],
-@@ -75,7 +75,7 @@
-           },
-           'variables': {
-             # This product name is used in postbuilds_mac.gypi.
--            'product_name': 'GoogleJapaneseInputConverter',
-+            'product_name': 'MozcConverter',
-           },
-           'includes': [
-             '../gyp/postbuilds_mac.gypi',
 Index: base/mac_util.mm
 ===================================================================
---- base/mac_util.mm	(revision 24)
+--- base/mac_util.mm	(revision 30)
 +++ base/mac_util.mm	(working copy)
-@@ -38,12 +38,14 @@
+@@ -39,12 +39,14 @@
  
  namespace mozc {
  namespace {
 +#ifdef GOOGLE_JAPANESE_INPUT_BUILD
  const char kServerDirectory[] =
-     "/Library/Input Methods/GoogleJapaneseInput.app/Contents/Resources";
+     "/Library/Input Methods/" kProductPrefix ".app/Contents/Resources";
 -#ifdef GOOGLE_JAPANESE_INPUT_BUILD
  const char kProjectPrefix[] =
      "com.google.inputmethod.Japanese.";
  #elif defined(MOZC_BUILD)
 +const char kServerDirectory[] =
-+    "/Library/Mozc";
++    "/Library/" kProductPrefix;
  const char kProjectPrefix[] =
      "org.mozc.inputmethod.Japanese.";
  #else
-@@ -75,7 +77,11 @@
-   if ([paths count] > 0) {
-     dir.assign(
-         [[[[paths objectAtIndex:0] stringByAppendingPathComponent:@"Logs"]
-+#ifdef GOOGLE_JAPANESE_INPUT_BUILD
-            stringByAppendingPathComponent:@"GoogleJapaneseInput"]
-+#else
-+           stringByAppendingPathComponent:@"Mozc"]
-+#endif
-           fileSystemRepresentation]);
-   }
-   [pool drain];
-Index: base/const.h
-===================================================================
---- base/const.h	(revision 24)
-+++ base/const.h	(working copy)
-@@ -78,8 +78,13 @@
-     = L"Software\\Policies\\Google\\Google Japanese Input\\Preferences";
- const wchar_t kDefaultKeyboardLayout[] = L"00000411";
- #elif defined(OS_MACOSX)
-+  #if defined(GOOGLE_JAPANESE_INPUT_BUILD)
- const char kMozcServerName[] = "GoogleJapaneseInputConverter.app";
- const char kEventPathPrefix[] = "GoogleJapaneseInput.event.";
-+   #else
-+const char kMozcServerName[] = "MozcConverter.app";
-+const char kEventPathPrefix[] = "Mozc.event.";
-+  #endif
- #else  // OS_LINUX
- const char kMozcServerName[] = "mozc_server";
- const char kEventPathPrefix[] = "mozc.event.";
 Index: base/logging.cc
 ===================================================================
---- base/logging.cc	(revision 24)
+--- base/logging.cc	(revision 30)
 +++ base/logging.cc	(working copy)
 @@ -202,7 +202,7 @@
    snprintf(buf, sizeof(buf),
@@ -471,7 +419,7 @@ Index: base/logging.cc
             pthread_self()  // returns unsigned long.
 Index: base/process.cc
 ===================================================================
---- base/process.cc	(revision 24)
+--- base/process.cc	(revision 30)
 +++ base/process.cc	(working copy)
 @@ -50,6 +50,7 @@
  #include <spawn.h>  // for posix_spawn().
@@ -504,7 +452,7 @@ Index: base/process.cc
        environ);
 Index: client/session.cc
 ===================================================================
---- client/session.cc	(revision 24)
+--- client/session.cc	(revision 30)
 +++ client/session.cc	(working copy)
 @@ -52,7 +52,11 @@
  namespace client {
@@ -520,7 +468,7 @@ Index: client/session.cc
  
 Index: client/server_launcher.cc
 ===================================================================
---- client/server_launcher.cc	(revision 24)
+--- client/server_launcher.cc	(revision 30)
 +++ client/server_launcher.cc	(working copy)
 @@ -57,7 +57,11 @@
  namespace mozc {
@@ -536,9 +484,9 @@ Index: client/server_launcher.cc
  const uint32 kServerWaitTimeout = 20000;  // 20 sec
 Index: build_mozc.py
 ===================================================================
---- build_mozc.py	(revision 28)
+--- build_mozc.py	(revision 30)
 +++ build_mozc.py	(working copy)
-@@ -130,7 +130,7 @@
+@@ -131,7 +131,7 @@
      gyp_file_names.extend(glob.glob('%s/win32/*/*.gyp' % SRC_DIR))
      gyp_file_names.extend(glob.glob('third_party/breakpad/*.gyp'))
      gyp_file_names.append('third_party/mozc/sandbox/sandbox.gyp')
