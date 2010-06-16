@@ -1,8 +1,20 @@
+Index: gui/base/locale_util.cc
+===================================================================
+--- gui/base/locale_util.cc	(revision 30)
++++ gui/base/locale_util.cc	(working copy)
+@@ -50,6 +50,7 @@
+ 
+ #include <QtCore/QTextCodec>
+ #include <QtGui/QApplication>
++#undef check
+ #include <QtGui/QtGui>
+ #include <map>
+ #include <string>
 Index: gyp/common.gypi
 ===================================================================
---- gyp/common.gypi	(revision 24)
+--- gyp/common.gypi	(revision 30)
 +++ gyp/common.gypi	(working copy)
-@@ -53,7 +53,7 @@
+@@ -50,7 +50,7 @@
      # warning_cflags_cflags will be shared with Mac and Linux.
      'warning_cflags': [
        '-Wall',
@@ -54,76 +66,3 @@ Index: mac/shared_subpackage_info
 + <string>1</string>
 +</dict>
 +</plist>
-Index: gui/gui.gyp
-===================================================================
---- gui/gui.gyp	(revision 24)
-+++ gui/gui.gyp	(working copy)
-@@ -554,7 +554,7 @@
-       ],
-       'conditions': [
-         ['OS=="mac"', {
--          'product_name': 'GoogleJapaneseInputTool',
-+          'product_name': 'MozcTool',
-           'sources': [
-             '../mac/shared_subpackage_info',
-           ],
-@@ -572,7 +572,7 @@
-           },
-           'variables': {
-             # This product name is used in postbuilds_mac.gypi.
--            'product_name': 'GoogleJapaneseInputTool',
-+            'product_name': 'MozcTool',
-           },
-           'includes': [
-             '../gyp/postbuilds_mac.gypi',
-Index: gui/base/locale_util.cc
-===================================================================
---- gui/base/locale_util.cc	(revision 24)
-+++ gui/base/locale_util.cc	(working copy)
-@@ -50,6 +50,7 @@
- 
- #include <QtCore/QTextCodec>
- #include <QtGui/QApplication>
-+#undef check
- #include <QtGui/QtGui>
- #include <map>
- #include <string>
-Index: base/mac_process.mm
-===================================================================
---- base/mac_process.mm	(revision 24)
-+++ base/mac_process.mm	(working copy)
-@@ -79,7 +79,11 @@
- bool LaunchMozcToolByPath() {
-   NSString *mozcToolPath =
-       [[[NSBundle mainBundle] resourcePath]
-+#if GOOGLE_JAPANESE_INPUT_BUILD
-         stringByAppendingPathComponent:@"GoogleJapaneseInputTool.app"];
-+#else
-+        stringByAppendingPathComponent:@"MozcTool.app"];
-+#endif
-   return [[NSWorkspace sharedWorkspace] launchApplication:mozcToolPath];
- }
- 
-@@ -96,14 +100,22 @@
-   NSString *mozcToolPath =
-       [workspace absolutePathForAppBundleWithIdentifier:kMozcToolBundleId];
-   if (!mozcToolPath) {
-+#if GOOGLE_JAPANESE_INPUT_BUILD
-     LOG(ERROR) << "cannot find GoogleJapaneseInputTool.app";
-+#else
-+    LOG(ERROR) << "cannot find MozcTool.app";
-+#endif
-     [pool drain];
-     return LaunchMozcToolByPath();
-   }
-   NSString *serverDirectory =
-       [NSString stringWithUTF8String:Util::GetServerDirectory().c_str()];
-   if (![mozcToolPath hasPrefix:serverDirectory]) {
-+#if GOOGLE_JAPANESE_INPUT_BUILD
-     LOG(ERROR) << "The system has GoogleJapaneseInputTool.app in a wrong path "
-+#else
-+    LOG(ERROR) << "The system has MozcTool.app in a wrong path "
-+#endif
-                << [mozcToolPath UTF8String];
-     [pool drain];
-     return false;
