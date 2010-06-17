@@ -122,7 +122,7 @@ HERE
 
 	# gyp
 	echo "generate rules"
-	PKG_CONFIG_PATH=/opt/qt/lib/pkgconfig python build_mozc.py gyp
+	PKG_CONFIG_PATH=${QTDIR}/lib/pkgconfig python build_mozc.py gyp
 	# fix xcode project
 	if [ ${os} = "Darwin" ]; then
 		pushd unix/uim/uim-macuim.xcodeproj
@@ -187,15 +187,15 @@ HERE
 				MozcTool.app/Contents/Frameworks/QtGui.framework/Versions/4/QtGui
 
 			install_name_tool -change \
-			 	/opt/qt-carbon/lib/QtCore.framework/Versions/4/QtCore \
+			 	${QTDIR}/lib/QtCore.framework/Versions/4/QtCore \
 				@executable_path/../Frameworks/QtCore.framework/Versions/4/QtCore \
 				MozcTool.app/Contents/MacOS/MozcTool
 			install_name_tool -change \
-			 	/opt/qt-carbon/lib/QtGui.framework/Versions/4/QtGui \
+			 	${QTDIR}/lib/QtGui.framework/Versions/4/QtGui \
 				@executable_path/../Frameworks/QtGui.framework/Versions/4/QtGui \
 				MozcTool.app/Contents/MacOS/MozcTool
 
-			install_name_tool -change /opt/qt-carbon/lib/QtCore.framework/Versions/4/QtCore \
+			install_name_tool -change ${QTDIR}/lib/QtCore.framework/Versions/4/QtCore \
 			 	@executable_path/../Frameworks/QtCore.framework/Versions/4/QtCore \
 				MozcTool.app/Contents/Frameworks/QtGui.framework/Versions/4/QtGui
 		cd -
