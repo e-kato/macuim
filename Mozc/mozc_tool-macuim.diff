@@ -1,6 +1,6 @@
 Index: gui/qt_libraries.gypi
 ===================================================================
---- gui/qt_libraries.gypi	(revision 27)
+--- gui/qt_libraries.gypi	(revision 30)
 +++ gui/qt_libraries.gypi	(working copy)
 @@ -38,10 +38,13 @@
      ['OS=="mac"', {
@@ -18,3 +18,16 @@ Index: gui/qt_libraries.gypi
        },
      }],
      ['OS=="linux"', {
+Index: gui/tool/mozc_tool_main.cc
+===================================================================
+--- gui/tool/mozc_tool_main.cc	(revision 30)
++++ gui/tool/mozc_tool_main.cc	(working copy)
+@@ -37,7 +37,7 @@
+ #include "base/run_level.h"
+ #include "base/winmain.h"
+ 
+-DEFINE_string(mode, "about_dialog", "mozc_tool mode");
++DEFINE_string(mode, "config_dialog", "mozc_tool mode");
+ 
+ // Run* are defiend in each qt module
+ int RunAboutDialog(int argc, char *argv[]);
