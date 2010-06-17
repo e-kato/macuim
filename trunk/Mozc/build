@@ -161,6 +161,12 @@ HERE
 	fi
 
 	# build mozc_tool
+	if [ ${os} = Darwin -a "${target}" = "MacUIM" ] ; then
+		cp -pf gui/gui.xcodeproj/project.pbxproj \
+		       gui/gui.xcodeproj/project.pbxproj.orig
+		sed -e '/x86_64/d' gui/gui.xcodeproj/project.pbxproj.orig > \
+				   gui/gui.xcodeproj/project.pbxproj
+	fi
 	python build_mozc.py build -c Release gui/gui.gyp:mozc_tool
 	if [ $? != 0 ]; then
 		echo "failed"
