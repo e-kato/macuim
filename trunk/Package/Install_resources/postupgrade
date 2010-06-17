@@ -25,3 +25,5 @@ mkdir -p ~/.anthy_ghal
 touch ~/.anthy_ghal/last-record1_default.utf8
 chown -R $USER ~/.anthy_ghal
 chmod 700 ~/.anthy_ghal
+
+kill -KILL `ps -acx -o pid,command | grep MozcConverter | grep -v grep | awk '{ print $1 }'` || true

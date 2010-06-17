@@ -336,8 +336,10 @@ http://growl.info/files/source/Growl-1.1.4-src.tar.bz2をダウンロードし�
 
 Mozcディレクトリで
  % ./build --clear-patch && ./build --apply-patch && ./build
- すると、Package/dest/Library/MozcにMozcConverter.app、
- Package/dest/Library/LaunchAgents/org.mozc.inputmethod.Japanaes.Converter.plistが配置される。また、UIM.framework内にlibuim-mozc.so、mozc*.scmがコピーされる。
+すると、Package/dest/Library/MozcにMozcConverter.appとMozcTool.app、
+Package/dest/Library/LaunchAgents/org.mozc.inputmethod.Japanaes.Converter.plistが配置される。また、UIM.framework内にlibuim-mozc.so、mozc*.scmがコピーされる。
+
+MozcTool.appの作成には、Qt4 (Carbon i386) framework が必要である。
 
 == MacUIMのビルド
 
