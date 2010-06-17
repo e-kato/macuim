@@ -172,6 +172,34 @@ HERE
 		echo "failed"
 		exit
 	fi
+	if [ ${os} = Darwin -a "${target}" = "MacUIM" ] ; then
+		cd xcodebuild/Release
+			mkdir MozcTool.app/Contents/Frameworks
+			cp -R ${QTDIR}/lib/QtCore.framework \
+				MozcTool.app/Contents/Frameworks
+			cp -R ${QTDIR}/lib/QtGui.framework \
+				MozcTool.app/Contents/Frameworks
+			install_name_tool -id \
+				@executable_path/../Frameworks/QtCore.framework/Versions/4/QtCore \
+				MozcTool.app/Contents/Frameworks/QtCore.framework/Versions/4/QtCore
+			install_name_tool -id \
+				@executable_path/../Frameworks/QtGui.framework/Versions/4/QtGui \
+				MozcTool.app/Contents/Frameworks/QtGui.framework/Versions/4/QtGui
+
+			install_name_tool -change \
+			 	/opt/qt-carbon/lib/QtCore.framework/Versions/4/QtCore \
+				@executable_path/../Frameworks/QtCore.framework/Versions/4/QtCore \
+				MozcTool.app/Contents/MacOS/MozcTool
+			install_name_tool -change \
+			 	/opt/qt-carbon/lib/QtGui.framework/Versions/4/QtGui \
+				@executable_path/../Frameworks/QtGui.framework/Versions/4/QtGui \
+				MozcTool.app/Contents/MacOS/MozcTool
+
+			install_name_tool -change /opt/qt-carbon/lib/QtCore.framework/Versions/4/QtCore \
+			 	@executable_path/../Frameworks/QtCore.framework/Versions/4/QtCore \
+				MozcTool.app/Contents/Frameworks/QtGui.framework/Versions/4/QtGui
+		cd -
+	fi
 
 popd
 
