@@ -174,11 +174,18 @@ HERE
 	fi
 	if [ ${os} = Darwin -a "${target}" = "MacUIM" ] ; then
 		cd xcodebuild/Release
-			mkdir MozcTool.app/Contents/Frameworks
+			rm -rf MozcTool.app/Contents/Frameworks
+			mkdir -p MozcTool.app/Contents/Frameworks
 			cp -R ${QTDIR}/lib/QtCore.framework \
 				MozcTool.app/Contents/Frameworks
 			cp -R ${QTDIR}/lib/QtGui.framework \
 				MozcTool.app/Contents/Frameworks
+			rm -f MozcTool.app/Contents/Frameworks/QtCore.framework/QtCore_debug*
+			rm -f MozcTool.app/Contents/Frameworks/QtCore.framework/Versions/4/QtCore_debug
+			rm -rf MozcTool.app/Contents/Frameworks/QtCore.framework/Versions/4/Headers
+			rm -f MozcTool.app/Contents/Frameworks/QtGui.framework/QtGui_debug*
+			rm -f MozcTool.app/Contents/Frameworks/QtGui.framework/Versions/4/QtGui_debug
+			rm -rf MozcTool.app/Contents/Frameworks/QtGui.framework/Versions/4/Headers
 			install_name_tool -id \
 				@executable_path/../Frameworks/QtCore.framework/Versions/4/QtCore \
 				MozcTool.app/Contents/Frameworks/QtCore.framework/Versions/4/QtCore
@@ -218,6 +225,7 @@ if [ ${os} = Darwin -a "${target}" = "MacUIM" ] ; then
 
 	# install server
 	mkdir -p ${dest}/${mozcdir}
+	rm -rf ${dest}/${mozcdir}/*
 	rsync -auv mozc/src/xcodebuild/Release/MozcConverter.app \
 		${dest}/${mozcdir}/
 

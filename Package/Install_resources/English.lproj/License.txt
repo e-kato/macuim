@@ -1,4 +1,4 @@
-This package contains uim, Anthy, PRIME, SKK dictionaries, m17n-lib, Mozc, Ispell, sary-ruby, suikyo, Ruby/ProgressBar, MenuCracker, Growl applicatino bridge, and MacUIM.
+This package contains uim, Anthy, PRIME, SKK dictionaries, m17n-lib, Mozc, QtCore, QtGui, Ispell, sary-ruby, suikyo, Ruby/ProgressBar, MenuCracker, Growl applicatino bridge, and MacUIM.
 
 GNU gettext is static linked with several programs and libraries.
 Sary and GLib is static linked with sary-ruby.
@@ -6,6 +6,7 @@ Glib, ATK, GTK+, Pango, Cairo, libpng, pixman are static linked with
 uim-candwin-gtk.
 Curl and Expat are statically linked with libuim-curl.so and libuim-expat.so respectively.
 Freetype2 is static linked with m17n-lib.
+QtCore and QtGui framework is dynamically linked with MozcTool.app.
 
 Read the each software's license.
 
@@ -908,6 +909,12 @@ Mozc
 # THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+Qt (in MozcTool.app)
+----------------
+You can use, modify, distribute and sell this package
+under the terms of LGPL 2.1.
 
 
 sary-ruby
