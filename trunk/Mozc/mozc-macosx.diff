@@ -1,3 +1,21 @@
+Index: session/session_server.cc
+===================================================================
+--- session/session_server.cc	(revision 30)
++++ session/session_server.cc	(working copy)
+@@ -42,8 +42,13 @@
+ namespace {
+ const int kNumConnections = 10;
+ const int kTimeOut = 5000;  // 5000msec
++#if defined(OS_MACOSX) && !defined(GOOGLE_JAPANESE_INPUT_BUILD)
++const char kSessionName[] = "mozc_session";
++const char kEventName[] = "mozc_session";
++#else
+ const char kSessionName[] = "session";
+ const char kEventName[] = "session";
++#endif
+ const uint32 kSchedulerDelay = 60*1000;  // 1 min
+ const uint32 kSchedulerRandomDelay = 5*60*1000;  // 5 min
+ const uint32 kScheduleInterval = 5*60*1000;  // 5 min
 Index: unix/ibus/mozc_engine.cc
 ===================================================================
 --- unix/ibus/mozc_engine.cc	(revision 30)
@@ -276,24 +294,6 @@ Index: unix/uim/uim-macfink.gyp
 +    },
 +  ],
 +}
-Index: session/session_server.cc
-===================================================================
---- session/session_server.cc	(revision 30)
-+++ session/session_server.cc	(working copy)
-@@ -42,8 +42,13 @@
- namespace {
- const int kNumConnections = 10;
- const int kTimeOut = 5000;  // 5000msec
-+#if defined(OS_MACOSX) && !defined(GOOGLE_JAPANESE_INPUT_BUILD)
-+const char kSessionName[] = "mozc_session";
-+const char kEventName[] = "mozc_session";
-+#else
- const char kSessionName[] = "session";
- const char kEventName[] = "session";
-+#endif
- const uint32 kSchedulerDelay = 60*1000;  // 1 min
- const uint32 kSchedulerRandomDelay = 5*60*1000;  // 5 min
- const uint32 kScheduleInterval = 5*60*1000;  // 5 min
 Index: mac/mozc_server_info
 ===================================================================
 --- mac/mozc_server_info	(revision 0)
@@ -395,6 +395,20 @@ Index: base/mac_util.mm
  const char kProjectPrefix[] =
      "org.mozc.inputmethod.Japanese.";
  #else
+Index: base/util.cc
+===================================================================
+--- base/util.cc	(revision 30)
++++ base/util.cc	(working copy)
+@@ -1395,7 +1395,8 @@
+ 
+ #elif defined(OS_MACOSX)
+   dir = MacUtil::GetApplicationSupportDirectory();
+-#ifdef GOOGLE_JAPANESE_INPUT_BUILD
++//#ifdef GOOGLE_JAPANESE_INPUT_BUILD
++#if 1
+   dir = Util::JoinPath(dir, "Google");
+   // The permission of ~/Library/Application Support/Google seems to be 0755.
+   // TODO(komatsu): nice to make a wrapper function.
 Index: base/logging.cc
 ===================================================================
 --- base/logging.cc	(revision 30)
