@@ -18,6 +18,7 @@ PATCH6=${top}/mozc_tool-macosx.diff
 PATCH7=${top}/mozc_tool-macuim.diff
 PATCH8=${top}/mozc-linux-protobuf.diff
 PATCH9=${top}/mozc-linux-protobuf220.diff
+PATCH10=${top}/mozc-kill-line.diff
 
 dest="${top}/../Package/dest"
 fwdir="/Library/Frameworks/UIM.framework/Versions/Current"
@@ -87,6 +88,8 @@ pushd mozc/src
 				patch -p0 < ${PATCH9}
 			fi
 		fi
+		# kill-line patch
+		patch -p0 < ${PATCH10}
 		exit
 	fi
 
