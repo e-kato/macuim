@@ -1,0 +1,178 @@
+Index: session/internal/keymap.cc
+===================================================================
+--- session/internal/keymap.cc	(revision 30)
++++ session/internal/keymap.cc	(working copy)
+@@ -492,6 +492,7 @@
+       CompositionState::TRANSLATE_HALF_ASCII;
+   command_composition_map_["ToggleAlphanumericMode"] =
+       CompositionState::TOGGLE_ALPHANUMERIC_MODE;
++  command_composition_map_["KillLine"] = CompositionState::KILL_LINE;
+ #ifdef OS_WINDOWS
+   command_composition_map_["InputModeHiragana"] =
+       CompositionState::INPUT_MODE_HIRAGANA;
+Index: session/internal/keymap_interface.h
+===================================================================
+--- session/internal/keymap_interface.h	(revision 30)
++++ session/internal/keymap_interface.h	(working copy)
+@@ -128,6 +128,7 @@
+   INPUT_MODE_FULL_ALPHANUMERIC,
+   INPUT_MODE_HALF_ALPHANUMERIC,
+   ABORT,  // Abort the server.  The process is killed.
++  KILL_LINE, // kill-line
+ };
+ };
+ 
+Index: session/session.cc
+===================================================================
+--- session/session.cc	(revision 30)
++++ session/session.cc	(working copy)
+@@ -557,6 +557,9 @@
+     case keymap::CompositionState::DEL:
+       return Delete(command);
+ 
++    case keymap::CompositionState::KILL_LINE:
++      return KillLine(command);
++
+     case keymap::CompositionState::BACKSPACE:
+       return Backspace(command);
+ 
+@@ -1510,6 +1513,24 @@
+   return true;
+ }
+ 
++bool Session::KillLine(commands::Command *command) {
++  command->mutable_output()->set_consumed(true);
++  composer_->KillLine();
++  if (composer_->Empty()) {
++    // Input/output modes remain.
++    composer_->EditErase();
++    state_ = SessionState::PRECOMPOSITION;
++    OutputMode(command);
++  } else if (converter_->Suggest(composer_.get())) {
++    DCHECK(converter_->IsActive());
++    Output(command);
++    return true;
++  } else {
++    OutputComposition(command);
++  }
++  return true;
++}
++
+ bool Session::Backspace(commands::Command *command) {
+   command->mutable_output()->set_consumed(true);
+   composer_->Backspace();
+Index: session/session.h
+===================================================================
+--- session/session.h	(revision 30)
++++ session/session.h	(working copy)
+@@ -105,6 +105,7 @@
+   bool InsertSpaceFullWidth(commands::Command *command);
+   bool InsertCharacter(commands::Command *command);
+   bool Delete(commands::Command *command);
++  bool KillLine(commands::Command *command);
+   bool Backspace(commands::Command *command);
+   bool EditCancel(commands::Command *command);
+ 
+Index: gui/config_dialog/keymap_en.ts
+===================================================================
+--- gui/config_dialog/keymap_en.ts	(revision 30)
++++ gui/config_dialog/keymap_en.ts	(working copy)
+@@ -104,6 +104,10 @@
+         <translation>Delete (erase character after cursor)</translation>
+     </message>
+     <message>
++        <source>KillLine</source>
++        <translation>Kill line (erase characters after cursor)</translation>
++    </message>
++    <message>
+         <source>DisplayAsFullAlphanumeric</source>
+         <translation>Display as full-width alphanumeric</translation>
+     </message>
+Index: composer/composition_interface.h
+===================================================================
+--- composer/composition_interface.h	(revision 30)
++++ composer/composition_interface.h	(working copy)
+@@ -48,6 +48,7 @@
+  public:
+   virtual ~CompositionInterface() {}
+   virtual size_t DeleteAt(size_t position) = 0;
++  virtual size_t KillLineAt(size_t position) = 0;
+   virtual size_t InsertAt(size_t position, const string &input) = 0;
+   virtual size_t InsertKeyAndPreeditAt(size_t pos,
+                                        const string &key,
+Index: composer/composer.cc
+===================================================================
+--- composer/composer.cc	(revision 30)
++++ composer/composer.cc	(working copy)
+@@ -416,6 +416,16 @@
+   UpdateInputMode();
+ }
+ 
++void Composer::KillLineAt(size_t pos) {
++  position_ = composition_->KillLineAt(pos);
++  UpdateInputMode();
++}
++
++void Composer::KillLine() {
++  position_ = composition_->KillLineAt(position_);
++  UpdateInputMode();
++}
++
+ void Composer::EditErase() {
+   composition_->Erase();
+   position_ = 0;
+Index: composer/internal/composition.cc
+===================================================================
+--- composer/internal/composition.cc	(revision 30)
++++ composer/internal/composition.cc	(working copy)
+@@ -119,6 +119,19 @@
+   return new_position;
+ }
+ 
++// Deletes right-hand characters of the composition.
++size_t Composition::KillLineAt(const size_t position) {
++  CharChunkList::iterator chunk_it;
++  MaybeSplitChunkAt(position, &chunk_it);
++  const size_t new_position = GetPosition(kNullT12r, chunk_it);
++  if (chunk_it == chunks_.end()) {
++    return new_position;
++  }
++  chunks_.erase(chunk_it, chunks_.end());
++
++  return new_position;
++}
++
+ size_t Composition::ConvertPosition(
+     const size_t position_from,
+     const TransliteratorInterface *transliterator_from,
+Index: composer/internal/composition.h
+===================================================================
+--- composer/internal/composition.h	(revision 30)
++++ composer/internal/composition.h	(working copy)
+@@ -51,6 +51,7 @@
+   virtual ~Composition();
+ 
+   size_t DeleteAt(size_t position);
++  size_t KillLineAt(size_t position);
+   size_t InsertAt(size_t position, const string &input);
+   size_t InsertKeyAndPreeditAt(size_t position,
+                                const string &key,
+Index: composer/composer.h
+===================================================================
+--- composer/composer.h	(revision 30)
++++ composer/composer.h	(working copy)
+@@ -105,12 +105,14 @@
+ 
+   void InsertCharacterAt(size_t pos, const string &input);
+   void DeleteAt(size_t pos);
++  void KillLineAt(size_t pos);
+   void BackspaceAt(size_t pos);
+   void InsertCharacter(const string &input);
+   void InsertCharacterPreedit(const string &input);
+   void InsertCharacterKeyAndPreedit(const string &key, const string &preedit);
+   bool InsertCharacterKeyEvent(const commands::KeyEvent &key);
+   void Delete();
++  void KillLine();
+   void Backspace();
+ 
+   // void Undo();
