@@ -176,7 +176,7 @@ HERE
 		exit
 	fi
 	if [ ${os} = Darwin -a "${target}" = "MacUIM" ] ; then
-		cd xcodebuild/Release
+		cd out_mac/Release
 			rm -rf MozcTool.app/Contents/Frameworks
 			mkdir -p MozcTool.app/Contents/Frameworks
 			cp -R ${QTDIR}/lib/QtCore.framework \
@@ -217,19 +217,19 @@ popd
 if [ ${os} = Darwin -a "${target}" = "MacUIM" ] ; then
 	echo "install"
 	mkdir -p ${dest}
-	install mozc/src/xcodebuild/Release/libuim-mozc.so \
+	install mozc/src/out_mac/Release/libuim-mozc.so \
 		${dest}/${fwdir}/pkglib/plugin/
 	install scm/mozc*.scm ${dest}/${fwdir}/share/uim/
 
 	# put into uim build dir too
-	install mozc/src/xcodebuild/Release/libuim-mozc.so \
+	install mozc/src/out_mac/Release/libuim-mozc.so \
 		${uim_build_dir}/uim/
 	install scm/mozc*.scm ${uim_build_dir}/scm/
 
 	# install server
 	mkdir -p ${dest}/${mozcdir}
 	rm -rf ${dest}/${mozcdir}/*
-	rsync -auv mozc/src/xcodebuild/Release/MozcConverter.app \
+	rsync -auv mozc/src/out_mac/Release/MozcConverter.app \
 		${dest}/${mozcdir}/
 
 	mkdir -p ${dest}/${launchagentdir}
@@ -237,6 +237,6 @@ if [ ${os} = Darwin -a "${target}" = "MacUIM" ] ; then
 		${dest}/${launchagentdir}
 
 	# install tool
-	rsync -auv mozc/src/xcodebuild/Release/MozcTool.app \
+	rsync -auv mozc/src/out_mac/Release/MozcTool.app \
 		${dest}/${mozcdir}/
 fi
