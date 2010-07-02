@@ -1,3 +1,16 @@
+Index: build_tools/mozc_version.py
+===================================================================
+--- build_tools/mozc_version.py	(revision 32)
++++ build_tools/mozc_version.py	(working copy)
+@@ -110,7 +110,7 @@
+   def IsDevChannel(self):
+     """Returns true if the parsed version is dev-channel."""
+     if len(self._revision) >= 3 and self._revision[-3] == '1':
+-      return True
++      return False
+ 
+     return False
+ 
 Index: unix/ibus/mozc_engine.cc
 ===================================================================
 --- unix/ibus/mozc_engine.cc	(revision 30)
