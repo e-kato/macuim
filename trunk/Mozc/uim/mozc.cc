@@ -66,6 +66,8 @@ static char **argv;
 
 // for every 5 minutes, call SyncData
 const uint64 kSyncDataInterval = 5 * 60;
+// An ID for a candidate which is not associated with a text.
+const int32 kBadCandidateId = -1;
 
 uint64 GetTime() {
   return static_cast<uint64>(time(NULL));
@@ -87,6 +89,7 @@ static struct context_slot_ {
   bool has_preedit_before;
   int cand_nr_before;
   uint64 last_sync_time;
+  vector<int32> *unique_candidate_ids;
 } *context_slot;
 
 static int
@@ -207,7 +210,7 @@ compose_preedit(const commands::Output *output)
     seg = CONS(MAKE_INT(attr), MAKE_STR(str));
 
     if (TRUEP(separator) && i > 0)
-        segs = CONS(separator, segs);
+      segs = CONS(separator, segs);
     segs = CONS(seg, segs);
 
     if (count == cursorPos && !output->preedit().has_highlighted_position()) {
@@ -245,7 +248,6 @@ update_candidates(uim_lisp mc_, int id)
   commands::Output *output = context_slot[id].output;
 
   if (!output->has_candidates()) {
-
     uim_scm_callf("im-deactivate-candidate-selector", "o", mc_);
     context_slot[id].cand_nr_before = 0;
 
@@ -253,7 +255,6 @@ update_candidates(uim_lisp mc_, int id)
   }
 
   const commands::Candidates &candidates = output->candidates();
-
   bool first_time = false;
 
   if ((context_slot[id].cand_nr_before != candidates.size()) || !candidates.focused_index())
@@ -267,6 +268,20 @@ update_candidates(uim_lisp mc_, int id)
     uim_scm_callf("im-select-candidate", "oi", mc_, index);
   }
   context_slot[id].cand_nr_before = candidates.size();
+
+  if (first_time || (candidates.has_focused_index() && candidates.focused_index() % 9 == 0)) {
+    context_slot[id].unique_candidate_ids->clear();
+    for (int i = 0; i < candidates.candidate_size(); ++i) {
+      if (candidates.candidate(i).has_id()) {
+        const int32 cand_id = candidates.candidate(i).id();
+        context_slot[id].unique_candidate_ids->push_back(cand_id);
+      } else {
+        // The parent node of the cascading window does not have an id since the
+        // node does not contain a candidate word.
+        context_slot[id].unique_candidate_ids->push_back(kBadCandidateId);
+      }
+    }
+  }
 }
 
 static void
@@ -309,6 +324,7 @@ create_context(uim_lisp mc_)
   context_slot[id].currentMode = commands::HIRAGANA;
   context_slot[id].has_preedit_before = false;
   context_slot[id].cand_nr_before = 0;
+  context_slot[id].unique_candidate_ids = new vector<int32>;
 
   // Launch mozc_server
   // or should I call this with mozc-on-key?
@@ -327,6 +343,7 @@ release_context(uim_lisp id_)
     delete context_slot[id].session;
     delete context_slot[id].keyTranslator;
     delete context_slot[id].output;
+    delete context_slot[id].unique_candidate_ids;
     context_slot[id].session = NULL;
     context_slot[id].keyTranslator = NULL;
     context_slot[id].output = NULL;
@@ -770,6 +787,28 @@ has_preedit(uim_lisp id_)
   return context_slot[id].has_preedit_before ? uim_scm_t() : uim_scm_f();
 }
 
+static uim_lisp
+select_candidate(uim_lisp mc_, uim_lisp id_, uim_lisp idx_)
+{
+  int id = C_INT(id_);
+  int idx = C_INT(idx_) % 9;
+  
+  if (idx >= context_slot[id].unique_candidate_ids->size())
+    return uim_scm_f();
+
+  const int32 cand_id = (*context_slot[id].unique_candidate_ids)[idx];
+  if (cand_id == kBadCandidateId)
+    return uim_scm_f();
+
+  commands::Output output;
+  commands::SessionCommand command;
+  command.set_type(commands::SessionCommand::SELECT_CANDIDATE);
+  command.set_id(cand_id);
+  context_slot[id].session->SendCommand(command, context_slot[id].output);
+  update_all(mc_, id);
+  
+  return uim_scm_t();
+}
 } // namespace
 } // namespace
 
@@ -790,6 +829,7 @@ uim_plugin_instance_init(void)
   uim_scm_init_proc3("mozc-lib-set-input-mode", mozc::uim::set_composition_mode);
   uim_scm_init_proc1("mozc-lib-set-on", mozc::uim::set_composition_on);
   uim_scm_init_proc1("mozc-lib-has-preedit?", mozc::uim::has_preedit);
+  uim_scm_init_proc3("mozc-lib-set-candidate-index", mozc::uim::select_candidate);
 
   int argc = 1;
   static const char name[] = "uim-mozc";

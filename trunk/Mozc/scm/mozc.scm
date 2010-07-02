@@ -277,7 +277,8 @@
 
 (define mozc-set-candidate-index-handler
   (lambda (mc idx)
-    #f))
+    (let ((mid (mozc-context-mc-id mc)))
+      (mozc-lib-set-candidate-index mc mid idx))))
 
 (mozc-configure-widgets)
 
