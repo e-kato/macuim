@@ -272,8 +272,12 @@
   (lambda (mc idx accel-enum-hint)
     (let* ((mid (mozc-context-mc-id mc))
 	   (cand
-             (mozc-lib-get-nth-candidate mid idx)))
-      (list cand (digit->string (+ (remainder idx 9) 1)) ""))))
+             (mozc-lib-get-nth-candidate mid idx))
+           (label
+             (mozc-lib-get-nth-label mid idx))
+           (annotation
+             (mozc-lib-get-nth-annotation mid idx)))
+      (list cand label annotation))))
 
 (define mozc-set-candidate-index-handler
   (lambda (mc idx)

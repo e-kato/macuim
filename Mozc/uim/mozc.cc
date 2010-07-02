@@ -431,6 +431,54 @@ get_nth_candidate(uim_lisp id_, uim_lisp nth_)
   return MAKE_STR(cand);
 }
 
+static uim_lisp
+get_nth_label(uim_lisp id_, uim_lisp nth_)
+{
+  int id = C_INT(id_);
+  commands::Output *output = context_slot[id].output;
+  const commands::Candidates &candidates = output->candidates();
+  const char *label;
+
+  int nth;
+  int idx;
+  int nr;
+  
+  nth = C_INT(nth_);
+  nr = candidates.size();
+
+  if (nth < nr) {
+    idx = nth % 9;
+    label = candidates.candidate(idx).annotation().shortcut().c_str();
+  } else
+    label = "";
+
+  return MAKE_STR(label);
+}
+
+static uim_lisp
+get_nth_annotation(uim_lisp id_, uim_lisp nth_)
+{
+  int id = C_INT(id_);
+  commands::Output *output = context_slot[id].output;
+  const commands::Candidates &candidates = output->candidates();
+  const char *annotation;
+
+  int nth;
+  int idx;
+  int nr;
+  
+  nth = C_INT(nth_);
+  nr = candidates.size();
+
+  if (nth < nr) {
+    idx = nth % 9;
+    annotation = candidates.candidate(idx).annotation().description().c_str();
+  } else
+    annotation = "";
+
+  return MAKE_STR(annotation);
+}
+
 /* from uim-key.c */
 static struct key_entry {
   int key;
@@ -824,6 +872,8 @@ uim_plugin_instance_init(void)
   uim_scm_init_proc3("mozc-lib-release-key", mozc::uim::release_key);
   uim_scm_init_proc1("mozc-lib-get-nr-candidates", mozc::uim::get_nr_candidates);
   uim_scm_init_proc2("mozc-lib-get-nth-candidate", mozc::uim::get_nth_candidate);
+  uim_scm_init_proc2("mozc-lib-get-nth-label", mozc::uim::get_nth_label);
+  uim_scm_init_proc2("mozc-lib-get-nth-annotation", mozc::uim::get_nth_annotation);
   uim_scm_init_proc1("keysym-to-int", mozc::uim::keysym_to_int);
   uim_scm_init_proc1("mozc-lib-input-mode", mozc::uim::get_composition_mode);
   uim_scm_init_proc3("mozc-lib-set-input-mode", mozc::uim::set_composition_mode);
