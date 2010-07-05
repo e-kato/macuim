@@ -59,6 +59,8 @@
 #include "base/util.h"
 #include "client/session.h"
 
+#define USE_CASCADING_CANDIDATES	0
+
 #include <map>
 #include <ext/hash_map>
 using __gnu_cxx::hash_map;
@@ -89,7 +91,9 @@ static struct context_slot_ {
   bool has_preedit_before;
   int cand_nr_before;
   uint64 last_sync_time;
+#if USE_CASCADING_CANDIDATES
   vector<int32> *unique_candidate_ids;
+#endif
 } *context_slot;
 
 static int
@@ -269,6 +273,7 @@ update_candidates(uim_lisp mc_, int id)
   }
   context_slot[id].cand_nr_before = candidates.size();
 
+#if USE_CASCADING_CANDIDATES
   if (first_time || (candidates.has_focused_index() && candidates.focused_index() % 9 == 0)) {
     context_slot[id].unique_candidate_ids->clear();
     for (int i = 0; i < candidates.candidate_size(); ++i) {
@@ -282,6 +287,7 @@ update_candidates(uim_lisp mc_, int id)
       }
     }
   }
+#endif
 }
 
 static void
@@ -324,11 +330,16 @@ create_context(uim_lisp mc_)
   context_slot[id].currentMode = commands::HIRAGANA;
   context_slot[id].has_preedit_before = false;
   context_slot[id].cand_nr_before = 0;
+#if USE_CASCADING_CANDIDATES
   context_slot[id].unique_candidate_ids = new vector<int32>;
+#endif
 
   // Launch mozc_server
   // or should I call this with mozc-on-key?
   session->EnsureConnection();
+#if !USE_CASCADING_CANDIDATES
+  session->EnableCascadingWindow(false);
+#endif
 
   return MAKE_INT(id);
 }
@@ -343,7 +354,9 @@ release_context(uim_lisp id_)
     delete context_slot[id].session;
     delete context_slot[id].keyTranslator;
     delete context_slot[id].output;
+#if USE_CASCADING_CANDIDATES
     delete context_slot[id].unique_candidate_ids;
+#endif
     context_slot[id].session = NULL;
     context_slot[id].keyTranslator = NULL;
     context_slot[id].output = NULL;
@@ -841,12 +854,20 @@ select_candidate(uim_lisp mc_, uim_lisp id_, uim_lisp idx_)
   int id = C_INT(id_);
   int idx = C_INT(idx_) % 9;
   
+#if USE_CASCADING_CANDIDATES
   if (idx >= context_slot[id].unique_candidate_ids->size())
+#else
+  if (idx >= context_slot[id].output->candidates().candidate_size())
+#endif
     return uim_scm_f();
 
+#if USE_CASCADING_CANDIDATES
   const int32 cand_id = (*context_slot[id].unique_candidate_ids)[idx];
   if (cand_id == kBadCandidateId)
     return uim_scm_f();
+#else
+  const int32 cand_id = context_slot[id].output->candidates().candidate(idx).id();
+#endif
 
   commands::Output output;
   commands::SessionCommand command;
