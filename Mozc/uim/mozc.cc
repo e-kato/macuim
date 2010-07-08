@@ -822,6 +822,7 @@ set_composition_mode(uim_lisp mc_, uim_lisp id_, uim_lisp new_mode_)
     command.set_composition_mode(mode);
     context_slot[id].session->SendCommand(command, context_slot[id].output);
     context_slot[id].currentMode = mode; /* don't set this with DIRECT mode */
+    uim_scm_callf("mozc-context-set-on!", "oo", mc_, uim_scm_t());
   }
 
   return uim_scm_t();
