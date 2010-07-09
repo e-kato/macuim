@@ -218,7 +218,13 @@ static CocoaWinController *sharedController;
 	if (head) {
 		// use just the last one character of the string
 		int headLen = strlen(head);
-		const char *shead = head + headLen - 1;
+		const char *shead;
+
+		if (headLen)
+			shead = head + headLen - 1;
+		else
+			shead = " ";
+
 		headStr = [[[NSAttributedString alloc]
 				initWithString:
 					[NSString stringWithUTF8String:shead]
