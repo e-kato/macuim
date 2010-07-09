@@ -51,6 +51,7 @@
 #include "base/base.h"
 #include "base/util.h"
 #include "base/scoped_ptr.h"
+#include "session/config.pb.h"
 #include "session/commands.pb.h"
 #include "client/session.h"
 #include "unix/uim/key_translator.h"
@@ -94,6 +95,7 @@ static struct context_slot_ {
 #if USE_CASCADING_CANDIDATES
   vector<int32> *unique_candidate_ids;
 #endif
+  config::Config::PreeditMethod preedit_method;
 } *context_slot;
 
 static int
@@ -379,16 +381,23 @@ press_key(uim_lisp mc_, uim_lisp id_, uim_lisp key_, uim_lisp state_)
   commands::KeyEvent key;
   int id;
   int keyval, keycode, modifiers;
+  config::Config::PreeditMethod preedit_method;
+  char *keyboard;
+  bool layout_is_jp;
 
   id = C_INT(id_);
   session = context_slot[id].session;
   keyTranslator = context_slot[id].keyTranslator;
+  preedit_method = context_slot[id].preedit_method;
+  keyboard = uim_scm_symbol_value_str("mozc-keyboard-type-for-kana-input-method");
+  layout_is_jp = keyboard && !strcmp(keyboard, "jp-keyboard") ? true : false;
+  free(keyboard);
 
   keyval = C_INT(key_);
   modifiers = C_INT(state_);
   keycode = 0; /* XXX */
 
-  if (!(*keyTranslator).Translate(keyval, keycode, modifiers, &key))
+  if (!(*keyTranslator).Translate(keyval, keycode, modifiers, preedit_method, layout_is_jp, &key))
     return uim_scm_f();
 
   if (!(*session).SendKey(key, context_slot[id].output))
@@ -879,6 +888,61 @@ select_candidate(uim_lisp mc_, uim_lisp id_, uim_lisp idx_)
   
   return uim_scm_t();
 }
+
+static uim_lisp
+get_input_rule(uim_lisp id_)
+{
+  int id = C_INT(id_);
+  const config::Config::PreeditMethod method = context_slot[id].preedit_method;
+  int rule = 0;
+
+  switch (method) {
+  case config::Config::ROMAN:
+    rule = 0;
+    break;
+    case config::Config::KANA:
+    rule = 1;
+    break;
+  default:
+    rule = 0;
+    break;
+  }
+
+  return MAKE_INT(rule);
+}
+
+static uim_lisp
+set_input_rule(uim_lisp mc_, uim_lisp id_, uim_lisp new_rule_)
+{
+  int id = C_INT(id_);
+  config::Config config;
+  config::Config::PreeditMethod method;
+
+  switch (C_INT(new_rule_)) {
+  case 0:
+    method = config::Config::ROMAN;
+    break;
+  case 1:
+    method = config::Config::KANA;
+    break;
+  default:
+    method = config::Config::ROMAN;
+    break;
+  }
+
+  if (!context_slot[id].session->GetConfig(&config))
+    return false;
+
+  config.set_preedit_method(method);
+
+  if (!context_slot[id].session->SetConfig(config))
+    return false;
+
+  context_slot[id].preedit_method = method;
+
+  return uim_scm_t();
+}
+ 
 } // namespace
 } // namespace
 
@@ -902,6 +966,8 @@ uim_plugin_instance_init(void)
   uim_scm_init_proc1("mozc-lib-set-on", mozc::uim::set_composition_on);
   uim_scm_init_proc1("mozc-lib-has-preedit?", mozc::uim::has_preedit);
   uim_scm_init_proc3("mozc-lib-set-candidate-index", mozc::uim::select_candidate);
+  uim_scm_init_proc1("mozc-lib-input-rule", mozc::uim::get_input_rule);
+  uim_scm_init_proc3("mozc-lib-set-input-rule", mozc::uim::set_input_rule);
 
   int argc = 1;
   static const char name[] = "uim-mozc";

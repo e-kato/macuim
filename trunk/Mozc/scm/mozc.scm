@@ -43,9 +43,16 @@
 (define mozc-type-halfwidth-alnum ja-type-halfwidth-alnum)
 (define mozc-type-fullwidth-alnum ja-type-fullwidth-alnum)
 
+(define mozc-input-rule-roma 0)
+(define mozc-input-rule-kana 1)
+
 (define mozc-prepare-input-mode-activation
   (lambda (mc new-mode)
     (mozc-lib-set-input-mode mc (mozc-context-mc-id mc) new-mode)))
+
+(define mozc-prepare-input-rule-activation
+  (lambda (mc new-rule)
+    (mozc-lib-set-input-rule mc (mozc-context-mc-id mc) new-rule)))
 
 (register-action 'action_mozc_hiragana
 		 (lambda (mc) ;; indication handler
@@ -123,6 +130,36 @@
 		 (lambda (mc)
                    (mozc-prepare-input-mode-activation mc mozc-type-fullwidth-alnum)))
 
+(register-action 'action_mozc_roma
+;;               (indication-alist-indicator 'action_mozc_roma
+;;                                           mozc-kana-input-method-indication-alist)
+                 (lambda (mc)
+                   '(ja_romaji
+                     "Ｒ"
+                     "ローマ字"
+                     "ローマ字入力モード"))
+                 (lambda (mc)
+                   (= (mozc-lib-input-rule (mozc-context-mc-id mc))
+                      mozc-input-rule-roma))
+                 (lambda (mc)
+                   (mozc-prepare-input-rule-activation mc mozc-input-rule-roma)
+))
+
+(register-action 'action_mozc_kana
+;;               (indication-alist-indicator 'action_mozc_kana
+;;                                           mozc-kana-input-method-indication-alist)
+                 (lambda (mc)
+                   '(ja_kana
+                     "か"
+                     "かな"
+                     "かな入力モード"))
+                 (lambda (mc)
+                   (= (mozc-lib-input-rule (mozc-context-mc-id mc))
+                      mozc-input-rule-kana))
+                 (lambda (mc)
+                   (mozc-prepare-input-rule-activation mc mozc-input-rule-kana)
+                   ))
+
 ;; Update widget definitions based on action configurations. The
 ;; procedure is needed for on-the-fly reconfiguration involving the
 ;; custom API
@@ -131,6 +168,9 @@
     (register-widget 'widget_mozc_input_mode
 		     (activity-indicator-new mozc-input-mode-actions)
 		     (actions-new mozc-input-mode-actions))
+    (register-widget 'widget_mozc_kana_input_method
+		     (activity-indicator-new mozc-kana-input-method-actions)
+		     (actions-new mozc-kana-input-method-actions))
     (context-list-replace-widgets! 'mozc mozc-widgets)))
 
 (define mozc-context-rec-spec

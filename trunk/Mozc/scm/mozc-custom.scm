@@ -97,15 +97,31 @@
 	 (N_ "Fullwidth Alphanumeric")
 	 (N_ "Fullwidth Alphanumeric input mode"))))
 
+(define mozc-kana-input-method-indication-alist
+  (list
+   (list 'action_mozc_roma
+         'ja_romaji
+         "Ｒ"
+         (N_ "Romaji")
+         (N_ "Romaji input mode"))
+   (list 'action_mozc_kana
+         'ja_kana
+         "か"
+         (N_ "Kana")
+         (N_ "Kana input mode"))))
 
 ;;; Buttons
 
-(define-custom 'mozc-widgets '(widget_mozc_input_mode)
+(define-custom 'mozc-widgets '(widget_mozc_input_mode
+                               widget_mozc_kana_input_method)
   '(mozc toolbar)
   (list 'ordered-list
 	(list 'widget_mozc_input_mode
 	      (_ "Input mode")
-	      (_ "Input mode")))
+	      (_ "Input mode"))
+	(list 'widget_mozc_kana_input_method
+	      (_ "Kana input method")
+	      (_ "Kana input method")))
   (_ "Enabled toolbar buttons")
   (_ "long description will be here."))
 
@@ -169,10 +185,75 @@
 		 (lambda ()
 		   (mozc-configure-widgets)))
 
+;;; Kana input method
+
+(define-custom 'default-widget_mozc_kana_input_method 'action_mozc_roma
+  '(mozc toolbar)
+  (cons 'choice
+        (map indication-alist-entry-extract-choice
+             mozc-kana-input-method-indication-alist))
+  (N_ "Default kana input method")
+  (N_ "long description will be here."))
+
+(define-custom 'mozc-kana-input-method-actions
+               (map car mozc-kana-input-method-indication-alist)
+  '(mozc toolbar)
+  (cons 'ordered-list
+        (map indication-alist-entry-extract-choice
+             mozc-kana-input-method-indication-alist))
+  (N_ "Kana input method menu items")
+  (N_ "long description will be here."))
+
+;; value dependency
+(if custom-full-featured?
+    (custom-add-hook 'mozc-kana-input-method-actions
+                     'custom-set-hooks
+                     (lambda ()
+                       (custom-choice-range-reflect-olist-val
+                        'default-widget_mozc_kana_input_method
+                        'mozc-kana-input-method-actions
+                        mozc-kana-input-method-indication-alist))))
+
+;; activity dependency
+(custom-add-hook 'default-widget_mozc_kana_input_method
+                 'custom-activity-hooks
+                 (lambda ()
+                   (memq 'widget_mozc_kana_input_method mozc-widgets
+)))
+
+(custom-add-hook 'mozc-kana-input-method-actions
+                 'custom-activity-hooks
+                 (lambda ()
+                   (memq 'widget_mozc_kana_input_method mozc-widgets
+)))
+
+;; dynamic reconfiguration
+(custom-add-hook 'default-widget_mozc_kana_input_method
+                 'custom-set-hooks
+                 (lambda ()
+                   (mozc-configure-widgets)))
+
+(custom-add-hook 'mozc-kana-input-method-actions
+                 'custom-set-hooks
+                 (lambda ()
+                   (mozc-configure-widgets)))
+
+
 (define-custom 'mozc-use-with-vi? #f
   '(mozc special-op)
   '(boolean)
   (N_ "Enable vi-cooperative mode")
   (N_ "long description will be here."))
 
-  
+(define-custom 'mozc-keyboard-type-for-kana-input-method 'jp-keyboard
+  '(mozc)
+  (list 'choice
+        (list 'jp-keyboard
+              (N_ "Japanese keyboard")
+              (N_ "long description will be here."))
+        (list 'us-keyboard
+              (N_ "US keyboard")
+              (N_ "long description will be here.")))
+  (N_ "Keyboard type for kana input method")
+  (N_ "long description will be here."))
+
