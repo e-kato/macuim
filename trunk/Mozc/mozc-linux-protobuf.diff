@@ -1,8 +1,17 @@
 Index: gyp/common.gypi
 ===================================================================
---- gyp/common.gypi	(revision 28)
+--- gyp/common.gypi	(revision 39)
 +++ gyp/common.gypi	(working copy)
-@@ -407,6 +407,9 @@
+@@ -107,7 +107,7 @@
+ 
+     # use_libprotobuf represents if protobuf library is used or not.
+     # This option is only for Linux.
+-    'use_libprotobuf%': 1,
++    'use_libprotobuf%': 0,
+ 
+     # a flag whether the current build is dev-channel or not.
+     'channel_dev%': '0',
+@@ -423,6 +423,9 @@
          'defines': [
            'OS_LINUX',
          ],
@@ -14,7 +23,7 @@ Index: gyp/common.gypi
            '-fPIC',
 Index: protobuf/genproto.gypi
 ===================================================================
---- protobuf/genproto.gypi	(revision 28)
+--- protobuf/genproto.gypi	(revision 39)
 +++ protobuf/genproto.gypi	(working copy)
 @@ -39,7 +39,7 @@
          '<(protobuf_dir)/protobuf.gyp:install_protoc',
@@ -27,31 +36,9 @@ Index: protobuf/genproto.gypi
        },
 Index: protobuf/protobuf.gyp
 ===================================================================
---- protobuf/protobuf.gyp	(revision 28)
+--- protobuf/protobuf.gyp	(revision 39)
 +++ protobuf/protobuf.gyp	(working copy)
-@@ -33,7 +33,7 @@
-       'target_name': 'protobuf',
-       'type': 'static_library',
-       'conditions': [
--        ['OS!="linux"', {
-+        ['OS!="hoge"', {
-           'sources': [
-             'files/src/google/protobuf/compiler/importer.cc',
-             'files/src/google/protobuf/compiler/parser.cc',
-@@ -71,12 +71,6 @@
-           'include_dirs': [
-             '.',
-           ],
--        }, {  # else
--          'link_settings': {
--            'libraries': [
--              '-lprotobuf',
--            ],
--          },
-         }],
-         ['OS=="mac"', {
-           'xcode_settings': {
-@@ -143,7 +137,7 @@
+@@ -193,7 +193,7 @@
        },
        'conditions': [
          # use system-installed protoc on Linux
@@ -59,4 +46,4 @@ Index: protobuf/protobuf.gyp
 +        ['OS!="hoge"', {
            'includes' : [
              '../gyp/install_build_tool.gypi',
-           ]
+           ],
