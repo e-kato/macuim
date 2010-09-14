@@ -12,8 +12,8 @@ PATCH0=${top}/mozc-macosx.diff
 PATCH1=${top}/gyp-macosx.diff
 PATCH2=${top}/gyp-macosx-i386.diff
 PATCH3=${top}/gyp-macosx-x86_64.diff
-PATCH4=${top}/uim-mozc-xcodeproj.diff
-PATCH5=${top}/uim-mozc-xcodeproj-fink.diff
+PATCH4=${top}/product_icon.icns
+
 PATCH6=${top}/mozc_tool-macosx.diff
 PATCH7=${top}/mozc_tool-macuim.diff
 PATCH8=${top}/mozc-linux-protobuf.diff
@@ -81,6 +81,7 @@ pushd mozc/src
 			if [ "${target}" = "MacUIM" ]; then
 				patch -p0 < ${PATCH7}
 			fi
+			cp -f ${PATCH4} data/images/
 		fi
 		if [ ${os} = "Linux" ]; then
 			patch -p0 < ${PATCH8}
@@ -102,6 +103,7 @@ pushd mozc/src
 		rm -f mac/org.mozc.inputmethod.Japanaes.Converter.plist
 		rm -f mac/mozc_server_info
 		rm -f mac/shared_subpackage_info
+		rm -f data/images/product_icon.icns
 		exit
 	fi
 
@@ -126,15 +128,6 @@ HERE
 	# gyp
 	echo "generate rules"
 	PKG_CONFIG_PATH=${QTDIR}/lib/pkgconfig python build_mozc.py gyp
-	# fix xcode project
-	if [ ${os} = "Darwin" ]; then
-		pushd unix/uim/uim-macuim.xcodeproj
-		patch < ${PATCH4}
-		popd
-		pushd unix/uim/uim-macfink.xcodeproj
-		patch < ${PATCH5}
-		popd
-	fi
 
 	# build build_tools
 	echo "build_tools"
