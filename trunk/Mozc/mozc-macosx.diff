@@ -1,6 +1,6 @@
 Index: build_tools/mozc_version.py
 ===================================================================
---- build_tools/mozc_version.py	(revision 32)
+--- build_tools/mozc_version.py	(revision 39)
 +++ build_tools/mozc_version.py	(working copy)
 @@ -110,7 +110,7 @@
    def IsDevChannel(self):
@@ -13,18 +13,18 @@ Index: build_tools/mozc_version.py
  
 Index: unix/ibus/mozc_engine.cc
 ===================================================================
---- unix/ibus/mozc_engine.cc	(revision 30)
+--- unix/ibus/mozc_engine.cc	(revision 39)
 +++ unix/ibus/mozc_engine.cc	(working copy)
-@@ -500,7 +500,7 @@
+@@ -527,7 +527,7 @@
  
  #ifndef OS_CHROMEOS
-   DCHECK(prop_mozc_tool_);
--  while (prop = ibus_prop_list_get(prop_mozc_tool_->sub_props, i++)) {
-+  while ((prop = ibus_prop_list_get(prop_mozc_tool_->sub_props, i++))) {
-     if (!g_strcmp0(property_name, prop->key)) {
-       const MozcEngineToolProperty *entry =
-           reinterpret_cast<const MozcEngineToolProperty*>(
-@@ -519,7 +519,7 @@
+   if (prop_mozc_tool_) {
+-    while (prop = ibus_prop_list_get(prop_mozc_tool_->sub_props, i++)) {
++    while ((prop = ibus_prop_list_get(prop_mozc_tool_->sub_props, i++))) {
+       if (!g_strcmp0(property_name, prop->key)) {
+         const MozcEngineToolProperty *entry =
+             reinterpret_cast<const MozcEngineToolProperty*>(
+@@ -547,7 +547,7 @@
    }
  
    i = 0;
@@ -35,9 +35,9 @@ Index: unix/ibus/mozc_engine.cc
            reinterpret_cast<const MozcEngineProperty*>(
 Index: unix/ibus/ibus.gyp
 ===================================================================
---- unix/ibus/ibus.gyp	(revision 30)
+--- unix/ibus/ibus.gyp	(revision 39)
 +++ unix/ibus/ibus.gyp	(working copy)
-@@ -37,6 +37,14 @@
+@@ -38,6 +38,14 @@
        'ibus-1.0',
        'libcurl',
      ],
@@ -52,7 +52,7 @@ Index: unix/ibus/ibus.gyp
      'ibus_client_dependencies' : [
        '../../client/client.gyp:client',
        '../../session/session.gyp:ime_switch_util',
-@@ -74,6 +82,9 @@
+@@ -115,6 +123,9 @@
        'cflags': [
          '<!@(pkg-config --cflags <@(pkg_config_libs))',
        ],
@@ -62,7 +62,7 @@ Index: unix/ibus/ibus.gyp
      },
      {
        'target_name': 'ibus_mozc',
-@@ -99,12 +110,24 @@
+@@ -184,12 +195,24 @@
        'cflags': [
          '<!@(pkg-config --cflags <@(pkg_config_libs))',
        ],
@@ -90,9 +90,9 @@ Index: unix/ibus/ibus.gyp
        'target_name': 'ibus_mozc_test',
 Index: unix/ibus/main.cc
 ===================================================================
---- unix/ibus/main.cc	(revision 30)
+--- unix/ibus/main.cc	(revision 39)
 +++ unix/ibus/main.cc	(working copy)
-@@ -90,7 +90,7 @@
+@@ -49,7 +49,7 @@
    // Don't wait() child process termination.
    struct sigaction sa;
    sa.sa_handler = SIG_IGN;
@@ -105,7 +105,7 @@ Index: unix/uim/uim-macuim.gyp
 ===================================================================
 --- unix/uim/uim-macuim.gyp	(revision 0)
 +++ unix/uim/uim-macuim.gyp	(revision 0)
-@@ -0,0 +1,87 @@
+@@ -0,0 +1,93 @@
 +#
 +# Copyright (c) 2010 uim Project http://code.google.com/p/uim/
 +#
@@ -190,14 +190,20 @@ Index: unix/uim/uim-macuim.gyp
 +      ],
 +      'library_dirs': [
 +      ],
++      'xcode_settings': {
++       'GCC_SYMBOLS_PRIVATE_EXTERN': 'NO',
++       'DYLIB_COMPATIBILITY_VERSION': '',
++       'DYLIB_CURRENT_VERSION': '',
++       'EXECUTABLE_EXTENSION': 'so',
++      }
 +    },
 +  ],
 +}
-Index: unix/uim/uim-macfink.gyp
+Index: uim-macfink.gyp
 ===================================================================
 --- unix/uim/uim-macfink.gyp	(revision 0)
 +++ unix/uim/uim-macfink.gyp	(revision 0)
-@@ -0,0 +1,91 @@
+@@ -0,0 +1,97 @@
 +#
 +# Copyright (c) 2010 uim Project http://code.google.com/p/uim/
 +#
@@ -286,12 +292,18 @@ Index: unix/uim/uim-macfink.gyp
 +      'library_dirs': [
 +        '/sw/lib',
 +      ],
++      'xcode_settings': {
++       'GCC_SYMBOLS_PRIVATE_EXTERN': 'NO',
++       'DYLIB_COMPATIBILITY_VERSION': '',
++       'DYLIB_CURRENT_VERSION': '',
++       'EXECUTABLE_EXTENSION': 'so',
++      }
 +    },
 +  ],
 +}
 Index: session/session_server.cc
 ===================================================================
---- session/session_server.cc	(revision 30)
+--- session/session_server.cc	(revision 39)
 +++ session/session_server.cc	(working copy)
 @@ -42,8 +42,13 @@
  namespace {
@@ -323,7 +335,7 @@ Index: mac/mozc_server_info
 + <key>CFBundleExecutable</key>
 + <string>MozcConverter</string>
 + <key>CFBundleIconFile</key>
-+ <string>Mozc.icns</string>
++ <string>product_icon.icns</string>
 + <key>CFBundleIdentifier</key>
 + <string>org.mozc.inputmethod.Japanese.Converter</string>
 + <key>CFBundleInfoDictionaryVersion</key>
@@ -374,9 +386,9 @@ Index: mac/org.mozc.inputmethod.Japanaes.Converter.plist
 +</plist>
 Index: server/mozc_server.cc
 ===================================================================
---- server/mozc_server.cc	(revision 30)
+--- server/mozc_server.cc	(revision 39)
 +++ server/mozc_server.cc	(working copy)
-@@ -88,7 +88,11 @@
+@@ -101,7 +101,11 @@
  
    InitGoogleWithBreakPad(argv[0], &argc, &argv, false);
  
@@ -390,7 +402,7 @@ Index: server/mozc_server.cc
      return -1;
 Index: base/mac_util.mm
 ===================================================================
---- base/mac_util.mm	(revision 30)
+--- base/mac_util.mm	(revision 39)
 +++ base/mac_util.mm	(working copy)
 @@ -39,12 +39,14 @@
  
@@ -410,9 +422,9 @@ Index: base/mac_util.mm
  #else
 Index: base/util.cc
 ===================================================================
---- base/util.cc	(revision 30)
+--- base/util.cc	(revision 39)
 +++ base/util.cc	(working copy)
-@@ -1395,7 +1395,8 @@
+@@ -1424,7 +1424,8 @@
  
  #elif defined(OS_MACOSX)
    dir = MacUtil::GetApplicationSupportDirectory();
@@ -424,9 +436,9 @@ Index: base/util.cc
    // TODO(komatsu): nice to make a wrapper function.
 Index: base/logging.cc
 ===================================================================
---- base/logging.cc	(revision 30)
+--- base/logging.cc	(revision 39)
 +++ base/logging.cc	(working copy)
-@@ -202,7 +202,7 @@
+@@ -213,7 +213,7 @@
    snprintf(buf, sizeof(buf),
             "%4.4d-%2.2d-%2.2d %2.2d:%2.2d:%2.2d %u "
  #ifndef OS_LINUX  // = OS_WINDOWS or OS_MACOSX
@@ -435,7 +447,7 @@ Index: base/logging.cc
  #else
             "%lu",
  #endif
-@@ -217,7 +217,7 @@
+@@ -228,7 +228,7 @@
             ::GetCurrentThreadId()
  #elif defined(OS_MACOSX)
             ::getpid(),
@@ -446,7 +458,7 @@ Index: base/logging.cc
             pthread_self()  // returns unsigned long.
 Index: base/password_manager.cc
 ===================================================================
---- base/password_manager.cc	(revision 30)
+--- base/password_manager.cc	(revision 39)
 +++ base/password_manager.cc	(working copy)
 @@ -273,12 +273,12 @@
  //////////////////////////////////////////////////////////////////
@@ -465,7 +477,7 @@ Index: base/password_manager.cc
    bool FindKeychainItem(string *password, SecKeychainItemRef *item_ref) const {
 Index: base/process.cc
 ===================================================================
---- base/process.cc	(revision 30)
+--- base/process.cc	(revision 39)
 +++ base/process.cc	(working copy)
 @@ -50,6 +50,7 @@
  #include <spawn.h>  // for posix_spawn().
@@ -498,7 +510,7 @@ Index: base/process.cc
        environ);
 Index: client/session.cc
 ===================================================================
---- client/session.cc	(revision 30)
+--- client/session.cc	(revision 39)
 +++ client/session.cc	(working copy)
 @@ -52,7 +52,11 @@
  namespace client {
@@ -514,7 +526,7 @@ Index: client/session.cc
  
 Index: client/server_launcher.cc
 ===================================================================
---- client/server_launcher.cc	(revision 30)
+--- client/server_launcher.cc	(revision 39)
 +++ client/server_launcher.cc	(working copy)
 @@ -57,7 +57,11 @@
  namespace mozc {
@@ -530,9 +542,9 @@ Index: client/server_launcher.cc
  const uint32 kServerWaitTimeout = 20000;  // 20 sec
 Index: build_mozc.py
 ===================================================================
---- build_mozc.py	(revision 30)
+--- build_mozc.py	(revision 39)
 +++ build_mozc.py	(working copy)
-@@ -131,7 +131,7 @@
+@@ -181,7 +181,7 @@
      gyp_file_names.extend(glob.glob('%s/win32/*/*.gyp' % SRC_DIR))
      gyp_file_names.extend(glob.glob('third_party/breakpad/*.gyp'))
      gyp_file_names.append('third_party/mozc/sandbox/sandbox.gyp')
@@ -541,3 +553,145 @@ Index: build_mozc.py
      gyp_file_names.extend(glob.glob('%s/unix/*/*.gyp' % SRC_DIR))
      # Add ibus.gyp if ibus is installed.
      # Ubuntu 8.04 (Hardy) does not contain ibus package.
+Index: data/mac/mozc_tool_info
+===================================================================
+--- data/mac/mozc_tool_info	(revision 0)
++++ data/mac/mozc_tool_info	(revision 0)
+@@ -0,0 +1,38 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++ <key>CFBundleDevelopmentRegion</key>
++ <string>Japanese</string>
++ <key>CFBundleDisplayName</key>
++ <string>MozcTool</string>
++ <key>CFBundleExecutable</key>
++ <string>MozcTool</string>
++ <key>CFBundleIconFile</key>
++ <string>product_icon.icns</string>
++ <key>CFBundleIdentifier</key>
++ <string>org.mozc.inputmethod.Japanese.Tool</string>
++ <key>CFBundleInfoDictionaryVersion</key>
++ <string>6.0</string>
++ <key>CFBundleName</key>
++ <string>MozcTool</string>
++ <key>CFBundlePackageType</key>
++ <string>APPL</string>
++ <key>CFBundleSignature</key>
++ <string>????</string>
++ <key>CFBundleVersion</key>
++ <string>${GOOGLE_VERSIONINFO_LONG}</string>
++ <key>CFBundleShortVersionString</key>
++ <string>${GOOGLE_VERSIONINFO_SHORT}</string>
++ <key>CFBundleGetInfoString</key>
++ <string>${GOOGLE_VERSIONINFO_FINDER}</string>
++ <key>NSHumanReadableCopyright</key>
++ <string>${GOOGLE_VERSIONINFO_ABOUT}</string>
++ <key>CSResourcesFileMapped</key>
++ <true/>
++ <key>NSPrincipalClass</key>
++ <string>NSApplication</string>
++ <key>LSUIElement</key>
++ <string>1</string>
++</dict>
++</plist>
+Index: data/mac/mozc_server_info
+===================================================================
+--- data/mac/mozc_server_info	(revision 0)
++++ data/mac/mozc_server_info	(revision 0)
+@@ -0,0 +1,38 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++ <key>CFBundleDevelopmentRegion</key>
++ <string>Japanese</string>
++ <key>CFBundleDisplayName</key>
++ <string>MozcConverter</string>
++ <key>CFBundleExecutable</key>
++ <string>MozcConverter</string>
++ <key>CFBundleIconFile</key>
++ <string>product_icon.icns</string>
++ <key>CFBundleIdentifier</key>
++ <string>org.mozc.inputmethod.Japanese.Converter</string>
++ <key>CFBundleInfoDictionaryVersion</key>
++ <string>6.0</string>
++ <key>CFBundleName</key>
++ <string>MozcConverter</string>
++ <key>CFBundlePackageType</key>
++ <string>APPL</string>
++ <key>CFBundleSignature</key>
++ <string>????</string>
++ <key>CFBundleVersion</key>
++ <string>${GOOGLE_VERSIONINFO_LONG}</string>
++ <key>CFBundleShortVersionString</key>
++ <string>${GOOGLE_VERSIONINFO_SHORT}</string>
++ <key>CFBundleGetInfoString</key>
++ <string>${GOOGLE_VERSIONINFO_FINDER}</string>
++ <key>NSHumanReadableCopyright</key>
++ <string>${GOOGLE_VERSIONINFO_ABOUT}</string>
++ <key>CSResourcesFileMapped</key>
++ <true/>
++ <key>LSBackgroundOnly</key>
++ <string>1</string>
++ <key>NSPrincipalClass</key>
++ <string>NSApplication</string>
++</dict>
++</plist>
+Index: data/mac/hidden_mozc_tool_info
+===================================================================
+--- data/mac/hidden_mozc_tool_info	(revision 0)
++++ data/mac/hidden_mozc_tool_info	(revision 0)
+@@ -0,0 +1,38 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++ <key>CFBundleDevelopmentRegion</key>
++ <string>Japanese</string>
++ <key>CFBundleDisplayName</key>
++ <string>MozcTool</string>
++ <key>CFBundleExecutable</key>
++ <string>MozcTool</string>
++ <key>CFBundleIconFile</key>
++ <string>product_icon.icns</string>
++ <key>CFBundleIdentifier</key>
++ <string>org.mozc.inputmethod.Japanese.Tool</string>
++ <key>CFBundleInfoDictionaryVersion</key>
++ <string>6.0</string>
++ <key>CFBundleName</key>
++ <string>MozcTool</string>
++ <key>CFBundlePackageType</key>
++ <string>APPL</string>
++ <key>CFBundleSignature</key>
++ <string>????</string>
++ <key>CFBundleVersion</key>
++ <string>${GOOGLE_VERSIONINFO_LONG}</string>
++ <key>CFBundleShortVersionString</key>
++ <string>${GOOGLE_VERSIONINFO_SHORT}</string>
++ <key>CFBundleGetInfoString</key>
++ <string>${GOOGLE_VERSIONINFO_FINDER}</string>
++ <key>NSHumanReadableCopyright</key>
++ <string>${GOOGLE_VERSIONINFO_ABOUT}</string>
++ <key>CSResourcesFileMapped</key>
++ <true/>
++ <key>NSPrincipalClass</key>
++ <string>NSApplication</string>
++ <key>LSUIElement</key>
++ <string>1</string>
++</dict>
++</plist>
+Index: ipc/mach_ipc.cc
+===================================================================
+--- ipc/mach_ipc.cc	(revision 39)
++++ ipc/mach_ipc.cc	(working copy)
+@@ -183,7 +183,7 @@
+ 
+   virtual bool IsServerRunning(const string &name) const {
+     string server_label = MacUtil::GetLabelForSuffix("");
+-    if (name == "session") {
++    if (name == "mozc_session") {
+       server_label += "Converter";
+     } else if (name == "renderer") {
+       server_label += "Renderer";
