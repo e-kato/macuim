@@ -42,7 +42,7 @@
 #include "uim-scm.h"
 #include "uim-scm-abbrev.h"
 #include "uim-util.h"
-#if (UIM_VERSION_MAJOR >= 1 && UIM_VERSION_MINOR >= 6) || (UIM_VERSION_MAJOR >= 2)
+#if UIM_VERSION_REQUIRE(1, 6, 0)
 # include "dynlib.h"
 #else
 # include "plugin.h"
