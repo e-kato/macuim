@@ -218,12 +218,23 @@ HERE
 
 		perl -i -pe 's/MozcTool/ConfigDialog/' \
 			out_mac/Release/ConfigDialog.app/Contents/Info.plist
+		perl -i -pe 's/Japanese.Tool/Japanese.Tool.ConfigDialog/' \
+			out_mac/Release/ConfigDialog.app/Contents/Info.plist
+
 		perl -i -pe 's/MozcTool/AboutDialog/' \
 	       		out_mac/Release/AboutDialog.app/Contents/Info.plist
+		perl -i -pe 's/Japanese.Tool/Japanese.Tool.AboutDialog/' \
+	       		out_mac/Release/AboutDialog.app/Contents/Info.plist
+
 		perl -i -pe 's/MozcTool/ErrorMessageDialog/' \
 	        	out_mac/Release/ErrorMessageDialog.app/Contents/Info.plist
+		perl -i -pe 's/Japanese.Tool/Japanese.Tool.ErrorMessageDialog/' \
+	       		out_mac/Release/ErrorMessageDialog/Contents/Info.plist
+
 		perl -i -pe 's/MozcTool/DictionaryTool/' \
 			out_mac/Release/DictionaryTool.app/Contents/Info.plist
+		perl -i -pe 's/Japanese.Tool/Japanese.Tool.DictionaryTool/' \
+	       		out_mac/Release/DictionaryTool.app/Contents/Info.plist
 	fi
 
 popd
