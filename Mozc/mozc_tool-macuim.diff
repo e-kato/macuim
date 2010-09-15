@@ -31,3 +31,25 @@ Index: gui/tool/mozc_tool_main.cc
  
  // Run* are defiend in each qt module
  int RunAboutDialog(int argc, char *argv[]);
+Index: gui/mac_gui.gypi
+===================================================================
+--- gui/mac_gui.gypi	(revision 39)
++++ gui/mac_gui.gypi	(working copy)
+@@ -46,7 +46,7 @@
+       'postbuild_name': 'create symbolic link to the binary',
+       'action': [
+         '/bin/ln', '-fs',
+-        '/Library/Input Methods/<(branding).app/Contents/Resources/<(branding)Tool.app/Contents/MacOS/<(branding)Tool',
++        '/Library/Mozc/<(branding)Tool.app/Contents/MacOS/<(branding)Tool',
+         '${BUILT_PRODUCTS_DIR}/<(product_name).app/Contents/MacOS/<(product_name)',
+       ],
+     },
+@@ -54,7 +54,7 @@
+       'postbuild_name': 'create symbolic link to frameworks',
+       'action': [
+         '/bin/ln', '-fs',
+-        '/Library/Input Methods/<(branding).app/Contents/Frameworks',
++        '/Library/Mozc/<(branding)Tool.app/Contents/Frameworks',
+         '${BUILT_PRODUCTS_DIR}/<(product_name).app/Contents',
+       ],
+     },

@@ -12,13 +12,14 @@ PATCH0=${top}/mozc-macosx.diff
 PATCH1=${top}/gyp-macosx.diff
 PATCH2=${top}/gyp-macosx-i386.diff
 PATCH3=${top}/gyp-macosx-x86_64.diff
-PATCH4=${top}/product_icon.icns
-
 PATCH6=${top}/mozc_tool-macosx.diff
 PATCH7=${top}/mozc_tool-macuim.diff
 PATCH8=${top}/mozc-linux-protobuf.diff
 PATCH9=${top}/mozc-linux-protobuf220.diff
 PATCH10=${top}/mozc-kill-line.diff
+DATA1=${top}/data/mac/product_icon.icns
+DATA2=${top}/data/mac/ConfigDialog
+DATA3=${top}/data/mac/DictionaryTool
 
 dest="${top}/../Package/dest"
 fwdir="/Library/Frameworks/UIM.framework/Versions/Current"
@@ -81,7 +82,9 @@ pushd mozc/src
 			if [ "${target}" = "MacUIM" ]; then
 				patch -p0 < ${PATCH7}
 			fi
-			cp -f ${PATCH4} data/images/
+			cp -f ${DATA1} data/images/
+			rsync -auv ${DATA2} data/mac/
+			rsync -auv ${DATA3} data/mac/
 		fi
 		if [ ${os} = "Linux" ]; then
 			patch -p0 < ${PATCH8}
@@ -104,6 +107,10 @@ pushd mozc/src
 		rm -f mac/mozc_server_info
 		rm -f mac/shared_subpackage_info
 		rm -f data/images/product_icon.icns
+		rm -f data/mac/hidden_mozc_tool_info
+		rm -f data/mac/mozc_server_info
+		rm -f data/mac/mozc_tool_info
+		rm -rf data/mac/ConfigDialog
 		exit
 	fi
 
@@ -203,6 +210,21 @@ HERE
 				MozcTool.app/Contents/Frameworks/QtGui.framework/Versions/4/QtGui
 		cd -
 	fi
+	if [ ${os} = Darwin -a "${target}" = "MacUIM" ] ; then
+		python build_mozc.py build -c Release gui/gui.gyp:about_dialog_mac
+		python build_mozc.py build -c Release gui/gui.gyp:config_dialog_mac
+		python build_mozc.py build -c Release gui/gui.gyp:dictionary_tool_mac
+		python build_mozc.py build -c Release gui/gui.gyp:error_message_dialog_mac
+
+		perl -i -pe 's/MozcTool/ConfigDialog/' \
+			out_mac/Release/ConfigDialog.app/Contents/Info.plist
+		perl -i -pe 's/MozcTool/AboutDialog/' \
+	       		out_mac/Release/AboutDialog.app/Contents/Info.plist
+		perl -i -pe 's/MozcTool/ErrorMessageDialog/' \
+	        	out_mac/Release/ErrorMessageDialog.app/Contents/Info.plist
+		perl -i -pe 's/MozcTool/DictionaryTool/' \
+			out_mac/Release/DictionaryTool.app/Contents/Info.plist
+	fi
 
 popd
 
@@ -232,4 +254,14 @@ if [ ${os} = Darwin -a "${target}" = "MacUIM" ] ; then
 	# install tool
 	rsync -auv mozc/src/out_mac/Release/MozcTool.app \
 		${dest}/${mozcdir}/
+
+	mkdir -p ${dest}/${mozcdir}/MozcTool.app/Contents/Resources
+	rsync -auv mozc/src/out_mac/Release/ConfigDialog.app \
+	        ${dest}/${mozcdir}/MozcTool.app/Contents/Resources/
+	rsync -auv mozc/src/out_mac/Release/AboutDialog.app \
+	        ${dest}/${mozcdir}/MozcTool.app/Contents/Resources/
+	rsync -auv mozc/src/out_mac/Release/ErrorMessageDialog.app \
+	        ${dest}/${mozcdir}/MozcTool.app/Contents/Resources/
+	rsync -auv mozc/src/out_mac/Release/DictionaryTool.app \
+	        ${dest}/${mozcdir}/MozcTool.app/Contents/Resources/
 fi
