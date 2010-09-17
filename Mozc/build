@@ -83,8 +83,8 @@ pushd mozc/src
 				patch -p0 < ${PATCH7}
 			fi
 			cp -f ${DATA1} data/images/
-			rsync -auv ${DATA2} data/mac/
-			rsync -auv ${DATA3} data/mac/
+			rsync -auv --exclude=.svn ${DATA2} data/mac/
+			rsync -auv --exclude=.svn ${DATA3} data/mac/
 		fi
 		if [ ${os} = "Linux" ]; then
 			patch -p0 < ${PATCH8}
@@ -111,6 +111,7 @@ pushd mozc/src
 		rm -f data/mac/mozc_server_info
 		rm -f data/mac/mozc_tool_info
 		rm -rf data/mac/ConfigDialog
+		rm -rf data/mac/DictionaryTool
 		exit
 	fi
 
