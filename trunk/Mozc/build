@@ -82,7 +82,8 @@ pushd mozc/src
 			if [ "${target}" = "MacUIM" ]; then
 				patch -p0 < ${PATCH7}
 			fi
-			cp -f ${DATA1} data/images/
+			mkdir -p data/images/mac
+			cp -f ${DATA1} data/images/mac/
 			rsync -auv --exclude=.svn ${DATA2} data/mac/
 			rsync -auv --exclude=.svn ${DATA3} data/mac/
 		fi
@@ -106,7 +107,7 @@ pushd mozc/src
 		rm -f mac/org.mozc.inputmethod.Japanaes.Converter.plist
 		rm -f mac/mozc_server_info
 		rm -f mac/shared_subpackage_info
-		rm -f data/images/product_icon.icns
+		rm -f data/images/mac/product_icon.icns
 		rm -f data/mac/hidden_mozc_tool_info
 		rm -f data/mac/mozc_server_info
 		rm -f data/mac/mozc_tool_info
