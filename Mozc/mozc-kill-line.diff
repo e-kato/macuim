@@ -1,15 +1,16 @@
 Index: session/internal/keymap.cc
 ===================================================================
---- session/internal/keymap.cc	(revision 30)
+--- session/internal/keymap.cc	(revision 42)
 +++ session/internal/keymap.cc	(working copy)
-@@ -492,6 +492,7 @@
-       CompositionState::TRANSLATE_HALF_ASCII;
-   command_composition_map_["ToggleAlphanumericMode"] =
-       CompositionState::TOGGLE_ALPHANUMERIC_MODE;
-+  command_composition_map_["KillLine"] = CompositionState::KILL_LINE;
+@@ -574,6 +574,8 @@
+                              CompositionState::TRANSLATE_HALF_ASCII);
+   RegisterCompositionCommand("ToggleAlphanumericMode",
+                              CompositionState::TOGGLE_ALPHANUMERIC_MODE);
++  RegisterCompositionCommand("KillLine",
++                             CompositionState::KILL_LINE);
  #ifdef OS_WINDOWS
-   command_composition_map_["InputModeHiragana"] =
-       CompositionState::INPUT_MODE_HIRAGANA;
+   RegisterCompositionCommand("InputModeHiragana",
+                              CompositionState::INPUT_MODE_HIRAGANA);
 Index: session/internal/keymap_interface.h
 ===================================================================
 --- session/internal/keymap_interface.h	(revision 30)
