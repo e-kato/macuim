@@ -105,7 +105,7 @@ Index: unix/uim/uim-macuim.gyp
 ===================================================================
 --- unix/uim/uim-macuim.gyp	(revision 0)
 +++ unix/uim/uim-macuim.gyp	(revision 0)
-@@ -0,0 +1,93 @@
+@@ -0,0 +1,94 @@
 +#
 +# Copyright (c) 2010 uim Project http://code.google.com/p/uim/
 +#
@@ -194,6 +194,7 @@ Index: unix/uim/uim-macuim.gyp
 +       'GCC_SYMBOLS_PRIVATE_EXTERN': 'NO',
 +       'DYLIB_COMPATIBILITY_VERSION': '',
 +       'DYLIB_CURRENT_VERSION': '',
++       'EXECUTABLE_PREFIX': 'lib',
 +       'EXECUTABLE_EXTENSION': 'so',
 +      }
 +    },
@@ -203,7 +204,7 @@ Index: uim-macfink.gyp
 ===================================================================
 --- unix/uim/uim-macfink.gyp	(revision 0)
 +++ unix/uim/uim-macfink.gyp	(revision 0)
-@@ -0,0 +1,97 @@
+@@ -0,0 +1,98 @@
 +#
 +# Copyright (c) 2010 uim Project http://code.google.com/p/uim/
 +#
@@ -296,6 +297,7 @@ Index: uim-macfink.gyp
 +       'GCC_SYMBOLS_PRIVATE_EXTERN': 'NO',
 +       'DYLIB_COMPATIBILITY_VERSION': '',
 +       'DYLIB_CURRENT_VERSION': '',
++       'EXECUTABLE_PREFIX': 'lib',
 +       'EXECUTABLE_EXTENSION': 'so',
 +      }
 +    },
