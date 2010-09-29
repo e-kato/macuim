@@ -17,9 +17,6 @@ PATCH7=${top}/mozc_tool-macuim.diff
 PATCH8=${top}/mozc-linux-protobuf.diff
 PATCH9=${top}/mozc-linux-protobuf220.diff
 PATCH10=${top}/mozc-kill-line.diff
-DATA1=${top}/data/mac/product_icon.icns
-DATA2=${top}/data/mac/ConfigDialog
-DATA3=${top}/data/mac/DictionaryTool
 
 dest="${top}/../Package/dest"
 fwdir="/Library/Frameworks/UIM.framework/Versions/Current"
@@ -74,7 +71,7 @@ pushd mozc/src
 				(cd third_party/gyp; patch -p0 < ${PATCH1})
 				;;
 			esac
-			rm -f mac/org.mozc.inputmethod.Japanaes.Converter.plist
+			rm -f mac/org.mozc.inputmethod.Japanaes.Converter.MacUIM.plist
 			rm -f mac/mozc_server_info
 			patch -p0 < ${PATCH0}
 			rm -f mac/shared_subpackage_info
@@ -82,10 +79,6 @@ pushd mozc/src
 			if [ "${target}" = "MacUIM" ]; then
 				patch -p0 < ${PATCH7}
 			fi
-			mkdir -p data/images/mac
-			cp -f ${DATA1} data/images/mac/
-			rsync -auv --exclude=.svn ${DATA2} data/mac/
-			rsync -auv --exclude=.svn ${DATA3} data/mac/
 		fi
 		if [ ${os} = "Linux" ]; then
 			patch -p0 < ${PATCH8}
@@ -104,15 +97,9 @@ pushd mozc/src
 		svn status . | grep "^M" | sed -e 's/^M//' | xargs svn revert
 		svn status third_party/gyp | grep "^M" | sed -e 's/^M//' | xargs svn revert
 		rm -rf unix/uim/
-		rm -f mac/org.mozc.inputmethod.Japanaes.Converter.plist
+		rm -f mac/org.mozc.inputmethod.Japanaes.Converter.MacUIM.plist
 		rm -f mac/mozc_server_info
 		rm -f mac/shared_subpackage_info
-		rm -f data/images/mac/product_icon.icns
-		rm -f data/mac/hidden_mozc_tool_info
-		rm -f data/mac/mozc_server_info
-		rm -f data/mac/mozc_tool_info
-		rm -rf data/mac/ConfigDialog
-		rm -rf data/mac/DictionaryTool
 		exit
 	fi
 
@@ -217,26 +204,6 @@ HERE
 		python build_mozc.py build -c Release gui/gui.gyp:config_dialog_mac
 		python build_mozc.py build -c Release gui/gui.gyp:dictionary_tool_mac
 		python build_mozc.py build -c Release gui/gui.gyp:error_message_dialog_mac
-
-		perl -i -pe 's/MozcTool/ConfigDialog/' \
-			out_mac/Release/ConfigDialog.app/Contents/Info.plist
-		perl -i -pe 's/Japanese.Tool/Japanese.Tool.ConfigDialog/' \
-			out_mac/Release/ConfigDialog.app/Contents/Info.plist
-
-		perl -i -pe 's/MozcTool/AboutDialog/' \
-	       		out_mac/Release/AboutDialog.app/Contents/Info.plist
-		perl -i -pe 's/Japanese.Tool/Japanese.Tool.AboutDialog/' \
-	       		out_mac/Release/AboutDialog.app/Contents/Info.plist
-
-		perl -i -pe 's/MozcTool/ErrorMessageDialog/' \
-	        	out_mac/Release/ErrorMessageDialog.app/Contents/Info.plist
-		perl -i -pe 's/Japanese.Tool/Japanese.Tool.ErrorMessageDialog/' \
-	       		out_mac/Release/ErrorMessageDialog/Contents/Info.plist
-
-		perl -i -pe 's/MozcTool/DictionaryTool/' \
-			out_mac/Release/DictionaryTool.app/Contents/Info.plist
-		perl -i -pe 's/Japanese.Tool/Japanese.Tool.DictionaryTool/' \
-	       		out_mac/Release/DictionaryTool.app/Contents/Info.plist
 	fi
 
 popd
@@ -261,7 +228,7 @@ if [ ${os} = Darwin -a "${target}" = "MacUIM" ] ; then
 		${dest}/${mozcdir}/
 
 	mkdir -p ${dest}/${launchagentdir}
-	cp -p mozc/src/mac/org.mozc.inputmethod.Japanaes.Converter.plist \
+	cp -p mozc/src/mac/org.mozc.inputmethod.Japanaes.Converter.MacUIM.plist \
 		${dest}/${launchagentdir}
 
 	# install tool
