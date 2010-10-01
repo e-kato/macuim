@@ -86,7 +86,6 @@ namespace uim {
 static int nr_contexts;
 static struct context_slot_ {
   client::SessionInterface *session;
-  KeyTranslator *keyTranslator;
   commands::Output *output; 
   commands::CompositionMode currentMode;
   bool has_preedit_before;
@@ -97,6 +96,8 @@ static struct context_slot_ {
 #endif
   config::Config::PreeditMethod preedit_method;
 } *context_slot;
+
+static KeyTranslator *keyTranslator;
 
 static int
 unused_context_id(void)
@@ -322,12 +323,12 @@ create_context(uim_lisp mc_)
   int id;
 
   client::SessionInterface *session = new client::Session;
-  KeyTranslator *keyTranslator = new KeyTranslator;
   commands::Output *output = new commands::Output;
+  if (!keyTranslator)
+  	keyTranslator = new KeyTranslator;
 
   id = unused_context_id();
   context_slot[id].session = session;
-  context_slot[id].keyTranslator = keyTranslator;
   context_slot[id].output = output;
   context_slot[id].currentMode = commands::HIRAGANA;
   context_slot[id].has_preedit_before = false;
@@ -354,13 +355,11 @@ release_context(uim_lisp id_)
   if (id < nr_contexts) {
     SyncData(id, true);
     delete context_slot[id].session;
-    delete context_slot[id].keyTranslator;
     delete context_slot[id].output;
 #if USE_CASCADING_CANDIDATES
     delete context_slot[id].unique_candidate_ids;
 #endif
     context_slot[id].session = NULL;
-    context_slot[id].keyTranslator = NULL;
     context_slot[id].output = NULL;
   }
 
@@ -377,7 +376,6 @@ static uim_lisp
 press_key(uim_lisp mc_, uim_lisp id_, uim_lisp key_, uim_lisp state_)
 {
   client::SessionInterface *session;
-  KeyTranslator *keyTranslator;
   commands::KeyEvent key;
   int id;
   int keyval, keycode, modifiers;
@@ -387,7 +385,6 @@ press_key(uim_lisp mc_, uim_lisp id_, uim_lisp key_, uim_lisp state_)
 
   id = C_INT(id_);
   session = context_slot[id].session;
-  keyTranslator = context_slot[id].keyTranslator;
   preedit_method = context_slot[id].preedit_method;
   keyboard = uim_scm_symbol_value_str("mozc-keyboard-type-for-kana-input-method");
   layout_is_jp = keyboard && !strcmp(keyboard, "jp-keyboard") ? true : false;
@@ -986,9 +983,9 @@ uim_plugin_instance_quit(void)
   for (int i = 0; i < mozc::uim::nr_contexts; i++) {
     if (mozc::uim::context_slot[i].session) {
       delete mozc::uim::context_slot[i].session;
-      delete mozc::uim::context_slot[i].keyTranslator;
       delete mozc::uim::context_slot[i].output;
     }
   }
+  delete mozc::uim::keyTranslator;
   free(argv);
 }
