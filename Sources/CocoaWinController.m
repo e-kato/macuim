@@ -357,7 +357,8 @@ static CocoaWinController *sharedController;
 	NSLog(@"CocoaWinController::candClicked() %d, %d", [sender clickedRow], index);
 #endif
 	uim_set_candidate_index([[MacUIMController activeContext] uc], index);
-	[self showAnnotation:indexInPage];
+	if ([panel isVisible])
+		[self showAnnotation:indexInPage];
 }
 
 - (void)replaceWindow:(NSRect)cursorRect
