@@ -1,11 +1,10 @@
 This package contains uim, Anthy, PRIME, SKK dictionaries, m17n-lib, Mozc, QtCore, QtGui, Ispell, sary-ruby, suikyo, Ruby/ProgressBar, MenuCracker, Growl applicatino bridge, and MacUIM.
 
 GNU gettext is static linked with several programs and libraries.
-Sary and GLib is static linked with sary-ruby.
+Sary and GLib are static linked with sary-ruby.
 Glib, ATK, GTK+, Pango, Cairo, libpng, pixman are static linked with
 uim-candwin-gtk.
 Curl and Expat are statically linked with libuim-curl.so and libuim-expat.so respectively.
-Freetype2 is static linked with m17n-lib.
 QtCore and QtGui framework is dynamically linked with MozcTool.app.
 
 Read the each software's license.
@@ -1035,9 +1034,8 @@ SUCH DAMAGE.
 
 Static linked libraries
 ----------------
-GNU gettext is released under GPL.
+GNU gettext-runtime is released under LGPL.
 Sary, GLib, GTK+, Pango, Cairo are released under LGPL.
-Freetype2 is released under GPL.
 
 
 libpng is OSI Certified Open Source Software.
