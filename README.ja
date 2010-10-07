@@ -208,15 +208,6 @@ Package/dest/Library/Frameworks/UIM.frameworkが存在する場合、それも�
 mvの代わりにrmする場合、あらかじめMacUIMでない別の入力プログラム(こと
 えりなど)に変更しておかないと、アプリが異常終了するので注意する。
 
-freetypeを/opt/macuimにインストールしておく。
-
- % cd freetype-2.1.9
- % patch -p1 < ../freetype-2.1.9-mac.patch
- % ../build-freetype
- % sudo make install
-
-これによって、freetypeが/opt/macuimにインストールされる。
-
 ==== ispell
 
 M17NLibディレクトリにispell-x.x.x.tar.gzを展開し、パッチを当てる。
