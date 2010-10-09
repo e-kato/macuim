@@ -160,9 +160,9 @@ Index: composer/internal/composition.h
                                 const string &key,
 Index: composer/composer.h
 ===================================================================
---- composer/composer.h	(revision 30)
+--- composer/composer.h	(revision 48)
 +++ composer/composer.h	(working copy)
-@@ -105,12 +105,14 @@
+@@ -112,6 +112,7 @@
  
    void InsertCharacterAt(size_t pos, const string &input);
    void DeleteAt(size_t pos);
@@ -170,7 +170,8 @@ Index: composer/composer.h
    void BackspaceAt(size_t pos);
    void InsertCharacter(const string &input);
    void InsertCharacterPreedit(const string &input);
-   void InsertCharacterKeyAndPreedit(const string &key, const string &preedit);
+@@ -122,6 +123,7 @@
+                                       const string &preedit);
    bool InsertCharacterKeyEvent(const commands::KeyEvent &key);
    void Delete();
 +  void KillLine();
