@@ -987,5 +987,6 @@ uim_plugin_instance_quit(void)
     }
   }
   delete mozc::uim::keyTranslator;
+  mozc::uim::keyTranslator = NULL;
   free(argv);
 }
