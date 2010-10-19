@@ -79,6 +79,15 @@ prefChanged(CFNotificationCenterRef inCenter, void *inObserver,
   [imScriptArray removeAllObjects];
   [imScriptArray release];
 
+  // clean up notification observer
+  {
+    CFNotificationCenterRef center =
+      CFNotificationCenterGetDistributedCenter();
+
+    CFNotificationCenterRemoveObserver(center, (void *)self,
+                                       CFSTR(kPrefChanged), CFSTR(kAppID));
+  }
+
   [super dealloc];
 }
 
@@ -165,8 +174,8 @@ prefChanged(CFNotificationCenterRef inCenter, void *inObserver,
     CFNotificationCenterRef center =
       CFNotificationCenterGetDistributedCenter();
 
-    CFNotificationCenterAddObserver(center, NULL, prefChanged,
-                                    NULL, CFSTR(kAppID),
+    CFNotificationCenterAddObserver(center, (void *)self, prefChanged,
+                                    CFSTR(kPrefChanged), CFSTR(kAppID),
                                     CFNotificationSuspensionBehaviorCoalesce);
   }
 
@@ -547,7 +556,7 @@ done:
   // post a notification that the preferences have changed
   center = CFNotificationCenterGetDistributedCenter();
   CFNotificationCenterPostNotification(center,
-                                       CFSTR("Preferences Changed"),
+                                       CFSTR(kPrefChanged),
                                        appID, dict, TRUE);
 
   CFRelease(dict);

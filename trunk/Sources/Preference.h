@@ -68,5 +68,7 @@
 // selectable IMs in helper-applet
 #define kPrefHelperIM         "HelperIMSwitch"
 
+// preference changed notification
+#define kPrefChanged         "Preferences Chagned"
 
 #endif // Preference_h

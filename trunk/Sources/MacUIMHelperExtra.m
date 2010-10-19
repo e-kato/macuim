@@ -90,8 +90,8 @@ convertHelperString(char *str);
     CFNotificationCenterRef center =
       CFNotificationCenterGetDistributedCenter();
 
-    CFNotificationCenterAddObserver(center, NULL, prefChanged,
-                                    NULL, CFSTR(kAppID),
+    CFNotificationCenterAddObserver(center, (void *)self, prefChanged,
+                                    CFSTR(kPrefChanged), CFSTR(kAppID),
                                     CFNotificationSuspensionBehaviorCoalesce);
   }
 
@@ -121,6 +121,11 @@ convertHelperString(char *str);
   [imItems release];
 
   [labels release];
+
+  CFNotificationCenterRef center =
+    CFNotificationCenterGetDistributedCenter();
+  CFNotificationCenterRemoveObserver(center, (void *)self,
+                                     CFSTR(kPrefChanged), CFSTR(kAppID));
 
   [super dealloc];
 }
@@ -428,7 +433,7 @@ convertHelperString(char *str);
 
       center = CFNotificationCenterGetDistributedCenter();
       CFNotificationCenterPostNotification(center,
-                                           CFSTR("Preferences Changed"),
+                                           CFSTR(kPrefChanged),
                                            CFSTR(kAppID),
                                            dict, TRUE);
       break;
