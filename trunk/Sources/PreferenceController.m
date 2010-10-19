@@ -31,6 +31,7 @@
 
 */
 
+#import "Debug.h"
 #import "PreferenceController.h"
 #import "CocoaWinController.h"
 #import "MacUIMController.h"
@@ -170,11 +171,15 @@ void NotificationCallback(CFNotificationCenterRef inCenter,
   CFNumberRef fontSize;
   CFNumberRef trans;
   
+  imName[0] = '\0';
   im = CFDictionaryGetValue(inUserInfo, CFSTR(kPrefIM));
 
 #if DEBUG_NOTIFY
   NSLog(@"NotificationCallback() im='%@'", (NSString *)im);
 #endif
+  if (im)
+    CFStringGetCString(im, imName, BUFSIZ, kCFStringEncodingMacRoman);
+    
   
   if ((on = CFDictionaryGetValue(inUserInfo, CFSTR(kPrefCandVertical))))
     gCandVertical = on == kCFBooleanTrue ? true : false;
@@ -201,14 +206,13 @@ void NotificationCallback(CFNotificationCenterRef inCenter,
     gEnableAnnotation = on == kCFBooleanTrue ? true : false;
 
 #if DEBUG_NOTIFY
-  DEBUG_PRINT("NotificationCallback() vertical=%s transparency=%s modetips=%s\n",
+  NSLog(@"NotificationCallback() vertical=%s transparency=%s modetips=%s\n",
               gCandVertical ? "true" : "false",
               gCandTransparency ? "true" : "false",
               gEnableModeTips ? "true" : "false");
 #endif
 
-  if (im) {
-    CFStringGetCString(im, imName, BUFSIZ, kCFStringEncodingMacRoman);
+  if (imName[0] != '\0') {
     [MacUIMController switchIM:imName];
     [[PreferenceController sharedController] setIMName:imName];
   }
