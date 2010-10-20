@@ -79,15 +79,6 @@ prefChanged(CFNotificationCenterRef inCenter, void *inObserver,
   [imScriptArray removeAllObjects];
   [imScriptArray release];
 
-  // clean up notification observer
-  {
-    CFNotificationCenterRef center =
-      CFNotificationCenterGetDistributedCenter();
-
-    CFNotificationCenterRemoveObserver(center, (void *)self,
-                                       CFSTR(kPrefChanged), CFSTR(kAppID));
-  }
-
   [super dealloc];
 }
 
@@ -167,16 +158,6 @@ prefChanged(CFNotificationCenterRef inCenter, void *inObserver,
       }
     }
     uim_release_context(uc);
-  }
-
-  // set notification observer
-  {
-    CFNotificationCenterRef center =
-      CFNotificationCenterGetDistributedCenter();
-
-    CFNotificationCenterAddObserver(center, (void *)self, prefChanged,
-                                    CFSTR(kPrefChanged), CFSTR(kAppID),
-                                    CFNotificationSuspensionBehaviorCoalesce);
   }
 
   return self;
@@ -319,12 +300,25 @@ done:
 
 - (void)willSelect
 {
+  // set notification observer
+  CFNotificationCenterRef center =
+    CFNotificationCenterGetDistributedCenter();
+  CFNotificationCenterAddObserver(center, (void *)self, prefChanged,
+                                  CFSTR(kPrefChanged), CFSTR(kAppID),
+                                  CFNotificationSuspensionBehaviorCoalesce);
+
   [appletButton setState:([self isExtraLoaded:kHelperID] ? NSOnState : NSOffState)];
 }
 
 - (void)didUnselect
 {
   //[self prefSync];
+
+  // clean up notification observer
+  CFNotificationCenterRef center =
+    CFNotificationCenterGetDistributedCenter();
+  CFNotificationCenterRemoveObserver(center, (void *)self,
+                                     CFSTR(kPrefChanged), CFSTR(kAppID));
 }
 
 /**
