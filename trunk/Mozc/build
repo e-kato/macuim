@@ -28,6 +28,8 @@ protobuf_ver=2.2.0
 target="MacUIM"
 #target="Fink i386"
 #target="Fink x86_64"
+branding="Mozc"
+#branding="GoogleJapaneseInput"
 
 if [ ! -d depot_tools ]; then
 	svn co http://src.chromium.org/svn/trunk/tools/depot_tools
@@ -123,7 +125,7 @@ HERE
 
 	# gyp
 	echo "generate rules"
-	PKG_CONFIG_PATH=${QTDIR}/lib/pkgconfig python build_mozc.py gyp
+	PKG_CONFIG_PATH=${QTDIR}/lib/pkgconfig python build_mozc.py gyp --branding=${branding}
 
 	# build build_tools
 	echo "build_tools"
@@ -143,6 +145,9 @@ HERE
 	if [ $? != 0 ]; then
 		echo "failed"
 		exit
+	fi
+	if [ $branding != "Mozc" ]; then
+		exit 0
 	fi
 
 	# build mozc_server
