@@ -402,9 +402,34 @@ Index: server/mozc_server.cc
    if (!mutex.Lock()) {
      LOG(INFO) << "Mozc Server is already running";
      return -1;
+Index: base/base.gyp
+===================================================================
+--- base/base.gyp	(revision 48)
++++ base/base.gyp	(working copy)
+@@ -72,13 +72,13 @@
+             'mac_process.mm',
+             'mac_util.mm',
+           ],
+-          'conditions': [
+-            ['branding=="GoogleJapaneseInput"', {
+-              'sources': [
+-                'crash_report_handler.mm',
+-               ],
+-            }],
+-          ],
++          #'conditions': [
++          #  ['branding=="GoogleJapaneseInput"', {
++          #    'sources': [
++          #      'crash_report_handler.mm',
++          #     ],
++          #  }],
++          #],
+         }],
+         ['OS=="win"', {
+           'sources': [ 'win_util.cc' ],
 Index: base/mac_util.mm
 ===================================================================
---- base/mac_util.mm	(revision 39)
+--- base/mac_util.mm	(revision 48)
 +++ base/mac_util.mm	(working copy)
 @@ -39,12 +39,14 @@
  
@@ -424,9 +449,9 @@ Index: base/mac_util.mm
  #else
 Index: base/util.cc
 ===================================================================
---- base/util.cc	(revision 39)
+--- base/util.cc	(revision 48)
 +++ base/util.cc	(working copy)
-@@ -1424,7 +1424,8 @@
+@@ -1470,7 +1470,8 @@
  
  #elif defined(OS_MACOSX)
    dir = MacUtil::GetApplicationSupportDirectory();
@@ -438,20 +463,24 @@ Index: base/util.cc
    // TODO(komatsu): nice to make a wrapper function.
 Index: base/mac_process.mm
 ===================================================================
---- base/mac_process.mm	(revision 46)
+--- base/mac_process.mm	(revision 48)
 +++ base/mac_process.mm	(working copy)
-@@ -95,7 +95,7 @@
+@@ -95,7 +95,11 @@
    }
  
    if (appName != nil) {
 -    toolAppPath = [[[NSBundle mainBundle] resourcePath]
++#ifdef GOOGLE_JAPANESE_INPUT_BUILD
++    toolAppPath = [@"/Library/Input Methods/GoogleJapaneseInput.app/Contents/Resources"
++#else
 +    toolAppPath = [@"/Library/Mozc/MozcTool.app/Contents/Resources"
++#endif
                      stringByAppendingPathComponent:appName];
    } else {
      // Otherwise, we tries to invoke the application by settings FLAGS_mode.
 Index: base/logging.cc
 ===================================================================
---- base/logging.cc	(revision 39)
+--- base/logging.cc	(revision 48)
 +++ base/logging.cc	(working copy)
 @@ -213,7 +213,7 @@
    snprintf(buf, sizeof(buf),
@@ -473,7 +502,7 @@ Index: base/logging.cc
             pthread_self()  // returns unsigned long.
 Index: base/password_manager.cc
 ===================================================================
---- base/password_manager.cc	(revision 39)
+--- base/password_manager.cc	(revision 48)
 +++ base/password_manager.cc	(working copy)
 @@ -273,12 +273,12 @@
  //////////////////////////////////////////////////////////////////
@@ -492,7 +521,7 @@ Index: base/password_manager.cc
    bool FindKeychainItem(string *password, SecKeychainItemRef *item_ref) const {
 Index: base/process.cc
 ===================================================================
---- base/process.cc	(revision 39)
+--- base/process.cc	(revision 48)
 +++ base/process.cc	(working copy)
 @@ -50,6 +50,7 @@
  #include <spawn.h>  // for posix_spawn().
@@ -570,14 +599,17 @@ Index: build_mozc.py
      # Ubuntu 8.04 (Hardy) does not contain ibus package.
 Index: ipc/mach_ipc.cc
 ===================================================================
---- ipc/mach_ipc.cc	(revision 39)
+--- ipc/mach_ipc.cc	(revision 48)
 +++ ipc/mach_ipc.cc	(working copy)
-@@ -183,7 +183,7 @@
+@@ -183,7 +183,11 @@
  
    virtual bool IsServerRunning(const string &name) const {
      string server_label = MacUtil::GetLabelForSuffix("");
--    if (name == "session") {
++#ifdef GOOGLE_JAPANESE_INPUT_BUILD
+     if (name == "session") {
++#else
 +    if (name == "mozc_session") {
++#endif
        server_label += "Converter";
      } else if (name == "renderer") {
        server_label += "Renderer";
