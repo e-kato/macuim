@@ -1,6 +1,6 @@
 Index: session/internal/keymap.cc
 ===================================================================
---- session/internal/keymap.cc	(revision 42)
+--- session/internal/keymap.cc	(revision 49)
 +++ session/internal/keymap.cc	(working copy)
 @@ -574,6 +574,8 @@
                               CompositionState::TRANSLATE_HALF_ASCII);
@@ -13,7 +13,7 @@ Index: session/internal/keymap.cc
                               CompositionState::INPUT_MODE_HIRAGANA);
 Index: session/internal/keymap_interface.h
 ===================================================================
---- session/internal/keymap_interface.h	(revision 30)
+--- session/internal/keymap_interface.h	(revision 49)
 +++ session/internal/keymap_interface.h	(working copy)
 @@ -128,6 +128,7 @@
    INPUT_MODE_FULL_ALPHANUMERIC,
@@ -25,9 +25,9 @@ Index: session/internal/keymap_interface.h
  
 Index: session/session.cc
 ===================================================================
---- session/session.cc	(revision 30)
+--- session/session.cc	(revision 49)
 +++ session/session.cc	(working copy)
-@@ -557,6 +557,9 @@
+@@ -612,6 +612,9 @@
      case keymap::CompositionState::DEL:
        return Delete(command);
  
@@ -37,7 +37,7 @@ Index: session/session.cc
      case keymap::CompositionState::BACKSPACE:
        return Backspace(command);
  
-@@ -1510,6 +1513,24 @@
+@@ -1585,6 +1588,24 @@
    return true;
  }
  
@@ -64,7 +64,7 @@ Index: session/session.cc
    composer_->Backspace();
 Index: session/session.h
 ===================================================================
---- session/session.h	(revision 30)
+--- session/session.h	(revision 49)
 +++ session/session.h	(working copy)
 @@ -105,6 +105,7 @@
    bool InsertSpaceFullWidth(commands::Command *command);
@@ -76,7 +76,7 @@ Index: session/session.h
  
 Index: gui/config_dialog/keymap_en.ts
 ===================================================================
---- gui/config_dialog/keymap_en.ts	(revision 30)
+--- gui/config_dialog/keymap_en.ts	(revision 49)
 +++ gui/config_dialog/keymap_en.ts	(working copy)
 @@ -104,6 +104,10 @@
          <translation>Delete (erase character after cursor)</translation>
@@ -91,7 +91,7 @@ Index: gui/config_dialog/keymap_en.ts
      </message>
 Index: composer/composition_interface.h
 ===================================================================
---- composer/composition_interface.h	(revision 30)
+--- composer/composition_interface.h	(revision 49)
 +++ composer/composition_interface.h	(working copy)
 @@ -48,6 +48,7 @@
   public:
@@ -103,10 +103,10 @@ Index: composer/composition_interface.h
                                         const string &key,
 Index: composer/composer.cc
 ===================================================================
---- composer/composer.cc	(revision 30)
+--- composer/composer.cc	(revision 49)
 +++ composer/composer.cc	(working copy)
-@@ -416,6 +416,16 @@
-   UpdateInputMode();
+@@ -450,6 +450,16 @@
+     UpdateInputMode();
  }
  
 +void Composer::KillLineAt(size_t pos) {
@@ -124,9 +124,9 @@ Index: composer/composer.cc
    position_ = 0;
 Index: composer/internal/composition.cc
 ===================================================================
---- composer/internal/composition.cc	(revision 30)
+--- composer/internal/composition.cc	(revision 49)
 +++ composer/internal/composition.cc	(working copy)
-@@ -119,6 +119,19 @@
+@@ -123,6 +123,19 @@
    return new_position;
  }
  
@@ -148,7 +148,7 @@ Index: composer/internal/composition.cc
      const TransliteratorInterface *transliterator_from,
 Index: composer/internal/composition.h
 ===================================================================
---- composer/internal/composition.h	(revision 30)
+--- composer/internal/composition.h	(revision 49)
 +++ composer/internal/composition.h	(working copy)
 @@ -51,6 +51,7 @@
    virtual ~Composition();
@@ -160,17 +160,17 @@ Index: composer/internal/composition.h
                                 const string &key,
 Index: composer/composer.h
 ===================================================================
---- composer/composer.h	(revision 48)
+--- composer/composer.h	(revision 49)
 +++ composer/composer.h	(working copy)
-@@ -112,6 +112,7 @@
+@@ -114,6 +114,7 @@
  
    void InsertCharacterAt(size_t pos, const string &input);
    void DeleteAt(size_t pos);
 +  void KillLineAt(size_t pos);
-   void BackspaceAt(size_t pos);
    void InsertCharacter(const string &input);
    void InsertCharacterPreedit(const string &input);
-@@ -122,6 +123,7 @@
+   void InsertCharacterKeyAndPreedit(const string &key, const string &preedit);
+@@ -123,6 +124,7 @@
                                        const string &preedit);
    bool InsertCharacterKeyEvent(const commands::KeyEvent &key);
    void Delete();
