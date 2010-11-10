@@ -1,10 +1,10 @@
 This package contains uim, Anthy, PRIME, SKK dictionaries, m17n-lib, Mozc, QtCore, QtGui, Ispell, sary-ruby, suikyo, Ruby/ProgressBar, MenuCracker, Growl applicatino bridge, and MacUIM.
 
-GNU gettext is static linked with several programs and libraries.
+GNU gettext runtime is statically linked with several programs and libraries.
 Sary and GLib are static linked with sary-ruby.
 Glib, ATK, GTK+, Pango, Cairo, libpng, pixman are static linked with
-uim-candwin-gtk.
-Curl and Expat are statically linked with libuim-curl.so and libuim-expat.so respectively.
+X11 tools for uim.
+Expat is statically linked with libuim-expat.so.
 QtCore and QtGui framework is dynamically linked with MozcTool.app.
 
 Read the each software's license.
@@ -1151,32 +1151,7 @@ May 8, 2008
 --
 
 
-Curl, Expat, and pixman are MIT-style license.
-
-Curl
---
-COPYRIGHT AND PERMISSION NOTICE
-
-Copyright (c) 1996 - 2009, Daniel Stenberg, <daniel@haxx.se>.
-
-All rights reserved.
-
-Permission to use, copy, modify, and distribute this software for any purpose
-with or without fee is hereby granted, provided that the above copyright
-notice and this permission notice appear in all copies.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF THIRD PARTY RIGHTS. IN
-NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
-OR OTHER DEALINGS IN THE SOFTWARE.
-
-Except as contained in this notice, the name of a copyright holder shall not
-be used in advertising or otherwise to promote the sale, use or other dealings
-in this Software without prior written authorization of the copyright holder.
---
+Expat and pixman are MIT-style license.
 
 Expat
 -- 
