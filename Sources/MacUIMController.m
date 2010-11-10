@@ -112,6 +112,8 @@ static NSTimeInterval lastDeactivatedTime;
 	currentClient = sender;
 	activeContext = self;
 
+	[currentClient retain];
+
 	if (candidateIsActive == true)
 		[candWin showWindow:inputRect];
 
@@ -119,7 +121,6 @@ static NSTimeInterval lastDeactivatedTime;
 
 	uim_prop_list_update(uc);
 	uim_focus_in_context(uc);
-	[currentClient retain];
 }
 
 - (void)deactivateServer:(id)sender
