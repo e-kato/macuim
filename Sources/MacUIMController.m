@@ -150,8 +150,7 @@ static NSTimeInterval lastDeactivatedTime;
 			[currentClient
 				insertText:fixedBuffer
 			  		replacementRange:
-						NSMakeRange(NSNotFound,
-							    NSNotFound)];
+						NSMakeRange(NSNotFound, 0)];
 		[fixedBuffer setString:@""];
 		previousIsCommitString = true;
 	}
@@ -233,11 +232,11 @@ static NSTimeInterval lastDeactivatedTime;
 							[preeditBuffer length],
 						    0)
 				replacementRange:
-					NSMakeRange(NSNotFound, NSNotFound)];
+					NSMakeRange(NSNotFound, 0)];
 	NSUInteger len = [preeditBuffer length];
 	if (len == 0 && previousPreeditLen > 0 && !previousIsCommitString) {
 		[currentClient insertText:@""
-			 replacementRange:NSMakeRange(NSNotFound, NSNotFound)];
+			 replacementRange:NSMakeRange(NSNotFound, 0)];
 	}
 	previousPreeditLen = len;
 	previousIsCommitString = false;
@@ -625,7 +624,7 @@ dont_show:
 	if ([fixedBuffer length] > 0) {
 		[sender insertText:fixedBuffer
 		 	 	replacementRange:
-					NSMakeRange(NSNotFound, NSNotFound)];
+					NSMakeRange(NSNotFound, 0)];
 		[fixedBuffer setString:@""];
 	}
 	if (self == activeContext) {
