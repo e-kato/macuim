@@ -215,7 +215,25 @@ Index: scm/tutcode-custom.scm
  
  (define-custom 'tutcode-use-kigou2-mode? #f
    '(tutcode)
-@@ -142,6 +151,11 @@
+@@ -112,15 +121,13 @@
+   (N_ "Enable interactive bushu conversion")
+   (N_ "long description will be here."))
+ 
+-(define-custom 'tutcode-bushu-index2-filename (string-append (sys-datadir)
+-						 "/tc/bushu.index2")
++(define-custom 'tutcode-bushu-index2-filename "/Library/Dictionaries/tc/bushu.index2"
+   '(tutcode tutcode-bushu)
+   '(pathname regular-file)
+   (N_ "bushu.index2 file")
+   (N_ "long description will be here."))
+ 
+-(define-custom 'tutcode-bushu-expand-filename (string-append (sys-datadir)
+-						 "/tc/bushu.expand")
++(define-custom 'tutcode-bushu-expand-filename "/Library/Dictionaries/tc/bushu.expand"
+   '(tutcode tutcode-bushu)
+   '(pathname regular-file)
+   (N_ "bushu.expand file")
+@@ -142,6 +149,11 @@
    (N_ "Use table style candidate window")
    (N_ "long description will be here."))
  
@@ -376,8 +394,8 @@ Index: scm/tutcode.scm
 +;;; tutcode-bushu-start-sequence,
 +;;; tutcode-latin-conv-start-sequence 向けのコード表をセット
 +(define (tutcode-rule-set-custom-sequences! rules)
-+  (set! tutcode-rule-userconfig
-+    (append rules tutcode-rule-userconfig)))
++  (set! tutcode-rule-custom-userconfig
++    (append rules tutcode-rule-custom-userconfig)))
 +
  ;;; コード表の上書き変更/追加のためのtutcode-rule-userconfigを
  ;;; コード表に反映する。
