@@ -1,6 +1,19 @@
+Index: emacs/uim-el-helper-agent.c
+===================================================================
+--- emacs/uim-el-helper-agent.c	(revision 6917)
++++ emacs/uim-el-helper-agent.c	(working copy)
+@@ -217,7 +217,7 @@
+ 	}
+ 	if (len == 0) {
+ 	  debug_printf(DEBUG_NOTE, "unexpected EOF\n");
+-	  return 0;
++	  break;
+ 	}
+ 
+ 	rbuf[len] = '\0';
 Index: fep/Makefile.am
 ===================================================================
---- fep/Makefile.am	(revision 6720)
+--- fep/Makefile.am	(revision 6917)
 +++ fep/Makefile.am	(working copy)
 @@ -9,7 +9,8 @@
  uim_fep_CPPFLAGS = -I$(top_srcdir)
@@ -14,7 +27,7 @@ Index: fep/Makefile.am
  uim_fep_tick_CPPFLAGS= -I$(top_srcdir)
 Index: scm/action.scm
 ===================================================================
---- scm/action.scm	(revision 6720)
+--- scm/action.scm	(revision 6917)
 +++ scm/action.scm	(working copy)
 @@ -232,19 +232,23 @@
  
@@ -52,7 +65,7 @@ Index: scm/action.scm
    (lambda (widget location defect)
 Index: scm/anthy-custom.scm
 ===================================================================
---- scm/anthy-custom.scm	(revision 6720)
+--- scm/anthy-custom.scm	(revision 6917)
 +++ scm/anthy-custom.scm	(working copy)
 @@ -323,7 +323,7 @@
    (N_ "Show selected prediction candidate in preedit area")
@@ -65,7 +78,7 @@ Index: scm/anthy-custom.scm
    (N_ "Character count to start input prediction")
 Index: scm/tutcode-key-custom.scm
 ===================================================================
---- scm/tutcode-key-custom.scm	(revision 6720)
+--- scm/tutcode-key-custom.scm	(revision 6917)
 +++ scm/tutcode-key-custom.scm	(working copy)
 @@ -53,7 +53,7 @@
  	       (N_ "[TUT-Code] off")
@@ -76,11 +89,99 @@ Index: scm/tutcode-key-custom.scm
                 '(tutcode-keys1 mode-transition)
  	       '(key)
  	       (N_ "[TUT-Code] toggle hiragana/katakana mode")
+@@ -107,6 +107,87 @@
+ 	       (N_ "[TUT-Code] display last auto help")
+ 	       (N_ "long description will be here"))
+ 
++;; add hooks for above six key sequences
++(custom-add-hook 'tutcode-mazegaki-start-sequence
++                 'custom-set-hooks
++                 (lambda ()
++                   ;; convert to internal code
++                   (tutcode-ensure-eucjp! tutcode-mazegaki-start-sequence)
++                   (tutcode-rule-update!)))
++
++(custom-add-hook 'tutcode-mazegaki-start-sequence
++                 'custom-get-hooks
++                 (lambda ()
++                   ;; use UTF-8 for uim-pref
++                   (tutcode-ensure-utf8! tutcode-mazegaki-start-sequence)))
++
++(custom-add-hook 'tutcode-bushu-start-sequence
++                 'custom-set-hooks
++                 (lambda ()
++                   ;; convert to internal code
++                   (tutcode-ensure-eucjp! tutcode-bushu-start-sequence)
++                   (tutcode-rule-update!)))
++
++(custom-add-hook 'tutcode-bushu-start-sequence
++                 'custom-get-hooks
++                 (lambda ()
++                   ;; use UTF-8 for uim-pref
++                   (tutcode-ensure-utf8! tutcode-bushu-start-sequence)))
++
++(custom-add-hook 'tutcode-interactive-bushu-start-sequence
++                 'custom-set-hooks
++                 (lambda ()
++                   ;; convert to internal code
++                   (tutcode-ensure-eucjp! tutcode-interactive-bushu-start-sequence)
++                   (tutcode-rule-update!)))
++
++(custom-add-hook 'tutcode-interactive-bushu-start-sequence
++                 'custom-get-hooks
++                 (lambda ()
++                   ;; use UTF-8 for uim-pref
++                   (tutcode-ensure-utf8! tutcode-interactive-bushu-start-sequence)))
++
++(custom-add-hook 'tutcode-postfix-bushu-start-sequence
++                 'custom-set-hooks
++                 (lambda ()
++                   ;; convert to internal code
++                   (tutcode-ensure-eucjp! tutcode-postfix-bushu-start-sequence)
++                   (tutcode-rule-update!)))
++
++(custom-add-hook 'tutcode-postfix-bushu-start-sequence
++                 'custom-get-hooks
++                 (lambda ()
++                   ;; use UTF-8 for uim-pref
++                   (tutcode-ensure-utf8! tutcode-postfix-bushu-start-sequence)))
++
++(custom-add-hook 'tutcode-latin-conv-start-sequence
++                 'custom-set-hooks
++                 (lambda ()
++                   ;; convert to internal code
++                   (tutcode-ensure-eucjp! tutcode-latin-conv-start-sequence)
++                   (tutcode-rule-update!)))
++
++(custom-add-hook 'tutcode-latin-conv-start-sequence
++                 'custom-get-hooks
++                 (lambda ()
++                   ;; use UTF-8 for uim-pref
++                   (tutcode-ensure-utf8! tutcode-latin-conv-start-sequence)))
++
++(custom-add-hook 'tutcode-auto-help-redisplay-sequence
++                 'custom-set-hooks
++                 (lambda ()
++                   ;; convert to internal code
++                   (tutcode-ensure-eucjp!
++                     tutcode-auto-help-redisplay-sequence)
++                   (tutcode-rule-update!)))
++
++(custom-add-hook 'tutcode-auto-help-redisplay-sequence
++                 'custom-get-hooks
++                 (lambda ()
++                   ;; use UTF-8 for uim-pref
++                   (tutcode-ensure-utf8!
++                     tutcode-auto-help-redisplay-sequence)))
++
+ (define-custom 'tutcode-katakana-commit-key '()
+                '(tutcode-keys1)
+ 	       '(key)
 Index: scm/tutcode-custom.scm
 ===================================================================
---- scm/tutcode-custom.scm	(revision 6720)
+--- scm/tutcode-custom.scm	(revision 6917)
 +++ scm/tutcode-custom.scm	(working copy)
-@@ -47,8 +47,7 @@
+@@ -55,8 +55,7 @@
  ;; dictionary
  ;;
  
@@ -90,9 +191,200 @@ Index: scm/tutcode-custom.scm
    '(tutcode tutcode-dict)
    '(pathname regular-file)
    (N_ "Mazegaki dictionary file")
+@@ -75,6 +74,11 @@
+   '(pathname regular-file)
+   (N_ "Code table file")
+   (N_ "Code table name is 'filename-rule' when code table file name is 'filename.scm'."))
++;; set hook
++(custom-add-hook 'tutcode-rule-filename
++                 'custom-set-hooks
++                 (lambda ()
++                   (tutcode-rule-update!)))
+ 
+ (define-custom 'tutcode-enable-mazegaki-learning? #t
+   '(tutcode)
+@@ -99,6 +103,11 @@
+   '(boolean)
+   (N_ "Use Dvorak keyboard")
+   (N_ "long description will be here."))
++;; set hook
++(custom-add-hook 'tutcode-use-dvorak?
++                 'custom-set-hooks
++                 (lambda ()
++                   (tutcode-rule-update!)))
+ 
+ (define-custom 'tutcode-use-kigou2-mode? #f
+   '(tutcode)
+@@ -142,6 +151,11 @@
+   (N_ "Use table style candidate window")
+   (N_ "long description will be here."))
+ 
++(custom-add-hook 'tutcode-use-table-style-candidate-window?
++                 'custom-activity-hooks
++                 (lambda ()
++                   enable-outside-macuim-setting?))
++
+ (define-custom 'tutcode-candidate-window-table-layout 'qwerty-jis
+   '(tutcode candwin)
+   (list 'choice
+Index: scm/tutcode.scm
+===================================================================
+--- scm/tutcode.scm	(revision 6917)
++++ scm/tutcode.scm	(working copy)
+@@ -229,6 +229,12 @@
+ ;;; tutcode-context-new時に反映する。
+ (define tutcode-rule-userconfig ())
+ 
++;;; コード表を上書き変更/追加するためのコード表。
++;;; uim-pref で設定された tutcode-mazegaki-start-sequence,
++;;; tutcode-bushu-start-sequence,
++;;; tutcode-latin-conv-start-sequence を登録し、反映する。
++(define tutcode-rule-custom-userconfig ())
++
+ ;;; 候補ウィンドウのプログラム名。
+ ;;; uim-ximが、UIM_LIBEXECDIR/uim-candwin-progを候補ウィンドウとして使用。
+ ;;; gtk-immodule等が、表形式候補ウィンドウを使用するか判断するため、
+@@ -630,6 +636,27 @@
+        (eq? (rk-context-rule (tutcode-context-rk-context pc))
+             tutcode-kigou-rule)))
+ 
++(define (tutcode-rule-init!)
++  (tutcode-custom-load-rule! tutcode-rule-filename)
++  (if tutcode-use-dvorak?
++    (begin
++      (set! tutcode-rule (tutcode-rule-qwerty-to-dvorak tutcode-rule))
++      (set! tutcode-heading-label-char-list-for-prediction
++        tutcode-heading-label-char-list-for-prediction-dvorak)))
++  ;; tutcode-mazegaki/bushu-start-sequenceは、
++  ;; tutcode-use-dvorak?がオンのときはDvorakのシーケンスとみなして反映。
++  ;; つまり、ruleのqwerty-to-dvorak変換後に反映する。
++  (tutcode-rule-commit-sequences! tutcode-rule-userconfig)
++  (tutcode-custom-set-mazegaki/bushu-start-sequence!)
++  (tutcode-rule-commit-sequences! tutcode-rule-custom-userconfig))
++
++(define (tutcode-rule-update!)
++  ;; reset rule
++  (tutcode-rule-init!)
++  ;; update rk-context of existing contexts
++  (map (lambda (tc)
++         (tutcode-context-set-rk-context! tc (rk-context-new tutcode-rule #t #f))) tutcode-context-list))
++
+ ;;; TUT-Codeのコンテキストを新しく生成する。
+ ;;; @return 生成したコンテキスト
+ (define (tutcode-context-new id im)
+@@ -649,18 +676,7 @@
+   (let ((tc (tutcode-context-new-internal id im)))
+     (tutcode-context-set-widgets! tc tutcode-widgets)
+     (if (null? tutcode-rule)
+-      (begin
+-        (tutcode-custom-load-rule! tutcode-rule-filename)
+-        (if tutcode-use-dvorak?
+-          (begin
+-            (set! tutcode-rule (tutcode-rule-qwerty-to-dvorak tutcode-rule))
+-            (set! tutcode-heading-label-char-list-for-prediction
+-              tutcode-heading-label-char-list-for-prediction-dvorak)))
+-        ;; tutcode-mazegaki/bushu-start-sequenceは、
+-        ;; tutcode-use-dvorak?がオンのときはDvorakのシーケンスとみなして反映。
+-        ;; つまり、ruleのqwerty-to-dvorak変換後に反映する。
+-        (tutcode-custom-set-mazegaki/bushu-start-sequence!)
+-        (tutcode-rule-commit-sequences! tutcode-rule-userconfig)))
++      (tutcode-rule-init!))
+     ;; 表形式候補ウィンドウ用設定
+     (if (null? tutcode-heading-label-char-list)
+       (if tutcode-use-table-style-candidate-window?
+@@ -3623,6 +3639,30 @@
+         (set! tutcode-rule
+           (eval (string->symbol rulename) (interaction-environment)))))))
+ 
++(define (tutcode-eucjp-to-utf8 str)
++  (let* ((cd (iconv-open "UTF-8" "EUC-JP"))
++         (ret (iconv-code-conv cd str)))
++    (iconv-release cd)
++    ret))
++
++(define-macro (tutcode-ensure-utf8! str)
++              `(let ((conv (tutcode-eucjp-to-utf8 ,str)))
++                 (if (not (string=? conv ""))
++                   (set! ,str conv))
++                 ,str))
++
++(define (tutcode-utf8-to-eucjp str)
++  (let* ((cd (iconv-open "EUC-JP" "UTF-8"))
++         (ret (iconv-code-conv cd str)))
++    (iconv-release cd)
++    ret))
++
++(define-macro (tutcode-ensure-eucjp! str)
++              `(let ((conv (tutcode-utf8-to-eucjp ,str)))
++                 (if (not (string=? conv ""))
++                   (set! ,str conv))
++                 ,str))
++
+ ;;; tutcode-key-customで設定された交ぜ書き/部首合成変換開始のキーシーケンスを
+ ;;; コード表に反映する
+ (define (tutcode-custom-set-mazegaki/bushu-start-sequence!)
+@@ -3633,33 +3673,31 @@
+              (> (string-length keyseq) 0))
+           (let ((keys (reverse (string-to-list keyseq))))
+             (list (list keys) cmd)))))
+-    (tutcode-rule-set-sequences!
++    (set! tutcode-rule-custom-userconfig ())
++    (tutcode-rule-set-custom-sequences!
+       (filter
+         pair?
+         (list
+-          (make-subrule tutcode-mazegaki-start-sequence
++          (make-subrule (tutcode-ensure-eucjp! tutcode-mazegaki-start-sequence)
+             '(tutcode-mazegaki-start))
+-          (make-subrule tutcode-latin-conv-start-sequence
++          (make-subrule (tutcode-ensure-eucjp! tutcode-latin-conv-start-sequence)
+             '(tutcode-latin-conv-start))
+-          (make-subrule tutcode-bushu-start-sequence
++          (make-subrule (tutcode-ensure-eucjp! tutcode-bushu-start-sequence)
+             '(tutcode-bushu-start))
+           (and
+             tutcode-use-interactive-bushu-conversion?
+-            (make-subrule tutcode-interactive-bushu-start-sequence
++            (make-subrule (tutcode-ensure-eucjp! tutcode-interactive-bushu-start-sequence)
+               '(tutcode-interactive-bushu-start)))
+-          (make-subrule tutcode-postfix-bushu-start-sequence
++          (make-subrule (tutcode-ensure-eucjp! tutcode-postfix-bushu-start-sequence)
+             '(tutcode-postfix-bushu-start))
+-          (make-subrule tutcode-auto-help-redisplay-sequence
+-            '(tutcode-auto-help-redisplay)))))))
++          (make-subrule (tutcode-ensure-eucjp! tutcode-auto-help-redisplay-sequence)
++            '(tutcode-auto-help-redisplay)))))
++))
+ 
+ ;;; コード表の一部の定義を上書き変更/追加する。~/.uimからの使用を想定。
+ ;;; 呼び出し時にはtutcode-rule-userconfigに登録しておくだけで、
+-;;; 実際にコード表に反映するのは、tutcode-context-new時。
++;;; 実際にコード表に反映するのは、tutcode-context-new時とcustom-reload時。
+ ;;;
+-;;; (tutcode-rule-filenameの設定が、uim-prefと~/.uimのどちらで行われた場合でも
+-;;;  ~/.uimでのコード表の一部変更が同じ記述でできるようにするため。
+-;;;  コード表ロード後のhookを用意した方がいいかも)。
+-;;;
+ ;;; 呼び出し例:
+ ;;;   (tutcode-rule-set-sequences!
+ ;;;     '(((("d" "l" "u")) ("づ" "ヅ"))
+@@ -3669,6 +3707,13 @@
+   (set! tutcode-rule-userconfig
+     (append rules tutcode-rule-userconfig)))
+ 
++;;; tutcode-mazegaki-start-sequence,
++;;; tutcode-bushu-start-sequence,
++;;; tutcode-latin-conv-start-sequence 向けのコード表をセット
++(define (tutcode-rule-set-custom-sequences! rules)
++  (set! tutcode-rule-userconfig
++    (append rules tutcode-rule-userconfig)))
++
+ ;;; コード表の上書き変更/追加のためのtutcode-rule-userconfigを
+ ;;; コード表に反映する。
+ (define (tutcode-rule-commit-sequences! rules)
 Index: scm/prime-custom.scm
 ===================================================================
---- scm/prime-custom.scm	(revision 6720)
+--- scm/prime-custom.scm	(revision 6917)
 +++ scm/prime-custom.scm	(working copy)
 @@ -104,7 +104,7 @@
    (N_ "Prime connection setting")
@@ -131,7 +423,7 @@ Index: scm/prime-custom.scm
    (N_ "Show candidate forms")
 Index: scm/predict-look-skk.scm
 ===================================================================
---- scm/predict-look-skk.scm	(revision 6720)
+--- scm/predict-look-skk.scm	(revision 6917)
 +++ scm/predict-look-skk.scm	(working copy)
 @@ -37,7 +37,7 @@
  
@@ -142,21 +434,9 @@ Index: scm/predict-look-skk.scm
    '(search))
  
  (class-set-method! predict-look-skk search
-Index: scm/Makefile.am
-===================================================================
---- scm/Makefile.am	(revision 6720)
-+++ scm/Makefile.am	(working copy)
-@@ -92,6 +92,7 @@
- if SKK
-   module_names += "skk"
- endif
-+  module_names += "mozc"
- module_names += "tcode" "trycode" "tutcode" "byeoru" "latin" "elatin"
- if M17NLIB
-   module_names += "m17nlib"
 Index: scm/skk-custom.scm
 ===================================================================
---- scm/skk-custom.scm	(revision 6720)
+--- scm/skk-custom.scm	(revision 6917)
 +++ scm/skk-custom.scm	(working copy)
 @@ -399,8 +399,7 @@
  	 (lambda ()
@@ -170,7 +450,7 @@ Index: scm/skk-custom.scm
    (N_ "System dictionary file")
 Index: scm/generic-key-custom.scm
 ===================================================================
---- scm/generic-key-custom.scm	(revision 6720)
+--- scm/generic-key-custom.scm	(revision 6917)
 +++ scm/generic-key-custom.scm	(working copy)
 @@ -41,13 +41,13 @@
  		     (N_ "long description will be here."))
@@ -190,7 +470,7 @@ Index: scm/generic-key-custom.scm
  	       (N_ "[Global] off")
 Index: scm/im-custom.scm
 ===================================================================
---- scm/im-custom.scm	(revision 6720)
+--- scm/im-custom.scm	(revision 6917)
 +++ scm/im-custom.scm	(working copy)
 @@ -399,6 +399,11 @@
  		 (lambda ()
@@ -430,7 +710,7 @@ Index: scm/im-custom.scm
      ,@(uim-notify-get-plugins))
 Index: scm/anthy-utf8-custom.scm
 ===================================================================
---- scm/anthy-utf8-custom.scm	(revision 6720)
+--- scm/anthy-utf8-custom.scm	(revision 6917)
 +++ scm/anthy-utf8-custom.scm	(working copy)
 @@ -330,7 +330,7 @@
    (N_ "Show selected prediction candidate in preedit area")
@@ -443,7 +723,7 @@ Index: scm/anthy-utf8-custom.scm
    (N_ "Character count to start input prediction")
 Index: scm/uim-help.scm
 ===================================================================
---- scm/uim-help.scm	(revision 6720)
+--- scm/uim-help.scm	(revision 6917)
 +++ scm/uim-help.scm	(working copy)
 @@ -64,7 +64,7 @@
  
@@ -456,7 +736,7 @@ Index: scm/uim-help.scm
                     (else
 Index: uim/uim-helper.c
 ===================================================================
---- uim/uim-helper.c	(revision 6720)
+--- uim/uim-helper.c	(revision 6917)
 +++ uim/uim-helper.c	(working copy)
 @@ -49,6 +49,8 @@
  #include <errno.h>
@@ -467,7 +747,7 @@ Index: uim/uim-helper.c
  #include "uim-internal.h"
  #include "uim-helper.h"
  #include "uim-posix.h"
-@@ -227,6 +229,9 @@
+@@ -231,6 +233,9 @@
  #endif
      return -1;
    }
@@ -479,7 +759,7 @@ Index: uim/uim-helper.c
      uim_notify_fatal("uim_helper: uid mismatch");
 Index: uim.pc.in
 ===================================================================
---- uim.pc.in	(revision 6720)
+--- uim.pc.in	(revision 6917)
 +++ uim.pc.in	(working copy)
 @@ -1,6 +1,6 @@
  prefix=@prefix@
