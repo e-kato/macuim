@@ -224,7 +224,15 @@ if [ ${os} = Darwin -a "${target}" = "MacUIM" ] ; then
 	# put into uim build dir too
 	install mozc/src/out_mac/Release/libuim-mozc.so \
 		${uim_build_dir}/uim/
-	install scm/mozc*.scm ${uim_build_dir}/scm/
+	install -m 644 scm/mozc*.scm ${uim_build_dir}/scm/
+
+	# register mozc
+	make -C ${uim_build_dir}/uim uim-module-manager && \
+	LIBUIM_SYSTEM_SCM_FILES=${uim_build_dir}/sigscheme/lib \
+	LIBUIM_SCM_FILES=${uim_build_dir}/scm \
+	LIBUIM_PLUGIN_LIB_DIR=${uim_build_dir}/uim/.libs \
+	UIM_DISABLE_NOTIFY=1 ${uim_build_dir}/uim/uim-module-manager \
+	            --path ${uim_build_dir}/scm --register mozc
 
 	# install server
 	mkdir -p ${dest}/${mozcdir}
