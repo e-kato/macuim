@@ -251,7 +251,9 @@
       (im-commit-raw mc)
       (let ((mid (mozc-context-mc-id mc)))
         (cond
-          ((mozc-off-key? key key-state)
+          ((and
+             (not (mozc-lib-has-preedit? mid))
+             (mozc-off-key? key key-state))
            (mozc-lib-set-input-mode mc mid mozc-type-direct))
           ;; non available modifiers on Mozc
           ((or
