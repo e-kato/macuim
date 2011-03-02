@@ -209,6 +209,7 @@ HERE
 		python build_mozc.py build -c Release gui/gui.gyp:config_dialog_mac
 		python build_mozc.py build -c Release gui/gui.gyp:dictionary_tool_mac
 		python build_mozc.py build -c Release gui/gui.gyp:error_message_dialog_mac
+		python build_mozc.py build -c Release gui/gui.gyp:word_register_dialog_mac
 	fi
 
 popd
@@ -256,5 +257,7 @@ if [ ${os} = Darwin -a "${target}" = "MacUIM" ] ; then
 	rsync -auv mozc/src/out_mac/Release/ErrorMessageDialog.app \
 	        ${dest}/${mozcdir}/MozcTool.app/Contents/Resources/
 	rsync -auv mozc/src/out_mac/Release/DictionaryTool.app \
+	        ${dest}/${mozcdir}/MozcTool.app/Contents/Resources/
+	rsync -auv mozc/src/out_mac/Release/WordRegisterDialog.app \
 	        ${dest}/${mozcdir}/MozcTool.app/Contents/Resources/
 fi
