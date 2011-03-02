@@ -248,6 +248,8 @@ if [ ${os} = Darwin -a "${target}" = "MacUIM" ] ; then
 	# install tool
 	rsync -auv mozc/src/out_mac/Release/MozcTool.app \
 		${dest}/${mozcdir}/
+	rsync -auv mozc/src/out_mac/Release/MozcTool_lib.framework \
+		${dest}/${mozcdir}/MozcTool.app/Contents/Frameworks/
 
 	mkdir -p ${dest}/${mozcdir}/MozcTool.app/Contents/Resources
 	rsync -auv mozc/src/out_mac/Release/ConfigDialog.app \
