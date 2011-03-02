@@ -23,3 +23,22 @@ Index: gyp/common.gypi
        '-Wno-char-subscripts',
        '-Wno-sign-compare',
        '-Wwrite-strings',
+Index: gyp/breakpad_mac.gypi
+===================================================================
+--- gyp/breakpad_mac.gypi	(revision 52)
++++ gyp/breakpad_mac.gypi	(working copy)
+@@ -32,9 +32,9 @@
+     'mac_breakpad_dir': '<(DEPTH)/../mac/Releases/GoogleBreakpad/',
+     'mac_breakpad_framework': '<(mac_breakpad_dir)/GoogleBreakpad.framework',
+   },
+-  'link_settings': {
+-    'libraries': [
+-      '<(mac_breakpad_framework)',
+-    ],
+-  },
++#  'link_settings': {
++#    'libraries': [
++#      '<(mac_breakpad_framework)',
++#    ],
++#  },
+ }

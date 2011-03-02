@@ -18,13 +18,13 @@ Index: gui/qt_libraries.gypi
        },
      }],
      ['OS=="linux"', {
-Index: gui/tool/mozc_tool_main.cc
+Index: gui/tool/mozc_tool_libmain.cc
 ===================================================================
---- gui/tool/mozc_tool_main.cc	(revision 30)
-+++ gui/tool/mozc_tool_main.cc	(working copy)
-@@ -37,7 +37,7 @@
+--- gui/tool/mozc_tool_libmain.cc	(revision 52)
++++ gui/tool/mozc_tool_libmain.cc	(working copy)
+@@ -40,7 +40,7 @@
+ #include "gui/base/debug_util.h"
  #include "base/run_level.h"
- #include "base/winmain.h"
  
 -DEFINE_string(mode, "about_dialog", "mozc_tool mode");
 +DEFINE_string(mode, "config_dialog", "mozc_tool mode");
@@ -33,22 +33,13 @@ Index: gui/tool/mozc_tool_main.cc
  int RunAboutDialog(int argc, char *argv[]);
 Index: gui/mac_gui.gypi
 ===================================================================
---- gui/mac_gui.gypi	(revision 39)
+--- gui/mac_gui.gypi	(revision 52)
 +++ gui/mac_gui.gypi	(working copy)
-@@ -46,7 +46,7 @@
-       'postbuild_name': 'create symbolic link to the binary',
-       'action': [
-         '/bin/ln', '-fs',
--        '/Library/Input Methods/<(branding).app/Contents/Resources/<(branding)Tool.app/Contents/MacOS/<(branding)Tool',
-+        '/Library/Mozc/<(branding)Tool.app/Contents/MacOS/<(branding)Tool',
-         '${BUILT_PRODUCTS_DIR}/<(product_name).app/Contents/MacOS/<(product_name)',
-       ],
-     },
-@@ -54,7 +54,7 @@
+@@ -42,7 +42,7 @@
        'postbuild_name': 'create symbolic link to frameworks',
        'action': [
          '/bin/ln', '-fs',
--        '/Library/Input Methods/<(branding).app/Contents/Frameworks',
+-        '/Library/Input Methods/<(branding).app/Contents/Resources/<(branding)Tool.app/Contents/Frameworks',
 +        '/Library/Mozc/<(branding)Tool.app/Contents/Frameworks',
          '${BUILT_PRODUCTS_DIR}/<(product_name).app/Contents',
        ],
