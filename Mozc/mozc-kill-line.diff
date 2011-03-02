@@ -1,8 +1,8 @@
 Index: session/internal/keymap.cc
 ===================================================================
---- session/internal/keymap.cc	(revision 49)
+--- session/internal/keymap.cc	(revision 52)
 +++ session/internal/keymap.cc	(working copy)
-@@ -574,6 +574,8 @@
+@@ -586,6 +586,8 @@
                               CompositionState::TRANSLATE_HALF_ASCII);
    RegisterCompositionCommand("ToggleAlphanumericMode",
                               CompositionState::TOGGLE_ALPHANUMERIC_MODE);
@@ -13,9 +13,9 @@ Index: session/internal/keymap.cc
                               CompositionState::INPUT_MODE_HIRAGANA);
 Index: session/internal/keymap_interface.h
 ===================================================================
---- session/internal/keymap_interface.h	(revision 49)
+--- session/internal/keymap_interface.h	(revision 52)
 +++ session/internal/keymap_interface.h	(working copy)
-@@ -128,6 +128,7 @@
+@@ -131,6 +131,7 @@
    INPUT_MODE_FULL_ALPHANUMERIC,
    INPUT_MODE_HALF_ALPHANUMERIC,
    ABORT,  // Abort the server.  The process is killed.
@@ -25,9 +25,9 @@ Index: session/internal/keymap_interface.h
  
 Index: session/session.cc
 ===================================================================
---- session/session.cc	(revision 49)
+--- session/session.cc	(revision 52)
 +++ session/session.cc	(working copy)
-@@ -612,6 +612,9 @@
+@@ -652,6 +652,9 @@
      case keymap::CompositionState::DEL:
        return Delete(command);
  
@@ -37,20 +37,21 @@ Index: session/session.cc
      case keymap::CompositionState::BACKSPACE:
        return Backspace(command);
  
-@@ -1585,6 +1588,24 @@
+@@ -1820,6 +1823,25 @@
    return true;
  }
  
 +bool Session::KillLine(commands::Command *command) {
 +  command->mutable_output()->set_consumed(true);
-+  composer_->KillLine();
-+  if (composer_->Empty()) {
-+    // Input/output modes remain.
-+    composer_->EditErase();
-+    state_ = SessionState::PRECOMPOSITION;
++  ClearUndoContext();
++  context_->mutable_composer()->KillLine();
++  if (context_->mutable_composer()->Empty()) {
++    // Input/output modes remain.	  
++    context_->mutable_composer()->EditErase();
++    SetSessionState(ImeContext::PRECOMPOSITION);
 +    OutputMode(command);
-+  } else if (converter_->Suggest(composer_.get())) {
-+    DCHECK(converter_->IsActive());
++  } else if (context_->mutable_converter()->Suggest(&context_->composer())) {
++    DCHECK(context_->converter().IsActive());
 +    Output(command);
 +    return true;
 +  } else {
@@ -61,12 +62,12 @@ Index: session/session.cc
 +
  bool Session::Backspace(commands::Command *command) {
    command->mutable_output()->set_consumed(true);
-   composer_->Backspace();
+   ClearUndoContext();
 Index: session/session.h
 ===================================================================
---- session/session.h	(revision 49)
+--- session/session.h	(revision 52)
 +++ session/session.h	(working copy)
-@@ -105,6 +105,7 @@
+@@ -80,6 +80,7 @@
    bool InsertSpaceFullWidth(commands::Command *command);
    bool InsertCharacter(commands::Command *command);
    bool Delete(commands::Command *command);
@@ -76,7 +77,7 @@ Index: session/session.h
  
 Index: gui/config_dialog/keymap_en.ts
 ===================================================================
---- gui/config_dialog/keymap_en.ts	(revision 49)
+--- gui/config_dialog/keymap_en.ts	(revision 52)
 +++ gui/config_dialog/keymap_en.ts	(working copy)
 @@ -104,6 +104,10 @@
          <translation>Delete (erase character after cursor)</translation>
@@ -91,9 +92,9 @@ Index: gui/config_dialog/keymap_en.ts
      </message>
 Index: composer/composition_interface.h
 ===================================================================
---- composer/composition_interface.h	(revision 49)
+--- composer/composition_interface.h	(revision 52)
 +++ composer/composition_interface.h	(working copy)
-@@ -48,6 +48,7 @@
+@@ -49,6 +49,7 @@
   public:
    virtual ~CompositionInterface() {}
    virtual size_t DeleteAt(size_t position) = 0;
@@ -103,10 +104,10 @@ Index: composer/composition_interface.h
                                         const string &key,
 Index: composer/composer.cc
 ===================================================================
---- composer/composer.cc	(revision 49)
+--- composer/composer.cc	(revision 52)
 +++ composer/composer.cc	(working copy)
-@@ -450,6 +450,16 @@
-     UpdateInputMode();
+@@ -463,6 +463,16 @@
+   UpdateInputMode();
  }
  
 +void Composer::KillLineAt(size_t pos) {
@@ -124,9 +125,9 @@ Index: composer/composer.cc
    position_ = 0;
 Index: composer/internal/composition.cc
 ===================================================================
---- composer/internal/composition.cc	(revision 49)
+--- composer/internal/composition.cc	(revision 52)
 +++ composer/internal/composition.cc	(working copy)
-@@ -123,6 +123,19 @@
+@@ -117,6 +117,19 @@
    return new_position;
  }
  
@@ -148,9 +149,9 @@ Index: composer/internal/composition.cc
      const TransliteratorInterface *transliterator_from,
 Index: composer/internal/composition.h
 ===================================================================
---- composer/internal/composition.h	(revision 49)
+--- composer/internal/composition.h	(revision 52)
 +++ composer/internal/composition.h	(working copy)
-@@ -51,6 +51,7 @@
+@@ -53,6 +53,7 @@
    virtual ~Composition();
  
    size_t DeleteAt(size_t position);
@@ -160,17 +161,17 @@ Index: composer/internal/composition.h
                                 const string &key,
 Index: composer/composer.h
 ===================================================================
---- composer/composer.h	(revision 49)
+--- composer/composer.h	(revision 52)
 +++ composer/composer.h	(working copy)
-@@ -114,6 +114,7 @@
+@@ -113,6 +113,7 @@
+   void EditErase();
  
-   void InsertCharacterAt(size_t pos, const string &input);
    void DeleteAt(size_t pos);
 +  void KillLineAt(size_t pos);
    void InsertCharacter(const string &input);
    void InsertCharacterPreedit(const string &input);
    void InsertCharacterKeyAndPreedit(const string &key, const string &preedit);
-@@ -123,6 +124,7 @@
+@@ -122,6 +123,7 @@
                                        const string &preedit);
    bool InsertCharacterKeyEvent(const commands::KeyEvent &key);
    void Delete();
