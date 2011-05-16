@@ -512,6 +512,28 @@ static CocoaWinController *sharedController;
 		NSRect rect = [panel frame];
 		rect.origin.x += rect.size.width;
 		rect.origin.y -= ([AWin size].height - rect.size.height);
+
+		/* check place */
+		NSArray *screenArray = [NSScreen screens];
+		int nScreen = [screenArray count];
+		int i;
+		NSRect f;
+		BOOL found = NO;
+		for (i = 0; i < nScreen; i++) {
+			f = [[screenArray objectAtIndex:i] frame];
+			if (NSPointInRect(rect.origin, f)) {
+				found = YES;
+				break;
+			}
+		}
+		if (found) {
+			NSPoint point = rect.origin;
+			if (point.x > f.origin.x + f.size.width - [AWin size].width) {
+				point.x = rect.origin.x - rect.size.width - [AWin size].width;
+				rect.origin.x = point.x;
+			}
+		}
+
         	[AWin setAnnotation:annotation];
 		[AWin showWindow:rect];
 		CFRelease((CFStringRef)annotation);
