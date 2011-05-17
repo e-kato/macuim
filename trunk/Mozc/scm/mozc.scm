@@ -48,11 +48,17 @@
 
 (define mozc-prepare-input-mode-activation
   (lambda (mc new-mode)
-    (mozc-lib-set-input-mode mc (mozc-context-mc-id mc) new-mode)))
+    (let ((mid (mozc-context-mc-id mc)))
+      (if mid
+        (mozc-lib-set-input-mode mc mid new-mode)
+        #f))))
 
 (define mozc-prepare-input-rule-activation
   (lambda (mc new-rule)
-    (mozc-lib-set-input-rule mc (mozc-context-mc-id mc) new-rule)))
+    (let ((mid (mozc-context-mc-id mc)))
+      (if mid
+        (mozc-lib-set-input-rule mc mid new-rule)
+        #f))))
 
 (register-action 'action_mozc_hiragana
 		 (lambda (mc) ;; indication handler
@@ -62,6 +68,7 @@
                       "ひらがな入力モード"))
 		 (lambda (mc) ;; activity predicate
                    (and
+                     (mozc-context-mc-id mc)
                      (mozc-context-on mc)
 		     (= (mozc-lib-input-mode (mozc-context-mc-id mc)) mozc-type-hiragana)))
 		 (lambda (mc) ;; action handler
@@ -75,6 +82,7 @@
                       "カタカナ入力モード"))
 		 (lambda (mc)
                    (and
+                     (mozc-context-mc-id mc)
                      (mozc-context-on mc)
 		     (= (mozc-lib-input-mode (mozc-context-mc-id mc)) mozc-type-katakana)))
 		 (lambda (mc)
@@ -88,6 +96,7 @@
                       "半角カタカナ入力モード"))
 		 (lambda (mc)
                    (and
+                     (mozc-context-mc-id mc)
                      (mozc-context-on mc)
 		     (= (mozc-lib-input-mode (mozc-context-mc-id mc)) mozc-type-halfkana)))
 		 (lambda (mc)
@@ -101,6 +110,7 @@
                       "半角英数入力モード"))
 		 (lambda (mc)
                    (and
+                     (mozc-context-mc-id mc)
                      (mozc-context-on mc)
 		     (= (mozc-lib-input-mode (mozc-context-mc-id mc)) mozc-type-halfwidth-alnum)))
 		 (lambda (mc)
@@ -125,6 +135,7 @@
                       "全角英数入力モード"))
 		 (lambda (mc)
                    (and
+                     (mozc-context-mc-id mc)
                      (mozc-context-on mc)
                      (= (mozc-lib-input-mode (mozc-context-mc-id mc)) mozc-type-fullwidth-alnum)))
 		 (lambda (mc)
@@ -139,8 +150,9 @@
                      "ローマ字"
                      "ローマ字入力モード"))
                  (lambda (mc)
-                   (= (mozc-lib-input-rule (mozc-context-mc-id mc))
-                      mozc-input-rule-roma))
+                   (and (mozc-context-mc-id mc)
+                        (= (mozc-lib-input-rule (mozc-context-mc-id mc))
+                           mozc-input-rule-roma)))
                  (lambda (mc)
                    (mozc-prepare-input-rule-activation mc mozc-input-rule-roma)
 ))
@@ -154,8 +166,9 @@
                      "かな"
                      "かな入力モード"))
                  (lambda (mc)
-                   (= (mozc-lib-input-rule (mozc-context-mc-id mc))
-                      mozc-input-rule-kana))
+                   (and (mozc-context-mc-id mc)
+                        (= (mozc-lib-input-rule (mozc-context-mc-id mc))
+                           mozc-input-rule-kana)))
                  (lambda (mc)
                    (mozc-prepare-input-rule-activation mc mozc-input-rule-kana)
                    ))
@@ -186,7 +199,9 @@
 (define mozc-context-new
   (lambda (id im name)
     (let* ((mc (mozc-context-new-internal id im))
-	   (mc-id (mozc-lib-alloc-context mc)))
+	   (mc-id (if (symbol-bound? 'mozc-lib-alloc-context)
+                    (mozc-lib-alloc-context mc)
+                    #f)))
       (mozc-context-set-widgets! mc mozc-widgets)
       (mozc-context-set-mc-id! mc mc-id)
       mc)))
@@ -202,8 +217,9 @@
 (define mozc-proc-direct-state
   (lambda (mc key key-state)
    (if (mozc-on-key? key key-state)
-     (begin
-       (mozc-lib-set-on (mozc-context-mc-id mc))
+     (let ((mid (mozc-context-mc-id mc)))
+       (if mid
+         (mozc-lib-set-on (mozc-context-mc-id mc)))
        (mozc-context-set-on! mc #t))
      (im-commit-raw mc))))
 
@@ -236,14 +252,16 @@
 
 (define mozc-kana-toggle
   (lambda (mc mid)
-    (let ((mode (mozc-lib-input-mode mid)))
-      (cond
-        ((= mode mozc-type-hiragana)
-         (mozc-lib-set-input-mode mc mid mozc-type-katakana))
-        ((= mode mozc-type-katakana)
-         (mozc-lib-set-input-mode mc mid mozc-type-hiragana))
-        (else
-          #f)))))
+    (if mid
+      (let ((mode (mozc-lib-input-mode mid)))
+        (cond
+          ((= mode mozc-type-hiragana)
+           (mozc-lib-set-input-mode mc mid mozc-type-katakana))
+          ((= mode mozc-type-katakana)
+           (mozc-lib-set-input-mode mc mid mozc-type-hiragana))
+          (else
+            #f)))
+      #f)))
 
 (define mozc-proc-input-state
   (lambda (mc key key-state)
@@ -252,6 +270,7 @@
       (let ((mid (mozc-context-mc-id mc)))
         (cond
           ((and
+             mid
              (mozc-off-key? key key-state)
              (not (mozc-lib-has-preedit? mid)))
            (mozc-lib-set-input-mode mc mid mozc-type-direct))
@@ -260,7 +279,8 @@
              (meta-key-mask key-state)
              (super-key-mask key-state)
              (hyper-key-mask key-state))
-           (if (mozc-lib-has-preedit? mid)
+           (if (and mid
+                    (mozc-lib-has-preedit? mid))
              #f ;; ignore
              (im-commit-raw mc))) ;; pass through
           (else
@@ -271,12 +291,14 @@
               (let* ((new (mozc-transpose-keys mid key key-state))
                      (nkey (car new))
                      (nkey-state (cdr new)))
-                (if (mozc-lib-press-key mc mid (if (symbol? nkey)
-                                                 (keysym-to-int nkey) nkey)
-                                        nkey-state)
+                (if (and mid
+                         (mozc-lib-press-key mc mid (if (symbol? nkey)
+                                                      (keysym-to-int nkey) nkey)
+                                             nkey-state))
                   #f ; Key event is consumed
                   (begin
-                    (and mozc-use-with-vi?
+                    (and mid
+                         mozc-use-with-vi?
                          (mozc-vi-escape-key? key key-state)
                          (mozc-lib-set-input-mode mc mid mozc-type-direct))
                     (im-commit-raw mc)))))))))))
@@ -296,7 +318,8 @@
 (define mozc-reset-handler
   (lambda (mc)
     (let ((mid (mozc-context-mc-id mc)))
-      (mozc-lib-reset mid))))
+      (and mid
+           (mozc-lib-reset mid)))))
 
 (define mozc-focus-in-handler
   (lambda (mc)
