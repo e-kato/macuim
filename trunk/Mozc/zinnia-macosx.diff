@@ -1,0 +1,11 @@
+--- zinnia/mmap.h.orig	2011-05-20 21:49:24.000000000 +0900
++++ zinnia/mmap.h	2011-05-20 21:50:37.000000000 +0900
+@@ -10,6 +10,8 @@
+ 
+ #include <errno.h>
+ #include <string>
++#include <sys/fcntl.h>
++#include <sys/stat.h>
+ 
+ #ifdef HAVE_CONFIG_H
+ #include "config.h"
