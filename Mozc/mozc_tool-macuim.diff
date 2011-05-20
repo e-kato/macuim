@@ -18,19 +18,6 @@ Index: gui/qt_libraries.gypi
        },
      }],
      ['OS=="linux"', {
-Index: gui/tool/mozc_tool_libmain.cc
-===================================================================
---- gui/tool/mozc_tool_libmain.cc	(revision 52)
-+++ gui/tool/mozc_tool_libmain.cc	(working copy)
-@@ -40,7 +40,7 @@
- #include "gui/base/debug_util.h"
- #include "base/run_level.h"
- 
--DEFINE_string(mode, "about_dialog", "mozc_tool mode");
-+DEFINE_string(mode, "config_dialog", "mozc_tool mode");
- 
- // Run* are defiend in each qt module
- int RunAboutDialog(int argc, char *argv[]);
 Index: gui/mac_gui.gypi
 ===================================================================
 --- gui/mac_gui.gypi	(revision 52)
@@ -44,3 +31,63 @@ Index: gui/mac_gui.gypi
          '${BUILT_PRODUCTS_DIR}/<(product_name).app/Contents',
        ],
      },
+Index: gui/character_pad/hand_writing_canvas.cc
+===================================================================
+--- gui/character_pad/hand_writing_canvas.cc	(revision 55)
++++ gui/character_pad/hand_writing_canvas.cc	(working copy)
+@@ -51,7 +51,7 @@
+       "/usr/share/tegaki/models/zinnia/handwriting-ja.model";
+   return kModelFile;
+ #else
+-  const char kModelFile[] = "handwriting-ja.model";
++  const char kModelFile[] = "MozcTool.app/Contents/Resources/handwriting-ja.model";
+   return Util::JoinPath(Util::GetServerDirectory(), kModelFile);
+ #endif
+ }
+Index: gui/gui.gyp
+===================================================================
+--- gui/gui.gyp	(revision 55)
++++ gui/gui.gyp	(working copy)
+@@ -1059,6 +1059,20 @@
+             'mac_gui.gypi',
+           ],
+         },
++        {
++          'target_name': 'hand_writing_mac',
++          'type': 'executable',
++          'mac_bundle': 1,
++          'variables': {
++            'product_name': 'HandWritingPad',
++          },
++          'xcode_settings': {
++            'INFOPLIST_FILE': '<(gen_out_dir)/hidden_mozc_tool_info',
++          },
++          'includes': [
++            'mac_gui.gypi',
++          ],
++        },
+       ],
+     }],
+   ],
+Index: gui/tool/mozc_tool_libmain.cc
+===================================================================
+--- gui/tool/mozc_tool_libmain.cc	(revision 55)
++++ gui/tool/mozc_tool_libmain.cc	(working copy)
+@@ -40,7 +40,7 @@
+ #include "gui/base/debug_util.h"
+ #include "base/run_level.h"
+ 
+-DEFINE_string(mode, "about_dialog", "mozc_tool mode");
++DEFINE_string(mode, "config_dialog", "mozc_tool mode");
+ 
+ // Run* are defiend in each qt module
+ int RunAboutDialog(int argc, char *argv[]);
+@@ -106,6 +106,8 @@
+     FLAGS_mode = "error_message_dialog";
+   } else if (binary_name == "WordRegisterDialog") {
+     FLAGS_mode = "word_register_dialog";
++  } else if (binary_name == "HandWritingPad") {
++    FLAGS_mode = "hand_writing";
+   }
+ #endif
+ 
