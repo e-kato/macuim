@@ -1,6 +1,6 @@
 Index: emacs/uim-el-helper-agent.c
 ===================================================================
---- emacs/uim-el-helper-agent.c	(revision 6917)
+--- emacs/uim-el-helper-agent.c	(revision 7101)
 +++ emacs/uim-el-helper-agent.c	(working copy)
 @@ -217,7 +217,7 @@
  	}
@@ -13,7 +13,7 @@ Index: emacs/uim-el-helper-agent.c
  	rbuf[len] = '\0';
 Index: fep/Makefile.am
 ===================================================================
---- fep/Makefile.am	(revision 6917)
+--- fep/Makefile.am	(revision 7101)
 +++ fep/Makefile.am	(working copy)
 @@ -9,7 +9,8 @@
  uim_fep_CPPFLAGS = -I$(top_srcdir)
@@ -27,7 +27,7 @@ Index: fep/Makefile.am
  uim_fep_tick_CPPFLAGS= -I$(top_srcdir)
 Index: scm/action.scm
 ===================================================================
---- scm/action.scm	(revision 6917)
+--- scm/action.scm	(revision 7101)
 +++ scm/action.scm	(working copy)
 @@ -232,19 +232,23 @@
  
@@ -65,7 +65,7 @@ Index: scm/action.scm
    (lambda (widget location defect)
 Index: scm/anthy-custom.scm
 ===================================================================
---- scm/anthy-custom.scm	(revision 6917)
+--- scm/anthy-custom.scm	(revision 7101)
 +++ scm/anthy-custom.scm	(working copy)
 @@ -323,7 +323,7 @@
    (N_ "Show selected prediction candidate in preedit area")
@@ -78,7 +78,7 @@ Index: scm/anthy-custom.scm
    (N_ "Character count to start input prediction")
 Index: scm/tutcode-key-custom.scm
 ===================================================================
---- scm/tutcode-key-custom.scm	(revision 6917)
+--- scm/tutcode-key-custom.scm	(revision 7101)
 +++ scm/tutcode-key-custom.scm	(working copy)
 @@ -53,7 +53,7 @@
  	       (N_ "[TUT-Code] off")
@@ -89,7 +89,7 @@ Index: scm/tutcode-key-custom.scm
                 '(tutcode-keys1 mode-transition)
  	       '(key)
  	       (N_ "[TUT-Code] toggle hiragana/katakana mode")
-@@ -107,6 +107,87 @@
+@@ -239,6 +239,360 @@
  	       (N_ "[TUT-Code] display last auto help")
  	       (N_ "long description will be here"))
  
@@ -174,14 +174,287 @@ Index: scm/tutcode-key-custom.scm
 +                   (tutcode-ensure-utf8!
 +                     tutcode-auto-help-redisplay-sequence)))
 +
++(custom-add-hook 'tutcode-kanji-code-input-start-sequence
++                 'custom-set-hooks
++                 (lambda ()
++                   ;; convert to internal code
++                   (tutcode-ensure-eucjp! tutcode-kanji-code-input-start-sequence)
++                   (tutcode-rule-update!)))
++
++(custom-add-hook 'tutcode-kanji-code-input-start-sequence
++                 'custom-get-hooks
++                 (lambda ()
++                   ;; use UTF-8 for uim-pref
++                   (tutcode-ensure-utf8! tutcode-kanji-code-input-start-sequence)))
++
++(custom-add-hook 'tutcode-history-start-sequence
++                 'custom-set-hooks
++                 (lambda ()
++                   ;; convert to internal code
++                   (tutcode-ensure-eucjp! tutcode-history-start-sequence)
++                   (tutcode-rule-update!)))
++
++(custom-add-hook 'tutcode-history-start-sequence
++                 'custom-get-hooks
++                 (lambda ()
++                   ;; use UTF-8 for uim-pref
++                   (tutcode-ensure-utf8! tutcode-history-start-sequence)))
++
++(custom-add-hook 'tutcode-postfix-mazegaki-start-sequence
++                 'custom-set-hooks
++                 (lambda ()
++                   ;; convert to internal code
++                   (tutcode-ensure-eucjp! tutcode-postfix-mazegaki-start-sequence)
++                   (tutcode-rule-update!)))
++
++(custom-add-hook 'tutcode-postfix-mazegaki-start-sequence
++                 'custom-get-hooks
++                 (lambda ()
++                   ;; use UTF-8 for uim-pref
++                   (tutcode-ensure-utf8! tutcode-postfix-mazegaki-start-sequence)))
++
++(custom-add-hook 'tutcode-postfix-mazegaki-1-start-sequence
++                 'custom-set-hooks
++                 (lambda ()
++                   ;; convert to internal code
++                   (tutcode-ensure-eucjp! tutcode-postfix-mazegaki-1-start-sequence)
++                   (tutcode-rule-update!)))
++
++(custom-add-hook 'tutcode-postfix-mazegaki-1-start-sequence
++                 'custom-get-hooks
++                 (lambda ()
++                   ;; use UTF-8 for uim-pref
++                   (tutcode-ensure-utf8! tutcode-postfix-mazegaki-1-start-sequence)))
++
++(custom-add-hook 'tutcode-postfix-mazegaki-2-start-sequence
++                 'custom-set-hooks
++                 (lambda ()
++                   ;; convert to internal code
++                   (tutcode-ensure-eucjp! tutcode-postfix-mazegaki-2-start-sequence)
++                   (tutcode-rule-update!)))
++
++(custom-add-hook 'tutcode-postfix-mazegaki-2-start-sequence
++                 'custom-get-hooks
++                 (lambda ()
++                   ;; use UTF-8 for uim-pref
++                   (tutcode-ensure-utf8! tutcode-postfix-mazegaki-2-start-sequence)))
++
++(custom-add-hook 'tutcode-postfix-mazegaki-3-start-sequence
++                 'custom-set-hooks
++                 (lambda ()
++                   ;; convert to internal code
++                   (tutcode-ensure-eucjp! tutcode-postfix-mazegaki-3-start-sequence)
++                   (tutcode-rule-update!)))
++
++(custom-add-hook 'tutcode-postfix-mazegaki-3-start-sequence
++                 'custom-get-hooks
++                 (lambda ()
++                   ;; use UTF-8 for uim-pref
++                   (tutcode-ensure-utf8! tutcode-postfix-mazegaki-3-start-sequence)))
++
++(custom-add-hook 'tutcode-postfix-mazegaki-4-start-sequence
++                 'custom-set-hooks
++                 (lambda ()
++                   ;; convert to internal code
++                   (tutcode-ensure-eucjp! tutcode-postfix-mazegaki-4-start-sequence)
++                   (tutcode-rule-update!)))
++
++(custom-add-hook 'tutcode-postfix-mazegaki-4-start-sequence
++                 'custom-get-hooks
++                 (lambda ()
++                   ;; use UTF-8 for uim-pref
++                   (tutcode-ensure-utf8! tutcode-postfix-mazegaki-4-start-sequence)))
++
++(custom-add-hook 'tutcode-postfix-mazegaki-5-start-sequence
++                 'custom-set-hooks
++                 (lambda ()
++                   ;; convert to internal code
++                   (tutcode-ensure-eucjp! tutcode-postfix-mazegaki-5-start-sequence)
++                   (tutcode-rule-update!)))
++
++(custom-add-hook 'tutcode-postfix-mazegaki-5-start-sequence
++                 'custom-get-hooks
++                 (lambda ()
++                   ;; use UTF-8 for uim-pref
++                   (tutcode-ensure-utf8! tutcode-postfix-mazegaki-5-start-sequence)))
++
++(custom-add-hook 'tutcode-postfix-mazegaki-6-start-sequence
++                 'custom-set-hooks
++                 (lambda ()
++                   ;; convert to internal code
++                   (tutcode-ensure-eucjp! tutcode-postfix-mazegaki-6-start-sequence)
++                   (tutcode-rule-update!)))
++
++(custom-add-hook 'tutcode-postfix-mazegaki-6-start-sequence
++                 'custom-get-hooks
++                 (lambda ()
++                   ;; use UTF-8 for uim-pref
++                   (tutcode-ensure-utf8! tutcode-postfix-mazegaki-6-start-sequence)))
++
++(custom-add-hook 'tutcode-postfix-mazegaki-7-start-sequence
++                 'custom-set-hooks
++                 (lambda ()
++                   ;; convert to internal code
++                   (tutcode-ensure-eucjp! tutcode-postfix-mazegaki-7-start-sequence)
++                   (tutcode-rule-update!)))
++
++(custom-add-hook 'tutcode-postfix-mazegaki-7-start-sequence
++                 'custom-get-hooks
++                 (lambda ()
++                   ;; use UTF-8 for uim-pref
++                   (tutcode-ensure-utf8! tutcode-postfix-mazegaki-7-start-sequence)))
++
++(custom-add-hook 'tutcode-postfix-mazegaki-8-start-sequence
++                 'custom-set-hooks
++                 (lambda ()
++                   ;; convert to internal code
++                   (tutcode-ensure-eucjp! tutcode-postfix-mazegaki-8-start-sequence)
++                   (tutcode-rule-update!)))
++
++(custom-add-hook 'tutcode-postfix-mazegaki-8-start-sequence
++                 'custom-get-hooks
++                 (lambda ()
++                   ;; use UTF-8 for uim-pref
++                   (tutcode-ensure-utf8! tutcode-postfix-mazegaki-8-start-sequence)))
++
++(custom-add-hook 'tutcode-postfix-mazegaki-9-start-sequence
++                 'custom-set-hooks
++                 (lambda ()
++                   ;; convert to internal code
++                   (tutcode-ensure-eucjp! tutcode-postfix-mazegaki-9-start-sequence)
++                   (tutcode-rule-update!)))
++
++(custom-add-hook 'tutcode-postfix-mazegaki-9-start-sequence
++                 'custom-get-hooks
++                 (lambda ()
++                   ;; use UTF-8 for uim-pref
++                   (tutcode-ensure-utf8! tutcode-postfix-mazegaki-9-start-sequence)))
++
++(custom-add-hook 'tutcode-postfix-mazegaki-inflection-start-sequence
++                 'custom-set-hooks
++                 (lambda ()
++                   ;; convert to internal code
++                   (tutcode-ensure-eucjp! tutcode-postfix-mazegaki-inflection-start-sequence)
++                   (tutcode-rule-update!)))
++
++(custom-add-hook 'tutcode-postfix-mazegaki-inflection-start-sequence
++                 'custom-get-hooks
++                 (lambda ()
++                   ;; use UTF-8 for uim-pref
++                   (tutcode-ensure-utf8! tutcode-postfix-mazegaki-inflection-start-sequence)))
++
++(custom-add-hook 'tutcode-postfix-mazegaki-inflection-1-start-sequence
++                 'custom-set-hooks
++                 (lambda ()
++                   ;; convert to internal code
++                   (tutcode-ensure-eucjp! tutcode-postfix-mazegaki-inflection-1-start-sequence)
++                   (tutcode-rule-update!)))
++
++(custom-add-hook 'tutcode-postfix-mazegaki-inflection-1-start-sequence
++                 'custom-get-hooks
++                 (lambda ()
++                   ;; use UTF-8 for uim-pref
++                   (tutcode-ensure-utf8! tutcode-postfix-mazegaki-inflection-1-start-sequence)))
++
++(custom-add-hook 'tutcode-postfix-mazegaki-inflection-2-start-sequence
++                 'custom-set-hooks
++                 (lambda ()
++                   ;; convert to internal code
++                   (tutcode-ensure-eucjp! tutcode-postfix-mazegaki-inflection-2-start-sequence)
++                   (tutcode-rule-update!)))
++
++(custom-add-hook 'tutcode-postfix-mazegaki-inflection-2-start-sequence
++                 'custom-get-hooks
++                 (lambda ()
++                   ;; use UTF-8 for uim-pref
++                   (tutcode-ensure-utf8! tutcode-postfix-mazegaki-inflection-2-start-sequence)))
++
++(custom-add-hook 'tutcode-postfix-mazegaki-inflection-3-start-sequence
++                 'custom-set-hooks
++                 (lambda ()
++                   ;; convert to internal code
++                   (tutcode-ensure-eucjp! tutcode-postfix-mazegaki-inflection-3-start-sequence)
++                   (tutcode-rule-update!)))
++
++(custom-add-hook 'tutcode-postfix-mazegaki-inflection-3-start-sequence
++                 'custom-get-hooks
++                 (lambda ()
++                   ;; use UTF-8 for uim-pref
++                   (tutcode-ensure-utf8! tutcode-postfix-mazegaki-inflection-3-start-sequence)))
++
++(custom-add-hook 'tutcode-postfix-mazegaki-inflection-4-start-sequence
++                 'custom-set-hooks
++                 (lambda ()
++                   ;; convert to internal code
++                   (tutcode-ensure-eucjp! tutcode-postfix-mazegaki-inflection-4-start-sequence)
++                   (tutcode-rule-update!)))
++
++(custom-add-hook 'tutcode-postfix-mazegaki-inflection-4-start-sequence
++                 'custom-get-hooks
++                 (lambda ()
++                   ;; use UTF-8 for uim-pref
++                   (tutcode-ensure-utf8! tutcode-postfix-mazegaki-inflection-4-start-sequence)))
++
++(custom-add-hook 'tutcode-postfix-mazegaki-inflection-5-start-sequence
++                 'custom-set-hooks
++                 (lambda ()
++                   ;; convert to internal code
++                   (tutcode-ensure-eucjp! tutcode-postfix-mazegaki-inflection-5-start-sequence)
++                   (tutcode-rule-update!)))
++
++(custom-add-hook 'tutcode-postfix-mazegaki-inflection-5-start-sequence
++                 'custom-get-hooks
++                 (lambda ()
++                   ;; use UTF-8 for uim-pref
++                   (tutcode-ensure-utf8! tutcode-postfix-mazegaki-inflection-5-start-sequence)))
++
++(custom-add-hook 'tutcode-postfix-mazegaki-inflection-7-start-sequence
++                 'custom-set-hooks
++                 (lambda ()
++                   ;; convert to internal code
++                   (tutcode-ensure-eucjp! tutcode-postfix-mazegaki-inflection-7-start-sequence)
++                   (tutcode-rule-update!)))
++
++(custom-add-hook 'tutcode-postfix-mazegaki-inflection-7-start-sequence
++                 'custom-get-hooks
++                 (lambda ()
++                   ;; use UTF-8 for uim-pref
++                   (tutcode-ensure-utf8! tutcode-postfix-mazegaki-inflection-7-start-sequence)))
++
++(custom-add-hook 'tutcode-postfix-mazegaki-inflection-8-start-sequence
++                 'custom-set-hooks
++                 (lambda ()
++                   ;; convert to internal code
++                   (tutcode-ensure-eucjp! tutcode-postfix-mazegaki-inflection-8-start-sequence)
++                   (tutcode-rule-update!)))
++
++(custom-add-hook 'tutcode-postfix-mazegaki-inflection-8-start-sequence
++                 'custom-get-hooks
++                 (lambda ()
++                   ;; use UTF-8 for uim-pref
++                   (tutcode-ensure-utf8! tutcode-postfix-mazegaki-inflection-8-start-sequence)))
++
++(custom-add-hook 'tutcode-postfix-mazegaki-inflection-9-start-sequence
++                 'custom-set-hooks
++                 (lambda ()
++                   ;; convert to internal code
++                   (tutcode-ensure-eucjp! tutcode-postfix-mazegaki-inflection-9-start-sequence)
++                   (tutcode-rule-update!)))
++
++(custom-add-hook 'tutcode-postfix-mazegaki-inflection-9-start-sequence
++                 'custom-get-hooks
++                 (lambda ()
++                   ;; use UTF-8 for uim-pref
++                   (tutcode-ensure-utf8! tutcode-postfix-mazegaki-inflection-9-start-sequence)))
++
  (define-custom 'tutcode-katakana-commit-key '()
                 '(tutcode-keys1)
  	       '(key)
 Index: scm/tutcode-custom.scm
 ===================================================================
---- scm/tutcode-custom.scm	(revision 6917)
+--- scm/tutcode-custom.scm	(revision 7101)
 +++ scm/tutcode-custom.scm	(working copy)
-@@ -55,8 +55,7 @@
+@@ -59,8 +59,7 @@
  ;; dictionary
  ;;
  
@@ -191,7 +464,7 @@ Index: scm/tutcode-custom.scm
    '(tutcode tutcode-dict)
    '(pathname regular-file)
    (N_ "Mazegaki dictionary file")
-@@ -75,6 +74,11 @@
+@@ -79,6 +78,11 @@
    '(pathname regular-file)
    (N_ "Code table file")
    (N_ "Code table name is 'filename-rule' when code table file name is 'filename.scm'."))
@@ -202,8 +475,8 @@ Index: scm/tutcode-custom.scm
 +                   (tutcode-rule-update!)))
  
  (define-custom 'tutcode-enable-mazegaki-learning? #t
-   '(tutcode)
-@@ -99,6 +103,11 @@
+   '(tutcode tutcode-mazegaki)
+@@ -103,6 +107,11 @@
    '(boolean)
    (N_ "Use Dvorak keyboard")
    (N_ "long description will be here."))
@@ -215,7 +488,7 @@ Index: scm/tutcode-custom.scm
  
  (define-custom 'tutcode-use-kigou2-mode? #f
    '(tutcode)
-@@ -112,15 +121,13 @@
+@@ -146,15 +155,13 @@
    (N_ "Enable interactive bushu conversion")
    (N_ "long description will be here."))
  
@@ -233,7 +506,7 @@ Index: scm/tutcode-custom.scm
    '(tutcode tutcode-bushu)
    '(pathname regular-file)
    (N_ "bushu.expand file")
-@@ -142,6 +149,11 @@
+@@ -176,6 +183,11 @@
    (N_ "Use table style candidate window")
    (N_ "long description will be here."))
  
@@ -247,9 +520,9 @@ Index: scm/tutcode-custom.scm
    (list 'choice
 Index: scm/tutcode.scm
 ===================================================================
---- scm/tutcode.scm	(revision 6917)
+--- scm/tutcode.scm	(revision 7101)
 +++ scm/tutcode.scm	(working copy)
-@@ -229,6 +229,12 @@
+@@ -324,6 +324,12 @@
  ;;; tutcode-context-new時に反映する。
  (define tutcode-rule-userconfig ())
  
@@ -262,7 +535,7 @@ Index: scm/tutcode.scm
  ;;; 候補ウィンドウのプログラム名。
  ;;; uim-ximが、UIM_LIBEXECDIR/uim-candwin-progを候補ウィンドウとして使用。
  ;;; gtk-immodule等が、表形式候補ウィンドウを使用するか判断するため、
-@@ -630,6 +636,27 @@
+@@ -753,6 +759,29 @@
         (eq? (rk-context-rule (tutcode-context-rk-context pc))
              tutcode-kigou-rule)))
  
@@ -285,12 +558,14 @@ Index: scm/tutcode.scm
 +  (tutcode-rule-init!)
 +  ;; update rk-context of existing contexts
 +  (map (lambda (tc)
-+         (tutcode-context-set-rk-context! tc (rk-context-new tutcode-rule #t #f))) tutcode-context-list))
++         (tutcode-context-set-rk-context! tc (rk-context-new
++                                               tutcode-rule #t #f)))
++       tutcode-context-list))
 +
  ;;; TUT-Codeのコンテキストを新しく生成する。
  ;;; @return 生成したコンテキスト
  (define (tutcode-context-new id im)
-@@ -649,18 +676,7 @@
+@@ -772,18 +801,7 @@
    (let ((tc (tutcode-context-new-internal id im)))
      (tutcode-context-set-widgets! tc tutcode-widgets)
      (if (null? tutcode-rule)
@@ -310,7 +585,7 @@ Index: scm/tutcode.scm
      ;; 表形式候補ウィンドウ用設定
      (if (null? tutcode-heading-label-char-list)
        (if tutcode-use-table-style-candidate-window?
-@@ -3623,6 +3639,30 @@
+@@ -4591,6 +4609,30 @@
          (set! tutcode-rule
            (eval (string->symbol rulename) (interaction-environment)))))))
  
@@ -341,7 +616,7 @@ Index: scm/tutcode.scm
  ;;; tutcode-key-customで設定された交ぜ書き/部首合成変換開始のキーシーケンスを
  ;;; コード表に反映する
  (define (tutcode-custom-set-mazegaki/bushu-start-sequence!)
-@@ -3633,33 +3673,31 @@
+@@ -4601,77 +4643,74 @@
               (> (string-length keyseq) 0))
            (let ((keys (reverse (string-to-list keyseq))))
              (list (list keys) cmd)))))
@@ -357,6 +632,12 @@ Index: scm/tutcode.scm
 -          (make-subrule tutcode-latin-conv-start-sequence
 +          (make-subrule (tutcode-ensure-eucjp! tutcode-latin-conv-start-sequence)
              '(tutcode-latin-conv-start))
+-          (make-subrule tutcode-kanji-code-input-start-sequence
++          (make-subrule (tutcode-ensure-eucjp! tutcode-kanji-code-input-start-sequence)
+             '(tutcode-kanji-code-input-start))
+-          (make-subrule tutcode-history-start-sequence
++          (make-subrule (tutcode-ensure-eucjp! tutcode-history-start-sequence)
+             '(tutcode-history-start))
 -          (make-subrule tutcode-bushu-start-sequence
 +          (make-subrule (tutcode-ensure-eucjp! tutcode-bushu-start-sequence)
              '(tutcode-bushu-start))
@@ -368,11 +649,69 @@ Index: scm/tutcode.scm
 -          (make-subrule tutcode-postfix-bushu-start-sequence
 +          (make-subrule (tutcode-ensure-eucjp! tutcode-postfix-bushu-start-sequence)
              '(tutcode-postfix-bushu-start))
+-          (make-subrule tutcode-postfix-mazegaki-start-sequence
++          (make-subrule (tutcode-ensure-eucjp! tutcode-postfix-mazegaki-start-sequence)
+             '(tutcode-postfix-mazegaki-start))
+-          (make-subrule tutcode-postfix-mazegaki-1-start-sequence
++          (make-subrule (tutcode-ensure-eucjp! tutcode-postfix-mazegaki-1-start-sequence)
+             '(tutcode-postfix-mazegaki-1-start))
+-          (make-subrule tutcode-postfix-mazegaki-2-start-sequence
++          (make-subrule (tutcode-ensure-eucjp! tutcode-postfix-mazegaki-2-start-sequence)
+             '(tutcode-postfix-mazegaki-2-start))
+-          (make-subrule tutcode-postfix-mazegaki-3-start-sequence
++          (make-subrule (tutcode-ensure-eucjp! tutcode-postfix-mazegaki-3-start-sequence)
+             '(tutcode-postfix-mazegaki-3-start))
+-          (make-subrule tutcode-postfix-mazegaki-4-start-sequence
++          (make-subrule (tutcode-ensure-eucjp! tutcode-postfix-mazegaki-4-start-sequence)
+             '(tutcode-postfix-mazegaki-4-start))
+-          (make-subrule tutcode-postfix-mazegaki-5-start-sequence
++          (make-subrule (tutcode-ensure-eucjp! tutcode-postfix-mazegaki-5-start-sequence)
+             '(tutcode-postfix-mazegaki-5-start))
+-          (make-subrule tutcode-postfix-mazegaki-6-start-sequence
++          (make-subrule (tutcode-ensure-eucjp! tutcode-postfix-mazegaki-6-start-sequence)
+             '(tutcode-postfix-mazegaki-6-start))
+-          (make-subrule tutcode-postfix-mazegaki-7-start-sequence
++          (make-subrule (tutcode-ensure-eucjp! tutcode-postfix-mazegaki-7-start-sequence)
+             '(tutcode-postfix-mazegaki-7-start))
+-          (make-subrule tutcode-postfix-mazegaki-8-start-sequence
++          (make-subrule (tutcode-ensure-eucjp! tutcode-postfix-mazegaki-8-start-sequence)
+             '(tutcode-postfix-mazegaki-8-start))
+-          (make-subrule tutcode-postfix-mazegaki-9-start-sequence
++          (make-subrule (tutcode-ensure-eucjp! tutcode-postfix-mazegaki-9-start-sequence)
+             '(tutcode-postfix-mazegaki-9-start))
+-          (make-subrule tutcode-postfix-mazegaki-inflection-start-sequence
++          (make-subrule (tutcode-ensure-eucjp! tutcode-postfix-mazegaki-inflection-start-sequence)
+             '(tutcode-postfix-mazegaki-inflection-start))
+-          (make-subrule tutcode-postfix-mazegaki-inflection-1-start-sequence
++          (make-subrule (tutcode-ensure-eucjp! tutcode-postfix-mazegaki-inflection-1-start-sequence)
+             '(tutcode-postfix-mazegaki-inflection-1-start))
+-          (make-subrule tutcode-postfix-mazegaki-inflection-2-start-sequence
++          (make-subrule (tutcode-ensure-eucjp! tutcode-postfix-mazegaki-inflection-2-start-sequence)
+             '(tutcode-postfix-mazegaki-inflection-2-start))
+-          (make-subrule tutcode-postfix-mazegaki-inflection-3-start-sequence
++          (make-subrule (tutcode-ensure-eucjp! tutcode-postfix-mazegaki-inflection-3-start-sequence)
+             '(tutcode-postfix-mazegaki-inflection-3-start))
+-          (make-subrule tutcode-postfix-mazegaki-inflection-4-start-sequence
++          (make-subrule (tutcode-ensure-eucjp! tutcode-postfix-mazegaki-inflection-4-start-sequence)
+             '(tutcode-postfix-mazegaki-inflection-4-start))
+-          (make-subrule tutcode-postfix-mazegaki-inflection-5-start-sequence
++          (make-subrule (tutcode-ensure-eucjp! tutcode-postfix-mazegaki-inflection-5-start-sequence)
+             '(tutcode-postfix-mazegaki-inflection-5-start))
+-          (make-subrule tutcode-postfix-mazegaki-inflection-6-start-sequence
++          (make-subrule (tutcode-ensure-eucjp! tutcode-postfix-mazegaki-inflection-6-start-sequence)
+             '(tutcode-postfix-mazegaki-inflection-6-start))
+-          (make-subrule tutcode-postfix-mazegaki-inflection-7-start-sequence
++          (make-subrule (tutcode-ensure-eucjp! tutcode-postfix-mazegaki-inflection-7-start-sequence)
+             '(tutcode-postfix-mazegaki-inflection-7-start))
+-          (make-subrule tutcode-postfix-mazegaki-inflection-8-start-sequence
++          (make-subrule (tutcode-ensure-eucjp! tutcode-postfix-mazegaki-inflection-8-start-sequence)
+             '(tutcode-postfix-mazegaki-inflection-8-start))
+-          (make-subrule tutcode-postfix-mazegaki-inflection-9-start-sequence
++          (make-subrule (tutcode-ensure-eucjp! tutcode-postfix-mazegaki-inflection-9-start-sequence)
+             '(tutcode-postfix-mazegaki-inflection-9-start))
 -          (make-subrule tutcode-auto-help-redisplay-sequence
--            '(tutcode-auto-help-redisplay)))))))
 +          (make-subrule (tutcode-ensure-eucjp! tutcode-auto-help-redisplay-sequence)
-+            '(tutcode-auto-help-redisplay)))))
-+))
+             '(tutcode-auto-help-redisplay)))))))
  
  ;;; コード表の一部の定義を上書き変更/追加する。~/.uimからの使用を想定。
  ;;; 呼び出し時にはtutcode-rule-userconfigに登録しておくだけで、
@@ -386,13 +725,13 @@ Index: scm/tutcode.scm
  ;;; 呼び出し例:
  ;;;   (tutcode-rule-set-sequences!
  ;;;     '(((("d" "l" "u")) ("づ" "ヅ"))
-@@ -3669,6 +3707,13 @@
+@@ -4681,6 +4720,13 @@
    (set! tutcode-rule-userconfig
      (append rules tutcode-rule-userconfig)))
  
 +;;; tutcode-mazegaki-start-sequence,
 +;;; tutcode-bushu-start-sequence,
-+;;; tutcode-latin-conv-start-sequence 向けのコード表をセット
++;;; tutcode-latin-conv-start-sequence 等向けのコード表をセット
 +(define (tutcode-rule-set-custom-sequences! rules)
 +  (set! tutcode-rule-custom-userconfig
 +    (append rules tutcode-rule-custom-userconfig)))
@@ -402,7 +741,7 @@ Index: scm/tutcode.scm
  (define (tutcode-rule-commit-sequences! rules)
 Index: scm/prime-custom.scm
 ===================================================================
---- scm/prime-custom.scm	(revision 6917)
+--- scm/prime-custom.scm	(revision 7101)
 +++ scm/prime-custom.scm	(working copy)
 @@ -104,7 +104,7 @@
    (N_ "Prime connection setting")
@@ -441,7 +780,7 @@ Index: scm/prime-custom.scm
    (N_ "Show candidate forms")
 Index: scm/predict-look-skk.scm
 ===================================================================
---- scm/predict-look-skk.scm	(revision 6917)
+--- scm/predict-look-skk.scm	(revision 7101)
 +++ scm/predict-look-skk.scm	(working copy)
 @@ -37,7 +37,7 @@
  
@@ -454,7 +793,7 @@ Index: scm/predict-look-skk.scm
  (class-set-method! predict-look-skk search
 Index: scm/skk-custom.scm
 ===================================================================
---- scm/skk-custom.scm	(revision 6917)
+--- scm/skk-custom.scm	(revision 7101)
 +++ scm/skk-custom.scm	(working copy)
 @@ -399,8 +399,7 @@
  	 (lambda ()
@@ -468,7 +807,7 @@ Index: scm/skk-custom.scm
    (N_ "System dictionary file")
 Index: scm/generic-key-custom.scm
 ===================================================================
---- scm/generic-key-custom.scm	(revision 6917)
+--- scm/generic-key-custom.scm	(revision 7101)
 +++ scm/generic-key-custom.scm	(working copy)
 @@ -41,13 +41,13 @@
  		     (N_ "long description will be here."))
@@ -488,7 +827,7 @@ Index: scm/generic-key-custom.scm
  	       (N_ "[Global] off")
 Index: scm/im-custom.scm
 ===================================================================
---- scm/im-custom.scm	(revision 6917)
+--- scm/im-custom.scm	(revision 7101)
 +++ scm/im-custom.scm	(working copy)
 @@ -399,6 +399,11 @@
  		 (lambda ()
@@ -698,7 +1037,7 @@ Index: scm/im-custom.scm
           eb-enable-for-annotation?
           (eq? annotation-agent 'eb))))
  
-@@ -794,6 +867,11 @@
+@@ -801,6 +874,11 @@
    (N_ "Use anti-aliased fonts for Over-the-Spot/Root-Window preedit")
    (N_ "long description will be here."))
  
@@ -710,7 +1049,7 @@ Index: scm/im-custom.scm
  (define-custom 'uim-xim-xft-font-name "Sans"
    '(xim xim-preedit)
    '(string ".*")
-@@ -803,12 +881,13 @@
+@@ -810,12 +888,13 @@
  (custom-add-hook 'uim-xim-xft-font-name
  		 'custom-activity-hooks
  		 (lambda ()
@@ -728,7 +1067,7 @@ Index: scm/im-custom.scm
      ,@(uim-notify-get-plugins))
 Index: scm/anthy-utf8-custom.scm
 ===================================================================
---- scm/anthy-utf8-custom.scm	(revision 6917)
+--- scm/anthy-utf8-custom.scm	(revision 7101)
 +++ scm/anthy-utf8-custom.scm	(working copy)
 @@ -330,7 +330,7 @@
    (N_ "Show selected prediction candidate in preedit area")
@@ -741,7 +1080,7 @@ Index: scm/anthy-utf8-custom.scm
    (N_ "Character count to start input prediction")
 Index: scm/uim-help.scm
 ===================================================================
---- scm/uim-help.scm	(revision 6917)
+--- scm/uim-help.scm	(revision 7101)
 +++ scm/uim-help.scm	(working copy)
 @@ -64,7 +64,7 @@
  
@@ -754,7 +1093,7 @@ Index: scm/uim-help.scm
                     (else
 Index: uim/uim-helper.c
 ===================================================================
---- uim/uim-helper.c	(revision 6917)
+--- uim/uim-helper.c	(revision 7101)
 +++ uim/uim-helper.c	(working copy)
 @@ -49,6 +49,8 @@
  #include <errno.h>
@@ -777,7 +1116,7 @@ Index: uim/uim-helper.c
      uim_notify_fatal("uim_helper: uid mismatch");
 Index: uim.pc.in
 ===================================================================
---- uim.pc.in	(revision 6917)
+--- uim.pc.in	(revision 7101)
 +++ uim.pc.in	(working copy)
 @@ -1,6 +1,6 @@
  prefix=@prefix@
