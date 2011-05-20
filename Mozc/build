@@ -17,6 +17,7 @@ PATCH7=${top}/mozc_tool-macuim.diff
 PATCH8=${top}/mozc-linux-protobuf.diff
 PATCH9=${top}/mozc-linux-protobuf220.diff
 PATCH10=${top}/mozc-kill-line.diff
+PATCH11=${top}/zinnia-macosx.diff
 
 dest="${top}/../Package/dest"
 fwdir="/Library/Frameworks/UIM.framework/Versions/Current"
@@ -46,6 +47,17 @@ if [ ! -d mozc ]; then
 		gclient sync
 	cd -
 fi
+
+# check out zinnia
+if [ "${target}" = "MacUIM" ]; then
+	if [ ! -d zinnia ]; then
+		svn co http://zinnia.svn.sourceforge.net/svnroot/zinnia/zinnia
+		patch -p0 ${PATCH11}
+	fi
+	mkdir -p mozc/src/third_party/zinnia/
+	ln -sf zinnia mozc/src/third_party/v0_04
+fi
+
 
 pushd mozc/src
 	if [ "${os}" = "Linux" ]; then
@@ -263,7 +275,7 @@ if [ ${os} = Darwin -a "${target}" = "MacUIM" ] ; then
 	        ${dest}/${mozcdir}/MozcTool.app/Contents/Resources/
 	rsync -auv mozc/src/out_mac/Release/WordRegisterDialog.app \
 	        ${dest}/${mozcdir}/MozcTool.app/Contents/Resources/
-	rsync -auv mozc/src/out_mac/Release/HandWritingPad.app \
+	rsync -auv mozc/src/out_mac/Release/HandWriting.app \
 	        ${dest}/${mozcdir}/MozcTool.app/Contents/Resources/
 
 	# install handwriting-ja.model
