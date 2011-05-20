@@ -53,7 +53,7 @@ Index: gui/character_pad/hand_writing_canvas.cc
    // Windows implementation regardless which data file is actually
    // used.  See also gui.gyp:hand_writing_mac.
 -  const char kModelFile[] = "handwriting-light-ja.model";
-+  const char kModelFile[] = "MozcTool.app/Contents/Resources/handwriting-ja.model";
++  const char kModelFile[] = "handwriting-ja.model";
    return Util::JoinPath(MacUtil::GetResourcesDirectory(), kModelFile);
  #elif defined(USE_LIBZINNIA)
    // On Linux, use the model for tegaki-zinnia.
