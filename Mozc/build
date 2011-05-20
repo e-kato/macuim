@@ -48,16 +48,6 @@ if [ ! -d mozc ]; then
 	cd -
 fi
 
-# check out zinnia
-if [ "${target}" = "MacUIM" ]; then
-	if [ ! -d zinnia ]; then
-		svn co http://zinnia.svn.sourceforge.net/svnroot/zinnia/zinnia
-		patch -p0 ${PATCH11}
-	fi
-	mkdir -p mozc/src/third_party/zinnia/
-	ln -sf zinnia mozc/src/third_party/v0_04
-fi
-
 
 pushd mozc/src
 	if [ "${os}" = "Linux" ]; then
@@ -83,6 +73,7 @@ pushd mozc/src
 				;;
 			"MacUIM")
 				(cd third_party/gyp; patch -p0 < ${PATCH1})
+				(cd third_party/zinnia/v0_04; patch -p0 < ${PATCH11})
 				;;
 			esac
 			rm -f mac/org.mozc.inputmethod.Japanaes.Converter.MacUIM.plist
@@ -110,6 +101,7 @@ pushd mozc/src
 		echo "cleanup patches"
 		svn status . | grep "^M" | sed -e 's/^M//' | xargs svn revert
 		svn status third_party/gyp | grep "^M" | sed -e 's/^M//' | xargs svn revert
+		svn status third_party/zinnia/v0_04 | grep "^M" | sed -e 's/^M//' | xargs svn revert
 		rm -rf unix/uim/
 		rm -f mac/org.mozc.inputmethod.Japanaes.Converter.MacUIM.plist
 		rm -f mac/mozc_server_info
