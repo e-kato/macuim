@@ -210,6 +210,7 @@ HERE
 		python build_mozc.py build -c Release gui/gui.gyp:dictionary_tool_mac
 		python build_mozc.py build -c Release gui/gui.gyp:error_message_dialog_mac
 		python build_mozc.py build -c Release gui/gui.gyp:word_register_dialog_mac
+		python build_mozc.py build -c Release gui/gui.gyp:hand_writing_mac
 	fi
 
 popd
@@ -262,4 +263,15 @@ if [ ${os} = Darwin -a "${target}" = "MacUIM" ] ; then
 	        ${dest}/${mozcdir}/MozcTool.app/Contents/Resources/
 	rsync -auv mozc/src/out_mac/Release/WordRegisterDialog.app \
 	        ${dest}/${mozcdir}/MozcTool.app/Contents/Resources/
+	rsync -auv mozc/src/out_mac/Release/HandWritingPad.app \
+	        ${dest}/${mozcdir}/MozcTool.app/Contents/Resources/
+
+	# install handwriting-ja.model
+	if [ ! -d tegaki-zinnia-japanese-0.3 ]; then
+		curl -O http://www.tegaki.org/releases/0.3/models/tegaki-zinnia-japanese-0.3.zip
+		unzip tegaki-zinnia-japanese-0.3.zip
+	fi
+	if [ ! -f ${dest}/${mozcdir}/MozcTool.app/Contents/Resources/handwriting-ja.model ]; then
+		cp -vp tegaki-zinnia-japanese-0.3/handwriting-ja.model ${dest}/${mozcdir}/MozcTool.app/Contents/Resources/
+	fi
 fi

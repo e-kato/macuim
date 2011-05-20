@@ -10,19 +10,6 @@ Index: gui/base/locale_util.cc
  #include <QtGui/QtGui>
  #include <map>
  #include <string>
-Index: gyp/common.gypi
-===================================================================
---- gyp/common.gypi	(revision 30)
-+++ gyp/common.gypi	(working copy)
-@@ -50,7 +50,7 @@
-     # warning_cflags_cflags will be shared with Mac and Linux.
-     'warning_cflags': [
-       '-Wall',
--      '-Werror',
-+      #'-Werror',
-       '-Wno-char-subscripts',
-       '-Wno-sign-compare',
-       '-Wwrite-strings',
 Index: gyp/breakpad_mac.gypi
 ===================================================================
 --- gyp/breakpad_mac.gypi	(revision 52)
@@ -42,3 +29,41 @@ Index: gyp/breakpad_mac.gypi
 +#    ],
 +#  },
  }
+Index: gui/zinnia.gyp
+===================================================================
+--- gui/zinnia.gyp	(revision 55)
++++ gui/zinnia.gyp	(working copy)
+@@ -61,7 +61,10 @@
+         }],
+         ['OS=="mac"', {
+           'sources': ['<@(zinnia_sources)'],
+-          'defines': ['HAVE_CONFIG_H'],
++          'defines': [
++             'VERSION="0.06"',
++             'PACKAGE="zinnia"',
++	  ],
+         }],
+         ['OS=="win"', {
+           'sources': ['<@(zinnia_sources)'],
+Index: gyp/common.gypi
+===================================================================
+--- gyp/common.gypi	(revision 55)
++++ gyp/common.gypi	(working copy)
+@@ -50,7 +50,7 @@
+     # warning_cflags_cflags will be shared with Mac and Linux.
+     'warning_cflags': [
+       '-Wall',
+-      '-Werror',
++      #'-Werror',
+       '-Wno-char-subscripts',
+       '-Wno-sign-compare',
+       '-Wno-deprecated-declarations',
+@@ -111,7 +111,7 @@
+ 
+     # use_libzinnia represents if zinnia library is used or not.
+     # This option is only for Linux.
+-    'use_libzinnia%': 1,
++    'use_libzinnia%': 0,
+ 
+     # a flag whether the current build is dev-channel or not.
+     'channel_dev%': '0',
