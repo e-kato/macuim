@@ -73,9 +73,9 @@ pushd mozc/src
 				;;
 			"MacUIM")
 				(cd third_party/gyp; patch -p0 < ${PATCH1})
-				(cd third_party/zinnia/v0_04; patch -p1 < ${PATCH11})
 				;;
 			esac
+			(cd third_party/zinnia/v0_04; patch -p1 < ${PATCH11})
 			rm -f mac/org.mozc.inputmethod.Japanaes.Converter.MacUIM.plist
 			rm -f mac/mozc_server_info
 			patch -p0 < ${PATCH0}
