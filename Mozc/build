@@ -277,5 +277,6 @@ if [ ${os} = Darwin -a "${target}" = "MacUIM" ] ; then
 	fi
 	if [ ! -f ${dest}/${mozcdir}/MozcTool.app/Contents/Resources/handwriting-ja.model ]; then
 		cp -vp tegaki-zinnia-japanese-0.3/handwriting-ja.model ${dest}/${mozcdir}/MozcTool.app/Contents/Resources/
+		ln -sf ${mozcdir}/MozcTool.app/Contents/Resources/handwriting-ja.model ${dest}/${mozcdir}/MozcTool.app/Contents/Resources/HandWriting.app/Contents/Resources/
 	fi
 fi
