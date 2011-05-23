@@ -32,17 +32,18 @@ perl -pi -e 's|^\s+po pixmaps examples||' Makefile.in
 
 LDFLAGS="-L/opt/macuim/lib -L/Library/M17NLib/lib -L/Library/Anthy/lib -L/usr/X11R6/lib -arch i386 -arch ppc -arch x86_64 -liconv -framework CoreFoundation" \
 CPPFLAGS="-I/opt/macuim/include -I/Library/M17NLib/include -I/Library/Anthy/include" \
-CFLAGS="-I/opt/macuim/include -I/Library/M17NLib/include -I/Library/Anthy/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch i386 -arch ppc -arch x86_64 -mmacosx-version-min=10.4" \
-CXXFLAGS="-I/opt/macuim/include -I/Library/M17NLib/include -I/Library/Anthy/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch i386 -arch ppc -arch x86_64 -mmacosx-version-min=10.4" \
-OBJCFLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk -arch i386 -arch ppc -arch x86_64 -mmacosx-version-min=10.4 -fobjc-gc" \
+CFLAGS="-O2 -I/opt/macuim/include -I/Library/M17NLib/include -I/Library/Anthy/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch i386 -arch ppc -arch x86_64 -mmacosx-version-min=10.4" \
+CXXFLAGS="-O2 -I/opt/macuim/include -I/Library/M17NLib/include -I/Library/Anthy/include -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch i386 -arch ppc -arch x86_64 -mmacosx-version-min=10.4" \
+OBJCFLAGS="-O2 -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch i386 -arch ppc -arch x86_64 -mmacosx-version-min=10.4 -fobjc-gc" \
 PKG_CONFIG="/opt/macuim/bin/pkg-config" \
-PKG_CONFIG_PATH="/opt/macuim/lib/pkgconfig:/Library/PRIME/lib/pkgconfig:/Library/Anthy/lib/pkgconfig:/Library/M17NLib/lib/pkgconfig:/usr/X11R6/lib/pkgconfig:/usr/lib/pkgconfig" \
+PKG_CONFIG_PATH="/opt/macuim/lib/pkgconfig:/Library/PRIME/lib/pkgconfig:/Library/Anthy/lib/pkgconfig:/Library/M17NLib/lib/pkgconfig:/usr/X11R6/lib/pkgconfig:/usr/lib/pkgconfig:../pkgconfig" \
 ./configure --prefix=${prefix} --exec-prefix=${prefix} \
   --enable-fep --disable-applet \
   --disable-dependency-tracking \
-  --enable-maintainer-mode \
   --disable-strict-argcheck \
   --with-anthy-utf8 \
+  --without-canna \
+  --without-mana \
   --with-expat=/opt/macuim \
   --enable-openssl \
   --enable-notify=growl \
@@ -52,6 +53,7 @@ PKG_CONFIG_PATH="/opt/macuim/lib/pkgconfig:/Library/PRIME/lib/pkgconfig:/Library
 #  --without-gtk2  \
 #  --without-x  \
 #  --enable-backtrace \
+#  --enable-maintainer-mode \
 
 perl -pi -e 's|-Werror||' uim/Makefile
 
@@ -162,7 +164,7 @@ uim_xim-helper.o uim_xim-compose.o -Wl,-bind_at_load \
 -L/usr/X11R6/lib -lXext -lX11 -lXau -lXdmcp -lXft ../uim/.libs/UIM \
 /usr/lib/libiconv.dylib \
 /Users/kato/macsrc/MacUIM-google/trunk/UIM/uim/uim/.libs/UIM \
-../uim/.libs/libuim-x-util.a -ldl
+../uim/.libs/libuim-x-util.a -ldl -framework CoreFoundation
 
 make -w DESTDIR=${dest} install || exit 1
 cd ..
