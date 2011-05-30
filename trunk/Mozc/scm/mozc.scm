@@ -69,13 +69,22 @@
                (uim-notify-fatal (N_ "cannot fork"))
                #f))
             ((= 0 pid) ;; child
-             (if (= (process-execute file argv) -1)
-               (uim-notify-fatal (format (N_ "cannot execute ~a") file)))
-             (_exit 0))
+             (let ((pid2 (process-fork)))
+               (cond ((< pid2 0)
+                      (begin
+                        (uim-notify-fatal (N_ "cannot fork"))
+                        #f))
+                     ((= 0 pid2)
+                      (if (= (process-execute file argv) -1)
+                        (uim-notify-fatal (format (N_ "cannot execute ~a") file)))
+                      (_exit 0))
+                     (else
+                       (process-waitpid pid2 (or (assq-cdr '$WNOHANG
+                                                           (process-waitpid-options?))
+                                                 32))
+                       (_exit 0)))))
             (else
-              (process-waitpid pid (or (assq-cdr '$WNOHANG
-                                             (process-waitpid-options?))
-                                       32))
+              (process-waitpid pid 0)
               pid)))))
 
 (define mozc-tool-activate
