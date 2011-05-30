@@ -232,7 +232,7 @@
                                     + (kModeTipsWidth3 / 3.0 - 0.5 -
                                      ceil([text size].width + 0.5)) / 2.0,
                                     (kModeTipsHeight - ceil([text size].height)) / 2.0)];
-      } else {
+      } else if (i == 2) {
       [text drawAtPoint:NSMakePoint(0.5 + 0.5 +
                                     kModeTipsWidth3 * 2.0 / 3.0
                                     + (kModeTipsWidth3 / 3.0 - 0.5 -
