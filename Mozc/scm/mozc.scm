@@ -79,9 +79,6 @@
                         (uim-notify-fatal (format (N_ "cannot execute ~a") file)))
                       (_exit 0))
                      (else
-                       (process-waitpid pid2 (or (assq-cdr '$WNOHANG
-                                                           (process-waitpid-options?))
-                                                 32))
                        (_exit 0)))))
             (else
               (process-waitpid pid 0)
