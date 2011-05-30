@@ -5,6 +5,12 @@
 # QTDIR=/usr/lib64/qt ./build	# build and install
 #
 # ./build --clear-patch		# remove uim-mozc patches
+#
+#
+# For Linux, please install following icons
+#  * ui-tool.png as $prefix/share/uim/pixmaps/mozc_tool_selector.png
+#  * ime_product_icon_opensource-32.png as $prefix/share/uim/pixmaps/mozc.png
+#  * ui-properties.png as $prefix/share/uim/pixmaps/mozc_tool_config_dialog.png
 
 top=`pwd`
 os=`uname -s`
@@ -29,8 +35,8 @@ protobuf_ver=2.2.0
 target="MacUIM"
 #target="Fink i386"
 #target="Fink x86_64"
-branding="Mozc"
-#branding="GoogleJapaneseInput"
+#branding="Mozc"
+branding="GoogleJapaneseInput"
 
 if [ ! -d depot_tools ]; then
 	svn co http://src.chromium.org/svn/trunk/tools/depot_tools

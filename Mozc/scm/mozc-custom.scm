@@ -110,10 +110,50 @@
          (N_ "Kana")
          (N_ "Kana input mode"))))
 
+(define mozc-tool-indication-alist
+  (list
+   (list 'action_mozc_tool_selector
+         'mozc_tool_selector
+         "T"
+         (N_ "MozcTool selector")
+         (N_ "MozcTool selector"))
+   (list 'action_mozc_tool_about_dialog
+         'mozc_tool_about_dialog
+         "A"
+         (N_ "About")
+         (N_ "About"))
+   (list 'action_mozc_tool_config_dialog
+         'mozc_tool_config_dialog
+         "C"
+         (N_ "Config dialog")
+         (N_ "Config dialog"))
+   (list 'action_mozc_tool_dictionary_tool
+         'mozc_tool_dictionary_tool
+         "D"
+         (N_ "Dictionary tool")
+         (N_ "Dictionary tool"))
+   (list 'action_mozc_tool_word_register_dialog
+         'mozc_tool_word_register_dialog
+         "W"
+         (N_ "Word register dialog")
+         (N_ "Word register dialog"))
+   (list 'action_mozc_tool_character_palette
+         'mozc_tool_character_palette
+         "P"
+         (N_ "Character palette")
+         (N_ "Character palette"))
+   (list 'action_mozc_tool_hand_writing
+         'mozc_tool_hand_writing
+         "H"
+         (N_ "Hand writing")
+         (N_ "Hand writing"))))
+
+
 ;;; Buttons
 
 (define-custom 'mozc-widgets '(widget_mozc_input_mode
-                               widget_mozc_kana_input_method)
+                               widget_mozc_kana_input_method
+                               widget_mozc_tool)
   '(mozc toolbar)
   (list 'ordered-list
 	(list 'widget_mozc_input_mode
@@ -121,7 +161,10 @@
 	      (_ "Input mode"))
 	(list 'widget_mozc_kana_input_method
 	      (_ "Kana input method")
-	      (_ "Kana input method")))
+	      (_ "Kana input method"))
+	(list 'widget_mozc_tool
+	      (_ "Mozc tool")
+	      (_ "Mozc tool")))
   (_ "Enabled toolbar buttons")
   (_ "long description will be here."))
 
@@ -239,6 +282,20 @@
                    (mozc-configure-widgets)))
 
 
+;;; Mozc tool
+(define-custom 'mozc-tool-actions
+               (map car mozc-tool-indication-alist)
+  '(mozc toolbar)
+  (cons 'ordered-list
+        (map indication-alist-entry-extract-choice
+             mozc-tool-indication-alist))
+  (N_ "Mozc tool menu items")
+  (N_ "long description will be here."))
+
+
+
+
+
 (define-custom 'mozc-use-with-vi? #f
   '(mozc special-op)
   '(boolean)
@@ -257,3 +314,79 @@
   (N_ "Keyboard type for kana input method")
   (N_ "long description will be here."))
 
+
+(define-custom-group 'mozc-tool
+		     (N_ "MozcTool")
+		     (N_ "MozcTool settings"))
+
+(define-custom 'mozc-tool-about-dialog-cmd "/usr/lib/mozc/mozc_tool"
+               '(mozc-tool)
+               '(pathname regular-file)
+               (N_ "Path of about dialog command")
+               (N_ "long description will be here."))
+
+(define-custom 'mozc-tool-about-dialog-cmd-option "--mode=about_dialog"
+               '(mozc-tool)
+               '(pathname regular-file)
+               (N_ "Option for about dialog command")
+               (N_ "long description will be here."))
+
+(define-custom 'mozc-tool-config-dialog-cmd "/usr/lib/mozc/mozc_tool"
+               '(mozc-tool)
+               '(pathname regular-file)
+               (N_ "Path of config dialog command")
+               (N_ "long description will be here."))
+
+(define-custom 'mozc-tool-config-dialog-cmd-option "--mode=config_dialog"
+               '(mozc-tool)
+               '(pathname regular-file)
+               (N_ "Option for config dialog command")
+               (N_ "long description will be here."))
+
+(define-custom 'mozc-tool-dictionary-tool-cmd "/usr/lib/mozc/mozc_tool"
+               '(mozc-tool)
+               '(pathname regular-file)
+               (N_ "Path of dictionary tool command")
+               (N_ "long description will be here."))
+
+(define-custom 'mozc-tool-dictionary-tool-cmd-option "--mode=dictionary_tool"
+               '(mozc-tool)
+               '(pathname regular-file)
+               (N_ "Option for dictionary tool command")
+               (N_ "long description will be here."))
+
+(define-custom 'mozc-tool-word-register-dialog-cmd "/usr/lib/mozc/mozc_tool"
+               '(mozc-tool)
+               '(pathname regular-file)
+               (N_ "Path of word register dialog command")
+               (N_ "long description will be here."))
+
+(define-custom 'mozc-tool-word-register-dialog-cmd-option "--mode=word_register_dialog"
+               '(mozc-tool)
+               '(pathname regular-file)
+               (N_ "Option for word register dialog command")
+               (N_ "long description will be here."))
+
+(define-custom 'mozc-tool-character-palette-cmd "/usr/lib/mozc/mozc_tool"
+               '(mozc-tool)
+               '(pathname regular-file)
+               (N_ "Path of character palette command")
+               (N_ "long description will be here."))
+
+(define-custom 'mozc-tool-character-palette-cmd-option "--mode=character_palette"
+               '(mozc-tool)
+               '(pathname regular-file)
+               (N_ "Option for character palette command")
+               (N_ "long description will be here."))
+
+(define-custom 'mozc-tool-hand-writing-cmd "/usr/lib/mozc/mozc_tool"
+               '(mozc-tool)
+               '(pathname regular-file)
+               (N_ "Path of hand writing command")
+               (N_ "long description will be here."))
+
+(define-custom 'mozc-tool-hand-writing-cmd-option "--mode=hand_writing"
+               '(mozc-tool)
+               '(pathname regular-file)
+               (N_ "Option for hand writing command")
+               (N_ "long description will be here."))

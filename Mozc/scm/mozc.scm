@@ -29,6 +29,7 @@
 ;;;;
 
 (require "util.scm")
+(require "process.scm")
 (require "japanese.scm")
 (require-custom "generic-key-custom.scm")
 (require-custom "mozc-custom.scm")
@@ -58,6 +59,41 @@
     (let ((mid (mozc-context-mc-id mc)))
       (if mid
         (mozc-lib-set-input-rule mc mid new-rule)
+        #f))))
+
+(define (mozc-run-process file . args)
+  (let-optionals* args ((argv (list file)))
+    (let ((pid (process-fork)))
+      (cond ((< pid 0)
+             (begin
+               (uim-notify-fatal (N_ "cannot fork"))
+               #f))
+            ((= 0 pid) ;; child
+             (if (= (process-execute file argv) -1)
+               (uim-notify-fatal (format (N_ "cannot execute ~a") file)))
+             (_exit 0))
+            (else
+              (process-waitpid pid (or (assq-cdr '$WNOHANG
+                                             (process-waitpid-options?))
+                                       32))
+              pid)))))
+
+(define mozc-tool-activate
+  (lambda (mc option)
+    (case option
+      ((mozc-tool-about-dialog)
+       (mozc-run-process mozc-tool-about-dialog-cmd (list mozc-tool-about-dialog-cmd mozc-tool-about-dialog-cmd-option)))
+      ((mozc-tool-config-dialog)
+       (mozc-run-process mozc-tool-config-dialog-cmd (list mozc-tool-config-dialog-cmd mozc-tool-config-dialog-cmd-option)))
+      ((mozc-tool-dictionary-tool)
+       (mozc-run-process mozc-tool-dictionary-tool-cmd (list mozc-tool-dictionary-tool-cmd mozc-tool-dictionary-tool-cmd-option)))
+      ((mozc-tool-word-register-dialog)
+       (mozc-run-process mozc-tool-word-register-dialog-cmd (list mozc-tool-word-register-dialog-cmd mozc-tool-word-register-dialog-cmd-option)))
+      ((mozc-tool-character-palette)
+       (mozc-run-process mozc-tool-character-palette-cmd (list mozc-tool-character-palette-cmd mozc-tool-character-palette-cmd-option)))
+      ((mozc-tool-hand-writing)
+       (mozc-run-process mozc-tool-hand-writing-cmd (list mozc-tool-hand-writing-cmd mozc-tool-hand-writing-cmd-option)))
+      (else
         #f))))
 
 (register-action 'action_mozc_hiragana
@@ -173,6 +209,98 @@
                    (mozc-prepare-input-rule-activation mc mozc-input-rule-kana)
                    ))
 
+(register-action 'action_mozc_tool_selector
+;;               (indication-alist-indicator 'action_mozc_tool_selector
+;;                                           mozc-tool-indication-alist)
+                 (lambda (mc)
+                   '(mozc_tool_selector
+                     "T"
+                     "MozcTool selector"
+                     "MozcTool selector"))
+                 (lambda (mc)
+                   #t)
+                 (lambda (mc)
+                   #f))
+
+(register-action 'action_mozc_tool_about_dialog
+;;               (indication-alist-indicator 'action_mozc_tool_about_dialog
+;;                                           mozc-tool-indication-alist)
+                 (lambda (mc)
+                   '(mozc_tool_about_dialog
+                     "A"
+                     "About"
+                     "About Mozc"))
+                 (lambda (mc)
+                   #f)
+                 (lambda (mc)
+                   (mozc-tool-activate mc 'mozc-tool-about-dialog)))
+
+(register-action 'action_mozc_tool_config_dialog
+;;               (indication-alist-indicator 'action_mozc_tool_config_dialog
+;;                                           mozc-tool-indication-alist)
+                 (lambda (mc)
+                   '(mozc_tool_config_dialog
+                     "C"
+                     "Config dialog"
+                     "Config dialog"))
+                 (lambda (mc)
+                   #f)
+                 (lambda (mc)
+                   (mozc-tool-activate mc 'mozc-tool-config-dialog)))
+
+(register-action 'action_mozc_tool_dictionary_tool
+;;               (indication-alist-indicator 'action_mozc_tool_dictionary_tool
+;;                                           mozc-tool-indication-alist)
+                 (lambda (mc)
+                   '(mozc_tool_dictionary_tool
+                     "D"
+                     "Dictionary tool"
+                     "Dictionary tool"))
+                 (lambda (mc)
+                   #f)
+                 (lambda (mc)
+                   (mozc-tool-activate mc 'mozc-tool-dictionary-tool)))
+
+(register-action 'action_mozc_tool_word_register_dialog
+;;               (indication-alist-indicator 'action_mozc_tool_word_register_dialog
+;;                                           mozc-tool-indication-alist)
+                 (lambda (mc)
+                   '(mozc_tool_word_register_dialog
+                     "W"
+                     "Word register dialog"
+                     "Word register dialog"))
+                 (lambda (mc)
+                   #f)
+                 (lambda (mc)
+                   (mozc-tool-activate mc 'mozc-tool-word-register-dialog)))
+
+(register-action 'action_mozc_tool_character_palette
+;;               (indication-alist-indicator 'action_mozc_tool_character_palette
+;;                                           mozc-tool-indication-alist)
+                 (lambda (mc)
+                   '(mozc_tool_character_palette
+                     "W"
+                     "Character palette"
+                     "Character palette"))
+                 (lambda (mc)
+                   #f)
+                 (lambda (mc)
+                   (mozc-tool-activate mc 'mozc-tool-character-palette)))
+
+(register-action 'action_mozc_tool_hand_writing
+;;               (indication-alist-indicator 'action_mozc_tool_hand_writing
+;;                                           mozc-tool-indication-alist)
+                 (lambda (mc)
+                   '(mozc_tool_hand_writing
+                     "W"
+                     "Hand writing"
+                     "Hand writing"))
+                 (lambda (mc)
+                   #f)
+                 (lambda (mc)
+                   (mozc-tool-activate mc 'mozc-tool-hand-writing)))
+
+
 ;; Update widget definitions based on action configurations. The
 ;; procedure is needed for on-the-fly reconfiguration involving the
 ;; custom API
@@ -184,6 +312,9 @@
     (register-widget 'widget_mozc_kana_input_method
 		     (activity-indicator-new mozc-kana-input-method-actions)
 		     (actions-new mozc-kana-input-method-actions))
+    (register-widget 'widget_mozc_tool
+		     (activity-indicator-new mozc-tool-actions)
+		     (actions-new mozc-tool-actions))
     (context-list-replace-widgets! 'mozc mozc-widgets)))
 
 (define mozc-context-rec-spec
