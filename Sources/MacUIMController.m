@@ -255,14 +255,15 @@ static NSTimeInterval lastDeactivatedTime;
 
 	for (i = start; i < (start + pageNR); i++) {
 		uim_candidate cand;
-		const char *headStr, *candStr;
+		const char *headStr, *candStr, *annotationStr;
 		
 		cand = uim_get_candidate(uc, i, candidateDisplayLimit ?
 				(i % candidateDisplayLimit) : i);
 		headStr = uim_candidate_get_heading_label(cand);
 		candStr = uim_candidate_get_cand_str(cand);
+		annotationStr = uim_candidate_get_annotation_str(cand);
 
-		[candWin addCandidate:headStr:candStr];
+		[candWin addCandidate:headStr:candStr:annotationStr];
 		uim_candidate_free(cand);
 	}
 }

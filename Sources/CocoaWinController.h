@@ -53,6 +53,9 @@
 	// candidate string array
 	NSMutableArray *candArray;
 
+	// annotation string array
+	NSMutableArray *annotationArray;
+
 	// widnow size when number of candidate is 10
 	NSSize origSize;
   
@@ -75,8 +78,7 @@
 
 - (void)reloadData;
 
-- (void)addCandidate:(const char *)head:(const char *)cand;
-
+- (void)addCandidate:(const char *)head:(const char *)cand:(const char *)annotation;
 - (void)clearCandidate;
 
 - (void)selectCandidate:(int)index:(int)indexInPage;
