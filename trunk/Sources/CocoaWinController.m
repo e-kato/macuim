@@ -162,6 +162,7 @@ static CocoaWinController *sharedController;
 {
 	headArray = [[NSMutableArray alloc] init];
 	candArray = [[NSMutableArray alloc] init];
+	annotationArray = [[NSMutableArray alloc] init];
 }
 
 /**
@@ -211,9 +212,11 @@ static CocoaWinController *sharedController;
 
 - (void)addCandidate:(const char *)head
                     :(const char *)cand
+                    :(const char *)annotation
 {
 	NSAttributedString *headStr;
 	NSAttributedString *candStr;
+	NSString *annotationStr;
 
 	if (head) {
 		// use just the last one character of the string
@@ -264,9 +267,14 @@ static CocoaWinController *sharedController;
 							font,
 							NSFontAttributeName,
 							nil]] autorelease];
+	if (annotation)
+		annotationStr = [[[NSString alloc] initWithUTF8String:annotation] autorelease];
+	else
+		annotationStr = [[[NSString alloc] initWithString:@""] autorelease];
 
 	[headArray addObject:headStr];
 	[candArray addObject:candStr];
+	[annotationArray addObject:annotationStr];
 }
 
 /**
@@ -279,6 +287,7 @@ static CocoaWinController *sharedController;
 #endif
 	[headArray removeAllObjects];
 	[candArray removeAllObjects];
+	[annotationArray removeAllObjects];
 
 	AnnotationWinController *AWin =
 		[AnnotationWinController sharedController];
@@ -489,7 +498,6 @@ static CocoaWinController *sharedController;
 
 - (void)showAnnotation:(int)indexInPage
 {
-	NSString *cand;
 	NSString *annotation;
 	AnnotationWinController *AWin;
 
@@ -499,16 +507,10 @@ static CocoaWinController *sharedController;
 	if (indexInPage < 0)
 		return;
 
-	cand = [[[table dataSource]
-		tableView:table objectValueForTableColumn:
-		[table tableColumnWithIdentifier:@"candidate"]
-					     row:indexInPage] string];
-
 	AWin = [AnnotationWinController sharedController];
-	annotation = (NSString *)DCSCopyTextDefinition(NULL,
-			(CFStringRef)cand,
-			CFRangeMake(0, [cand length]));
-	if (annotation != nil) {
+	annotation = [annotationArray objectAtIndex:indexInPage];
+
+	if ([annotation compare:@""] != NSOrderedSame) {
 		NSRect rect = [panel frame];
 		rect.origin.x += rect.size.width;
 		rect.origin.y -= ([AWin size].height - rect.size.height);
@@ -536,7 +538,6 @@ static CocoaWinController *sharedController;
 
         	[AWin setAnnotation:annotation];
 		[AWin showWindow:rect];
-		CFRelease((CFStringRef)annotation);
 	} else {
         	[AWin clearAnnotation];
 	        [AWin hideWindow];
