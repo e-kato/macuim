@@ -24,6 +24,7 @@ PATCH8=${top}/mozc-linux-protobuf.diff
 PATCH9=${top}/mozc-linux-protobuf220.diff
 PATCH10=${top}/mozc-kill-line.diff
 PATCH11=${top}/zinnia-macosx.diff
+PATCH12=${top}/uim-mozc-macuim.diff
 
 dest="${top}/../Package/dest"
 fwdir="/Library/Frameworks/UIM.framework/Versions/Current"
@@ -232,11 +233,13 @@ if [ ${os} = Darwin -a "${target}" = "MacUIM" ] ; then
 	install mozc/src/out_mac/Release/libuim-mozc.so \
 		${dest}/${fwdir}/pkglib/plugin/
 	install scm/mozc*.scm ${dest}/${fwdir}/share/uim/
+	patch -p1 -d ${dest}/${fwdir}/share/uim < ${PATCH12}
 
 	# put into uim build dir too
 	install mozc/src/out_mac/Release/libuim-mozc.so \
 		${uim_build_dir}/uim/
 	install -m 644 scm/mozc*.scm ${uim_build_dir}/scm/
+	patch -p1 -d ${uim_build_dir}/scm < ${PATCH12}
 
 	# register mozc
 	make -C ${uim_build_dir}/uim uim-module-manager && \

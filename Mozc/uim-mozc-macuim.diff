@@ -1,0 +1,95 @@
+Index: scm/mozc-custom.scm
+===================================================================
+--- scm/mozc-custom.scm	(revision 242)
++++ scm/mozc-custom.scm	(working copy)
+@@ -319,73 +319,78 @@
+ 		     (N_ "MozcTool")
+ 		     (N_ "MozcTool settings"))
+ 
+-(define-custom 'mozc-tool-about-dialog-cmd "/usr/lib/mozc/mozc_tool"
++(define-custom 'mozc-tool-about-dialog-cmd "/Library/Mozc/MozcTool.app/Contents/Resources/AboutDialog.app/Contents/MacOS/AboutDialog"
+                '(mozc-tool)
+                '(pathname regular-file)
+                (N_ "Path of about dialog command")
+                (N_ "long description will be here."))
+ 
+-(define-custom 'mozc-tool-about-dialog-cmd-option "--mode=about_dialog"
++(define-custom 'mozc-tool-about-dialog-cmd-option ""
+                '(mozc-tool)
+                '(pathname regular-file)
+                (N_ "Option for about dialog command")
+                (N_ "long description will be here."))
+ 
+-(define-custom 'mozc-tool-config-dialog-cmd "/usr/lib/mozc/mozc_tool"
++(define-custom 'mozc-tool-config-dialog-cmd
++               "/Library/Mozc/MozcTool.app/Contents/Resources/ConfigDialog.app/Contents/MacOS/ConfigDialog"
+                '(mozc-tool)
+                '(pathname regular-file)
+                (N_ "Path of config dialog command")
+                (N_ "long description will be here."))
+ 
+-(define-custom 'mozc-tool-config-dialog-cmd-option "--mode=config_dialog"
++(define-custom 'mozc-tool-config-dialog-cmd-option ""
+                '(mozc-tool)
+                '(pathname regular-file)
+                (N_ "Option for config dialog command")
+                (N_ "long description will be here."))
+ 
+-(define-custom 'mozc-tool-dictionary-tool-cmd "/usr/lib/mozc/mozc_tool"
++(define-custom 'mozc-tool-dictionary-tool-cmd
++               "/Library/Mozc/MozcTool.app/Contents/Resources/DictionaryTool.app/Contents/MacOS/DictionaryTool"
+                '(mozc-tool)
+                '(pathname regular-file)
+                (N_ "Path of dictionary tool command")
+                (N_ "long description will be here."))
+ 
+-(define-custom 'mozc-tool-dictionary-tool-cmd-option "--mode=dictionary_tool"
++(define-custom 'mozc-tool-dictionary-tool-cmd-option ""
+                '(mozc-tool)
+                '(pathname regular-file)
+                (N_ "Option for dictionary tool command")
+                (N_ "long description will be here."))
+ 
+-(define-custom 'mozc-tool-word-register-dialog-cmd "/usr/lib/mozc/mozc_tool"
++(define-custom 'mozc-tool-word-register-dialog-cmd
++               "/Library/Mozc/MozcTool.app/Contents/Resources/WordRegisterDialog.app/Contents/MacOS/WordRegisterDialog"
+                '(mozc-tool)
+                '(pathname regular-file)
+                (N_ "Path of word register dialog command")
+                (N_ "long description will be here."))
+ 
+-(define-custom 'mozc-tool-word-register-dialog-cmd-option "--mode=word_register_dialog"
++(define-custom 'mozc-tool-word-register-dialog-cmd-option ""
+                '(mozc-tool)
+                '(pathname regular-file)
+                (N_ "Option for word register dialog command")
+                (N_ "long description will be here."))
+ 
+-(define-custom 'mozc-tool-character-palette-cmd "/usr/lib/mozc/mozc_tool"
++(define-custom 'mozc-tool-character-palette-cmd
++               "/Library/Mozc/MozcTool.app/Contents/Resources/CharacterPalette.app/Contents/MacOS/CharacterPalette"
+                '(mozc-tool)
+                '(pathname regular-file)
+                (N_ "Path of character palette command")
+                (N_ "long description will be here."))
+ 
+-(define-custom 'mozc-tool-character-palette-cmd-option "--mode=character_palette"
++(define-custom 'mozc-tool-character-palette-cmd-option ""
+                '(mozc-tool)
+                '(pathname regular-file)
+                (N_ "Option for character palette command")
+                (N_ "long description will be here."))
+ 
+-(define-custom 'mozc-tool-hand-writing-cmd "/usr/lib/mozc/mozc_tool"
++(define-custom 'mozc-tool-hand-writing-cmd
++               "/Library/Mozc/MozcTool.app/Contents/Resources/HandWriting.app/Contents/MacOS/HandWriting"
+                '(mozc-tool)
+                '(pathname regular-file)
+                (N_ "Path of hand writing command")
+                (N_ "long description will be here."))
+ 
+-(define-custom 'mozc-tool-hand-writing-cmd-option "--mode=hand_writing"
++(define-custom 'mozc-tool-hand-writing-cmd-option ""
+                '(mozc-tool)
+                '(pathname regular-file)
+                (N_ "Option for hand writing command")
