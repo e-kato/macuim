@@ -320,7 +320,7 @@
 		     (actions-new mozc-kana-input-method-actions))
     (register-widget 'widget_mozc_tool
 		     (activity-indicator-new mozc-tool-actions)
-		     (actions-new mozc-tool-actions))
+		     (actions-new (remove (lambda (x) (eq? x 'action_mozc_tool_selector)) mozc-tool-actions)))
     (context-list-replace-widgets! 'mozc mozc-widgets)))
 
 (define mozc-context-rec-spec
