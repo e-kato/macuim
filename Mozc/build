@@ -37,8 +37,8 @@ protobuf_ver=2.2.0
 target="MacUIM"
 #target="Fink i386"
 #target="Fink x86_64"
-#branding="Mozc"
-branding="GoogleJapaneseInput"
+branding="Mozc"
+#branding="GoogleJapaneseInput"
 
 if [ ! -d depot_tools ]; then
 	svn co http://src.chromium.org/svn/trunk/tools/depot_tools
