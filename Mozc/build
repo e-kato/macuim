@@ -2,16 +2,16 @@
 
 # usage
 # ./build --apply-patch		# just apply patches
-# QTDIR=/usr/lib64/qt ./build	# build and install
+# QTDIR=/usr/lib64/qt4 ./build	# build and install
 #
 # ./build --clear-patch		# remove uim-mozc patches
 #
 #
 # For Linux, please install following icons
-#  * ui-tool.png as $prefix/share/uim/pixmaps/mozc_tool_selector.png
-#  * ime_product_icon_opensource-32.png as $prefix/share/uim/pixmaps/mozc.png
-#  * ui-properties.png as $prefix/share/uim/pixmaps/mozc_tool_config_dialog.png
-#  * ui-dictionary.png as $prefix/share/uim/pixmaps/mozc_tool_dictionary_tool.png
+#  * ui-tool.png -> $prefix/share/uim/pixmaps/mozc_tool_selector.png
+#  * ime_product_icon_opensource-32.png -> $prefix/share/uim/pixmaps/mozc.png
+#  * ui-properties.png -> $prefix/share/uim/pixmaps/mozc_tool_config_dialog.png
+#  * ui-dictionary.png -> $prefix/share/uim/pixmaps/mozc_tool_dictionary_tool.png
 
 top=`pwd`
 os=`uname -s`
@@ -27,16 +27,20 @@ PATCH10=${top}/mozc-kill-line.diff
 PATCH11=${top}/zinnia-macosx.diff
 PATCH12=${top}/uim-mozc-macuim.diff
 
+## following variables are only effective on MacUIM
 dest="${top}/../Package/dest"
 fwdir="/Library/Frameworks/UIM.framework/Versions/Current"
 mozcdir="/Library/Mozc"
 launchagentdir="/Library/LaunchAgents"
 uim_build_dir="${top}/../UIM/uim"
-protobuf_ver=2.2.0
-#protobuf_ver=2.3.0
+## static linked protobuf for Linux
+#protobuf_ver=2.2.0
+protobuf_ver=2.3.0
+## variable "target" is only effective for Darwin
 target="MacUIM"
 #target="Fink i386"
 #target="Fink x86_64"
+## branding :)
 branding="Mozc"
 #branding="GoogleJapaneseInput"
 
@@ -122,7 +126,7 @@ pushd mozc/src
 # usage
 # ./build --apply-patch		# just apply patches
 # ./build			# build and install
-#
+#                               # (specify QTDIR if needed)
 # ./build --help		# show help
 # ./build --clear-patch		# remove uim-mozc patches
 HERE
