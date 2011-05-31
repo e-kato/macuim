@@ -283,14 +283,7 @@
 
 
 ;;; Mozc tool
-(define-custom 'mozc-tool-actions
-               (map car mozc-tool-indication-alist)
-  '(mozc toolbar)
-  (cons 'ordered-list
-        (map indication-alist-entry-extract-choice
-             mozc-tool-indication-alist))
-  (N_ "Mozc tool menu items")
-  (N_ "long description will be here."))
+(define mozc-tool-actions (map car mozc-tool-indication-alist))
 
 
 
