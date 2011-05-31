@@ -152,7 +152,8 @@
 ;;; Buttons
 
 (define-custom 'mozc-widgets '(widget_mozc_input_mode
-                               widget_mozc_kana_input_method)
+                               widget_mozc_kana_input_method
+                               widget_mozc_tool)
   '(mozc toolbar)
   (list 'ordered-list
 	(list 'widget_mozc_input_mode
