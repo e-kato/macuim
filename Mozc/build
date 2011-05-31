@@ -11,6 +11,7 @@
 #  * ui-tool.png as $prefix/share/uim/pixmaps/mozc_tool_selector.png
 #  * ime_product_icon_opensource-32.png as $prefix/share/uim/pixmaps/mozc.png
 #  * ui-properties.png as $prefix/share/uim/pixmaps/mozc_tool_config_dialog.png
+#  * ui-dictionary.png as $prefix/share/uim/pixmaps/mozc_tool_dictionary_tool.png
 
 top=`pwd`
 os=`uname -s`
