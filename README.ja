@@ -310,10 +310,10 @@ MenuCracker.menuをMacUIM/Sources/MenuCrackerに置く。
 === Growl
 
 Growlでメッセージを通知するために使用。
-http://growl.info/files/source/Growl-1.1.4-src.tar.bz2をダウンロードし、パッチを当てGrowl.frameworkを作成。
+http://growl.info/files/source/Growl-1.2.2-src.tbzをダウンロードし、パッチを当てGrowl.frameworkを作成。
 
- % cd Growl-1.1.4-src
- % patch -p1 ../growl.diff
+ % cd Growl-1.2.2-src
+ % patch -p0 < ../growl.diff
  % ../build-growl
 
 以下のようなディレクトリ構成になる。
