@@ -55,6 +55,7 @@
 
   NSString *imName;
 
+  NSMutableArray *branchPoints;
   NSMutableArray *modes;
   NSMutableArray *propNames;
   NSMutableArray *menuItems;

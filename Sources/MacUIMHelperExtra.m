@@ -75,6 +75,7 @@ convertHelperString(char *str);
 
   imName = nil;
 
+  branchPoints = [[NSMutableArray alloc] init];
   modes = [[NSMutableArray alloc] init];
   propNames = [[NSMutableArray alloc] init];
   menuItems = [[NSMutableArray alloc] init];
@@ -113,6 +114,7 @@ convertHelperString(char *str);
 
   [self helperDisconnect];
 
+  [branchPoints release];
   [modes release];
   [propNames release];
   [menuItems release];
@@ -342,7 +344,7 @@ convertHelperString(char *str);
 
 - (void)updateMenu
 {
-  int i;
+  int i, j;
 
   if ([menu numberOfItems] > 0) {
     while ([menu numberOfItems])
@@ -355,6 +357,15 @@ convertHelperString(char *str);
   for (i = 0; i < [modes count]; i++) {
     NSString *mode;
     NSMenuItem *menuItem;
+
+    for (j = 0; j < [branchPoints count]; j++) {
+      if (i == [[branchPoints objectAtIndex:j] intValue]) {
+        if (i != 0)
+          [menu addItem:[NSMenuItem separatorItem]];
+        break;
+      }
+    }
+
     mode = [modes objectAtIndex:i];
     menuItem = (NSMenuItem *)
       [menu addItemWithTitle:mode
@@ -568,11 +579,14 @@ convertHelperString(char *str);
   NSString *line;
   NSArray *cols;
   NSString *col;
+  BOOL new = NO;
+  int pos = 0;
 
   if (!lines || [lines count] < 2)
     return;
 
   [labels removeAllObjects];
+  [branchPoints removeAllObjects];
   [modes removeAllObjects];
   [propNames removeAllObjects];
 
@@ -589,6 +603,7 @@ convertHelperString(char *str);
         NSMutableString *branch =
           [[NSMutableString alloc] initWithString:[cols objectAtIndex:2]];
         [labels addObject:branch];
+        new = YES;
       }
       else if ([col compare:@"leaf"] == NSOrderedSame) {
         NSMutableString *mode = 
@@ -603,10 +618,15 @@ convertHelperString(char *str);
             == NSOrderedSame) {
           [mode release];
           [prop release];
+          new = NO;
         }
         else {
           [modes addObject:mode];
           [propNames addObject:prop];
+          if (new == YES)
+            [branchPoints addObject:[NSNumber numberWithInt:pos]];
+          new = NO;
+          pos++;
         }
       }
     }
