@@ -320,7 +320,7 @@
 
 (define-custom 'mozc-tool-about-dialog-cmd-option "--mode=about_dialog"
                '(mozc-tool)
-               '(pathname regular-file)
+               '(string ".*")
                (N_ "Option for about dialog command")
                (N_ "long description will be here."))
 
@@ -332,7 +332,7 @@
 
 (define-custom 'mozc-tool-config-dialog-cmd-option "--mode=config_dialog"
                '(mozc-tool)
-               '(pathname regular-file)
+               '(string ".*")
                (N_ "Option for config dialog command")
                (N_ "long description will be here."))
 
@@ -344,7 +344,7 @@
 
 (define-custom 'mozc-tool-dictionary-tool-cmd-option "--mode=dictionary_tool"
                '(mozc-tool)
-               '(pathname regular-file)
+               '(string ".*")
                (N_ "Option for dictionary tool command")
                (N_ "long description will be here."))
 
@@ -356,7 +356,7 @@
 
 (define-custom 'mozc-tool-word-register-dialog-cmd-option "--mode=word_register_dialog"
                '(mozc-tool)
-               '(pathname regular-file)
+               '(string ".*")
                (N_ "Option for word register dialog command")
                (N_ "long description will be here."))
 
@@ -368,7 +368,7 @@
 
 (define-custom 'mozc-tool-character-palette-cmd-option "--mode=character_palette"
                '(mozc-tool)
-               '(pathname regular-file)
+               '(string ".*")
                (N_ "Option for character palette command")
                (N_ "long description will be here."))
 
@@ -380,6 +380,6 @@
 
 (define-custom 'mozc-tool-hand-writing-cmd-option "--mode=hand_writing"
                '(mozc-tool)
-               '(pathname regular-file)
+               '(string ".*")
                (N_ "Option for hand writing command")
                (N_ "long description will be here."))
