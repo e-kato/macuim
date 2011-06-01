@@ -75,6 +75,7 @@
                         (uim-notify-fatal (N_ "cannot fork"))
                         #f))
                      ((= 0 pid2)
+                      (setenv "MALLOC_CHECK_" "0" 1)
                       (if (= (process-execute file argv) -1)
                         (uim-notify-fatal (format (N_ "cannot execute ~a") file)))
                       (_exit 0))
