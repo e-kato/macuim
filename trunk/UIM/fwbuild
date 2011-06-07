@@ -49,6 +49,7 @@ PKG_CONFIG_PATH="/opt/macuim/lib/pkgconfig:/Library/PRIME/lib/pkgconfig:/Library
   --enable-notify=growl \
   --with-curl \
   --with-sqlite3 \
+  --with-osx-dcs \
   || exit 1
 #  --without-gtk2  \
 #  --without-x  \
