@@ -432,8 +432,7 @@ get_nth_candidate(uim_lisp id_, uim_lisp nth_)
   int id = C_INT(id_);
   commands::Output *output = context_slot[id].output;
   const commands::Candidates &candidates = output->candidates();
-  const char *cand;
-  const char *prefix;
+  const char *cand, *prefix, *suffix;
   char *s;
 
   int nth;
@@ -447,7 +446,8 @@ get_nth_candidate(uim_lisp id_, uim_lisp nth_)
     idx = nth % 9;
     prefix = candidates.candidate(idx).annotation().prefix().c_str();
     cand = candidates.candidate(idx).value().c_str();
-    asprintf(&s, "%s%s", prefix, cand);
+    suffix = candidates.candidate(idx).annotation().suffix().c_str();
+    asprintf(&s, "%s%s%s", prefix, cand, suffix);
   } else
     s = strdup("");
 
