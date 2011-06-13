@@ -6,7 +6,8 @@
 
 かなり複雑です。健闘を祈る！
 
-MacUIM本体だけビルドしたい場合は「MenuCracker」から実行すればOK。
+MacUIM本体だけビルドしたい場合は「/opt/macuimのgettext」と「MenuCracker」
+から実行すればOK。
 
 以下を実行する前に/Library/Frameworks/UIM.framework, /opt/macuimを削除
 しておく。
@@ -17,7 +18,7 @@ gettext, pkgconfig, glib, saryをビルドし、/opt/macuimにインストール
 これらはsary-rubyとprimeのビルド用で、ユーザーの環境にインストールする
 必要はない。
 
- % sudo mdkir /opt/macuim
+ % sudo mkdir /opt/macuim
 
 ==== gettext
 
@@ -346,7 +347,6 @@ PreferencePanes/MacUIM.prefPane - 環境設定
 ドされ、Package/Package_contentsディレクトリにMacUIMができる。
 
 deployで作成したMacUIMはデバッグオプションが無効になっている。
-
 
 === デバッグ用
 
