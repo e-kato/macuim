@@ -101,7 +101,10 @@ static CocoaWinController *sharedController;
 
 	if ([panel isVisible] == NO) {
 		CGWindowLevel level;
-		level = [[MacUIMController activeContext] clientWindowLevel];
+		MacUIMController *context = [MacUIMController activeContext];
+		level = context ? [context clientWindowLevel]
+			        : NSFloatingWindowLevel;
+
 		if (level != kCGAssistiveTechHighWindowLevelKey)
 			level++;
 
