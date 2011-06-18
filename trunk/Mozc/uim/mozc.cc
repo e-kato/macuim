@@ -264,7 +264,7 @@ update_candidates(uim_lisp mc_, int id)
   const commands::Candidates &candidates = output->candidates();
   bool first_time = false;
 
-  if ((context_slot[id].cand_nr_before != candidates.size()) || !candidates.focused_index())
+  if ((context_slot[id].cand_nr_before != candidates.size()) || !candidates.has_focused_index())
     first_time = true;
 
   if (first_time)
