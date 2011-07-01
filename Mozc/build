@@ -79,12 +79,18 @@ pushd mozc/src
 			case "${target}" in
 			"Fink i386")
 				(cd third_party/gyp; patch -p0 < ${PATCH2})
+				rm -f unix/uim/uim.gyp
+				rm -f unix/uim/uim-macuim.gyp
 				;;
 			"Fink x86_64")
 				(cd third_party/gyp; patch -p0 < ${PATCH3})
+				rm -f unix/uim/uim.gyp
+				rm -f unix/uim/uim-macuim.gyp
 				;;
 			"MacUIM")
 				(cd third_party/gyp; patch -p0 < ${PATCH1})
+				rm -f unix/uim/uim.gyp
+				rm -f unix/uim/uim-macfink.gyp
 				;;
 			esac
 			(cd third_party/zinnia/v0_04; patch -p1 < ${PATCH11})
