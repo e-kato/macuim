@@ -79,20 +79,16 @@ pushd mozc/src
 			case "${target}" in
 			"Fink i386")
 				(cd third_party/gyp; patch -p0 < ${PATCH2})
-				rm -f unix/uim/uim.gyp
-				rm -f unix/uim/uim-macuim.gyp
 				;;
 			"Fink x86_64")
 				(cd third_party/gyp; patch -p0 < ${PATCH3})
-				rm -f unix/uim/uim.gyp
-				rm -f unix/uim/uim-macuim.gyp
 				;;
 			"MacUIM")
 				(cd third_party/gyp; patch -p0 < ${PATCH1})
 				rm -f unix/uim/uim.gyp
-				rm -f unix/uim/uim-macfink.gyp
 				;;
 			esac
+			rm -f unix/uim/uim.gyp
 			(cd third_party/zinnia/v0_04; patch -p1 < ${PATCH11})
 			rm -f mac/org.mozc.inputmethod.Japanaes.Converter.MacUIM.plist
 			rm -f mac/mozc_server_info
@@ -101,6 +97,9 @@ pushd mozc/src
 			patch -p0 < ${PATCH6}
 			if [ "${target}" = "MacUIM" ]; then
 				patch -p0 < ${PATCH7}
+				rm -f unix/uim/uim-macfink.gyp
+			else
+				rm -f unix/uim/uim-macuim.gyp
 			fi
 		fi
 		if [ ${os} = "Linux" ]; then
