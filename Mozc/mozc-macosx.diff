@@ -281,24 +281,6 @@ Index: uim-macfink.gyp
 +    },
 +  ],
 +}
-Index: session/session_server.cc
-===================================================================
---- session/session_server.cc	(revision 39)
-+++ session/session_server.cc	(working copy)
-@@ -42,8 +42,13 @@
- namespace {
- const int kNumConnections = 10;
- const int kTimeOut = 5000;  // 5000msec
-+#if defined(OS_MACOSX) && !defined(GOOGLE_JAPANESE_INPUT_BUILD)
-+const char kSessionName[] = "mozc_session";
-+const char kEventName[] = "mozc_session";
-+#else
- const char kSessionName[] = "session";
- const char kEventName[] = "session";
-+#endif
- const uint32 kSchedulerDelay = 60*1000;  // 1 min
- const uint32 kSchedulerRandomDelay = 5*60*1000;  // 5 min
- const uint32 kScheduleInterval = 5*60*1000;  // 5 min
 Index: mac/mozc_server_info
 ===================================================================
 --- mac/mozc_server_info	(revision 0)
@@ -478,25 +460,6 @@ Index: base/logging.cc
  #else  // = OS_LINUX
             ::getpid(),
             pthread_self()  // returns unsigned long.
-Index: base/password_manager.cc
-===================================================================
---- base/password_manager.cc	(revision 48)
-+++ base/password_manager.cc	(working copy)
-@@ -273,12 +273,12 @@
- //////////////////////////////////////////////////////////////////
- // MacPasswordManager
- namespace {
--static const char kMacPasswordManagerName[] = kProductPrefix;
-+static const char kMacPasswordManagerName[] = "GoogleJapaneseInput";
- }  // anonymous namespace
- 
- class MacPasswordManager : public PasswordManagerInterface {
-  public:
--  MacPasswordManager(const string &key = kProductPrefix)
-+  MacPasswordManager(const string &key = "GoogleJapaneseInput")
-       : key_(key) {}
- 
-   bool FindKeychainItem(string *password, SecKeychainItemRef *item_ref) const {
 Index: base/process.cc
 ===================================================================
 --- base/process.cc	(revision 48)
@@ -530,22 +493,6 @@ Index: base/process.cc
    const int result = ::posix_spawn(
        &tmp_pid, path.c_str(), NULL, NULL, const_cast<char* const*>(argv.get()),
        environ);
-Index: client/session.cc
-===================================================================
---- client/session.cc	(revision 39)
-+++ client/session.cc	(working copy)
-@@ -52,7 +52,11 @@
- namespace client {
- 
- namespace {
-+#if defined(OS_MACOSX) && !defined(GOOGLE_JAPANESE_INPUT_BUILD)
-+const char kServerAddress[]    = "mozc_session"; // name for the IPC connection.
-+#else
- const char kServerAddress[]    = "session"; // name for the IPC connection.
-+#endif
- const int    kResultBufferSize = 8192 * 32;   // size of IPC buffer
- const size_t kMaxPlayBackSize  = 512;   // size of maximum history
- 
 Index: client/server_launcher.cc
 ===================================================================
 --- client/server_launcher.cc	(revision 39)
@@ -591,3 +538,59 @@ Index: ipc/mach_ipc.cc
        server_label += "Converter";
      } else if (name == "renderer") {
        server_label += "Renderer";
+Index: session/session_server.cc
+===================================================================
+--- session/session_server.cc	(revision 57)
++++ session/session_server.cc	(working copy)
+@@ -43,8 +43,13 @@
+ namespace {
+ const int kNumConnections = 10;
+ const int kTimeOut = 5000;  // 5000msec
++#if defined(OS_MACOSX) && !defined(GOOGLE_JAPANESE_INPUT_BUILD)
++const char kSessionName[] = "mozc_session";
++const char kEventName[] = "mozc_session";
++#else
+ const char kSessionName[] = "session";
+ const char kEventName[] = "session";
++#endif
+ }
+ 
+ namespace mozc {
+Index: base/password_manager.cc
+===================================================================
+--- base/password_manager.cc	(revision 57)
++++ base/password_manager.cc	(working copy)
+@@ -274,7 +274,7 @@
+ //////////////////////////////////////////////////////////////////
+ // DeprecatedMacPasswordManager
+ namespace {
+-static const char kMacPasswordManagerName[] = kProductPrefix;
++static const char kMacPasswordManagerName[] = "GoogleJapaneseInput";
+ }  // anonymous namespace
+ 
+ // This is a deprecated Mac's keychain-based PasswordManager.  We
+@@ -283,7 +283,7 @@
+ // TODO(MUKAI): remove this class after the transition.
+ class DeprecatedMacPasswordManager : public PasswordManagerInterface {
+  public:
+-  DeprecatedMacPasswordManager(const string &key = kProductPrefix)
++  DeprecatedMacPasswordManager(const string &key = "GoogleJapaneseInput")
+       : key_(key) {}
+ 
+   bool FindKeychainItem(string *password, SecKeychainItemRef *item_ref) const {
+Index: client/session.cc
+===================================================================
+--- client/session.cc	(revision 57)
++++ client/session.cc	(working copy)
+@@ -57,7 +57,11 @@
+ namespace client {
+ 
+ namespace {
++#if defined(OS_MACOSX) && !defined(GOOGLE_JAPANESE_INPUT_BUILD)
++const char kServerAddress[]    = "mozc_session";  // name for the IPC connection.
++#else
+ const char kServerAddress[]    = "session";  // name for the IPC connection.
++#endif
+ const int    kResultBufferSize = 8192 * 32;   // size of IPC buffer
+ const size_t kMaxPlayBackSize  = 512;   // size of maximum history
+ 
