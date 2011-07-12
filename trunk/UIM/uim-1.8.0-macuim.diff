@@ -1,6 +1,6 @@
 Index: emacs/uim-el-helper-agent.c
 ===================================================================
---- emacs/uim-el-helper-agent.c	(revision 7110)
+--- emacs/uim-el-helper-agent.c	(revision 7210)
 +++ emacs/uim-el-helper-agent.c	(working copy)
 @@ -217,7 +217,7 @@
  	}
@@ -13,7 +13,7 @@ Index: emacs/uim-el-helper-agent.c
  	rbuf[len] = '\0';
 Index: fep/Makefile.am
 ===================================================================
---- fep/Makefile.am	(revision 7110)
+--- fep/Makefile.am	(revision 7210)
 +++ fep/Makefile.am	(working copy)
 @@ -9,7 +9,8 @@
  uim_fep_CPPFLAGS = -I$(top_srcdir)
@@ -27,7 +27,7 @@ Index: fep/Makefile.am
  uim_fep_tick_CPPFLAGS= -I$(top_srcdir)
 Index: scm/action.scm
 ===================================================================
---- scm/action.scm	(revision 7110)
+--- scm/action.scm	(revision 7210)
 +++ scm/action.scm	(working copy)
 @@ -232,19 +232,23 @@
  
@@ -65,7 +65,7 @@ Index: scm/action.scm
    (lambda (widget location defect)
 Index: scm/anthy-custom.scm
 ===================================================================
---- scm/anthy-custom.scm	(revision 7110)
+--- scm/anthy-custom.scm	(revision 7210)
 +++ scm/anthy-custom.scm	(working copy)
 @@ -323,7 +323,7 @@
    (N_ "Show selected prediction candidate in preedit area")
@@ -78,7 +78,7 @@ Index: scm/anthy-custom.scm
    (N_ "Character count to start input prediction")
 Index: scm/tutcode-key-custom.scm
 ===================================================================
---- scm/tutcode-key-custom.scm	(revision 7110)
+--- scm/tutcode-key-custom.scm	(revision 7210)
 +++ scm/tutcode-key-custom.scm	(working copy)
 @@ -53,7 +53,7 @@
  	       (N_ "[TUT-Code] off")
@@ -452,7 +452,7 @@ Index: scm/tutcode-key-custom.scm
  	       '(key)
 Index: scm/tutcode-custom.scm
 ===================================================================
---- scm/tutcode-custom.scm	(revision 7110)
+--- scm/tutcode-custom.scm	(revision 7210)
 +++ scm/tutcode-custom.scm	(working copy)
 @@ -59,8 +59,7 @@
  ;; dictionary
@@ -520,9 +520,9 @@ Index: scm/tutcode-custom.scm
    (list 'choice
 Index: scm/tutcode.scm
 ===================================================================
---- scm/tutcode.scm	(revision 7110)
+--- scm/tutcode.scm	(revision 7210)
 +++ scm/tutcode.scm	(working copy)
-@@ -324,6 +324,12 @@
+@@ -334,6 +334,12 @@
  ;;; tutcode-context-new時に反映する。
  (define tutcode-rule-userconfig ())
  
@@ -535,7 +535,7 @@ Index: scm/tutcode.scm
  ;;; 候補ウィンドウのプログラム名。
  ;;; uim-ximが、UIM_LIBEXECDIR/uim-candwin-progを候補ウィンドウとして使用。
  ;;; gtk-immodule等が、表形式候補ウィンドウを使用するか判断するため、
-@@ -753,6 +759,29 @@
+@@ -766,6 +772,29 @@
         (eq? (rk-context-rule (tutcode-context-rk-context pc))
              tutcode-kigou-rule)))
  
@@ -565,7 +565,7 @@ Index: scm/tutcode.scm
  ;;; TUT-Codeのコンテキストを新しく生成する。
  ;;; @return 生成したコンテキスト
  (define (tutcode-context-new id im)
-@@ -772,18 +801,7 @@
+@@ -785,18 +814,7 @@
    (let ((tc (tutcode-context-new-internal id im)))
      (tutcode-context-set-widgets! tc tutcode-widgets)
      (if (null? tutcode-rule)
@@ -585,7 +585,7 @@ Index: scm/tutcode.scm
      ;; 表形式候補ウィンドウ用設定
      (if (null? tutcode-heading-label-char-list)
        (if tutcode-use-table-style-candidate-window?
-@@ -4591,6 +4609,30 @@
+@@ -4732,6 +4750,30 @@
          (set! tutcode-rule
            (eval (string->symbol rulename) (interaction-environment)))))))
  
@@ -616,7 +616,7 @@ Index: scm/tutcode.scm
  ;;; tutcode-key-customで設定された交ぜ書き/部首合成変換開始のキーシーケンスを
  ;;; コード表に反映する
  (define (tutcode-custom-set-mazegaki/bushu-start-sequence!)
-@@ -4601,77 +4643,74 @@
+@@ -4742,77 +4784,74 @@
               (> (string-length keyseq) 0))
            (let ((keys (reverse (string-to-list keyseq))))
              (list (list keys) cmd)))))
@@ -725,7 +725,7 @@ Index: scm/tutcode.scm
  ;;; 呼び出し例:
  ;;;   (tutcode-rule-set-sequences!
  ;;;     '(((("d" "l" "u")) ("づ" "ヅ"))
-@@ -4681,6 +4720,13 @@
+@@ -4822,6 +4861,13 @@
    (set! tutcode-rule-userconfig
      (append rules tutcode-rule-userconfig)))
  
@@ -741,7 +741,7 @@ Index: scm/tutcode.scm
  (define (tutcode-rule-commit-sequences! rules)
 Index: scm/annotation-custom.scm
 ===================================================================
---- scm/annotation-custom.scm	(revision 7110)
+--- scm/annotation-custom.scm	(revision 7210)
 +++ scm/annotation-custom.scm	(working copy)
 @@ -56,9 +56,12 @@
                              (N_ "EB library")
@@ -770,7 +770,7 @@ Index: scm/annotation-custom.scm
    (N_ "Annotation agent name")
 Index: scm/prime-custom.scm
 ===================================================================
---- scm/prime-custom.scm	(revision 7110)
+--- scm/prime-custom.scm	(revision 7210)
 +++ scm/prime-custom.scm	(working copy)
 @@ -104,7 +104,7 @@
    (N_ "Prime connection setting")
@@ -809,7 +809,7 @@ Index: scm/prime-custom.scm
    (N_ "Show candidate forms")
 Index: scm/predict-look-skk.scm
 ===================================================================
---- scm/predict-look-skk.scm	(revision 7110)
+--- scm/predict-look-skk.scm	(revision 7210)
 +++ scm/predict-look-skk.scm	(working copy)
 @@ -37,7 +37,7 @@
  
@@ -822,7 +822,7 @@ Index: scm/predict-look-skk.scm
  (class-set-method! predict-look-skk search
 Index: scm/skk-custom.scm
 ===================================================================
---- scm/skk-custom.scm	(revision 7110)
+--- scm/skk-custom.scm	(revision 7210)
 +++ scm/skk-custom.scm	(working copy)
 @@ -399,8 +399,7 @@
  	 (lambda ()
@@ -836,7 +836,7 @@ Index: scm/skk-custom.scm
    (N_ "System dictionary file")
 Index: scm/generic-key-custom.scm
 ===================================================================
---- scm/generic-key-custom.scm	(revision 7110)
+--- scm/generic-key-custom.scm	(revision 7210)
 +++ scm/generic-key-custom.scm	(working copy)
 @@ -41,13 +41,13 @@
  		     (N_ "long description will be here."))
@@ -856,7 +856,7 @@ Index: scm/generic-key-custom.scm
  	       (N_ "[Global] off")
 Index: scm/im-custom.scm
 ===================================================================
---- scm/im-custom.scm	(revision 7110)
+--- scm/im-custom.scm	(revision 7210)
 +++ scm/im-custom.scm	(working copy)
 @@ -399,6 +399,11 @@
  		 (lambda ()
@@ -867,10 +867,22 @@ Index: scm/im-custom.scm
 +		 (lambda ()
 +		   enable-outside-macuim-setting?))
 +
+ (define-custom 'candidate-window-style 'vertical
+   '(global visual-preference)
+   (list 'choice
+@@ -414,6 +419,11 @@
+   (N_ "Candidate window type")
+   (N_ "long description will be here."))
+ 
++(custom-add-hook 'candidate-window-style
++		 'custom-activity-hooks
++		 (lambda ()
++		   enable-outside-macuim-setting?))
++
  ;; referred by some bridges
  (define-custom 'candidate-window-position 'caret
    '(global visual-preference)
-@@ -415,6 +420,11 @@
+@@ -430,6 +440,11 @@
    (N_ "Candidate window position")
    (N_ "long description will be here."))
  
@@ -882,7 +894,7 @@ Index: scm/im-custom.scm
  (define-custom 'enable-lazy-loading? #t
    '(global advanced)
    '(boolean)
-@@ -427,6 +437,12 @@
+@@ -442,6 +457,12 @@
  		   (if enable-lazy-loading?
  		       (require "lazy-load.scm"))))
  
@@ -895,7 +907,7 @@ Index: scm/im-custom.scm
  ;;
  ;; toolbar buttons
  ;;
-@@ -455,6 +471,11 @@
+@@ -470,6 +491,11 @@
    (N_ "Enable menu-based input method switcher")
    (N_ "Show menu-based IM switcher on toolbar."))
  
@@ -907,7 +919,7 @@ Index: scm/im-custom.scm
  (define-custom 'imsw-coverage 'system-global
    '(toolbar menu-imsw)
    (list 'choice
-@@ -474,7 +495,8 @@
+@@ -489,7 +515,8 @@
  (custom-add-hook 'imsw-coverage
  		 'custom-activity-hooks
  		 (lambda ()
@@ -917,7 +929,7 @@ Index: scm/im-custom.scm
  
  (define-custom 'toolbar-show-switcher-button? #f
    '(toolbar buttons)
-@@ -482,36 +504,66 @@
+@@ -497,36 +524,66 @@
    (N_ "full-featured input method switcher")
    (N_ "Show the button on toolbar that invokes uim-im-switcher application for IM switching."))
  
@@ -984,7 +996,7 @@ Index: scm/im-custom.scm
  (define-custom 'toolbar-help-browser 'system
    '(toolbar toolbar-help)
    (list 'choice
-@@ -524,6 +576,11 @@
+@@ -539,6 +596,11 @@
    (N_ "Document browser")
    (N_ "long description will be here."))
  
@@ -996,7 +1008,7 @@ Index: scm/im-custom.scm
  (define-custom 'toolbar-help-browser-name "firefox"
    '(toolbar toolbar-help)
    '(string ".*")
-@@ -533,7 +590,8 @@
+@@ -548,7 +610,8 @@
  (custom-add-hook 'toolbar-help-browser-name
  		 'custom-activity-hooks
  		 (lambda ()
@@ -1006,7 +1018,7 @@ Index: scm/im-custom.scm
  
  (define-custom 'toolbar-icon-for-dark-background? #f
    '(toolbar toolbar-icon)
-@@ -541,12 +599,22 @@
+@@ -556,12 +619,22 @@
    (N_ "Use icon for dark background")
    (N_ "long description will be here."))
  
@@ -1029,7 +1041,7 @@ Index: scm/im-custom.scm
  (define-custom 'bridge-show-with? 'time
    '(global visual-preference)
    (list 'choice
-@@ -562,7 +630,9 @@
+@@ -577,7 +650,9 @@
  (custom-add-hook 'bridge-show-with?
  		 'custom-activity-hooks
  		 (lambda ()
@@ -1040,7 +1052,7 @@ Index: scm/im-custom.scm
  
  (define-custom 'bridge-show-input-state-time-length 3
    '(global visual-preference)
-@@ -573,7 +643,8 @@
+@@ -588,7 +663,8 @@
  (custom-add-hook 'bridge-show-input-state-time-length
  		 'custom-activity-hooks
  		 (lambda ()
@@ -1050,7 +1062,7 @@ Index: scm/im-custom.scm
                          (eq? bridge-show-with?
                               'time))))
  
-@@ -587,6 +658,11 @@
+@@ -602,6 +678,11 @@
    (N_ "Use anti-aliased fonts for Over-the-Spot/Root-Window preedit")
    (N_ "long description will be here."))
  
@@ -1062,7 +1074,7 @@ Index: scm/im-custom.scm
  (define-custom 'uim-xim-xft-font-name "Sans"
    '(xim xim-preedit)
    '(string ".*")
-@@ -596,12 +672,13 @@
+@@ -611,12 +692,13 @@
  (custom-add-hook 'uim-xim-xft-font-name
  		 'custom-activity-hooks
  		 (lambda ()
@@ -1080,7 +1092,7 @@ Index: scm/im-custom.scm
      ,@(uim-notify-get-plugins))
 Index: scm/anthy-utf8-custom.scm
 ===================================================================
---- scm/anthy-utf8-custom.scm	(revision 7110)
+--- scm/anthy-utf8-custom.scm	(revision 7210)
 +++ scm/anthy-utf8-custom.scm	(working copy)
 @@ -330,7 +330,7 @@
    (N_ "Show selected prediction candidate in preedit area")
@@ -1093,7 +1105,7 @@ Index: scm/anthy-utf8-custom.scm
    (N_ "Character count to start input prediction")
 Index: scm/uim-help.scm
 ===================================================================
---- scm/uim-help.scm	(revision 7110)
+--- scm/uim-help.scm	(revision 7210)
 +++ scm/uim-help.scm	(working copy)
 @@ -64,7 +64,7 @@
  
@@ -1106,7 +1118,7 @@ Index: scm/uim-help.scm
                     (else
 Index: uim/uim-helper.c
 ===================================================================
---- uim/uim-helper.c	(revision 7110)
+--- uim/uim-helper.c	(revision 7210)
 +++ uim/uim-helper.c	(working copy)
 @@ -49,6 +49,8 @@
  #include <errno.h>
@@ -1129,7 +1141,7 @@ Index: uim/uim-helper.c
      uim_notify_fatal("uim_helper: uid mismatch");
 Index: uim.pc.in
 ===================================================================
---- uim.pc.in	(revision 7110)
+--- uim.pc.in	(revision 7210)
 +++ uim.pc.in	(working copy)
 @@ -1,6 +1,6 @@
  prefix=@prefix@
