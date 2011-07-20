@@ -1,23 +1,38 @@
 Index: gui/qt_libraries.gypi
 ===================================================================
---- gui/qt_libraries.gypi	(revision 30)
+--- gui/qt_libraries.gypi	(revision 58)
 +++ gui/qt_libraries.gypi	(working copy)
-@@ -38,10 +38,13 @@
-     ['OS=="mac"', {
-       'link_settings': {
-         'libraries': [
--          'libQtCore.dylib',
--          'libQtGui.dylib',
-+          'QtCore.framework',
-+          'QtGui.framework',
-           '$(SDKROOT)/System/Library/Frameworks/Carbon.framework',
-         ],
-+	'mac_framework_dirs': [
-+	  '$(QTDIR)/lib',
-+	],
-       },
-     }],
-     ['OS=="linux"', {
+@@ -64,9 +64,12 @@
+             ],
+           },
+           'libraries': [
+-            '<(qt_dir)/lib/libQtCore.a',
+-            '<(qt_dir)/lib/libQtGui.a',
++            'QtCore.framework',
++            'QtGui.framework',
+           ],
++	  'mac_framework_dirs': [
++	    '<(qt_dir)/lib',
++	  ]
+         }, {
+           'xcode_settings': {
+             'LIBRARY_SEARCH_PATHS': [
+@@ -74,9 +77,12 @@
+             ],
+           },
+           'libraries': [
+-            '<(qt_dir_env)/lib/libQtCore.a',
+-            '<(qt_dir_env)/lib/libQtGui.a',
++            'QtCore.framework',
++            'QtGui.framework',
+           ],
++	  'mac_framework_dirs': [
++	    '<(qt_dir_env)/lib',
++	  ]
+         }],
+       ],
+       'libraries': [
+===================================================================
 Index: gui/mac_gui.gypi
 ===================================================================
 --- gui/mac_gui.gypi	(revision 56)
