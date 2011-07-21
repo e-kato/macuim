@@ -171,6 +171,9 @@ void NotificationCallback(CFNotificationCenterRef inCenter,
   CFNumberRef fontSize;
   CFNumberRef trans;
   
+  if (!inUserInfo)
+    return;
+
   imName[0] = '\0';
   im = CFDictionaryGetValue(inUserInfo, CFSTR(kPrefIM));
 
