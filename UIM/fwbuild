@@ -101,7 +101,7 @@ cd ..
 make -w DESTDIR=${dest} pkglibdir=${prefix}/pkglib DATADIRNAME=share \
   install || exit 1
 
-cd helper
+cd gtk2/candwin
   make LIBS="-framework CoreFoundation -framework Carbon"
 
 #gcc -I/usr/X11R6/include -I/usr/X11R6/include/freetype2 \
@@ -147,7 +147,11 @@ cd helper
 ##-lXcomposite
 
   make DESTDIR=${dest} LIBS="-framework CoreFoundation -framework Carbon" install
-cd ..
+cd -
+#cd gtk2/toolbar
+#  make LIBS="-framework CoreFoundation -framework Carbon"
+#  make DESTDIR=${dest} LIBS="-framework CoreFoundation -framework Carbon" install
+#cd -
 
 cd xim
 make -w CXX="g++ -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch i386 -arch ppc -arch x86_64" || exit 1
