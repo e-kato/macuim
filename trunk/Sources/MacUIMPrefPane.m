@@ -607,7 +607,7 @@ done:
 
 - (BOOL)isExtraLoaded:(NSString *)extraID
 {
-  void *extra;
+  void *extra = NULL;
 
   if (CoreMenuExtraGetMenuExtra((CFStringRef) extraID, &extra) == 0
       && extra)
