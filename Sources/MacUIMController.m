@@ -521,9 +521,15 @@ static NSTimeInterval lastDeactivatedTime;
 			NSRect cursorRect;
 			NSDictionary *theDict;
 			NSFont *font;
-			theDict = [currentClient attributesForCharacterIndex: 0
-						 lineHeightRectangle:
-						 	&cursorRect];
+			@try {
+				theDict = [currentClient
+					attributesForCharacterIndex:0
+						lineHeightRectangle:&cursorRect];
+			}
+			@catch (NSException *exception) {
+				CFRelease(array);
+				goto dont_show;
+			}
 			font = [theDict objectForKey:@"NSFont"];
 			if (font != nil) {
 				cursorRect.origin.y +=
