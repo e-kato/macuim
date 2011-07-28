@@ -282,7 +282,7 @@ static NSTimeInterval lastDeactivatedTime;
 - (void)activateCandidate:(int)nr:(int)displayLimit
 {
 	NSRect theRect;
-	NSDictionary *theDict;
+	NSDictionary *theDict = nil;
 
 	//NSLog(@"activateCandidate");
 	candidateIsActive = true;
@@ -302,10 +302,13 @@ static NSTimeInterval lastDeactivatedTime;
 	[candWin reloadData];
 
 	if (caretSegmentStartPos >= 0) {
-		theRect = [currentClient
-				firstRectForCharacterRange:
-					NSMakeRange(caretSegmentStartPos,
-						    caretPos)];
+		@try {
+			theRect = [currentClient firstRectForCharacterRange:
+				NSMakeRange(caretSegmentStartPos, caretPos)];
+		}
+		@catch (NSException *exception) {
+			NSLog(@"firstRectForCharacterRange failed. %@", [exception reason]);
+		}
 #if 0
 		NSLog(@"caretSegmentStartPos %d, caretPos %d, rect origin.x %f, origin.y %f, size.width %f\n",
 				caretSegmentStartPos,
@@ -313,17 +316,26 @@ static NSTimeInterval lastDeactivatedTime;
 				theRect.origin.x, theRect.origin.y,
 				theRect.size.width);
 #endif
-		theDict = [currentClient attributesForCharacterIndex:caretSegmentStartPos lineHeightRectangle:&inputRect];
+		@try {
+			theDict = [currentClient attributesForCharacterIndex:caretSegmentStartPos lineHeightRectangle:&inputRect];
+		}
+		@catch (NSException *exception) {
+			NSLog(@"attributesForCharacterIndex failed. %@", [exception reason]);
+		}
 		inputRect = theRect;
 	} else {
 		theDict = [currentClient attributesForCharacterIndex:0 lineHeightRectangle:&inputRect];
 	}
-	NSFont *font = [theDict objectForKey:@"NSFont"];
-	if (font != nil) {
-		inputRect.origin.y +=
-			CTFontGetUnderlinePosition((CTFontRef)font);
-		inputRect.origin.y -=
-			CTFontGetUnderlineThickness((CTFontRef)font);
+
+	NSFont *font = nil;
+	if (theDict) {
+		font = [theDict objectForKey:@"NSFont"];
+		if (font != nil) {
+			inputRect.origin.y +=
+				CTFontGetUnderlinePosition((CTFontRef)font);
+			inputRect.origin.y -=
+				CTFontGetUnderlineThickness((CTFontRef)font);
+		}
 	}
 
 	[candWin showWindow:inputRect];
