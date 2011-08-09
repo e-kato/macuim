@@ -438,16 +438,23 @@ get_nth_candidate(uim_lisp id_, uim_lisp nth_)
   int nth;
   int idx;
   int nr;
+  int page_nr;
   
   nth = C_INT(nth_);
   nr = candidates.size();
+  page_nr = candidates.candidate_size();
 
   if (nth < nr) {
     idx = nth % 9;
-    prefix = candidates.candidate(idx).annotation().prefix().c_str();
-    cand = candidates.candidate(idx).value().c_str();
-    suffix = candidates.candidate(idx).annotation().suffix().c_str();
-    asprintf(&s, "%s%s%s", prefix, cand, suffix);
+
+    if (idx < page_nr) {
+      prefix = candidates.candidate(idx).annotation().prefix().c_str();
+      cand = candidates.candidate(idx).value().c_str();
+      suffix = candidates.candidate(idx).annotation().suffix().c_str();
+      asprintf(&s, "%s%s%s", prefix, cand, suffix);
+    } else {
+      s = strdup("");
+    }
   } else
     s = strdup("");
 
@@ -465,13 +472,18 @@ get_nth_label(uim_lisp id_, uim_lisp nth_)
   int nth;
   int idx;
   int nr;
+  int page_nr;
   
   nth = C_INT(nth_);
   nr = candidates.size();
+  page_nr = candidates.candidate_size();
 
   if (nth < nr) {
     idx = nth % 9;
-    label = candidates.candidate(idx).annotation().shortcut().c_str();
+    if (idx < page_nr)
+      label = candidates.candidate(idx).annotation().shortcut().c_str();
+    else
+      label = "";
   } else
     label = "";
 
@@ -489,13 +501,19 @@ get_nth_annotation(uim_lisp id_, uim_lisp nth_)
   int nth;
   int idx;
   int nr;
+  int page_nr;
   
   nth = C_INT(nth_);
   nr = candidates.size();
+  page_nr = candidates.candidate_size();
 
   if (nth < nr) {
     idx = nth % 9;
-    annotation = candidates.candidate(idx).annotation().description().c_str();
+    if (idx < page_nr)
+      annotation = candidates.candidate(idx).annotation().description().c_str();
+    else
+      annotation = "";
+
   } else
     annotation = "";
 
