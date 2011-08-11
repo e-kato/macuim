@@ -89,6 +89,7 @@ static struct context_slot_ {
   commands::Output *output; 
   commands::CompositionMode currentMode;
   bool has_preedit_before;
+  bool need_cand_reactivate;
   int cand_nr_before;
   uint64 last_sync_time;
 #if USE_CASCADING_CANDIDATES
@@ -267,8 +268,16 @@ update_candidates(uim_lisp mc_, int id)
   if ((context_slot[id].cand_nr_before != candidates.size()) || !candidates.has_focused_index())
     first_time = true;
 
-  if (first_time)
+  if (first_time || context_slot[id].need_cand_reactivate) {
     uim_scm_callf("im-activate-candidate-selector", "oii", mc_, candidates.size(), 9);
+    // cope with issue #6
+    bool has_focused_index = candidates.has_focused_index();
+    int current_page = has_focused_index ? candidates.focused_index() / 9 : 0;
+    if (current_page != 0)
+        context_slot[id].need_cand_reactivate = true;
+    else
+      context_slot[id].need_cand_reactivate = false;
+  }
 
   if (candidates.has_focused_index()) {
     int index = candidates.focused_index();
@@ -332,6 +341,7 @@ create_context(uim_lisp mc_)
   context_slot[id].output = output;
   context_slot[id].currentMode = commands::HIRAGANA;
   context_slot[id].has_preedit_before = false;
+  context_slot[id].need_cand_reactivate = false;
   context_slot[id].cand_nr_before = 0;
 #if USE_CASCADING_CANDIDATES
   context_slot[id].unique_candidate_ids = new vector<int32>;
