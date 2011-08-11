@@ -90,6 +90,7 @@ static struct context_slot_ {
   commands::CompositionMode currentMode;
   bool has_preedit_before;
   bool need_cand_reactivate;
+  int prev_page;
   int cand_nr_before;
   uint64 last_sync_time;
 #if USE_CASCADING_CANDIDATES
@@ -268,18 +269,20 @@ update_candidates(uim_lisp mc_, int id)
   if ((context_slot[id].cand_nr_before != candidates.size()) || !candidates.has_focused_index())
     first_time = true;
 
-  if (first_time || context_slot[id].need_cand_reactivate) {
+  bool has_focused_index = candidates.has_focused_index();
+  int current_page = has_focused_index ? candidates.focused_index() / 9 : 0;
+
+  if (first_time || (context_slot[id].need_cand_reactivate && current_page != context_slot[id].prev_page)) {
     uim_scm_callf("im-activate-candidate-selector", "oii", mc_, candidates.size(), 9);
     // cope with issue #6
-    bool has_focused_index = candidates.has_focused_index();
-    int current_page = has_focused_index ? candidates.focused_index() / 9 : 0;
     if (current_page != 0)
-        context_slot[id].need_cand_reactivate = true;
+      context_slot[id].need_cand_reactivate = true;
     else
       context_slot[id].need_cand_reactivate = false;
   }
+  context_slot[id].prev_page = current_page;
 
-  if (candidates.has_focused_index()) {
+  if (has_focused_index) {
     int index = candidates.focused_index();
     uim_scm_callf("im-select-candidate", "oi", mc_, index);
   }
@@ -343,6 +346,7 @@ create_context(uim_lisp mc_)
   context_slot[id].has_preedit_before = false;
   context_slot[id].need_cand_reactivate = false;
   context_slot[id].cand_nr_before = 0;
+  context_slot[id].prev_page = 0;
 #if USE_CASCADING_CANDIDATES
   context_slot[id].unique_candidate_ids = new vector<int32>;
 #endif
