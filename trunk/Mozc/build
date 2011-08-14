@@ -23,6 +23,7 @@ PATCH6=${top}/mozc_tool-macosx.diff
 PATCH7=${top}/mozc_tool-macuim.diff
 PATCH8=${top}/mozc-linux-protobuf.diff
 PATCH9=${top}/mozc-linux-protobuf220.diff
+PATCH4=${top}/mozc-linux-protobuf230.diff
 PATCH10=${top}/mozc-kill-line.diff
 PATCH11=${top}/zinnia-macosx.diff
 PATCH12=${top}/uim-mozc-macuim.diff
@@ -106,6 +107,8 @@ pushd mozc/src
 			patch -p0 < ${PATCH8}
 			if [ ${protobuf_ver} = "2.2.0" ]; then
 				patch -p0 < ${PATCH9}
+			elif [ ${protobuf_ver} = "2.3.0" ]; then
+				patch -p0 < ${PATCH4}
 			fi
 		fi
 		# kill-line patch
