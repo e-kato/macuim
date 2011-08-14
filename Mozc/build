@@ -62,7 +62,7 @@ fi
 
 
 pushd mozc/src
-	if [ "${os}" = "Linux" ]; then
+	if [ ! -d protobuf/files -a "${os}" = "Linux" ]; then
 		# pull protobuf
 		svn co http://protobuf.googlecode.com/svn/tags/${protobuf_ver} protobuf/files
 	fi
