@@ -336,7 +336,7 @@ create_context(uim_lisp mc_)
   client::SessionInterface *session = new client::Session;
   commands::Output *output = new commands::Output;
   if (!keyTranslator)
-  	keyTranslator = new KeyTranslator;
+    keyTranslator = new KeyTranslator;
 
   id = unused_context_id();
   context_slot[id].session = session;
