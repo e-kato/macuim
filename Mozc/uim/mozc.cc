@@ -265,12 +265,11 @@ update_candidates(uim_lisp mc_, int id)
 
   const commands::Candidates &candidates = output->candidates();
   bool first_time = false;
-
-  if ((context_slot[id].cand_nr_before != candidates.size()) || !candidates.has_focused_index())
-    first_time = true;
-
   bool has_focused_index = candidates.has_focused_index();
   int current_page = has_focused_index ? candidates.focused_index() / 9 : 0;
+
+  if ((context_slot[id].cand_nr_before != candidates.size()) || !has_focused_index)
+    first_time = true;
 
   if (first_time || (context_slot[id].need_cand_reactivate && current_page != context_slot[id].prev_page)) {
     uim_scm_callf("im-activate-candidate-selector", "oii", mc_, candidates.size(), 9);
