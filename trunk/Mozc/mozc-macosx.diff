@@ -11,61 +11,6 @@ Index: build_tools/mozc_version.py
  
      return False
  
-Index: unix/ibus/ibus.gyp
-===================================================================
---- unix/ibus/ibus.gyp	(revision 39)
-+++ unix/ibus/ibus.gyp	(working copy)
-@@ -38,6 +38,14 @@
-       'ibus-1.0',
-       'libcurl',
-     ],
-+    'ibus_dep_include_dirs': [
-+      '/sw/include/dbus-1.0',
-+      '/sw/lib/dbus-1.0/include',
-+      '/sw/include/glib-2.0',
-+      '/sw/lib/glib-2.0/include',
-+      '/sw/include/ibus-1.0',
-+      '/sw/include',
-+    ],
-     'ibus_client_dependencies' : [
-       '../../client/client.gyp:client',
-       '../../session/session.gyp:ime_switch_util',
-@@ -115,6 +123,9 @@
-       'cflags': [
-         '<!@(pkg-config --cflags <@(pkg_config_libs))',
-       ],
-+      'include_dirs': [
-+        '<@(ibus_dep_include_dirs)',
-+      ],
-     },
-     {
-       'target_name': 'ibus_mozc',
-@@ -184,12 +195,24 @@
-       'cflags': [
-         '<!@(pkg-config --cflags <@(pkg_config_libs))',
-       ],
-+      'include_dirs': [
-+        '<@(ibus_dep_include_dirs)',
-+      ],
-       'libraries': [
--        '<!@(pkg-config --libs-only-l <@(pkg_config_libs))',
-+        #'<!@(pkg-config --libs-only-l <@(pkg_config_libs))',
-+	'/sw/lib/libibus.dylib',
-+	'/usr/lib/libpthread.dylib',
-+	'/sw/lib/libdbus-1.dylib',
-+	'/sw/lib/libglib-2.0.dylib',
-+	'/sw/lib/libintl.dylib',
-+	'/sw/lib/libgobject-2.0.dylib',
-       ],
-       'ldflags': [
-         '<!@(pkg-config --libs-only-L <@(pkg_config_libs))',
-       ],
-+      'library_dirs': [
-+        '/sw/lib',
-+      ],
-     },
-     {
-       'target_name': 'ibus_mozc_test',
 Index: unix/ibus/main.cc
 ===================================================================
 --- unix/ibus/main.cc	(revision 39)
@@ -509,19 +454,6 @@ Index: client/server_launcher.cc
  
  // Wait at most kServerWaitTimeout msec until server gets ready
  const uint32 kServerWaitTimeout = 20000;  // 20 sec
-Index: build_mozc.py
-===================================================================
---- build_mozc.py	(revision 39)
-+++ build_mozc.py	(working copy)
-@@ -181,7 +181,7 @@
-     gyp_file_names.extend(glob.glob('%s/win32/*/*.gyp' % SRC_DIR))
-     gyp_file_names.extend(glob.glob('third_party/breakpad/*.gyp'))
-     gyp_file_names.append('third_party/mozc/sandbox/sandbox.gyp')
--  elif IsLinux():
-+  elif IsLinux() or IsMac():
-     gyp_file_names.extend(glob.glob('%s/unix/*/*.gyp' % SRC_DIR))
-     # Add ibus.gyp if ibus is installed.
-     # Ubuntu 8.04 (Hardy) does not contain ibus package.
 Index: ipc/mach_ipc.cc
 ===================================================================
 --- ipc/mach_ipc.cc	(revision 48)
@@ -578,11 +510,11 @@ Index: base/password_manager.cc
        : key_(key) {}
  
    bool FindKeychainItem(string *password, SecKeychainItemRef *item_ref) const {
-Index: client/session.cc
+Index: client/client.cc
 ===================================================================
---- client/session.cc	(revision 57)
-+++ client/session.cc	(working copy)
-@@ -57,7 +57,11 @@
+--- client/client.cc	(revision 70)
++++ client/client.cc	(working copy)
+@@ -60,7 +60,11 @@
  namespace client {
  
  namespace {
@@ -594,3 +526,16 @@ Index: client/session.cc
  const int    kResultBufferSize = 8192 * 32;   // size of IPC buffer
  const size_t kMaxPlayBackSize  = 512;   // size of maximum history
  
+Index: build_mozc.py
+===================================================================
+--- build_mozc.py	(revision 70)
++++ build_mozc.py	(working copy)
+@@ -227,6 +227,8 @@
+     except RunOrDieError:
+       print 'scim was not found with pkg-config.'
+       gyp_file_names.remove('%s/unix/scim/scim.gyp' % SRC_DIR)
++  elif IsMac():
++    gyp_file_names.extend(glob.glob('%s/unix/uim/*.gyp' % SRC_DIR))
+   gyp_file_names.extend(glob.glob('third_party/rx/*.gyp'))
+   gyp_file_names.sort()
+   return gyp_file_names
