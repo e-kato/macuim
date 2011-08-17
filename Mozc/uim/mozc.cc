@@ -51,14 +51,13 @@
 #include "base/base.h"
 #include "base/util.h"
 #include "base/scoped_ptr.h"
-#include "session/config.pb.h"
+#include "config/config.pb.h"
 #include "session/commands.pb.h"
-#include "client/session.h"
+#include "client/client.h"
 #include "unix/uim/key_translator.h"
 
 // use server/client session
 #include "base/util.h"
-#include "client/session.h"
 
 #define USE_CASCADING_CANDIDATES	0
 
@@ -79,13 +78,13 @@ uint64 GetTime() {
 namespace mozc {
 
 namespace client {
-class SessionInterface;
+class ClientInterface;
 }
 namespace uim {
 
 static int nr_contexts;
 static struct context_slot_ {
-  client::SessionInterface *session;
+  client::ClientInterface *session;
   commands::Output *output; 
   commands::CompositionMode currentMode;
   bool has_preedit_before;
@@ -333,7 +332,7 @@ create_context(uim_lisp mc_)
 {
   int id;
 
-  client::SessionInterface *session = new client::Session;
+  client::ClientInterface *session = new client::Client;
   commands::Output *output = new commands::Output;
   if (!keyTranslator)
     keyTranslator = new KeyTranslator;
@@ -388,7 +387,7 @@ reset_context(uim_lisp id_)
 static uim_lisp
 press_key(uim_lisp mc_, uim_lisp id_, uim_lisp key_, uim_lisp state_)
 {
-  client::SessionInterface *session;
+  client::ClientInterface *session;
   commands::KeyEvent key;
   int id;
   int keyval, keycode, modifiers;
