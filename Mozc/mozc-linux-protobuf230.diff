@@ -1,20 +1,12 @@
 Index: protobuf/protobuf.gyp
 ===================================================================
---- protobuf/protobuf.gyp	(revision 28)
+--- protobuf/protobuf.gyp	(revision 59)
 +++ protobuf/protobuf.gyp	(working copy)
-@@ -104,11 +104,11 @@
+@@ -102,7 +102,6 @@
+       'files/src/google/protobuf/compiler/java/java_message_field.cc',
        'files/src/google/protobuf/compiler/java/java_primitive_field.cc',
        'files/src/google/protobuf/compiler/java/java_service.cc',
+-      'files/src/google/protobuf/compiler/java/java_string_field.cc',
        'files/src/google/protobuf/compiler/main.cc',
--      'files/src/google/protobuf/compiler/plugin.cc',
--      'files/src/google/protobuf/compiler/plugin.pb.cc',
-+      #'files/src/google/protobuf/compiler/plugin.cc',
-+      #'files/src/google/protobuf/compiler/plugin.pb.cc',
-       'files/src/google/protobuf/compiler/python/python_generator.cc',
--      'files/src/google/protobuf/compiler/subprocess.cc',
--      'files/src/google/protobuf/compiler/zip_writer.cc',
-+      #'files/src/google/protobuf/compiler/subprocess.cc',
-+      #'files/src/google/protobuf/compiler/zip_writer.cc',
-     ],
-   },
-   'targets': [
+       'files/src/google/protobuf/compiler/plugin.cc',
+       'files/src/google/protobuf/compiler/plugin.pb.cc',
