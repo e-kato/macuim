@@ -48,6 +48,9 @@
       'sources': [
         'key_translator.cc',
       ],
+      'dependencies': [
+        '../../session/session_base.gyp:genproto_session',
+      ],
       'cflags': [
         '<!@(pkg-config --cflags <@(pkg_config_libs))',
       ],
