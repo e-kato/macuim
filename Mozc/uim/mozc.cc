@@ -463,7 +463,8 @@ get_nth_candidate(uim_lisp id_, uim_lisp nth_)
       prefix = candidates.candidate(idx).annotation().prefix().c_str();
       cand = candidates.candidate(idx).value().c_str();
       suffix = candidates.candidate(idx).annotation().suffix().c_str();
-      asprintf(&s, "%s%s%s", prefix, cand, suffix);
+      if (asprintf(&s, "%s%s%s", prefix, cand, suffix) == -1)
+        s = strdup("");
     } else {
       s = strdup("");
     }
