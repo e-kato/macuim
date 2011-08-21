@@ -28,7 +28,7 @@ Index: unix/uim/uim-macuim.gyp
 ===================================================================
 --- unix/uim/uim-macuim.gyp	(revision 0)
 +++ unix/uim/uim-macuim.gyp	(revision 0)
-@@ -0,0 +1,94 @@
+@@ -0,0 +1,97 @@
 +#
 +# Copyright (c) 2010 uim Project http://code.google.com/p/uim/
 +#
@@ -80,6 +80,9 @@ Index: unix/uim/uim-macuim.gyp
 +      'sources': [
 +        'key_translator.cc',
 +      ],
++      'dependencies': [
++        '../../session/session_base.gyp:genproto_session',
++      ],
 +      'cflags': [
 +        '<!@(pkg-config --cflags <@(pkg_config_libs))',
 +      ],
@@ -127,7 +130,7 @@ Index: uim-macfink.gyp
 ===================================================================
 --- unix/uim/uim-macfink.gyp	(revision 0)
 +++ unix/uim/uim-macfink.gyp	(revision 0)
-@@ -0,0 +1,98 @@
+@@ -0,0 +1,101 @@
 +#
 +# Copyright (c) 2010 uim Project http://code.google.com/p/uim/
 +#
@@ -179,6 +182,9 @@ Index: uim-macfink.gyp
 +      'type': 'static_library',
 +      'sources': [
 +        'key_translator.cc',
++      ],
++      'dependencies': [
++        '../../session/session_base.gyp:genproto_session',
 +      ],
 +      'cflags': [
 +        '<!@(pkg-config --cflags <@(pkg_config_libs))',
