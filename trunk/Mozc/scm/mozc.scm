@@ -221,7 +221,7 @@
 ;;                                           mozc-tool-indication-alist)
                  (lambda (mc)
                    '(mozc_tool_selector
-                     ""
+                     "M"
                      "MozcTool selector"
                      "MozcTool selector"))
                  (lambda (mc)
