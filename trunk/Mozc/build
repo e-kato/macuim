@@ -226,6 +226,17 @@ HERE
 			install_name_tool -change ${QTDIR}/lib/QtCore.framework/Versions/4/QtCore \
 			 	@executable_path/../Frameworks/QtCore.framework/Versions/4/QtCore \
 				MozcTool.app/Contents/Frameworks/QtGui.framework/Versions/4/QtGui
+
+			install_name_tool -change \
+			 	${QTDIR}/lib/QtCore.framework/Versions/4/QtCore \
+				@executable_path/../Frameworks/QtCore.framework/Versions/4/QtCore \
+				MozcTool_lib.framework/Versions/A/MozcTool_lib
+			install_name_tool -change \
+			 	${QTDIR}/lib/QtGui.framework/Versions/4/QtGui \
+				@executable_path/../Frameworks/QtGui.framework/Versions/4/QtGui \
+				MozcTool_lib.framework/Versions/A/MozcTool_lib
+
+
 		cd -
 	fi
 	if [ ${os} = Darwin -a "${target}" = "MacUIM" ] ; then
