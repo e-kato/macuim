@@ -1,8 +1,8 @@
 Index: scm/mozc-custom.scm
 ===================================================================
---- scm/mozc-custom.scm	(revision 242)
-+++ scm/mozc-custom.scm	(working copy)
-@@ -319,73 +319,78 @@
+--- scm/mozc-custom.scm        (revision 242)
++++ scm/mozc-custom.scm        (working copy)
+@@ -312,73 +312,78 @@
  		     (N_ "MozcTool")
  		     (N_ "MozcTool settings"))
  
@@ -16,7 +16,7 @@ Index: scm/mozc-custom.scm
 -(define-custom 'mozc-tool-about-dialog-cmd-option "--mode=about_dialog"
 +(define-custom 'mozc-tool-about-dialog-cmd-option ""
                 '(mozc-tool)
-                '(pathname regular-file)
+                '(string ".*")
                 (N_ "Option for about dialog command")
                 (N_ "long description will be here."))
  
@@ -31,7 +31,7 @@ Index: scm/mozc-custom.scm
 -(define-custom 'mozc-tool-config-dialog-cmd-option "--mode=config_dialog"
 +(define-custom 'mozc-tool-config-dialog-cmd-option ""
                 '(mozc-tool)
-                '(pathname regular-file)
+                '(string ".*")
                 (N_ "Option for config dialog command")
                 (N_ "long description will be here."))
  
@@ -46,7 +46,7 @@ Index: scm/mozc-custom.scm
 -(define-custom 'mozc-tool-dictionary-tool-cmd-option "--mode=dictionary_tool"
 +(define-custom 'mozc-tool-dictionary-tool-cmd-option ""
                 '(mozc-tool)
-                '(pathname regular-file)
+                '(string ".*")
                 (N_ "Option for dictionary tool command")
                 (N_ "long description will be here."))
  
@@ -61,7 +61,7 @@ Index: scm/mozc-custom.scm
 -(define-custom 'mozc-tool-word-register-dialog-cmd-option "--mode=word_register_dialog"
 +(define-custom 'mozc-tool-word-register-dialog-cmd-option ""
                 '(mozc-tool)
-                '(pathname regular-file)
+                '(string ".*")
                 (N_ "Option for word register dialog command")
                 (N_ "long description will be here."))
  
@@ -76,7 +76,7 @@ Index: scm/mozc-custom.scm
 -(define-custom 'mozc-tool-character-palette-cmd-option "--mode=character_palette"
 +(define-custom 'mozc-tool-character-palette-cmd-option ""
                 '(mozc-tool)
-                '(pathname regular-file)
+                '(string ".*")
                 (N_ "Option for character palette command")
                 (N_ "long description will be here."))
  
@@ -91,5 +91,5 @@ Index: scm/mozc-custom.scm
 -(define-custom 'mozc-tool-hand-writing-cmd-option "--mode=hand_writing"
 +(define-custom 'mozc-tool-hand-writing-cmd-option ""
                 '(mozc-tool)
-                '(pathname regular-file)
+                '(string ".*")
                 (N_ "Option for hand writing command")
