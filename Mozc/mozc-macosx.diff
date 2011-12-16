@@ -28,7 +28,7 @@ Index: unix/uim/uim-macuim.gyp
 ===================================================================
 --- unix/uim/uim-macuim.gyp	(revision 0)
 +++ unix/uim/uim-macuim.gyp	(revision 0)
-@@ -0,0 +1,97 @@
+@@ -0,0 +1,99 @@
 +#
 +# Copyright (c) 2010 uim Project http://code.google.com/p/uim/
 +#
@@ -71,6 +71,8 @@ Index: unix/uim/uim-macuim.gyp
 +    'uim_dependencies': [
 +      '../../base/base.gyp:base',
 +      '../../client/client.gyp:client',
++      '../../languages/languages.gyp:global_language_spec',
++      '../../languages/japanese/japanese.gyp:language_dependent_spec_japanese',
 +    ],
 +  },
 +  'targets': [
@@ -130,7 +132,7 @@ Index: uim-macfink.gyp
 ===================================================================
 --- unix/uim/uim-macfink.gyp	(revision 0)
 +++ unix/uim/uim-macfink.gyp	(revision 0)
-@@ -0,0 +1,101 @@
+@@ -0,0 +1,103 @@
 +#
 +# Copyright (c) 2010 uim Project http://code.google.com/p/uim/
 +#
@@ -174,6 +176,8 @@ Index: uim-macfink.gyp
 +    'uim_dependencies': [
 +      '../../base/base.gyp:base',
 +      '../../client/client.gyp:client',
++      '../../languages/languages.gyp:global_language_spec',
++      '../../languages/japanese/japanese.gyp:language_dependent_spec_japanese',
 +    ],
 +  },
 +  'targets': [
@@ -299,20 +303,20 @@ Index: mac/org.mozc.inputmethod.Japanaes.Converter.MacUIM.plist
 +</plist>
 Index: server/mozc_server.cc
 ===================================================================
---- server/mozc_server.cc	(revision 39)
+--- server/mozc_server.cc	(revision 84)
 +++ server/mozc_server.cc	(working copy)
-@@ -101,7 +101,11 @@
- 
-   InitGoogleWithBreakPad(argv[0], &argc, &argv, false);
+@@ -114,7 +114,11 @@
+   const language::LanguageDependentSpecInterface *language_dependent_spec =
+       language::GlobalLanguageSpec::GetLanguageDependentSpec();
  
 +#if defined(OS_MACOSX) && !defined(GOOGLE_JAPANESE_INPUT_BUILD)
-+  mozc::ProcessMutex mutex("mozc_server");
++  string mutex_name = "mozc_server_";
 +#else
-   mozc::ProcessMutex mutex("server");
+   string mutex_name = "server_";
 +#endif
+   mutex_name.append(language_dependent_spec->GetLanguageName());
+   mozc::ProcessMutex mutex(mutex_name.c_str());
    if (!mutex.Lock()) {
-     LOG(INFO) << "Mozc Server is already running";
-     return -1;
 Index: base/base.gyp
 ===================================================================
 --- base/base.gyp	(revision 48)
@@ -374,21 +378,20 @@ Index: base/util.cc
    // TODO(komatsu): nice to make a wrapper function.
 Index: base/mac_process.mm
 ===================================================================
---- base/mac_process.mm	(revision 48)
+--- base/mac_process.mm	(revision 84)
 +++ base/mac_process.mm	(working copy)
-@@ -95,7 +95,11 @@
-   }
+@@ -100,7 +100,11 @@
+ 
+   // The Mozc Tool apps reside in the same directory where the mozc server does.
+   NSString *toolAppPath =
++#ifdef GOOGLE_JAPANESE_INPUT_BUILD
+       [NSString stringWithUTF8String:MacUtil::GetServerDirectory().c_str()];
++#else
++      @"/Library/Mozc/MozcTool.app/Contents/Resources";
++#endif
  
    if (appName != nil) {
--    toolAppPath = [[[NSBundle mainBundle] resourcePath]
-+#ifdef GOOGLE_JAPANESE_INPUT_BUILD
-+    toolAppPath = [@"/Library/Input Methods/GoogleJapaneseInput.app/Contents/Resources"
-+#else
-+    toolAppPath = [@"/Library/Mozc/MozcTool.app/Contents/Resources"
-+#endif
-                     stringByAppendingPathComponent:appName];
-   } else {
-     // Otherwise, we tries to invoke the application by settings FLAGS_mode.
+     toolAppPath = [toolAppPath stringByAppendingPathComponent:appName];
 Index: base/logging.cc
 ===================================================================
 --- base/logging.cc	(revision 48)
@@ -534,12 +537,12 @@ Index: client/client.cc
  
 Index: build_mozc.py
 ===================================================================
---- build_mozc.py	(revision 70)
+--- build_mozc.py	(revision 84)
 +++ build_mozc.py	(working copy)
-@@ -227,6 +227,8 @@
-     except RunOrDieError:
-       print 'scim was not found with pkg-config.'
-       gyp_file_names.remove('%s/unix/scim/scim.gyp' % SRC_DIR)
+@@ -238,6 +238,8 @@
+     # These files will be excluded in GypMain().
+     gyp_file_names.append('%s/chrome/skk/skk.gyp' % SRC_DIR)
+     gyp_file_names.append('%s/chrome/skk/skk_util_test.gyp' % SRC_DIR)
 +  elif IsMac():
 +    gyp_file_names.extend(glob.glob('%s/unix/uim/*.gyp' % SRC_DIR))
    gyp_file_names.extend(glob.glob('third_party/rx/*.gyp'))
