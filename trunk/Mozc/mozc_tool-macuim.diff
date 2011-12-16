@@ -59,16 +59,3 @@ Index: gui/tool/mozc_tool_libmain.cc
  
  // Run* are defiend in each qt module
  int RunAboutDialog(int argc, char *argv[]);
-Index: gui/character_pad/hand_writing_canvas.cc
-===================================================================
---- gui/character_pad/hand_writing_canvas.cc	(revision 56)
-+++ gui/character_pad/hand_writing_canvas.cc	(working copy)
-@@ -53,7 +53,7 @@
-   // TODO(komatsu): Fix the file name to "handwriting-ja.model" like the
-   // Windows implementation regardless which data file is actually
-   // used.  See also gui.gyp:hand_writing_mac.
--  const char kModelFile[] = "handwriting-light-ja.model";
-+  const char kModelFile[] = "handwriting-ja.model";
-   return Util::JoinPath(MacUtil::GetResourcesDirectory(), kModelFile);
- #elif defined(USE_LIBZINNIA)
-   // On Linux, use the model for tegaki-zinnia.
