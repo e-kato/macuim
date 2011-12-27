@@ -96,6 +96,8 @@ static NSTimeInterval lastDeactivatedTime;
 		uim_set_configuration_changed_cb(uc, UIMConfigurationChanged);
 		uim_set_im_switch_request_cb(uc, UIMSwitchAppGlobalIM,
 						 UIMSwitchSystemGlobalIM);
+		uim_set_text_acquisition_cb(uc, UIMAcquiareText,
+						UIMDeleteText);
 
 		if (!contextList)
 			contextList = [[NSPointerArray pointerArrayWithWeakObjects] retain];
@@ -573,6 +575,400 @@ dont_show:
 	free(msg);
 }
 
+- (int)acquirePrimaryText:(enum UTextOrigin)origin:(int)former_req_len:(int)latter_req_len:(char **)former:(char **)latter
+{
+	NSRange range;
+	NSAttributedString *theString = nil;
+	NSInteger start;
+	NSUInteger length;
+	
+	range = [currentClient selectedRange];
+	//NSLog(@"selectedRange %d, %d\n", range.location, range.length);
+
+	switch (origin) {
+	case UTextOrigin_Cursor:
+		if (former_req_len >= 0) {
+			start = range.location - former_req_len;
+			if (start < 0)
+				start = 0;
+		} else if (former_req_len == UTextExtent_Full) {
+			start = 0;
+		} else {
+			/* not supported: UTextExtent_Line and others */
+			return -1;
+		}
+		length = range.location - start;
+		if (length > 0)
+			theString = [currentClient attributedSubstringFromRange:NSMakeRange(start, length)];
+		if (theString != nil)
+			*former = strdup([[theString string] UTF8String]);
+		else
+			*former = NULL;
+
+		if (latter_req_len >= 0) {
+			start = range.location;
+			length = latter_req_len;
+		} else {
+			/* not supported */
+			return -1;
+		}
+		if (length > 0 && ![[currentClient bundleIdentifier]
+				isEqualToString:@"com.apple.Safari"])
+			theString = [currentClient attributedSubstringFromRange:NSMakeRange(start, length)];
+		else
+			theString = nil;
+
+		if (theString != nil)
+			*latter = strdup([[theString string] UTF8String]);
+		else
+			*latter = NULL;
+		break;
+
+	case UTextOrigin_Beginning:
+		start = 0;
+		*former = NULL;
+
+		if (latter_req_len >= 0) {
+			length = latter_req_len;
+		} else {
+			/* not supported: UTextExtent_Line and others*/
+			return -1;
+		}
+		theString = [currentClient attributedSubstringFromRange:NSMakeRange(start, length)];
+		if (theString != nil)
+			*latter = strdup([[theString string] UTF8String]);
+		else
+			*latter = NULL;
+		break;
+
+	case UTextOrigin_End:
+	case UTextOrigin_Unspecified:
+	default:
+		/* not supported */
+		return -1;
+	}
+	//NSLog(@"former %s, latter %s\n", *former, *latter);
+
+	return 0;
+}
+
+
+- (int)acquireSelectedText:(enum UTextOrigin)origin:(int)former_req_len:(int)latter_req_len:(char **)former:(char **)latter
+{
+	NSRange range;
+	NSAttributedString *theString = nil;
+	NSInteger start;
+	NSUInteger length;
+	
+	range = [currentClient selectedRange];
+	//NSLog(@"selectedRange %d, %d\n", range.location, range.length);
+
+	if (range.location == NSNotFound || range.length == 0)
+		return -1;
+
+	switch (origin) {
+	case UTextOrigin_Beginning:
+	case UTextOrigin_Cursor:
+		start = range.location;
+		*former = NULL;
+
+		if (latter_req_len >= 0) {
+			length = latter_req_len;
+			if (length > range.length)
+				length = range.length;
+		} else {
+			/* not supported: UTextExtent_Line and others*/
+			return -1;
+		}
+		theString = [currentClient attributedSubstringFromRange:NSMakeRange(start, length)];
+		if (theString != nil)
+			*latter = strdup([[theString string] UTF8String]);
+		else
+			*latter = NULL;
+		break;
+
+	case UTextOrigin_End:
+		if (former_req_len >= 0) {
+			start = range.location + range.length - former_req_len;
+			length = former_req_len;
+			if (start < 0) {
+				start = range.location;
+				length = range.length;
+			}
+
+		} else if (former_req_len == UTextExtent_Full) {
+			start = range.location;
+			length = range.length;
+		} else {
+			/* not supported: UTextExtent_Line and others */
+			return -1;
+		}
+		if (length > 0)
+			theString = [currentClient attributedSubstringFromRange:NSMakeRange(start, length)];
+		if (theString != nil)
+			*former = strdup([[theString string] UTF8String]);
+		else
+			*former = NULL;
+
+		*latter = NULL;
+		break;
+
+	default:
+		/* not supported */
+		return -1;
+	}
+	//NSLog(@"selection former %s, latter %s\n", *former, *latter);
+
+	return 0;
+}
+
+
+- (int)acquireClipboardText:(enum UTextOrigin)origin:(int)former_req_len:(int)latter_req_len:(char **)former:(char **)latter
+{
+	NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
+	NSUInteger length;
+	NSInteger offset;
+	NSString *string;
+
+	if ([[pasteboard types]
+		containsObject:NSStringPboardType] == YES) {
+		string = [pasteboard stringForType:NSStringPboardType];
+		length = [string length];
+	} else {
+		return -1;
+	}
+
+	/*
+	   Treating the cursor position is virtually at the end for
+	   UTextArea_Clipboard
+	 */
+	switch (origin) {
+	case UTextOrigin_Cursor:
+	case UTextOrigin_End:
+		offset = 0;
+		if (former_req_len >= 0) {
+			if (former_req_len < length)
+				offset = length - former_req_len;
+		} else if (former_req_len != UTextExtent_Full) {
+			/* FIXME for UTextExtent_Line */
+			return -1;
+		}
+		*former = strdup([[string substringFromIndex:offset] UTF8String]);
+		*latter = NULL;
+		break;
+	case UTextOrigin_Beginning:
+		if (latter_req_len >= 0) {
+			if (latter_req_len < length)
+				length = latter_req_len;
+		} else if (latter_req_len != UTextExtent_Full) {
+			/* FIXME for UTextExtent_Line */
+			return -1;
+		}
+		*former = NULL;
+		*latter = strdup([[string substringToIndex:length] UTF8String]);
+		break;
+
+	default:
+		return -1;
+	}
+
+	return 0;
+}
+
+- (int)acquireText:(enum UTextArea)text_id:(enum UTextOrigin)origin:(int)former_req_len:(int)latter_req_len:(char **)former:(char **)latter
+{
+	int err;
+
+	switch (text_id) {
+	case UTextArea_Primary:
+		err = [self acquirePrimaryText:origin:former_req_len:latter_req_len:former:latter];
+		break;
+	case UTextArea_Selection:
+		err = [self acquireSelectedText:origin:former_req_len:latter_req_len:former:latter];
+		break;
+	case UTextArea_Clipboard:
+		err = [self acquireClipboardText:origin:former_req_len:latter_req_len:former:latter];
+		break;
+	case UTextArea_Unspecified:
+        default:
+		err = -1;
+	}
+
+	return err;
+}
+
+- (int)deletePrimaryText:(enum UTextOrigin)origin:(int)former_req_len:(int)latter_req_len
+{
+	NSRange range;
+	NSInteger start;
+	NSUInteger length, removed_length = 0;
+	
+	range = [currentClient selectedRange];
+	//NSLog(@"selectedRange %d, %d\n", range.location, range.length);
+
+	if (range.length > 0)
+		/* selection will be automatically deleted */
+		return -1;
+
+	switch (origin) {
+	case UTextOrigin_Cursor:
+		if (former_req_len >= 0) {
+			start = range.location - former_req_len;
+			if (start < 0)
+				start = 0;
+		} else if (former_req_len == UTextExtent_Full) {
+			start = 0;
+		} else {
+			/* not supported: UTextExtent_Line and others*/
+			return -1;
+		}
+		length = range.location - start;
+		if (length > 0) {
+			[currentClient setMarkedText:@""
+				      selectionRange:NSMakeRange(0, 0)
+				    replacementRange:NSMakeRange(start,
+						    length)];
+			//NSLog(@"start %d, length %d\n", start, length);
+			[currentClient insertText:@""
+				 replacementRange:NSMakeRange(start, length)];
+			removed_length = length;
+		}
+
+		if (latter_req_len >= 0) {
+			start = range.location - removed_length;
+			if (start < 0)
+				start = 0;
+			length = latter_req_len;
+		} else {
+			/* not supported */
+			return -1;
+		}
+		if (length > 0 && ![[currentClient bundleIdentifier]
+				isEqualToString:@"com.apple.Safari"])
+			[currentClient setMarkedText:@""
+				      selectionRange:NSMakeRange(0, 0)
+				    replacementRange:NSMakeRange(start,
+						    length)];
+			//NSLog(@"start %d, length %d\n", start, length);
+			[currentClient insertText:@""
+				 replacementRange:NSMakeRange(start, length)];
+		break;
+
+	case UTextOrigin_Beginning:
+		start = 0;
+
+		if (latter_req_len >= 0) {
+			length = latter_req_len;
+		} else {
+			/* not supported: UTextExtent_Line and others */
+			return -1;
+		}
+		[currentClient setMarkedText:@""
+			      selectionRange:NSMakeRange(0, 0)
+			    replacementRange:NSMakeRange(start, length)];
+		[currentClient insertText:@""
+			 replacementRange:NSMakeRange(start, length)];
+
+		break;
+
+	case UTextOrigin_End:
+	case UTextOrigin_Unspecified:
+	default:
+		/* not supported */
+		return -1;
+	}
+
+	return 0;
+
+}
+
+- (int)deleteSelectedText:(enum UTextOrigin)origin:(int)former_req_len:(int)latter_req_len
+{
+	NSRange range;
+	NSInteger start;
+	NSUInteger length;
+	
+	range = [currentClient selectedRange];
+	//NSLog(@"selectedRange %d, %d\n", range.location, range.length);
+
+	if (range.location == NSNotFound || range.length == 0)
+		return -1;
+
+	switch (origin) {
+	case UTextOrigin_Beginning:
+	case UTextOrigin_Cursor:
+		start = range.location;
+
+		if (latter_req_len >= 0) {
+			length = latter_req_len;
+			if (length > range.length)
+				length = range.length;
+		} else {
+			/* not supported: UTextExtent_Line and others*/
+			return -1;
+		}
+		if (length > 0) {
+			[currentClient setMarkedText:@""
+				      selectionRange:NSMakeRange(0, 0)
+				    replacementRange:NSMakeRange(start, length)];
+			[currentClient insertText:@"" replacementRange:NSMakeRange(start, length)];
+		}
+		break;
+
+	case UTextOrigin_End:
+		if (former_req_len >= 0) {
+			start = range.location + range.length - former_req_len;
+			length = former_req_len;
+			if (start < 0) {
+				start = range.location;
+				length = range.length;
+			}
+
+		} else if (former_req_len == UTextExtent_Full) {
+			start = range.location;
+			length = range.length;
+		} else {
+			/* not supported: UTextExtent_Line and others */
+			return -1;
+		}
+		if (length > 0) {
+			[currentClient setMarkedText:@""
+				      selectionRange:NSMakeRange(0, 0)
+				    replacementRange:NSMakeRange(start, length)];
+			[currentClient insertText:@"" replacementRange:NSMakeRange(start, length)];
+		}
+		break;
+
+	default:
+		/* not supported */
+		return -1;
+	}
+
+	return 0;
+}
+
+- (int)deleteText:(enum UTextArea)text_id:(enum UTextOrigin)origin:(int)former_req_len:(int)latter_req_len
+{
+	int err;
+
+	switch (text_id) {
+	case UTextArea_Primary:
+		err = [self deletePrimaryText:origin:former_req_len:latter_req_len];
+		break;
+	case UTextArea_Selection:
+		err = [self deleteSelectedText:origin:former_req_len:latter_req_len];
+		break;
+	case UTextArea_Clipboard:
+	case UTextArea_Unspecified:
+        default:
+		err = -1;
+		break;
+	}
+
+	return err;
+}
+
+
 - (void)dealloc
 {
 	//NSLog(@"dealloc");
@@ -889,6 +1285,21 @@ void UIMSwitchAppGlobalIM(void *ptr, const char *name)
 void UIMSwitchSystemGlobalIM(void *ptr, const char *name)
 {
 	[(MacUIMController *)ptr switchSystemGlobalIM:name];
+}
+
+int UIMAcquiareText(void *ptr, enum UTextArea text_id, enum UTextOrigin origin,
+		    int former_req_len, int latter_req_len,
+		    char **former, char **latter)
+{
+	return [(MacUIMController *)ptr
+		acquireText:text_id:origin:former_req_len:latter_req_len:former:latter];
+}
+
+int UIMDeleteText(void *ptr, enum UTextArea text_id, enum UTextOrigin origin,
+		  int former_req_len, int latter_req_len)
+{
+	return [(MacUIMController *)ptr
+		deleteText:text_id:origin:former_req_len:latter_req_len];
 }
 
 char *get_caret_state_label_from_prop_list(const char *str)

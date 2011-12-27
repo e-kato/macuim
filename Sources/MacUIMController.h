@@ -59,6 +59,8 @@ void UIMUpdatePropList(void *ptr, const char *str);
 void UIMConfigurationChanged(void *ptr);
 void UIMSwitchAppGlobalIM(void *ptr, const char *name);
 void UIMSwitchSystemGlobalIM(void *ptr, const char *name);
+int UIMAcquiareText(void *ptr, enum UTextArea text_id, enum UTextOrigin origin, int former_req_len, int latter_req_len, char **former, char **latter);
+int UIMDeleteText(void *ptr, enum UTextArea text_id, enum UTextOrigin origin, int former_req_len, int latter_req_len);
 
 static int convertKey(unsigned short keyCode,
 		      NSUInteger flags,
