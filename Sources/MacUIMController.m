@@ -96,7 +96,7 @@ static NSTimeInterval lastDeactivatedTime;
 		uim_set_configuration_changed_cb(uc, UIMConfigurationChanged);
 		uim_set_im_switch_request_cb(uc, UIMSwitchAppGlobalIM,
 						 UIMSwitchSystemGlobalIM);
-		uim_set_text_acquisition_cb(uc, UIMAcquiareText,
+		uim_set_text_acquisition_cb(uc, UIMAcquireText,
 						UIMDeleteText);
 
 		if (!contextList)
@@ -1287,7 +1287,7 @@ void UIMSwitchSystemGlobalIM(void *ptr, const char *name)
 	[(MacUIMController *)ptr switchSystemGlobalIM:name];
 }
 
-int UIMAcquiareText(void *ptr, enum UTextArea text_id, enum UTextOrigin origin,
+int UIMAcquireText(void *ptr, enum UTextArea text_id, enum UTextOrigin origin,
 		    int former_req_len, int latter_req_len,
 		    char **former, char **latter)
 {
