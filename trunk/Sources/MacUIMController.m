@@ -578,9 +578,10 @@ dont_show:
 - (int)acquirePrimaryText:(enum UTextOrigin)origin:(int)former_req_len:(int)latter_req_len:(char **)former:(char **)latter
 {
 	NSRange range;
-	NSAttributedString *theString = nil;
+	NSAttributedString *attrString = nil;
+	NSString *theString;
 	NSInteger start;
-	NSUInteger length;
+	NSUInteger length, i;
 	
 	range = [currentClient selectedRange];
 	//NSLog(@"selectedRange %d, %d\n", range.location, range.length);
@@ -599,9 +600,9 @@ dont_show:
 		}
 		length = range.location - start;
 		if (length > 0)
-			theString = [currentClient attributedSubstringFromRange:NSMakeRange(start, length)];
-		if (theString != nil)
-			*former = strdup([[theString string] UTF8String]);
+			attrString = [currentClient attributedSubstringFromRange:NSMakeRange(start, length)];
+		if (attrString != nil)
+			*former = strdup([[attrString string] UTF8String]);
 		else
 			*former = NULL;
 
@@ -612,14 +613,26 @@ dont_show:
 			/* not supported */
 			return -1;
 		}
-		if (length > 0 && ![[currentClient bundleIdentifier]
-				isEqualToString:@"com.apple.Safari"])
-			theString = [currentClient attributedSubstringFromRange:NSMakeRange(start, length)];
-		else
-			theString = nil;
-
+		theString = nil;
+		if (![[currentClient bundleIdentifier]
+				isEqualToString:@"com.apple.Safari"]) {
+			i = length;
+			while (i > 0) {
+				attrString = [currentClient attributedSubstringFromRange:NSMakeRange(start + (length - i), 1)];
+				if (attrString != nil) {
+					if (theString == nil) {
+						theString = [attrString string];
+					} else {
+						theString = [theString stringByAppendingString:[attrString string]];
+					}
+				} else {
+					break;
+				}
+				i--;
+			}
+		}
 		if (theString != nil)
-			*latter = strdup([[theString string] UTF8String]);
+			*latter = strdup([theString UTF8String]);
 		else
 			*latter = NULL;
 		break;
@@ -634,9 +647,26 @@ dont_show:
 			/* not supported: UTextExtent_Line and others*/
 			return -1;
 		}
-		theString = [currentClient attributedSubstringFromRange:NSMakeRange(start, length)];
+		theString = nil;
+		if (![[currentClient bundleIdentifier]
+				isEqualToString:@"com.apple.Safari"]) {
+			i = length;
+			while (i > 0) {
+				attrString = [currentClient attributedSubstringFromRange:NSMakeRange(start + (length - i), 1)];
+				if (attrString != nil) {
+					if (theString == nil) {
+						theString = [attrString string];
+					} else {
+						theString = [theString stringByAppendingString:[attrString string]];
+					}
+				} else {
+					break;
+				}
+				i--;
+			}
+		}
 		if (theString != nil)
-			*latter = strdup([[theString string] UTF8String]);
+			*latter = strdup([theString UTF8String]);
 		else
 			*latter = NULL;
 		break;
@@ -801,7 +831,7 @@ dont_show:
 {
 	NSRange range;
 	NSInteger start;
-	NSUInteger length, removed_length = 0;
+	NSUInteger length, i, removed_length = 0;
 	
 	range = [currentClient selectedRange];
 	//NSLog(@"selectedRange %d, %d\n", range.location, range.length);
@@ -843,15 +873,19 @@ dont_show:
 			/* not supported */
 			return -1;
 		}
-		if (length > 0 && ![[currentClient bundleIdentifier]
-				isEqualToString:@"com.apple.Safari"])
-			[currentClient setMarkedText:@""
-				      selectionRange:NSMakeRange(0, 0)
-				    replacementRange:NSMakeRange(start,
-						    length)];
-			//NSLog(@"start %d, length %d\n", start, length);
-			[currentClient insertText:@""
-				 replacementRange:NSMakeRange(start, length)];
+		if (![[currentClient bundleIdentifier]
+				isEqualToString:@"com.apple.Safari"]) {
+			i = length;
+			while (i > 0) {
+				[currentClient setMarkedText:@""
+					      selectionRange:NSMakeRange(0, 0)
+					    replacementRange:NSMakeRange(start, 1)];
+				//NSLog(@"start %d, length %d\n", start, length);
+				[currentClient insertText:@""
+					 replacementRange:NSMakeRange(start, 1)];
+				i--;
+			}
+		}
 		break;
 
 	case UTextOrigin_Beginning:
@@ -863,12 +897,18 @@ dont_show:
 			/* not supported: UTextExtent_Line and others */
 			return -1;
 		}
-		[currentClient setMarkedText:@""
-			      selectionRange:NSMakeRange(0, 0)
-			    replacementRange:NSMakeRange(start, length)];
-		[currentClient insertText:@""
-			 replacementRange:NSMakeRange(start, length)];
-
+		if (![[currentClient bundleIdentifier]
+				isEqualToString:@"com.apple.Safari"]) {
+			i = length;
+			while (i > 0) {
+				[currentClient setMarkedText:@""
+					      selectionRange:NSMakeRange(0, 0)
+					    replacementRange:NSMakeRange(start, 1)];
+				[currentClient insertText:@""
+					 replacementRange:NSMakeRange(start, 1)];
+				i--;
+			}
+		}
 		break;
 
 	case UTextOrigin_End:
