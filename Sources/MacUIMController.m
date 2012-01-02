@@ -329,14 +329,33 @@ static NSTimeInterval lastDeactivatedTime;
 		theDict = [currentClient attributesForCharacterIndex:0 lineHeightRectangle:&inputRect];
 	}
 
-	NSFont *font = nil;
 	if (theDict) {
-		font = [theDict objectForKey:@"NSFont"];
+		BOOL isVertical = NO;
+		NSFont *font = [theDict objectForKey:@"NSFont"];
+		NSNumber *number =
+			[theDict objectForKey:@"IMKTextOrientation"];
+
+		if (number != nil && [number intValue] == 0)
+			isVertical = YES;
+
+		if (isVertical) {
+			number = [theDict objectForKey:@"IMKLineHeight"];
+			if (number != nil)
+				inputRect.origin.x += [number floatValue];
+		}
+
 		if (font != nil) {
-			inputRect.origin.y +=
-				CTFontGetUnderlinePosition((CTFontRef)font);
-			inputRect.origin.y -=
-				CTFontGetUnderlineThickness((CTFontRef)font);
+			if (!isVertical) {
+				inputRect.origin.y +=
+					CTFontGetUnderlinePosition((CTFontRef)font);
+				inputRect.origin.y -=
+					CTFontGetUnderlineThickness((CTFontRef)font);
+			} else {
+				inputRect.origin.x -=
+					CTFontGetUnderlinePosition((CTFontRef)font);
+				inputRect.origin.x +=
+					CTFontGetUnderlineThickness((CTFontRef)font);
+			}
 		}
 	}
 
