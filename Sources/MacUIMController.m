@@ -724,7 +724,7 @@ dont_show:
 
 	switch (origin) {
 	case UTextOrigin_Beginning:
-	/* assume cusror is always at the beginning of selected text */
+	/* cusror is always at the beginning of selected text */
 	case UTextOrigin_Cursor:
 		start = range.location;
 		*former = NULL;
@@ -893,7 +893,7 @@ dont_show:
 	//NSLog(@"selectedRange %d, %d\n", range.location, range.length);
 
 	if (range.length > 0)
-		/* selection will be automatically deleted */
+		/* selection existed */
 		return -1;
 
 	switch (origin) {
@@ -902,13 +902,29 @@ dont_show:
 			start = range.location - former_req_len;
 			if (start < 0)
 				start = 0;
+			length = range.location - start;
 		} else if (former_req_len == UTextExtent_Full) {
 			start = 0;
+			length = range.location;
+		} else if (former_req_len == UTextExtent_Line) {
+			start = 0;
+			length = range.location;
+			NSAttributedString *attrString =
+				[currentClient attributedSubstringFromRange:NSMakeRange(start, length)];
+			if (attrString != nil) {
+				NSString *str = [attrString string];
+				NSRange newRange =
+					[str rangeOfString:@"\n"
+						   options:NSBackwardsSearch];
+				if (newRange.location != NSNotFound) {
+					start = newRange.location + 1;
+					length = range.location - start;
+				}
+			}
 		} else {
-			/* not supported: UTextExtent_Line and others*/
+			/* not supported */
 			return -1;
 		}
-		length = range.location - start;
 		if (length > 0) {
 			[currentClient setMarkedText:@""
 				      selectionRange:NSMakeRange(0, 0)
@@ -968,6 +984,7 @@ dont_show:
 		break;
 
 	case UTextOrigin_End:
+		/* we can't determine whether range.location is at the end */
 	case UTextOrigin_Unspecified:
 	default:
 		/* not supported */
@@ -992,6 +1009,7 @@ dont_show:
 
 	switch (origin) {
 	case UTextOrigin_Beginning:
+	/* cusror is always at the beginning of selected text */
 	case UTextOrigin_Cursor:
 		start = range.location;
 
@@ -1000,8 +1018,23 @@ dont_show:
 			if (length > range.length)
 				length = range.length;
 		} else {
-			/* not supported: UTextExtent_Line and others*/
-			return -1;
+			if (latter_req_len == UTextExtent_Full) {
+				length = range.length;
+			} else if (latter_req_len == UTextExtent_Line) {
+				length = range.length;
+				NSAttributedString *attrString =
+					[currentClient attributedSubstringFromRange:range];
+				if (attrString != nil) {
+					NSString *str = [attrString string];
+					NSRange newRange =
+						[str rangeOfString:@"\n"];
+					if (newRange.location != NSNotFound) {
+						length = newRange.location - start;
+					}
+				}
+			} else {
+				return -1;
+			}
 		}
 		if (length > 0) {
 			[currentClient setMarkedText:@""
