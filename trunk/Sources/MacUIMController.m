@@ -726,8 +726,12 @@ dont_show:
 			if (length > range.length)
 				length = range.length;
 		} else {
-			/* not supported: UTextExtent_Line and others*/
-			return -1;
+			if (latter_req_len == UTextExtent_Full)
+				length = range.length;
+			else {
+				/* FIXME: support UTextExtent_Line */
+				return -1;
+			}
 		}
 		theString = [currentClient attributedSubstringFromRange:NSMakeRange(start, length)];
 		if (theString != nil)
