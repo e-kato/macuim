@@ -611,18 +611,25 @@ dont_show:
 			start = range.location - former_req_len;
 			if (start < 0)
 				start = 0;
-		} else if (former_req_len == UTextExtent_Full) {
+		} else if (former_req_len == UTextExtent_Full ||
+			   former_req_len == UTextExtent_Line) {
 			start = 0;
 		} else {
-			/* not supported: UTextExtent_Line and others */
+			/* not supported */
 			return -1;
 		}
 		length = range.location - start;
 		if (length > 0)
 			attrString = [currentClient attributedSubstringFromRange:NSMakeRange(start, length)];
-		if (attrString != nil)
-			*former = strdup([[attrString string] UTF8String]);
-		else
+		if (attrString != nil) {
+			const char *str = [[attrString string] UTF8String];
+			char *p;
+			if (former_req_len == UTextExtent_Line &&
+			    (p = strrchr(str, '\n')))
+				*former = strdup(p + 1);
+			else
+				*former = strdup(str);
+		} else
 			*former = NULL;
 
 		if (latter_req_len >= 0) {
@@ -691,6 +698,7 @@ dont_show:
 		break;
 
 	case UTextOrigin_End:
+		/* we can't determine whether range.location is at the end */
 	case UTextOrigin_Unspecified:
 	default:
 		/* not supported */
@@ -700,7 +708,6 @@ dont_show:
 
 	return 0;
 }
-
 
 - (int)acquireSelectedText:(enum UTextOrigin)origin:(int)former_req_len:(int)latter_req_len:(char **)former:(char **)latter
 {
@@ -717,6 +724,7 @@ dont_show:
 
 	switch (origin) {
 	case UTextOrigin_Beginning:
+	/* assume cusror is always at the beginning of selected text */
 	case UTextOrigin_Cursor:
 		start = range.location;
 		*former = NULL;
@@ -726,17 +734,22 @@ dont_show:
 			if (length > range.length)
 				length = range.length;
 		} else {
-			if (latter_req_len == UTextExtent_Full)
+			if (latter_req_len == UTextExtent_Full ||
+			    latter_req_len == UTextExtent_Line)
 				length = range.length;
 			else {
-				/* FIXME: support UTextExtent_Line */
 				return -1;
 			}
 		}
 		theString = [currentClient attributedSubstringFromRange:NSMakeRange(start, length)];
-		if (theString != nil)
-			*latter = strdup([[theString string] UTF8String]);
-		else
+		if (theString != nil) {
+			const char *str = [[theString string] UTF8String];
+			char *p;
+			if (latter_req_len == UTextExtent_Line &&
+			    (p = strchr(str, '\n')))
+				*p = '\0';
+			*latter = strdup(str);
+		} else
 			*latter = NULL;
 		break;
 
@@ -749,18 +762,25 @@ dont_show:
 				length = range.length;
 			}
 
-		} else if (former_req_len == UTextExtent_Full) {
+		} else if (former_req_len == UTextExtent_Full ||
+			   former_req_len == UTextExtent_Line) {
 			start = range.location;
 			length = range.length;
 		} else {
-			/* not supported: UTextExtent_Line and others */
+			/* not supported */
 			return -1;
 		}
 		if (length > 0)
 			theString = [currentClient attributedSubstringFromRange:NSMakeRange(start, length)];
-		if (theString != nil)
-			*former = strdup([[theString string] UTF8String]);
-		else
+		if (theString != nil) {
+			const char *str = [[theString string] UTF8String];
+			char *p;
+			if (former_req_len == UTextExtent_Line && (p =
+						strrchr(str, '\n')))
+				*former = strdup(str + 1);
+			else
+				*former = strdup(str);
+		} else
 			*former = NULL;
 
 		*latter = NULL;
@@ -782,10 +802,14 @@ dont_show:
 	NSUInteger length;
 	NSInteger offset;
 	NSString *string;
+	const char *str;
+	char *p;
 
 	if ([[pasteboard types]
 		containsObject:NSStringPboardType] == YES) {
 		string = [pasteboard stringForType:NSStringPboardType];
+		if (string == nil)
+			return -1;
 		length = [string length];
 	} else {
 		return -1;
@@ -802,22 +826,31 @@ dont_show:
 		if (former_req_len >= 0) {
 			if (former_req_len < length)
 				offset = length - former_req_len;
-		} else if (former_req_len != UTextExtent_Full) {
-			/* FIXME for UTextExtent_Line */
+		} else if (former_req_len != UTextExtent_Full && 
+			   former_req_len != UTextExtent_Line) {
 			return -1;
 		}
-		*former = strdup([[string substringFromIndex:offset] UTF8String]);
+		str = [[string substringFromIndex:offset] UTF8String];
+		if (former_req_len == UTextExtent_Line &&
+		    (p = strrchr(str, '\n')))
+			*former = strdup(p + 1);
+		else
+			*former = strdup(str);
 		*latter = NULL;
 		break;
 	case UTextOrigin_Beginning:
 		if (latter_req_len >= 0) {
 			if (latter_req_len < length)
 				length = latter_req_len;
-		} else if (latter_req_len != UTextExtent_Full) {
-			/* FIXME for UTextExtent_Line */
+		} else if (latter_req_len != UTextExtent_Full && 
+			   latter_req_len != UTextExtent_Line) {
 			return -1;
 		}
 		*former = NULL;
+		str = [[string substringToIndex:length] UTF8String];
+		if (latter_req_len == UTextExtent_Line &&
+		    (p = strchr(str, '\n')))
+			length = p - str;
 		*latter = strdup([[string substringToIndex:length] UTF8String]);
 		break;
 
