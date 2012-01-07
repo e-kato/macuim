@@ -146,7 +146,12 @@
          'mozc_tool_hand_writing
          "H"
          (N_ "Hand writing")
-         (N_ "Hand writing"))))
+         (N_ "Hand writing"))
+   (list 'action_mozc_reconvert
+         'mozc_reconvert
+         "R"
+         (N_ "Reconvert")
+         (N_ "Reconvert"))))
 
 
 ;;; Buttons
