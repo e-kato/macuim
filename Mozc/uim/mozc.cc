@@ -102,6 +102,8 @@ static struct context_slot_ {
 } *context_slot;
 
 static KeyTranslator *keyTranslator;
+static bool enable_reconversion;
+static void update_all(uim_lisp mc_, int id);
 
 static int
 unused_context_id(void)
@@ -132,6 +134,27 @@ SyncData(int id, bool force)
     context_slot[id].session->SyncData();
     context_slot[id].last_sync_time = current_time;
   }
+}
+
+static void
+update_deletion_range(uim_lisp mc_, int id)
+{
+  commands::Output *output = context_slot[id].output;
+  int offset, length;
+
+  if (!enable_reconversion)
+    return;
+
+  if (!output->has_deletion_range())
+    return;
+
+  offset = output->deletion_range().offset();
+  length = output->deletion_range().length();
+
+  if (offset + length < 0)
+    return;
+
+  uim_scm_callf("im-delete-text", "oyyii", mc_, "primary", "cursor", -offset, offset + length);
 }
 
 static void
@@ -322,12 +345,83 @@ update_composition_mode(uim_lisp mc_, int id)
 }
 
 static void
+execute_callback(uim_lisp mc_, int id)
+{
+  commands::Output *output = context_slot[id].output;
+  
+  if (!enable_reconversion)
+    return;
+
+  if (!output->has_callback())
+    return;
+
+  if (!output->callback().has_session_command())
+    return;
+
+  const commands::SessionCommand &command = output->callback().session_command();
+  if (!command.has_type())
+    return;
+
+  const commands::SessionCommand::CommandType type = command.type();
+  commands::SessionCommand session_command;
+  session_command.set_type(type);
+  int use_primary_text = 0;
+
+  switch (type) {
+  case commands::SessionCommand::UNDO:
+    // do nothing.
+    break;
+  case commands::SessionCommand::CONVERT_REVERSE:
+    {
+      // try selected text first, then primary text
+      uim_lisp ustr = uim_scm_callf("im-acquire-text", "oyyiy", mc_, "selection", "beginning", 0, "full");
+      uim_lisp former, latter;
+
+      if (TRUEP(ustr) &&
+	  !NULLP(latter = uim_scm_callf("ustr-latter-seq", "o", ustr))) {
+	  uim_lisp str = CAR(latter);
+
+          string text = REFER_C_STR(str);
+          session_command.set_text(text);
+      } else {
+        ustr = uim_scm_callf("im-acquire-text", "oyyyi", mc_, "primary", "cursor", "line", 0);
+	if (TRUEP(ustr) && !NULLP(former = uim_scm_callf("ustr-former-seq", "o", ustr))) {
+	  uim_lisp str = CAR(former);
+	  string text = REFER_C_STR(str);
+	  session_command.set_text(text);
+	  use_primary_text = 1;
+	} else
+	  return;
+      }
+    }
+    break;
+  default:
+    return;
+  }
+
+  if (!context_slot[id].session->SendCommand(session_command, context_slot[id].output)) {
+    // callback command failed
+    return;
+  }
+
+  if (type == commands::SessionCommand::CONVERT_REVERSE) {
+    if (use_primary_text)
+      uim_scm_callf("im-delete-text", "oyyyi", mc_, "primary", "cursor", "line", 0);
+    else
+      uim_scm_callf("im-delete-text", "oyyiy", mc_, "selection", "beginning", 0, "full");
+  }
+  update_all(mc_, id);
+}
+
+static void
 update_all(uim_lisp mc_, int id)
 {
+  update_deletion_range(mc_, id);
   update_result(mc_, id);
   update_preedit(mc_, id);
   update_candidates(mc_, id);
   update_composition_mode(mc_, id);
+  execute_callback(mc_, id);
 }
 
 static uim_lisp
@@ -358,6 +452,16 @@ create_context(uim_lisp mc_)
 #if !USE_CASCADING_CANDIDATES
   session->EnableCascadingWindow(false);
 #endif
+
+  if (!enable_reconversion)
+    enable_reconversion = (bool)C_BOOL(uim_scm_callf("mozc-check-uim-version", "iii", 1, 7, 2));
+
+  if (enable_reconversion) {
+    commands::Capability capability;
+    capability.set_text_deletion(commands::Capability::DELETE_PRECEDING_TEXT);
+    session->set_client_capability(capability);
+  }
+
 
   return MAKE_INT(id);
 }
@@ -914,7 +1018,6 @@ select_candidate(uim_lisp mc_, uim_lisp id_, uim_lisp idx_)
   const int32 cand_id = context_slot[id].output->candidates().candidate(idx).id();
 #endif
 
-  commands::Output output;
   commands::SessionCommand command;
   command.set_type(commands::SessionCommand::SELECT_CANDIDATE);
   command.set_id(cand_id);
@@ -935,7 +1038,7 @@ get_input_rule(uim_lisp id_)
   case config::Config::ROMAN:
     rule = 0;
     break;
-    case config::Config::KANA:
+  case config::Config::KANA:
     rule = 1;
     break;
   default:
@@ -977,7 +1080,52 @@ set_input_rule(uim_lisp mc_, uim_lisp id_, uim_lisp new_rule_)
 
   return uim_scm_t();
 }
- 
+
+static uim_lisp
+reconvert(uim_lisp mc_, uim_lisp id_)
+{
+  if (!enable_reconversion)
+    return uim_scm_f();
+
+  int id = C_INT(id_);
+  commands::SessionCommand session_command;
+  session_command.set_type(commands::SessionCommand::CONVERT_REVERSE);
+
+  // try selected text first, then primary text
+  uim_lisp ustr = uim_scm_callf("im-acquire-text", "oyyiy", mc_, "selection" , "beginning", 0, "full");
+  uim_lisp former, latter;
+  int use_primary_text = 0;
+
+  if (TRUEP(ustr) &&
+      !NULLP(latter = uim_scm_callf("ustr-latter-seq", "o", ustr))) {
+    uim_lisp str = CAR(latter);
+
+    string text = REFER_C_STR(str);
+    session_command.set_text(text);
+  } else {
+    ustr = uim_scm_callf("im-acquire-text", "oyyyi", mc_, "primary", "cursor", "line", 0);
+    if (TRUEP(ustr) &&
+	!NULLP(former = uim_scm_callf("ustr-former-seq", "o", ustr))) {
+      uim_lisp str = CAR(former);
+      string text = REFER_C_STR(str);
+      session_command.set_text(text);
+      use_primary_text = 1;
+    } else
+      return uim_scm_f();
+  }
+
+  if (!context_slot[id].session->SendCommand(session_command, context_slot[id].output))
+    return uim_scm_f();
+
+  if (use_primary_text)
+    uim_scm_callf("im-delete-text", "oyyyi", mc_, "primary", "cursor", "line", 0);
+  else
+    uim_scm_callf("im-delete-text", "oyyiy", mc_, "selection", "beginning", 0, "full");
+  update_all(mc_, id);
+
+  return uim_scm_t();
+}
+
 } // namespace
 } // namespace
 
@@ -1003,6 +1151,7 @@ uim_plugin_instance_init(void)
   uim_scm_init_proc3("mozc-lib-set-candidate-index", mozc::uim::select_candidate);
   uim_scm_init_proc1("mozc-lib-input-rule", mozc::uim::get_input_rule);
   uim_scm_init_proc3("mozc-lib-set-input-rule", mozc::uim::set_input_rule);
+  uim_scm_init_proc2("mozc-lib-reconvert", mozc::uim::reconvert);
 
   int argc = 1;
   static const char name[] = "uim-mozc";

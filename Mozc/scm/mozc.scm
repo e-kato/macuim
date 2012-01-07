@@ -31,6 +31,7 @@
 (require "util.scm")
 (require "process.scm")
 (require "japanese.scm")
+(require "ustr.scm")
 (require-custom "generic-key-custom.scm")
 (require-custom "mozc-custom.scm")
 (require-custom "mozc-key-custom.scm")
@@ -101,6 +102,18 @@
       ((mozc-tool-hand-writing)
        (mozc-run-process mozc-tool-hand-writing-cmd (list mozc-tool-hand-writing-cmd mozc-tool-hand-writing-cmd-option)))
       (else
+        #f))))
+
+(define mozc-reconvert
+  (lambda (mc)
+    (let ((mid (mozc-context-mc-id mc)))
+      (if mid
+        (begin
+          (if (not (mozc-context-on mc))
+            (begin
+              (mozc-lib-set-on mid)
+              (mozc-context-set-on! mc #t)))
+          (mozc-lib-reconvert mc mid))
         #f))))
 
 (register-action 'action_mozc_hiragana
@@ -307,6 +320,18 @@
                  (lambda (mc)
                    (mozc-tool-activate mc 'mozc-tool-hand-writing)))
 
+(register-action 'action_mozc_reconvert
+;;               (indication-alist-indicator 'action_mozc_reconvert
+;;                                           mozc-tool-indication-alist)
+                 (lambda (mc)
+                   '(mozc_reconvert
+                     "R"
+                     "Reconvert"
+                     "Reconvert"))
+                 (lambda (mc)
+                   #f)
+                 (lambda (mc)
+                   (mozc-reconvert mc)))
 
 ;; Update widget definitions based on action configurations. The
 ;; procedure is needed for on-the-fly reconfiguration involving the
@@ -337,11 +362,11 @@
 (define mozc-context-new
   (lambda (id im name)
     (let* ((mc (mozc-context-new-internal id im))
-	   (mc-id (if (symbol-bound? 'mozc-lib-alloc-context)
+	   (mid (if (symbol-bound? 'mozc-lib-alloc-context)
                     (mozc-lib-alloc-context mc)
                     #f)))
       (mozc-context-set-widgets! mc mozc-widgets)
-      (mozc-context-set-mc-id! mc mc-id)
+      (mozc-context-set-mc-id! mc mid)
       mc)))
 
 (define mozc-separator
@@ -357,7 +382,7 @@
    (if (mozc-on-key? key key-state)
      (let ((mid (mozc-context-mc-id mc)))
        (if mid
-         (mozc-lib-set-on (mozc-context-mc-id mc)))
+         (mozc-lib-set-on mid))
        (mozc-context-set-on! mc #t))
      (im-commit-raw mc))))
 
@@ -367,9 +392,9 @@
 
 (define mozc-release-handler
   (lambda (mc)
-    (let ((mc-id (mozc-context-mc-id mc)))
-      (if mc-id
-        (mozc-lib-free-context mc-id)
+    (let ((mid (mozc-context-mc-id mc)))
+      (if mid
+        (mozc-lib-free-context mid)
         #f)
     #f)))
 
@@ -486,6 +511,22 @@
   (lambda (mc idx)
     (let ((mid (mozc-context-mc-id mc)))
       (mozc-lib-set-candidate-index mc mid idx))))
+
+(define mozc-check-uim-version
+  (lambda (request-major request-minor request-patch)
+    (let* ((version (string-split (uim-version) "."))
+           (len (length version))
+           (major (if (>= len 1) (string->number (list-ref version 0)) 0))
+           (minor (if (>= len 2) (string->number (list-ref version 1)) 0))
+           (patch (if (>= len 3) (string->number (list-ref version 2)) 0)))
+      (or (> major request-major)
+          (and
+            (= major request-major)
+            (> minor request-minor))
+          (and
+            (= major request-major)
+            (= minor request-minor)
+            (>= patch request-patch))))))
 
 (mozc-configure-widgets)
 
