@@ -453,8 +453,10 @@ create_context(uim_lisp mc_)
   session->EnableCascadingWindow(false);
 #endif
 
-  if (!enable_reconversion)
-    enable_reconversion = (bool)C_BOOL(uim_scm_callf("mozc-check-uim-version", "iii", 1, 7, 2));
+  if (!enable_reconversion) {
+    if (!FALSEP(uim_scm_callf("symbol-bound?", "y", "mozc-check-uim-version")))
+      enable_reconversion = (bool)C_BOOL(uim_scm_callf("mozc-check-uim-version", "iii", 1, 7, 2));
+  }
 
   if (enable_reconversion) {
     commands::Capability capability;
