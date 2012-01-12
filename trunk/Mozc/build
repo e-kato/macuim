@@ -24,6 +24,7 @@ PATCH7=${top}/mozc_tool-macuim.diff
 PATCH8=${top}/mozc-linux-protobuf.diff
 PATCH9=${top}/mozc-linux-protobuf220.diff
 PATCH4=${top}/mozc-linux-protobuf230.diff
+PATCH5=${top}/mozc-global_language_spec.diff
 PATCH10=${top}/mozc-kill-line.diff
 PATCH11=${top}/zinnia-macosx.diff
 PATCH12=${top}/uim-mozc-macuim.diff
@@ -113,6 +114,8 @@ pushd mozc/src
 		fi
 		# kill-line patch
 		patch -p0 < ${PATCH10}
+		# global_language_spec patch
+		patch -p0 < ${PATCH5}
 		exit
 	fi
 
