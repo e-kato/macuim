@@ -1,5 +1,5 @@
 // Copyright 2010, Google Inc.
-// Copyright (c) 2010-2011 uim Project http://code.google.com/p/uim/
+// Copyright (c) 2010-2012 uim Project http://code.google.com/p/uim/
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
