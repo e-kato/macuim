@@ -373,9 +373,9 @@ execute_callback(uim_lisp mc_, int id)
     break;
   case commands::SessionCommand::CONVERT_REVERSE:
     {
-      // try selected text first, then primary text
+      // try selected text first
       uim_lisp ustr = uim_scm_callf("im-acquire-text", "oyyiy", mc_, "selection", "beginning", 0, "full");
-      uim_lisp former, latter;
+      uim_lisp latter;
 
       if (TRUEP(ustr) &&
 	  !NULLP(latter = uim_scm_callf("ustr-latter-seq", "o", ustr))) {
@@ -384,6 +384,9 @@ execute_callback(uim_lisp mc_, int id)
           string text = REFER_C_STR(str);
           session_command.set_text(text);
       } else {
+#if 0
+	// then primary text
+        uim_lisp former;
         ustr = uim_scm_callf("im-acquire-text", "oyyyi", mc_, "primary", "cursor", "line", 0);
 	if (TRUEP(ustr) && !NULLP(former = uim_scm_callf("ustr-former-seq", "o", ustr))) {
 	  uim_lisp str = CAR(former);
@@ -392,6 +395,10 @@ execute_callback(uim_lisp mc_, int id)
 	  use_primary_text = 1;
 	} else
 	  return;
+#else
+        // UNDO if no selection
+        session_command.set_type(commands::SessionCommand::UNDO);
+#endif
       }
     }
     break;
