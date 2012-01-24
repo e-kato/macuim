@@ -77,6 +77,7 @@
                         #f))
                      ((= 0 pid2)
                       (setenv "MALLOC_CHECK_" "0" 0)
+                      (setenv "GTK_IM_MODULE" "gtk-im-context-simple" 0)
                       (if (= (process-execute file argv) -1)
                         (uim-notify-fatal (format (N_ "cannot execute ~a") file)))
                       (_exit 0))
