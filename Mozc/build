@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # usage
 # ./build --apply-patch		# just apply patches
@@ -36,6 +36,7 @@ mozcdir="/Library/Mozc"
 launchagentdir="/Library/LaunchAgents"
 uim_build_dir="${top}/../UIM/uim"
 ## static linked protobuf for Linux
+use_static_protobuf_on_linux=yes
 #protobuf_ver=2.2.0
 protobuf_ver=2.3.0
 ## variable "target" is only effective for Darwin
@@ -64,7 +65,7 @@ fi
 
 
 pushd mozc/src
-	if [ ! -d protobuf/files -a "${os}" = "Linux" ]; then
+	if [ ! -d protobuf/files -a "${os}" = "Linux" -a ${use_static_protobuf_on_linux} = "yes" ]; then
 		# pull protobuf
 		svn co http://protobuf.googlecode.com/svn/tags/${protobuf_ver} protobuf/files
 	fi
@@ -104,7 +105,7 @@ pushd mozc/src
 				rm -f unix/uim/uim-macuim.gyp
 			fi
 		fi
-		if [ ${os} = "Linux" ]; then
+		if [ ${os} = "Linux" -a ${use_static_protobuf_on_linux} = "yes" ]; then
 			patch -p0 < ${PATCH8}
 			if [ ${protobuf_ver} = "2.2.0" ]; then
 				patch -p0 < ${PATCH9}
