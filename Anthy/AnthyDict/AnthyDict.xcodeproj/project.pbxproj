@@ -173,7 +173,14 @@
 			isa = PBXProject;
 			buildConfigurationList = 418E2F380CC1EAB40056CF63 /* Build configuration list for PBXProject "AnthyDict" */;
 			compatibilityVersion = "Xcode 2.4";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* AnthyDict */;
 			projectDirPath = "";
 			projectRoot = "";
