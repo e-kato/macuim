@@ -21,9 +21,6 @@ PATCH2=${top}/gyp-macosx-i386.diff
 PATCH3=${top}/gyp-macosx-x86_64.diff
 PATCH6=${top}/mozc_tool-macosx.diff
 PATCH7=${top}/mozc_tool-macuim.diff
-PATCH8=${top}/mozc-linux-protobuf.diff
-PATCH9=${top}/mozc-linux-protobuf220.diff
-PATCH4=${top}/mozc-linux-protobuf230.diff
 PATCH5=${top}/mozc-global_language_spec.diff
 PATCH10=${top}/mozc-kill-line.diff
 PATCH11=${top}/zinnia-macosx.diff
@@ -35,10 +32,6 @@ fwdir="/Library/Frameworks/UIM.framework/Versions/Current"
 mozcdir="/Library/Mozc"
 launchagentdir="/Library/LaunchAgents"
 uim_build_dir="${top}/../UIM/uim"
-## static linked protobuf for Linux
-use_static_protobuf_on_linux=yes
-#protobuf_ver=2.2.0
-protobuf_ver=2.3.0
 ## variable "target" is only effective for Darwin
 target="MacUIM"
 #target="Fink i386"
@@ -65,11 +58,6 @@ fi
 
 
 pushd mozc/src
-	if [ ! -d protobuf/files -a "${os}" = "Linux" -a ${use_static_protobuf_on_linux} = "yes" ]; then
-		# pull protobuf
-		svn co http://protobuf.googlecode.com/svn/tags/${protobuf_ver} protobuf/files
-	fi
-
 	# apply patches
 	if test -n "$1" && test $1 = "--apply-patch" ;then
 		echo "apply patches"
@@ -103,14 +91,6 @@ pushd mozc/src
 				rm -f unix/uim/uim-macfink.gyp
 			else
 				rm -f unix/uim/uim-macuim.gyp
-			fi
-		fi
-		if [ ${os} = "Linux" -a ${use_static_protobuf_on_linux} = "yes" ]; then
-			patch -p0 < ${PATCH8}
-			if [ ${protobuf_ver} = "2.2.0" ]; then
-				patch -p0 < ${PATCH9}
-			elif [ ${protobuf_ver} = "2.3.0" ]; then
-				patch -p0 < ${PATCH4}
 			fi
 		fi
 		# kill-line patch

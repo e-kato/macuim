@@ -494,7 +494,7 @@ Index: session/session_server.cc
  const char kSessionName[] = "session";
  const char kEventName[] = "session";
 +#endif
- }
+ }  // namespace
  
  namespace mozc {
 Index: base/password_manager.cc
