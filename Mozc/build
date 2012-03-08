@@ -32,6 +32,8 @@ fwdir="/Library/Frameworks/UIM.framework/Versions/Current"
 mozcdir="/Library/Mozc"
 launchagentdir="/Library/LaunchAgents"
 uim_build_dir="${top}/../UIM/uim"
+## Fedora?
+fedora=no
 ## variable "target" is only effective for Darwin
 target="MacUIM"
 #target="Fink i386"
@@ -133,7 +135,10 @@ HERE
 
 	# gyp
 	echo "generate rules"
-	PKG_CONFIG_PATH=${QTDIR}/lib/pkgconfig python build_mozc.py gyp --branding=${branding}
+	if [ ${fedora} = "yes" ]; then
+		config_option="--server_dir=/usr/libexec"
+	fi
+	PKG_CONFIG_PATH=${QTDIR}/lib/pkgconfig python build_mozc.py gyp --branding=${branding} ${config_option}
 
 	# build build_tools
 	echo "build_tools"
