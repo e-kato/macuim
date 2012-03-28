@@ -55,8 +55,6 @@
 #include "session/commands.pb.h"
 #include "client/client.h"
 #include "unix/uim/key_translator.h"
-#include "languages/global_language_spec.h"
-#include "languages/japanese/lang_dep_spec.h"
 
 // use server/client session
 #include "base/util.h"
@@ -76,7 +74,6 @@ const int32 kBadCandidateId = -1;
 uint64 GetTime() {
   return static_cast<uint64>(time(NULL));
 }
-mozc::japanese::LangDepSpecJapanese uim_mozc_lang_spec;
 
 namespace mozc {
 
@@ -1169,7 +1166,6 @@ uim_plugin_instance_init(void)
   argv[1] =  NULL;
 
   InitGoogle((const char *)argv[0], &argc, (char ***)&argv, true);
-  mozc::language::GlobalLanguageSpec::SetLanguageDependentSpec(&uim_mozc_lang_spec);
   mozc::uim::install_keymap();
 }
 
@@ -1186,5 +1182,4 @@ uim_plugin_instance_quit(void)
   delete mozc::uim::keyTranslator;
   mozc::uim::keyTranslator = NULL;
   free(argv);
-  mozc::language::GlobalLanguageSpec::SetLanguageDependentSpec(NULL);
 }

@@ -39,8 +39,6 @@
     'uim_dependencies': [
       '../../base/base.gyp:base',
       '../../client/client.gyp:client',
-      '../../languages/languages.gyp:global_language_spec',
-      '../../languages/japanese/japanese.gyp:language_dependent_spec_japanese',
     ],
   },
   'targets': [
