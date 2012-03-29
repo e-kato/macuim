@@ -301,22 +301,6 @@ Index: mac/org.mozc.inputmethod.Japanaes.Converter.MacUIM.plist
 +	<false/>
 +</dict>
 +</plist>
-Index: server/mozc_server.cc
-===================================================================
---- server/mozc_server.cc	(revision 84)
-+++ server/mozc_server.cc	(working copy)
-@@ -114,7 +114,11 @@
-   const language::LanguageDependentSpecInterface *language_dependent_spec =
-       language::GlobalLanguageSpec::GetLanguageDependentSpec();
- 
-+#if defined(OS_MACOSX) && !defined(GOOGLE_JAPANESE_INPUT_BUILD)
-+  string mutex_name = "mozc_server_";
-+#else
-   string mutex_name = "server_";
-+#endif
-   mutex_name.append(language_dependent_spec->GetLanguageName());
-   mozc::ProcessMutex mutex(mutex_name.c_str());
-   if (!mutex.Lock()) {
 Index: base/base.gyp
 ===================================================================
 --- base/base.gyp	(revision 48)
@@ -548,3 +532,19 @@ Index: build_mozc.py
    gyp_file_names.extend(glob.glob('third_party/rx/*.gyp'))
    gyp_file_names.sort()
    return gyp_file_names
+Index: server/mozc_server.cc
+===================================================================
+--- server/mozc_server.cc	(revision 109)
++++ server/mozc_server.cc	(working copy)
+@@ -110,7 +110,11 @@
+ }
+ 
+ int MozcServer::Run() {
++#if defined(OS_MACOSX) && !defined(GOOGLE_JAPANESE_INPUT_BUILD)
++  string mutex_name = "mozc_server";
++#else
+   string mutex_name = "server";
++#endif
+   mozc::ProcessMutex mutex(mutex_name.c_str());
+   if (!mutex.Lock()) {
+     LOG(INFO) << "Mozc Server is already running";
