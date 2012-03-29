@@ -21,7 +21,6 @@ PATCH2=${top}/gyp-macosx-i386.diff
 PATCH3=${top}/gyp-macosx-x86_64.diff
 PATCH6=${top}/mozc_tool-macosx.diff
 PATCH7=${top}/mozc_tool-macuim.diff
-PATCH5=${top}/mozc-global_language_spec.diff
 PATCH10=${top}/mozc-kill-line.diff
 PATCH11=${top}/zinnia-macosx.diff
 PATCH12=${top}/uim-mozc-macuim.diff
@@ -97,8 +96,6 @@ pushd mozc/src
 		fi
 		# kill-line patch
 		patch -p0 < ${PATCH10}
-		# global_language_spec patch
-		patch -p0 < ${PATCH5}
 		exit
 	fi
 
