@@ -1075,12 +1075,12 @@ set_input_rule(uim_lisp mc_, uim_lisp id_, uim_lisp new_rule_)
   }
 
   if (!context_slot[id].session->GetConfig(&config))
-    return false;
+    return uim_scm_f();
 
   config.set_preedit_method(method);
 
   if (!context_slot[id].session->SetConfig(config))
-    return false;
+    return uim_scm_f();
 
   context_slot[id].preedit_method = method;
 
