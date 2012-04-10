@@ -28,7 +28,7 @@ Index: unix/uim/uim-macuim.gyp
 ===================================================================
 --- unix/uim/uim-macuim.gyp	(revision 0)
 +++ unix/uim/uim-macuim.gyp	(revision 0)
-@@ -0,0 +1,99 @@
+@@ -0,0 +1,97 @@
 +#
 +# Copyright (c) 2010 uim Project http://code.google.com/p/uim/
 +#
@@ -130,7 +130,7 @@ Index: uim-macfink.gyp
 ===================================================================
 --- unix/uim/uim-macfink.gyp	(revision 0)
 +++ unix/uim/uim-macfink.gyp	(revision 0)
-@@ -0,0 +1,103 @@
+@@ -0,0 +1,101 @@
 +#
 +# Copyright (c) 2010 uim Project http://code.google.com/p/uim/
 +#
@@ -324,21 +324,28 @@ Index: base/base.gyp
            'sources': [ 'win_util.cc' ],
 Index: base/mac_util.mm
 ===================================================================
---- base/mac_util.mm	(revision 48)
+--- base/mac_util.mm	(revision 109)
 +++ base/mac_util.mm	(working copy)
-@@ -39,12 +39,14 @@
+@@ -42,16 +42,21 @@
  
  namespace mozc {
  namespace {
 +#ifdef GOOGLE_JAPANESE_INPUT_BUILD
  const char kServerDirectory[] =
      "/Library/Input Methods/" kProductPrefix ".app/Contents/Resources";
+ const unsigned char kPrelauncherPath[] =
+     "/Library/Input Methods/" kProductPrefix ".app/Contents/Resources/"
+     kProductPrefix "Prelauncher.app";
+ 
 -#ifdef GOOGLE_JAPANESE_INPUT_BUILD
  const char kProjectPrefix[] =
      "com.google.inputmethod.Japanese.";
  #elif defined(MOZC_BUILD)
 +const char kServerDirectory[] =
 +    "/Library/" kProductPrefix;
++const unsigned char kPrelauncherPath[] =
++    "/Library/" kProductPrefix "Prelauncher.app";
++
  const char kProjectPrefix[] =
      "org.mozc.inputmethod.Japanese.";
  #else
