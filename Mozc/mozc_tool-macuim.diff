@@ -13,7 +13,7 @@ Index: gui/qt_libraries.gypi
                '/usr/lib/libz.dylib',  # Qt on Mac always links to system zlib.
              ],
 +	    'mac_framework_dirs': [
-+	      '<qt_dir)/lib',
++	      '<(qt_dir)/lib',
 +	    ],
            },
          }, {  # else
