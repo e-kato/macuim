@@ -1,16 +1,16 @@
 Index: build_tools/mozc_version.py
 ===================================================================
---- build_tools/mozc_version.py	(revision 39)
+--- build_tools/mozc_version.py	(revision 112)
 +++ build_tools/mozc_version.py	(working copy)
-@@ -110,7 +110,7 @@
+@@ -249,7 +249,7 @@
    def IsDevChannel(self):
      """Returns true if the parsed version is dev-channel."""
-     if len(self._revision) >= 3 and self._revision[-3] == '1':
--      return True
-+      return False
+     revision = self._properties['REVISION']
+-    return revision is not None and len(revision) >= 3 and revision[-3] == '1'
++    return False
  
-     return False
- 
+   def GetTargetPlatform(self):
+     """Returns the target platform.
 Index: unix/ibus/main.cc
 ===================================================================
 --- unix/ibus/main.cc	(revision 39)
@@ -299,12 +299,12 @@ Index: mac/org.mozc.inputmethod.Japanaes.Converter.MacUIM.plist
 +</plist>
 Index: base/base.gyp
 ===================================================================
---- base/base.gyp	(revision 48)
+--- base/base.gyp	(revision 112)
 +++ base/base.gyp	(working copy)
-@@ -72,13 +72,13 @@
-             'mac_process.mm',
-             'mac_util.mm',
-           ],
+@@ -69,13 +69,13 @@
+               '/usr/lib/libiconv.dylib',  # used in iconv.cc
+             ],
+           },
 -          'conditions': [
 -            ['branding=="GoogleJapaneseInput"', {
 -              'sources': [
@@ -321,7 +321,7 @@ Index: base/base.gyp
 +          #],
          }],
          ['OS=="win"', {
-           'sources': [ 'win_util.cc' ],
+           'sources': [
 Index: base/mac_util.mm
 ===================================================================
 --- base/mac_util.mm	(revision 109)
@@ -381,18 +381,18 @@ Index: base/mac_process.mm
      toolAppPath = [toolAppPath stringByAppendingPathComponent:appName];
 Index: base/logging.cc
 ===================================================================
---- base/logging.cc	(revision 48)
+--- base/logging.cc	(revision 112)
 +++ base/logging.cc	(working copy)
-@@ -213,7 +213,7 @@
-   snprintf(buf, sizeof(buf),
+@@ -77,7 +77,7 @@
             "%4.4d-%2.2d-%2.2d %2.2d:%2.2d:%2.2d %u "
- #ifndef OS_LINUX  // = OS_WINDOWS or OS_MACOSX
+ #if !defined(OS_LINUX) || defined(__native_client__)
+ // = OS_WINDOWS or OS_MACOSX or __native_client__
 -           "%u",
 +           "%llu",
  #else
             "%lu",
  #endif
-@@ -228,7 +228,7 @@
+@@ -92,7 +92,7 @@
             ::GetCurrentThreadId()
  #elif defined(OS_MACOSX)
             ::getpid(),
@@ -400,7 +400,7 @@ Index: base/logging.cc
 +           reinterpret_cast<uint64>(pthread_self())
  #else  // = OS_LINUX
             ::getpid(),
-            pthread_self()  // returns unsigned long.
+            // In NaCl it returns uint32, otherwise it returns unsigned long.
 Index: base/process.cc
 ===================================================================
 --- base/process.cc	(revision 48)

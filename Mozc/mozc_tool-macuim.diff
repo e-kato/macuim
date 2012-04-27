@@ -1,23 +1,24 @@
 Index: gui/qt_libraries.gypi
 ===================================================================
---- gui/qt_libraries.gypi	(revision 58)
+--- gui/qt_libraries.gypi	(revision 112)
 +++ gui/qt_libraries.gypi	(working copy)
-@@ -64,9 +64,12 @@
+@@ -71,10 +71,13 @@
+               ],
+             },
+             'libraries': [
+-              '<(qt_dir)/lib/libQtCore.a',
+-              '<(qt_dir)/lib/libQtGui.a',
++              'QtCore.framework',
++              'QtGui.framework',
+               '/usr/lib/libz.dylib',  # Qt on Mac always links to system zlib.
              ],
++	    'mac_framework_dirs': [
++	      '<qt_dir)/lib',
++	    ],
            },
-           'libraries': [
--            '<(qt_dir)/lib/libQtCore.a',
--            '<(qt_dir)/lib/libQtGui.a',
-+            'QtCore.framework',
-+            'QtGui.framework',
-           ],
-+	  'mac_framework_dirs': [
-+	    '<(qt_dir)/lib',
-+	  ]
-         }, {
+         }, {  # else
            'xcode_settings': {
-             'LIBRARY_SEARCH_PATHS': [
-@@ -74,9 +77,12 @@
+@@ -83,9 +86,12 @@
              ],
            },
            'libraries': [
@@ -28,11 +29,10 @@ Index: gui/qt_libraries.gypi
            ],
 +	  'mac_framework_dirs': [
 +	    '<(qt_dir_env)/lib',
-+	  ]
++	  ],
          }],
        ],
        'libraries': [
-===================================================================
 Index: gui/mac_gui.gypi
 ===================================================================
 --- gui/mac_gui.gypi	(revision 56)
