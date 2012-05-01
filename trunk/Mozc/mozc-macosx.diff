@@ -81,7 +81,7 @@ Index: unix/uim/uim-macuim.gyp
 +        'key_translator.cc',
 +      ],
 +      'dependencies': [
-+        '../../session/session_base.gyp:genproto_session',
++        '../../session/session_base.gyp:genproto_session#host',
 +      ],
 +      'cflags': [
 +        '<!@(pkg-config --cflags <@(pkg_config_libs))',
@@ -184,7 +184,7 @@ Index: uim-macfink.gyp
 +        'key_translator.cc',
 +      ],
 +      'dependencies': [
-+        '../../session/session_base.gyp:genproto_session',
++        '../../session/session_base.gyp:genproto_session#host',
 +      ],
 +      'cflags': [
 +        '<!@(pkg-config --cflags <@(pkg_config_libs))',
