@@ -368,6 +368,8 @@
                     #f)))
       (mozc-context-set-widgets! mc mozc-widgets)
       (mozc-context-set-mc-id! mc mid)
+      (if (not mid)
+        (uim-notify-info (N_ "libuim-mozc.so couldn't be loaded")))
       mc)))
 
 (define mozc-separator
