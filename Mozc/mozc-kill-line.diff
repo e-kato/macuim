@@ -48,7 +48,7 @@ Index: session/session.cc
 +  if (context_->mutable_composer()->Empty()) {
 +    // Input/output modes remain.	  
 +    context_->mutable_composer()->EditErase();
-+    SetSessionState(ImeContext::PRECOMPOSITION);
++    SetSessionState(ImeContext::PRECOMPOSITION, context_.get());
 +    OutputMode(command);
 +  } else if (context_->mutable_converter()->Suggest(context_->composer())) {
 +    DCHECK(context_->converter().IsActive());
@@ -149,16 +149,16 @@ Index: composer/internal/composition.cc
      const TransliteratorInterface *transliterator_from,
 Index: composer/internal/composition.h
 ===================================================================
---- composer/internal/composition.h	(revision 52)
+--- composer/internal/composition.h	(revision 124)
 +++ composer/internal/composition.h	(working copy)
-@@ -53,6 +53,7 @@
+@@ -54,6 +54,7 @@
    virtual ~Composition();
  
-   size_t DeleteAt(size_t position);
-+  size_t KillLineAt(size_t position);
-   size_t InsertAt(size_t position, const string &input);
-   size_t InsertKeyAndPreeditAt(size_t position,
-                                const string &key,
+   virtual size_t DeleteAt(size_t position);
++  virtual size_t KillLineAt(size_t position);
+   virtual size_t InsertAt(size_t position, const string &input);
+   virtual size_t InsertKeyAndPreeditAt(size_t position,
+                                        const string &key,
 Index: composer/composer.h
 ===================================================================
 --- composer/composer.h	(revision 84)

@@ -299,24 +299,34 @@ Index: mac/org.mozc.inputmethod.Japanaes.Converter.MacUIM.plist
 +</plist>
 Index: base/base.gyp
 ===================================================================
---- base/base.gyp	(revision 112)
+--- base/base.gyp	(revision 124)
 +++ base/base.gyp	(working copy)
-@@ -69,13 +69,13 @@
+@@ -69,18 +69,18 @@
                '/usr/lib/libiconv.dylib',  # used in iconv.cc
              ],
            },
 -          'conditions': [
 -            ['branding=="GoogleJapaneseInput"', {
--              'sources': [
--                'crash_report_handler.mm',
--               ],
+-              'dependencies': [
+-                # We cannot add 'crash_report_handler.mm' to 'sources' here
+-                # because we already have 'crash_report_handler.cc' in this
+-                # target. When a static library target has multiple files
+-                # with the same basenames in its 'sources' list,
+-                # gyp (r1354+) treats it as an error.
+-                'crash_report_handler_mac',
+-              ],
 -            }],
 -          ],
 +          #'conditions': [
 +          #  ['branding=="GoogleJapaneseInput"', {
-+          #    'sources': [
-+          #      'crash_report_handler.mm',
-+          #     ],
++          #    'dependencies': [
++          #      # We cannot add 'crash_report_handler.mm' to 'sources' here
++          #      # because we already have 'crash_report_handler.cc' in this
++          #      # target. When a static library target has multiple files
++          #      # with the same basenames in its 'sources' list,
++          #      # gyp (r1354+) treats it as an error.
++          #      'crash_report_handler_mac',
++          #    ],
 +          #  }],
 +          #],
          }],
@@ -468,11 +478,11 @@ Index: ipc/mach_ipc.cc
        server_label += "Renderer";
 Index: session/session_server.cc
 ===================================================================
---- session/session_server.cc	(revision 57)
+--- session/session_server.cc	(revision 124)
 +++ session/session_server.cc	(working copy)
-@@ -43,8 +43,13 @@
- namespace {
- const int kNumConnections = 10;
+@@ -56,8 +56,13 @@
+ #endif  // OS_WINDOWS or not
+ 
  const int kTimeOut = 5000;  // 5000msec
 +#if defined(OS_MACOSX) && !defined(GOOGLE_JAPANESE_INPUT_BUILD)
 +const char kSessionName[] = "mozc_session";
@@ -481,9 +491,9 @@ Index: session/session_server.cc
  const char kSessionName[] = "session";
  const char kEventName[] = "session";
 +#endif
+ 
  }  // namespace
  
- namespace mozc {
 Index: base/password_manager.cc
 ===================================================================
 --- base/password_manager.cc	(revision 57)
@@ -524,17 +534,17 @@ Index: client/client.cc
  
 Index: build_mozc.py
 ===================================================================
---- build_mozc.py	(revision 120)
+--- build_mozc.py	(revision 124)
 +++ build_mozc.py	(working copy)
-@@ -330,6 +330,8 @@
-     if not PkgExists('scim'):
-       PrintInfo('removing scim.gyp.')
-       gyp_file_names.remove('%s/unix/scim/scim.gyp' % SRC_DIR)
+@@ -223,6 +223,8 @@
+       # force it to be True.
+       options.ensure_value('noqt', True)
+       options.noqt = True
 +  elif IsMac():
-+      gyp_file_names.extend(glob.glob('%s/unix/uim/*.gyp' % SRC_DIR))
++    gyp_file_names.extend(glob.glob('%s/unix/uim/*.gyp' % SRC_DIR))
    if options.target_platform == 'NaCl':
-     # Add chrome skk gyp scripts.
-     gyp_file_names.append('%s/chrome/skk/skk.gyp' % SRC_DIR)
+     # Add chrome NaCl Mozc gyp scripts.
+     gyp_file_names.append('%s/chrome/nacl/nacl_extension.gyp' % SRC_DIR)
 Index: server/mozc_server.cc
 ===================================================================
 --- server/mozc_server.cc	(revision 109)
