@@ -363,13 +363,16 @@
 (define mozc-context-new
   (lambda (id im name)
     (let* ((mc (mozc-context-new-internal id im))
-	   (mid (if (symbol-bound? 'mozc-lib-alloc-context)
-                    (mozc-lib-alloc-context mc)
-                    #f)))
+           (mid (if (symbol-bound? 'mozc-lib-alloc-context)
+                    (if (= (getuid) 0)
+                        #f
+                        (mozc-lib-alloc-context mc))
+                    (begin
+                      (uim-notify-info
+                       (N_ "libuim-mozc.so couldn't be loaded"))
+                      #f))))
       (mozc-context-set-widgets! mc mozc-widgets)
       (mozc-context-set-mc-id! mc mid)
-      (if (not mid)
-        (uim-notify-info (N_ "libuim-mozc.so couldn't be loaded")))
       mc)))
 
 (define mozc-separator
