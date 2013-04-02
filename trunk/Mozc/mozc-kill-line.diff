@@ -65,16 +65,16 @@ Index: session/session.cc
    ClearUndoContext();
 Index: session/session.h
 ===================================================================
---- session/session.h	(revision 52)
+--- session/session.h	(revision 151)
 +++ session/session.h	(working copy)
-@@ -80,6 +80,7 @@
-   bool InsertSpaceFullWidth(commands::Command *command);
-   bool InsertCharacter(commands::Command *command);
-   bool Delete(commands::Command *command);
-+  bool KillLine(commands::Command *command);
-   bool Backspace(commands::Command *command);
-   bool EditCancel(commands::Command *command);
- 
+@@ -129,6 +129,7 @@
+   bool InsertSpaceFullWidth(mozc::commands::Command *command);
+   bool InsertCharacter(mozc::commands::Command *command);
+   bool Delete(mozc::commands::Command *command);
++  bool KillLine(mozc::commands::Command *command);
+   bool Backspace(mozc::commands::Command *command);
+   bool EditCancel(mozc::commands::Command *command);
+   bool EditCancelAndIMEOff(mozc::commands::Command *command);
 Index: gui/config_dialog/keymap_en.ts
 ===================================================================
 --- gui/config_dialog/keymap_en.ts	(revision 52)
@@ -135,7 +135,7 @@ Index: composer/internal/composition.cc
 +size_t Composition::KillLineAt(const size_t position) {
 +  CharChunkList::iterator chunk_it;
 +  MaybeSplitChunkAt(position, &chunk_it);
-+  const size_t new_position = GetPosition(kNullT12r, chunk_it);
++  const size_t new_position = GetPosition(Transliterators::LOCAL, chunk_it);
 +  if (chunk_it == chunks_.end()) {
 +    return new_position;
 +  }

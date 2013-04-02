@@ -13,14 +13,26 @@ Index: gui/mac_gui.gypi
          },
 Index: gui/tool/mozc_tool_libmain.cc
 ===================================================================
---- gui/tool/mozc_tool_libmain.cc	(revision 55)
+--- gui/tool/mozc_tool_libmain.cc	(revision 151)
 +++ gui/tool/mozc_tool_libmain.cc	(working copy)
-@@ -40,7 +40,7 @@
+@@ -46,7 +46,7 @@
  #include "gui/base/debug_util.h"
- #include "base/run_level.h"
+ #include "gui/base/win_util.h"
  
 -DEFINE_string(mode, "about_dialog", "mozc_tool mode");
 +DEFINE_string(mode, "config_dialog", "mozc_tool mode");
  
  // Run* are defiend in each qt module
  int RunAboutDialog(int argc, char *argv[]);
+@@ -93,9 +93,11 @@
+ #endif  // OS_MACOSX
+ 
+ int RunMozcTool(int argc, char *argv[]) {
++#if 0
+   if (mozc::config::StatsConfigUtil::IsEnabled()) {
+     mozc::CrashReportHandler::Initialize(false);
+   }
++#endif
+ #ifdef OS_MACOSX
+   // OSX's app won't accept command line flags.
+   // Here we read the flags by using --fromenv option
