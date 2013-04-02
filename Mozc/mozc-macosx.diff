@@ -552,3 +552,21 @@ Index: server/mozc_server.cc
    mozc::ProcessMutex mutex(mutex_name.c_str());
    if (!mutex.Lock()) {
      LOG(INFO) << "Mozc Server is already running";
+Index: data_manager/packed/packed_data_manager.gyp
+===================================================================
+--- data_manager/packed/packed_data_manager.gyp	(revision 151)
++++ data_manager/packed/packed_data_manager.gyp	(working copy)
+@@ -47,5 +47,13 @@
+       },
+       'includes': [ 'packed_data_manager.gypi' ],
+     }],
++    ['branding=="GoogleJapaneseInput"', {
++      'variables': {
++        'dataset_dir': 'oss',
++        'dataset_tag': 'oss',
++      },
++      'includes': [ 'packed_data_manager.gypi' ],
++    }],
++
+   ],
+ }
