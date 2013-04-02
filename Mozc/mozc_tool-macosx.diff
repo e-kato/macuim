@@ -29,22 +29,6 @@ Index: gyp/breakpad_mac.gypi
 +#    ],
 +#  },
  }
-Index: gui/zinnia.gyp
-===================================================================
---- gui/zinnia.gyp	(revision 55)
-+++ gui/zinnia.gyp	(working copy)
-@@ -61,7 +61,10 @@
-         }],
-         ['OS=="mac"', {
-           'sources': ['<@(zinnia_sources)'],
--          'defines': ['HAVE_CONFIG_H'],
-+          'defines': [
-+             'VERSION="0.06"',
-+             'PACKAGE="zinnia"',
-+	  ],
-         }],
-         ['OS=="win"', {
-           'sources': ['<@(zinnia_sources)'],
 Index: gyp/common.gypi
 ===================================================================
 --- gyp/common.gypi	(revision 55)
