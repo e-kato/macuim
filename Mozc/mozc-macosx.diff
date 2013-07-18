@@ -28,7 +28,7 @@ Index: unix/uim/uim-macuim.gyp
 ===================================================================
 --- unix/uim/uim-macuim.gyp	(revision 0)
 +++ unix/uim/uim-macuim.gyp	(revision 0)
-@@ -0,0 +1,97 @@
+@@ -0,0 +1,98 @@
 +#
 +# Copyright (c) 2010 uim Project http://code.google.com/p/uim/
 +#
@@ -114,7 +114,8 @@ Index: unix/uim/uim-macuim.gyp
 +      'ldflags': [
 +        '<!@(pkg-config --libs-only-L <@(pkg_config_libs))',
 +      ],
-+      'library_dirs': [
++      'mac_framework_dirs': [
++	 '/Library/Frameworks'
 +      ],
 +      'xcode_settings': {
 +       'GCC_SYMBOLS_PRIVATE_EXTERN': 'NO',
@@ -299,39 +300,17 @@ Index: mac/org.mozc.inputmethod.Japanaes.Converter.MacUIM.plist
 +</plist>
 Index: base/base.gyp
 ===================================================================
---- base/base.gyp	(revision 151)
+--- base/base.gyp	(revision 170)
 +++ base/base.gyp	(working copy)
-@@ -427,18 +427,18 @@
-       'dependencies': [
-         'base',
-       ],
--      'conditions': [
--        ['OS=="mac"', {
--          'dependencies': [
--            # We cannot add 'crash_report_handler.mm' to 'sources' here
--            # because we already have 'crash_report_handler.cc' in this
--            # target. When a static library target has multiple files
--            # with the same basenames in its 'sources' list,
--            # gyp (r1354+) treats it as an error.
--            'crash_report_handler_mac',
--          ],
--        }],
--      ],
-+#      'conditions': [
-+#        ['OS=="mac"', {
-+#          'dependencies': [
-+#            # We cannot add 'crash_report_handler.mm' to 'sources' here
-+#            # because we already have 'crash_report_handler.cc' in this
-+#            # target. When a static library target has multiple files
-+#            # with the same basenames in its 'sources' list,
-+#            # gyp (r1354+) treats it as an error.
-+#            'crash_report_handler_mac',
-+#          ],
-+#        }],
-+#      ],
-     },
-   ],
-   'conditions': [
+@@ -466,7 +466,7 @@
+         }],
+         ['OS=="mac"', {
+           'sources': [
+-            'crash_report_handler_mac.mm',
++#            'crash_report_handler_mac.mm',
+           ],
+           'sources!': [
+             'crash_report_handler.cc',
 Index: base/mac_util.mm
 ===================================================================
 --- base/mac_util.mm	(revision 109)
@@ -373,28 +352,6 @@ Index: base/system_util.cc
    dir = FileUtil::JoinPath(dir, "Google");
    // The permission of ~/Library/Application Support/Google seems to be 0755.
    // TODO(komatsu): nice to make a wrapper function.
-Index: base/logging.cc
-===================================================================
---- base/logging.cc	(revision 151)
-+++ base/logging.cc	(working copy)
-@@ -113,7 +113,7 @@
- #elif defined(OS_LINUX)
-            "%lu",
- #else  // = OS_WIN or OS_MACOSX
--           "%u",
-+           "%lu",
- #endif
-            1900 + tm_time.tm_year,
-            1 + tm_time.tm_mon,
-@@ -126,7 +126,7 @@
-            ::GetCurrentThreadId()
- #elif defined(OS_MACOSX)
-            ::getpid(),
--           reinterpret_cast<uint32>(pthread_self())
-+           reinterpret_cast<uint64>(pthread_self())
- #elif defined(__native_client__)
-            ::getpid(),
-            // pthread_self() returns __nc_basic_thread_data*.
 Index: base/mac_process.mm
 ===================================================================
 --- base/mac_process.mm	(revision 84)

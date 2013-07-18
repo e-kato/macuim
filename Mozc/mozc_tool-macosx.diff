@@ -33,15 +33,6 @@ Index: gyp/common.gypi
 ===================================================================
 --- gyp/common.gypi	(revision 55)
 +++ gyp/common.gypi	(working copy)
-@@ -50,7 +50,7 @@
-     # warning_cflags_cflags will be shared with Mac and Linux.
-     'warning_cflags': [
-       '-Wall',
--      '-Werror',
-+      #'-Werror',
-       '-Wno-char-subscripts',
-       '-Wno-sign-compare',
-       '-Wno-deprecated-declarations',
 @@ -111,7 +111,7 @@
  
      # use_libzinnia represents if zinnia library is used or not.
