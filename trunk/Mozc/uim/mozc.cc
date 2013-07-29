@@ -1,6 +1,6 @@
 /*
 
-  Copyright (c) 2010-2012 uim Project http://code.google.com/p/uim/
+  Copyright (c) 2010-2013 uim Project http://code.google.com/p/uim/
 
   All rights reserved.
 
@@ -522,8 +522,26 @@ press_key(uim_lisp mc_, uim_lisp id_, uim_lisp key_, uim_lisp state_)
   if (!(*keyTranslator).Translate(keyval, keycode, modifiers, preedit_method, layout_is_jp, &key))
     return uim_scm_f();
 
-  if (!(*session).SendKey(key, context_slot[id].output))
-    return uim_scm_f();
+  if (uim_scm_symbol_value_bool("mozc-use-context-aware-conversion?")) {
+    commands::Context context;
+    uim_lisp ustr = uim_scm_callf("im-acquire-text", "oyyyy", mc_, "primary", "cursor", "full", "full");
+    uim_lisp former, latter, str;
+    if (TRUEP(ustr)) {
+      if(!NULLP(former = uim_scm_callf("ustr-former-seq", "o", ustr))) {
+        str = CAR(former);
+	context.set_preceding_text(REFER_C_STR(str));
+      }
+      if(!NULLP(latter = uim_scm_callf("ustr-latter-seq", "o", ustr))) {
+        str = CAR(latter);
+	context.set_following_text(REFER_C_STR(str));
+      }
+    }
+    if (!(*session).SendKeyWithContext(key, context, context_slot[id].output))
+      return uim_scm_f();
+  } else {
+    if (!(*session).SendKey(key, context_slot[id].output))
+      return uim_scm_f();
+  }
 
   update_all(mc_, id);
 

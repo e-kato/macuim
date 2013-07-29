@@ -300,6 +300,12 @@
   (N_ "Enable vi-cooperative mode")
   (N_ "long description will be here."))
 
+(define-custom 'mozc-use-context-aware-conversion? #f
+  '(mozc special-op)
+  '(boolean)
+  (N_ "Use text input with context awareness")
+  (N_ "long description will be here."))
+
 (define-custom 'mozc-keyboard-type-for-kana-input-method 'jp-keyboard
   '(mozc)
   (list 'choice
