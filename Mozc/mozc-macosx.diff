@@ -527,3 +527,29 @@ Index: data_manager/packed/packed_data_manager.gyp
 +
    ],
  }
+Index: server/server.gyp
+===================================================================
+--- server/server.gyp	(revision 170)
++++ server/server.gyp	(working copy)
+@@ -50,7 +50,7 @@
+       ],
+       'dependencies': [
+         '../base/base.gyp:base',
+-        '../base/base.gyp:crash_report_handler',
++        #'../base/base.gyp:crash_report_handler',
+         '../engine/engine.gyp:engine_factory',
+         '../session/session.gyp:session',
+         'mozc_server_lib',
+Index: gui/gui.gyp
+===================================================================
+--- gui/gui.gyp	(revision 170)
++++ gui/gui.gyp	(working copy)
+@@ -965,7 +965,7 @@
+         'tool/mozc_tool_libmain.cc',
+       ],
+       'dependencies': [
+-        '../base/base.gyp:crash_report_handler',
++        #'../base/base.gyp:crash_report_handler',
+         '../config/config.gyp:stats_config_util',
+         'about_dialog_lib',
+         'administration_dialog_lib',
