@@ -524,7 +524,7 @@ press_key(uim_lisp mc_, uim_lisp id_, uim_lisp key_, uim_lisp state_)
 
   if (uim_scm_symbol_value_bool("mozc-use-context-aware-conversion?")) {
     commands::Context context;
-    uim_lisp ustr = uim_scm_callf("im-acquire-text", "oyyyy", mc_, "primary", "cursor", "full", "full");
+    uim_lisp ustr = uim_scm_callf("im-acquire-text", "oyyyy", mc_, "primary", "cursor", "line", "line");
     uim_lisp former, latter, str;
     if (TRUEP(ustr)) {
       if(!NULLP(former = uim_scm_callf("ustr-former-seq", "o", ustr))) {
