@@ -81,7 +81,7 @@ Index: unix/uim/uim-macuim.gyp
 +        'key_translator.cc',
 +      ],
 +      'dependencies': [
-+        '../../session/session_base.gyp:genproto_session#host',
++        '../../session/session_base.gyp:session_protocol',
 +      ],
 +      'cflags': [
 +        '<!@(pkg-config --cflags <@(pkg_config_libs))',
@@ -185,7 +185,7 @@ Index: uim-macfink.gyp
 +        'key_translator.cc',
 +      ],
 +      'dependencies': [
-+        '../../session/session_base.gyp:genproto_session#host',
++        '../../session/session_base.gyp:session_protocol',
 +      ],
 +      'cflags': [
 +        '<!@(pkg-config --cflags <@(pkg_config_libs))',
@@ -471,15 +471,15 @@ Index: build_mozc.py
 ===================================================================
 --- build_mozc.py	(revision 151)
 +++ build_mozc.py	(working copy)
-@@ -225,6 +225,8 @@
-     # Add chrome NaCl Mozc gyp scripts.
-     gyp_file_names.append('%s/chrome/nacl/nacl_extension.gyp' % SRC_DIR)
-     gyp_file_names.extend(glob.glob('third_party/zlib/v1_2_3/zlib.gyp'))
+@@ -210,6 +210,8 @@
+     if not PkgExists('ibus-1.0 >= 1.4.1'):
+       logging.info('removing ibus.gyp.')
+       gyp_file_names.remove('%s/unix/ibus/ibus.gyp' % SRC_DIR)
 +  elif options.target_platform == 'Mac':
 +    gyp_file_names.extend(glob.glob('%s/unix/uim/*.gyp' % SRC_DIR))
-   gyp_file_names.extend(glob.glob('third_party/jsoncpp/*.gyp'))
-   gyp_file_names.sort()
-   return gyp_file_names
+   elif options.target_platform == 'NaCl':
+     # Add chrome NaCl Mozc gyp scripts.
+     gyp_file_names.append('%s/chrome/nacl/nacl_extension.gyp' % SRC_DIR)
 Index: server/mozc_server.cc
 ===================================================================
 --- server/mozc_server.cc	(revision 151)
@@ -531,15 +531,15 @@ Index: server/server.gyp
 ===================================================================
 --- server/server.gyp	(revision 170)
 +++ server/server.gyp	(working copy)
-@@ -50,7 +50,7 @@
+@@ -113,7 +113,7 @@
+         'mozc_server.cc',
        ],
        'dependencies': [
-         '../base/base.gyp:base',
 -        '../base/base.gyp:crash_report_handler',
 +        #'../base/base.gyp:crash_report_handler',
-         '../engine/engine.gyp:engine_factory',
-         '../session/session.gyp:session',
-         'mozc_server_lib',
+         '../session/session.gyp:session_server',
+         '../usage_stats/usage_stats_base.gyp:usage_stats',
+       ],
 Index: gui/gui.gyp
 ===================================================================
 --- gui/gui.gyp	(revision 170)
