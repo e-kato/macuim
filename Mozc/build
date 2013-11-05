@@ -82,7 +82,7 @@ pushd mozc/src
 			esac
 			rm -f unix/uim/uim.gyp
 			(cd third_party/zinnia/v0_04/zinnia; patch -p1 < ${PATCH11})
-			ln -s third_party/zinnia/v0_04/zinnia/* third_party/zinnia/v0_04/
+			(cd third_party/zinnia/v0_04; ln -sf zinnia/* .)
 			rm -f mac/org.mozc.inputmethod.Japanaes.Converter.MacUIM.plist
 			rm -f mac/mozc_server_info
 			patch -p0 < ${PATCH0}
