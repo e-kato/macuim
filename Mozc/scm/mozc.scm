@@ -502,6 +502,12 @@
       ;(mozc-lib-focus-out mid)
       )))
 
+(define mozc-displace-handler
+  (lambda (mc)
+    (let ((mid (mozc-context-mc-id mc)))
+      (and mid
+           (mozc-lib-submit-composition mc mid)))))
+
 (define mozc-get-candidate-handler
   (lambda (mc idx accel-enum-hint)
     (let* ((mid (mozc-context-mc-id mc))
@@ -556,5 +562,5 @@
   #f ;mozc-focus-in-handler
   #f ;mozc-focus-out-handler
   #f
-  #f
+  mozc-displace-handler
 )

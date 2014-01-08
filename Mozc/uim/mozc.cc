@@ -1150,6 +1150,19 @@ reconvert(uim_lisp mc_, uim_lisp id_)
   return uim_scm_t();
 }
 
+static uim_lisp
+submit(uim_lisp mc_, uim_lisp id_)
+{
+  int id = C_INT(id_);
+  commands::SessionCommand command;
+
+  command.set_type(commands::SessionCommand::SUBMIT);
+  context_slot[id].session->SendCommand(command, context_slot[id].output);
+  update_all(mc_, id);
+
+  return uim_scm_t();
+}
+
 } // namespace
 } // namespace
 
@@ -1176,6 +1189,7 @@ uim_plugin_instance_init(void)
   uim_scm_init_proc1("mozc-lib-input-rule", mozc::uim::get_input_rule);
   uim_scm_init_proc3("mozc-lib-set-input-rule", mozc::uim::set_input_rule);
   uim_scm_init_proc2("mozc-lib-reconvert", mozc::uim::reconvert);
+  uim_scm_init_proc2("mozc-lib-submit-composition", mozc::uim::submit);
 
   int argc = 1;
   static const char name[] = "uim-mozc";
