@@ -187,6 +187,9 @@ rm -rf lib/pkgconfig/gcroots.pc
 rm -rf bin/uim-im-switcher-gtk
 rm -rf bin/uim-input-pad-ja
 
+rm -rf libexec/uim-candwin-tbl-gtk
+rm -rf libexec/uim-candwin-horizontal-gtk
+
 mkdir Resources
 install -c -m 644 ${top}/Info.plist Resources
 install -c -m 644 ${top}/version.plist Resources
