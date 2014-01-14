@@ -1,4 +1,4 @@
-<pkmkdoc spec="1.12"><properties><title>MacUIM</title><build>/Users/kato/macsrc/MacUIM-google/trunk/Package/MacUIM-0.6.11-2/MacUIM-0.6.11-2.pkg</build><organization>info.yatsu.MacUIM</organization><userSees ui="easy"/><min-target os="3"/><domain anywhere="true" system="true"/></properties><distribution><versions min-spec="1.000000"/><scripts></scripts></distribution><description>MacUIM is an input method for Mac OS X implemented by uim.
+<pkmkdoc spec="1.12"><properties><title>MacUIM</title><build>/Volumes/HDS7230/Users/kato/macsrc/MacUIM-google/trunk/Package/MacUIM-0.6.16-1/MacUIM-0.6.16-1.pkg</build><organization>info.yatsu.MacUIM</organization><userSees ui="easy"/><min-target os="3"/><domain anywhere="true" system="true"/></properties><distribution><versions min-spec="1.000000"/><scripts></scripts></distribution><description>MacUIM is an input method for Mac OS X implemented by uim.
 http://macuim.googlecode.com/
 
 
