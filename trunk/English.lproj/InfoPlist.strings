@@ -3,15 +3,15 @@
 <plist version="1.0">
 <dict>
 	<key>NSHumanReadableCopyright</key>
-	<string>© MacUIM contributers, 2005-2009</string>
+	<string>© MacUIM contributers, 2005-2014</string>
 	<key>CFBundleName</key>
 	<string>MacUIM</string>
 	<key>CFBundleDisplayName</key>
 	<string>MacUIM</string>
 	<key>CFBundleShortVersionString</key>
-	<string>MacUIM version 0.6</string>
+	<string>MacUIM version 0.6.16</string>
 	<key>CFBundleGetInfoString</key>
-	<string>MacUIM version 0.6, Copyright 2009, MacUIM contributers</string>
+	<string>MacUIM version 0.6.16.1, Copyright 2005-2014, MacUIM contributers</string>
 	<key>com.apple.inputmethod.Japanese</key>
 	<string>MacUIM (Japanese)</string>
 	<key>com.apple.inputmethod.TradChinese</key>
