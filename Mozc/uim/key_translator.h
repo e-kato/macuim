@@ -37,7 +37,7 @@
 #include <ext/hash_map>
 using __gnu_cxx::hash_map;
 
-#include "base/base.h"
+#include "base/port.h"
 #include "session/commands.pb.h"
 
 namespace mozc {

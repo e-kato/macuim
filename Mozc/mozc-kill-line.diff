@@ -13,13 +13,13 @@ Index: session/internal/keymap.cc
                                 CompositionState::INPUT_MODE_HIRAGANA);
 Index: session/internal/keymap_interface.h
 ===================================================================
---- session/internal/keymap_interface.h	(revision 52)
+--- session/internal/keymap_interface.h	(revision 204)
 +++ session/internal/keymap_interface.h	(working copy)
-@@ -131,6 +131,7 @@
+@@ -136,6 +136,7 @@
+   INPUT_MODE_HALF_KATAKANA,
    INPUT_MODE_FULL_ALPHANUMERIC,
    INPUT_MODE_HALF_ALPHANUMERIC,
-   ABORT,  // Abort the server.  The process is killed.
-+  KILL_LINE, // kill-line
++  KILL_LINE,
  };
  };
  
