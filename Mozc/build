@@ -136,7 +136,7 @@ HERE
 	if [ ${fedora} = "yes" ]; then
 		config_option="--server_dir=/usr/libexec"
 	fi
-	PKG_CONFIG_PATH=${QTDIR}/lib/pkgconfig python build_mozc.py gyp --branding=${branding} ${config_option}
+	PKG_CONFIG_PATH=${QTDIR}/lib/pkgconfig:$PKG_CONFIG_PATH python build_mozc.py gyp --branding=${branding} ${config_option}
 
 	# build build_tools
 	echo "build_tools"
