@@ -50,7 +50,6 @@
 
 #include "base/port.h"
 #include "base/util.h"
-#include "base/scoped_ptr.h"
 #include "config/config.pb.h"
 #include "session/commands.pb.h"
 #include "client/client.h"
