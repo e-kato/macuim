@@ -419,9 +419,23 @@ Index: client/server_launcher.cc
  const uint32 kServerWaitTimeout = 20000;  // 20 sec
 Index: ipc/mach_ipc.cc
 ===================================================================
---- ipc/mach_ipc.cc	(revision 48)
+--- ipc/mach_ipc.cc	(revision 356)
 +++ ipc/mach_ipc.cc	(working copy)
-@@ -183,7 +183,11 @@
+@@ -53,8 +53,13 @@
+ // When we add new services, we should update this function too.
+ bool GetMachPortName(const string &name, string *port_name) {
+   // Defined in data/mac/com.google.inputmethod.Japanese.Converter.plist
++#ifdef GOOGLE_JAPANESE_INPUT_BUILD
+   if (name == "session") {
+     port_name->assign(MacUtil::GetLabelForSuffix("") + "Converter.session");
++#else
++  if (name == "mozc_session") {
++    port_name->assign(MacUtil::GetLabelForSuffix("") + "Converter.mozc_session");
++#endif
+     return true;
+   }
+   // Defined in data/mac/com.google.inputmethod.Japanese.Renderer.plist
+@@ -87,7 +92,11 @@
  
    virtual bool IsServerRunning(const string &name) const {
      string server_label = MacUtil::GetLabelForSuffix("");

@@ -6,10 +6,10 @@ Index: pylib/gyp/generator/xcode.py
                           '$(PROJECT_DERIVED_FILE_DIR)/$(CONFIGURATION)')
      xccl.SetBuildSetting(_shared_intermediate_var,
                           '$(SYMROOT)/DerivedSources/$(CONFIGURATION)')
-+    xccl.SetBuildSetting('SDKROOT',
-+                         'macosx10.5')
-+    xccl.SetBuildSetting('GCC_ENABLE_OBJC_GC',
-+                         'supported')
++    #xccl.SetBuildSetting('SDKROOT',
++    #                     'macosx10.5')
++    #xccl.SetBuildSetting('GCC_ENABLE_OBJC_GC',
++    #                     'supported')
  
      # Set user-specified project-wide build settings.  This is intended to be
      # used very sparingly.  Really, almost everything should go into
