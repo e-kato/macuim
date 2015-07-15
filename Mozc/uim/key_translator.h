@@ -38,7 +38,7 @@
 using __gnu_cxx::hash_map;
 
 #include "base/port.h"
-#include "session/commands.pb.h"
+#include "protocol/commands.pb.h"
 
 namespace mozc {
 namespace uim {

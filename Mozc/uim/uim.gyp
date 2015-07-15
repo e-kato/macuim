@@ -49,7 +49,7 @@
         'key_translator.cc',
       ],
       'dependencies': [
-        '../../session/session_base.gyp:session_protocol',
+        '../../protocol/protocol.gyp:commands_proto',
       ],
       'cflags': [
         '<!@(pkg-config --cflags <@(pkg_config_libs))',
