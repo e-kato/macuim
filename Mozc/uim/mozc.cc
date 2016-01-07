@@ -50,6 +50,7 @@
 
 #include "base/port.h"
 #include "base/util.h"
+#include "base/init_mozc.h"
 #include "protocol/config.pb.h"
 #include "protocol/commands.pb.h"
 #include "client/client.h"
@@ -67,8 +68,10 @@ static char **argv;
 
 // for every 5 minutes, call SyncData
 const uint64 kSyncDataInterval = 5 * 60;
+#if USE_CASCADING_CANDIDATES
 // An ID for a candidate which is not associated with a text.
 const int32 kBadCandidateId = -1;
+#endif
 
 uint64 GetTime() {
   return static_cast<uint64>(time(NULL));
@@ -1196,7 +1199,7 @@ uim_plugin_instance_init(void)
   argv[0] = (char *)name;
   argv[1] =  NULL;
 
-  InitGoogle((const char *)argv[0], &argc, (char ***)&argv, true);
+  mozc::InitMozc((const char *)argv[0], &argc, (char ***)&argv, true);
   mozc::uim::install_keymap();
 }
 
