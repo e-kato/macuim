@@ -82,8 +82,8 @@ pushd mozc/src
 				;;
 			esac
 			rm -f unix/uim/uim.gyp
-			(cd third_party/zinnia/v0_04/zinnia; patch -p1 < ${PATCH11})
-			(cd third_party/zinnia/v0_04; ln -sf zinnia/* .)
+			(cd third_party/zinnia/zinnia; patch -p1 < ${PATCH11})
+			#(cd third_party/zinnia/v0_04; ln -sf zinnia/* .)
 			rm -f mac/org.mozc.inputmethod.Japanaes.Converter.MacUIM.plist
 			rm -f mac/mozc_server_info
 			patch -p0 < ${PATCH0}
@@ -104,9 +104,13 @@ pushd mozc/src
 	# clear patches and exit
 	if test -n "$1" && test $1 = "--clear-patch" ;then
 		echo "cleanup patches"
-		svn status . | grep "^M" | sed -e 's/^M//' | xargs svn revert
-		svn status third_party/gyp | grep "^M" | sed -e 's/^M//' | xargs svn revert
-		svn status third_party/zinnia/v0_04 | grep "^M" | sed -e 's/^M//' | xargs svn revert
+		git status . | grep "modified:" | grep -v "modified content" | sed -e 's/^\s*modified:   //' | xargs git checkout
+		cd third_party/gyp
+		git status | grep "modified:" | sed -e 's/^\s*modified:   //' | xargs git checkout
+		cd -
+		cd third_party/zinnia
+		git status | grep "modified:" | sed -e 's/^\s*modified:   //' | xargs git checkout
+		cd -
 		rm -rf unix/uim/
 		rm -f mac/org.mozc.inputmethod.Japanaes.Converter.MacUIM.plist
 		rm -f mac/mozc_server_info
@@ -136,6 +140,9 @@ HERE
 	echo "generate rules"
 	if [ ${fedora} = "yes" ]; then
 		config_option="--server_dir=/usr/libexec"
+	fi
+	if [ ${os} = "Darwin" ]; then
+		export GYP_DEFINES="mac_sdk=10.11 mac_deployment_target=10.7"
 	fi
 	PKG_CONFIG_PATH=${QTDIR}/lib/pkgconfig:$PKG_CONFIG_PATH python build_mozc.py gyp --branding=${branding} ${config_option}
 

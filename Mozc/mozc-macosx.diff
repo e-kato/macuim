@@ -508,7 +508,7 @@ Index: server/mozc_server.cc
      mozc::CrashReportHandler::Initialize(false);
    }
 +#endif
-   InitGoogle(arg0, argc, argv, remove_flags);
+   mozc::InitMozc(arg0, argc, argv, remove_flags);
  
    if (run_level == mozc::RunLevel::RESTRICTED) {
 @@ -115,7 +116,11 @@

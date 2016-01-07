@@ -10,35 +10,29 @@ Index: gui/base/locale_util.cc
  #include <QtGui/QtGui>
  #include <map>
  #include <string>
-Index: gyp/breakpad_mac.gypi
-===================================================================
---- gyp/breakpad_mac.gypi	(revision 52)
-+++ gyp/breakpad_mac.gypi	(working copy)
-@@ -32,9 +32,9 @@
-     'mac_breakpad_dir': '<(DEPTH)/../mac/Releases/GoogleBreakpad/',
-     'mac_breakpad_framework': '<(mac_breakpad_dir)/GoogleBreakpad.framework',
+diff --git gyp/postbuilds_mac.gypi gyp/postbuilds_mac.gypi
+index c9400a0..d0777a2 100644
+--- gyp/postbuilds_mac.gypi
++++ gyp/postbuilds_mac.gypi
+@@ -36,15 +36,15 @@
    },
--  'link_settings': {
--    'libraries': [
--      '<(mac_breakpad_framework)',
--    ],
--  },
-+#  'link_settings': {
-+#    'libraries': [
-+#      '<(mac_breakpad_framework)',
-+#    ],
-+#  },
- }
-Index: gyp/common.gypi
-===================================================================
---- gyp/common.gypi	(revision 55)
-+++ gyp/common.gypi	(working copy)
-@@ -111,7 +111,7 @@
- 
-     # use_libzinnia represents if zinnia library is used or not.
-     # This option is only for Linux.
--    'use_libzinnia%': 1,
-+    'use_libzinnia%': 0,
- 
-     # a flag whether the current build is dev-channel or not.
-     'channel_dev%': '0',
+   'conditions': [
+     ['branding=="GoogleJapaneseInput"', {
+-      'link_settings': {
+-        'libraries': [
+-          '<(mac_breakpad_framework)',
+-        ],
+-      },
++      #'link_settings': {
++      #  'libraries': [
++      #    '<(mac_breakpad_framework)',
++      #  ],
++      #},
+       'copies': [
+         {
+           'files': [
+-            '<(mac_breakpad_framework)',
++            #'<(mac_breakpad_framework)',
+             '<@(copying_frameworks)',
+           ],
+           'destination': '<(PRODUCT_DIR)/<(product_name).app/Contents/Frameworks',
