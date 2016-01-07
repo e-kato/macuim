@@ -41,20 +41,21 @@ target="MacUIM"
 branding="Mozc"
 #branding="GoogleJapaneseInput"
 
-if [ ! -d depot_tools ]; then
-	svn co http://src.chromium.org/svn/trunk/tools/depot_tools
-fi
+#if [ ! -d depot_tools ]; then
+#	svn co https://src.chromium.org/svn/trunk/tools/depot_tools
+#fi
 
-export PATH=$PATH:`pwd`/depot_tools
+#export PATH=$PATH:`pwd`/depot_tools
 export PKG_CONFIG_PATH=/Library/Frameworks/UIM.framework/Versions/Current/lib/pkgconfig:$PKG_CONFIG_PATH
 
 if [ ! -d mozc ]; then
 	echo "pull mozc"
-	mkdir mozc
-	cd mozc
-		gclient config http://mozc.googlecode.com/svn/trunk/src
-		gclient sync
-	cd -
+	#mkdir mozc
+	#cd mozc
+	#	gclient config http://mozc.googlecode.com/svn/trunk/src
+	#	gclient sync
+	#cd -
+	git clone https://github.com/google/mozc.git --recursive
 fi
 
 
@@ -139,8 +140,8 @@ HERE
 	PKG_CONFIG_PATH=${QTDIR}/lib/pkgconfig:$PKG_CONFIG_PATH python build_mozc.py gyp --branding=${branding} ${config_option}
 
 	# build build_tools
-	echo "build_tools"
-	python build_mozc.py build_tools -c Release
+	#echo "build_tools"
+	#python build_mozc.py build_tools -c Release
 
 	# build libuim-mozc.so
 	echo "build"
