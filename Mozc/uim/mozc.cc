@@ -905,7 +905,7 @@ static void install_keymap(void)
   int i;
 
   for (i = 0; key_tab[i].key; i++)
-    key_map.insert(make_pair(key_tab[i].str, key_tab[i].key));
+    key_map.insert(std::make_pair(key_tab[i].str, key_tab[i].key));
 }
 
 static uim_lisp

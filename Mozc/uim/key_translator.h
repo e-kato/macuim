@@ -62,8 +62,8 @@ class KeyTranslator {
 
  private:
   typedef hash_map<unsigned int, commands::KeyEvent::SpecialKey> SpecialKeyMap;
-  typedef map<unsigned int, commands::KeyEvent::ModifierKey> ModifierKeyMap;
-  typedef map<unsigned int, pair<string, string> > KanaMap;
+  typedef std::map<unsigned int, commands::KeyEvent::ModifierKey> ModifierKeyMap;
+  typedef std::map<unsigned int, std::pair<string, string> > KanaMap;
 
   // Returns true iff key is modifier key such as SHIFT, ALT, or CAPSLOCK.
   bool IsModifierKey(unsigned int keyval,
