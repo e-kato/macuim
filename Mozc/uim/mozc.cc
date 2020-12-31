@@ -173,8 +173,8 @@ insert_cursor(uim_lisp segs, const commands::Preedit::Segment &segment, int attr
 {
   size_t len = segment.value_length();
 
-  string former = Util::SubString(segment.value(), 0, pos);
-  string latter = Util::SubString(segment.value(), pos, len);
+  auto former = string(Util::Utf8SubString(segment.value(), 0, pos));
+  auto latter = string(Util::Utf8SubString(segment.value(), pos, len));
 
   uim_lisp seg_f, seg_c, seg_l;
   if (pos == 0) {
@@ -1199,7 +1199,7 @@ uim_plugin_instance_init(void)
   argv[0] = (char *)name;
   argv[1] =  NULL;
 
-  mozc::InitMozc((const char *)argv[0], &argc, (char ***)&argv, true);
+  mozc::InitMozc((const char *)argv[0], &argc, (char ***)&argv);
   mozc::uim::install_keymap();
 }
 
